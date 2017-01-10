@@ -5,18 +5,18 @@ About this project
 
 Core features
 *************
-Automatically determent which types/functions could be bound and generate bindings for the following C++ code:
+Automatically determine which types/functions could be bound and generate bindings for the following C++ code:
 
 * functions
 * enums
-* C++ classes and struct's, including:
+* C++ classes and structs, including:
 
  * read/write access to public data members, including static data members
  * class member functions including static functions
  * class inner enums
  * class operators
 
-* automatically determent which template classes should be instantiated and generate bindings for it
+* automatically determine which template classes should be instantiated and generate bindings for it
 * generate single shared library which on Python-import act as collection of Python modules representing hierarchy of C++ namespaces
 * generated bindings for both Python-2.6+ and Python-3+
 
