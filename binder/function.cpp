@@ -64,7 +64,7 @@ string function_arguments(clang::FunctionDecl const *record)
 {
 	string r;
 
-	for(uint i=0; i<record->getNumParams(); ++i) {
+	for(unsigned int i=0; i<record->getNumParams(); ++i) {
 		r += record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString();
 		if( i+1 != record->getNumParams() ) r += ", ";
 	}
@@ -78,17 +78,17 @@ string function_arguments(clang::FunctionDecl const *record)
 // Generate function argument list separate by comma
 // name_arguments - if arguments should be named: a1, a2, ...
 // n - number of arguments to generate. If n > num_of_function_parameters - generate only list with num_of_function_parameters
-pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *record, uint n)
+pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *record, unsigned int n)
 {
 	string r, a;
 
-	for(uint i=0; i<record->getNumParams()  and  i<n; ++i) {
+	for(unsigned int i=0; i<record->getNumParams()  &&  i<n; ++i) {
 		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
 		r += qt.getAsString() + ' ';
-		if( !qt->isReferenceType()  and  !qt->isPointerType() ) r += !qt.isConstQualified() ? " const &" : " &";
+		if( !qt->isReferenceType()  &&  !qt->isPointerType() ) r += !qt.isConstQualified() ? " const &" : " &";
 		r += "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
-		if( i+1 != record->getNumParams()  and  i+1 != n ) { r += ", ";  a += ", "; }
+		if( i+1 != record->getNumParams()  &&  i+1 != n ) { r += ", ";  a += ", "; }
 	}
 
 	fix_boolean_types(r);
@@ -103,7 +103,7 @@ tuple<string, string, string> function_arguments_for_py_overload(clang::Function
 {
 	string r, a, p;
 
-	for(uint i=0; i<record->getNumParams(); ++i) {
+	for(unsigned int i=0; i<record->getNumParams(); ++i) {
 		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
 		r += qt.getAsString() + ' ' + "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
@@ -122,10 +122,10 @@ string template_specialization(FunctionDecl const *F)
 {
 	string templ;
 
-	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  or   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) {
+	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  ||   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) {
 		if( TemplateArgumentList const *ta = F->getTemplateSpecializationArgs() ) {
 			templ += "<";
-			for(uint i=0; i < ta->size(); ++i) {
+			for(unsigned int i=0; i < ta->size(); ++i) {
 				//outs() << "function template argument: " << template_argument_to_string( ta->get(i) ) << "\n";
 				templ += template_argument_to_string( ta->get(i) ) + ",";
 
@@ -195,11 +195,11 @@ vector<QualType> get_type_dependencies(FunctionDecl const *F)
 	vector<QualType> r;
 
 	r.push_back( F->getReturnType() ); //.getDesugaredType(F->getASTContext()) );
-	for(uint i=0; i<F->getNumParams(); ++i) r.push_back(F->getParamDecl(i)->getOriginalType()/*.getDesugaredType(F->getASTContext())*/ );
+	for(unsigned int i=0; i<F->getNumParams(); ++i) r.push_back(F->getParamDecl(i)->getOriginalType()/*.getDesugaredType(F->getASTContext())*/ );
 
-	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  or   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) {
+	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  ||   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) {
 		if( TemplateArgumentList const *tal = F->getTemplateSpecializationArgs() ) {
-			for(uint i=0; i < tal->size(); ++i) {
+			for(unsigned int i=0; i < tal->size(); ++i) {
 				TemplateArgument const &ta( tal->get(i) );
 				if( ta.getKind() == TemplateArgument::Type ) r.push_back( ta.getAsType() );
 			}
@@ -213,7 +213,7 @@ vector<QualType> get_type_dependencies(FunctionDecl const *F)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(FunctionDecl const *F, Config const &config)
 {
-	bool bind = config.is_function_binding_requested( F->getQualifiedNameAsString() ) or  config.is_function_binding_requested( function_qualified_name(F) )  or  config.is_namespace_binding_requested( namespace_from_named_decl(F) );
+	bool bind = config.is_function_binding_requested( F->getQualifiedNameAsString() ) ||  config.is_function_binding_requested( function_qualified_name(F) )  ||  config.is_namespace_binding_requested( namespace_from_named_decl(F) );
 
 	for(auto & t : get_type_dependencies(F) ) bind |= binder::is_binding_requested(t, config);
 
@@ -225,7 +225,7 @@ bool is_binding_requested(FunctionDecl const *F, Config const &config)
 bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 {
 	string name = standard_name( F->getQualifiedNameAsString() );
-	bool skip = config.is_function_skipping_requested(name) or config.is_function_skipping_requested( function_qualified_name(F) ) or config.is_namespace_skipping_requested( namespace_from_named_decl(F) );
+	bool skip = config.is_function_skipping_requested(name) || config.is_function_skipping_requested( function_qualified_name(F) ) || config.is_namespace_skipping_requested( namespace_from_named_decl(F) );
 
     // moved to config -> name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
 	skip |= config.is_function_skipping_requested(name);
@@ -248,13 +248,13 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 
 
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
-string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bindings_f, Context &context)
+string bind_function(FunctionDecl const *F, unsigned int args_to_bind, bool request_bindings_f, Context &context)
 {
 	string function_name = python_function_name(F);
 	string function_qualified_name { standard_name(F->getQualifiedNameAsString()) };
 
 	CXXMethodDecl const * m = dyn_cast<CXXMethodDecl>(F);
-	string maybe_static = m and m->isStatic() ? "_static" : "";
+	string maybe_static = m && m->isStatic() ? "_static" : "";
 
 	string function, documentation;
 	if( args_to_bind == F->getNumParams() ) {
@@ -262,7 +262,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 		documentation = generate_documentation_string_for_declaration(F);
 		if( documentation.size() ) documentation += "\\n\\n";
-		documentation += "C++: " + F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m  and  m->isConst() ? " const" : "") + " --> " + standard_name( F->getReturnType().getCanonicalType().getAsString() );
+		documentation += "C++: " + F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m  &&  m->isConst() ? " const" : "") + " --> " + standard_name( F->getReturnType().getCanonicalType().getAsString() );
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);
@@ -270,7 +270,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 		string return_type = standard_name( F->getReturnType().getCanonicalType().getAsString() );
 
-		if( m and !m->isStatic() ) {
+		if( m && !m->isStatic() ) {
 			string object = class_qualified_name( m->getParent() ) + (m->isConst() ? " const" : "") + " &o" + ( args_to_bind ? ", " : "" );
 			function = "[]({}{}) -> {} {{ return o.{}({}); }}"_format(object, args.first, return_type, F->getNameAsString(), args.second);
 		}
@@ -280,7 +280,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	}
 
 	string maybe_return_policy = "";
-	if( m  and  !m->isStatic() ) {
+	if( m  &&  !m->isStatic() ) {
 		if     ( F->getReturnType()->isPointerType() )         maybe_return_policy = ", " + Config::get().default_member_pointer_return_value_policy();
 		else if( F->getReturnType()->isLValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_lvalue_reference_return_value_policy();
 		else if( F->getReturnType()->isRValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_rvalue_reference_return_value_policy();
@@ -295,7 +295,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 	if(request_bindings_f) request_bindings(F->getReturnType().getCanonicalType(), context);
 
-	for(uint i=0; i<F->getNumParams()  and  i < args_to_bind; ++i) {
+	for(unsigned int i=0; i<F->getNumParams()  &&  i < args_to_bind; ++i) {
 		r += ", pybind11::arg(\"{}\")"_format( string( F->getParamDecl(i)->getName() ) );
 
 		if(request_bindings_f) request_bindings( F->getParamDecl(i)->getOriginalType(), context);
@@ -350,10 +350,10 @@ bool is_bindable(FunctionDecl const *F)
 
 	if( F->isOverloadedOperator() ) {
 		//outs() << "Operator: " << F->getNameAsString() << '\n';
-		if( !isa<CXXMethodDecl>(F)  or  !cpp_python_operator_map.count( F->getNameAsString() ) ) return false;
+		if( !isa<CXXMethodDecl>(F)  ||  !cpp_python_operator_map.count( F->getNameAsString() ) ) return false;
 	}
 
-	r &= F->getTemplatedKind() != FunctionDecl::TK_FunctionTemplate  /*and  !F->isOverloadedOperator()*/  and  !isa<CXXConversionDecl>(F)  and  !F->isDeleted();
+	r &= F->getTemplatedKind() != FunctionDecl::TK_FunctionTemplate  /*&&  !F->isOverloadedOperator()*/  &&  !isa<CXXConversionDecl>(F)  &&  !F->isDeleted();
 
 	QualType rt( F->getReturnType() );
 

@@ -123,12 +123,12 @@ public:
 
 	virtual bool VisitFunctionDecl(FunctionDecl *F)
 	{
-		if( F->isCXXInstanceMember() or isa<CXXMethodDecl>(F) ) return true;
+		if( F->isCXXInstanceMember() || isa<CXXMethodDecl>(F) ) return true;
 
 		if( binder::is_bindable(F) ) {
 			binder::BinderOP b = std::make_shared<binder::FunctionBinder>(F);
 			context.add(b);
-		} else if( F->isOverloadedOperator()  and  F->getNameAsString() == "operator<<" ) {
+		} else if( F->isOverloadedOperator()  &&  F->getNameAsString() == "operator<<" ) {
 			//outs() << "Adding insertion operator: " << binder::function_pointer_type(F) << "\n";
 			context.add_insertion_operator(F);
 		}
@@ -137,7 +137,7 @@ public:
     }
 
 	virtual bool VisitCXXRecordDecl(CXXRecordDecl *C) {
-		if( C->isCXXInstanceMember()  or  C->isCXXClassMember() ) return true;
+		if( C->isCXXInstanceMember()  ||  C->isCXXClassMember() ) return true;
 
 		if( binder::is_bindable(C) ) {
 			binder::BinderOP b = std::make_shared<binder::ClassBinder>(C);
@@ -187,7 +187,7 @@ public:
 	// }
 
 	virtual bool VisitEnumDecl(EnumDecl *E) {
-		if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return true;
+		if( E->isCXXInstanceMember()  ||  E->isCXXClassMember() ) return true;
 
 		binder::BinderOP b = std::make_shared<binder::EnumBinder>( E/*->getCanonicalDecl()*/ );
 		context.add(b);
