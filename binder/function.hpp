@@ -30,7 +30,7 @@ std::string function_arguments(clang::FunctionDecl const *record);
 // Generate function argument list separate by comma
 // name_arguments - if arguments should be named: a1, a2, ...
 // n - number of arguments to generate. If n > num_of_function_parameters - generate only list with num_of_function_parameters
-std::pair<std::string, std::string> function_arguments_for_lambda(clang::FunctionDecl const *record, uint n);
+std::pair<std::string, std::string> function_arguments_for_lambda(clang::FunctionDecl const *record, unsigned int n);
 
 
 // Generate function argument list with types separate by comma and with only arguments names

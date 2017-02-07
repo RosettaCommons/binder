@@ -45,7 +45,7 @@ namespace binder {
 // check if declaration is already in stack with level at lease as 'level' or lower and add it if it is not - return true if declaration was added
 bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 {
-	if( stack_.count(D)  and  stack_[D] <= level ) return false;
+	if( stack_.count(D)  &&  stack_[D] <= level ) return false;
 
 	stack_[D] = level;
 	return true;
@@ -74,7 +74,7 @@ bool Binder::is_in_system_header()
 // return true if code was already generate for this object
 bool Binder::is_binded() const
 {
-	return code().size()  or is_python_builtin( named_decl() );
+	return code().size()  || is_python_builtin( named_decl() );
 }
 
 
@@ -123,7 +123,7 @@ clang::FunctionDecl const * Context::global_insertion_operator(clang::CXXRecordD
 /// check if forward declaration for CXXRecordDecl needed
 bool Context::is_forward_needed(CXXRecordDecl const *C)
 {
-	return !binded.count( class_qualified_name(C) )  and  !is_python_builtin(C);
+	return !binded.count( class_qualified_name(C) )  &&  !is_python_builtin(C);
 }
 
 
@@ -177,7 +177,7 @@ std::string Context::module_variable_name(std::string const& namespace_)
 // find binder related to given object name and bind it
 void Context::request_bindings(std::string const &type)
 {
-	if( types.count(type)  and  !types[type]->is_binded()  and  types[type]->bindable()  and  !types[type]->skipping_requested()  and  !is_python_builtin( types[type]->named_decl() ) ) {
+	if( types.count(type)  &&  !types[type]->is_binded()  &&  types[type]->bindable()  &&  !types[type]->skipping_requested()  &&  !is_python_builtin( types[type]->named_decl() ) ) {
 		types[type]->request_bindings();
 	}
 }
@@ -188,7 +188,7 @@ void Context::bind(Config const &config)
 {
 	for(auto & sp : binders) {
 		Binder & b( *sp );
-		if( !b.is_in_system_header() and  b.bindable() ) b.request_bindings_and_skipping(config);
+		if( !b.is_in_system_header() &&  b.bindable() ) b.request_bindings_and_skipping(config);
 	}
 
 	bool flag = true;
@@ -200,7 +200,7 @@ void Context::bind(Config const &config)
 
 		for(auto & sp : binders) {
 			Binder & b( *sp );
-			if( !b.is_binded()  and  b.bindable() and  b.binding_requested() ) {
+			if( !b.is_binded()  &&  b.bindable() &&  b.binding_requested() ) {
 				//outs() << "Binding: " << b.id() /*named_decl()->getQualifiedNameAsString()*/ << "\n";
 				b.bind(*this);
 				flag=true;
@@ -262,7 +262,7 @@ string file_name_prefix_for_binder(BinderOP &b)
 	if( include.size() <= 2 ) { include = "<unknown/unknown.hh>";  outs() << "Warning: file_name_for_decl could not determent file name for decl: " + string(*b) + ", result is too short!\n"; } //throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
 	include = include.substr(1, include.size()-2);
 
-	if( namespace_from_named_decl(decl) == "std"  or  begins_with(namespace_from_named_decl(decl), "std::" ) ) include = "std/" +  ( begins_with(include, "bits/") ? include.substr(5) : include );
+	if( namespace_from_named_decl(decl) == "std"  ||  begins_with(namespace_from_named_decl(decl), "std::" ) ) include = "std/" +  ( begins_with(include, "bits/") ? include.substr(5) : include );
 
 	replace(include, ".hh", ""); replace(include, ".hpp", ""); replace(include, ".h", ""); replace(include, ".", "_");
 	return include;
@@ -319,7 +319,7 @@ void Context::generate(Config const &config)
 	sort_binders();
 
 	outs() << "Writing code...\n";
-	for(uint i=0; i<binders.size(); ++i) {
+	for(unsigned int i=0; i<binders.size(); ++i) {
 		if( /*binders[i]->is_binded()  and*/  binders[i]->code().size() ) {
 			string np = file_name_prefix_for_binder(binders[i]);
 			string file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
@@ -339,7 +339,7 @@ void Context::generate(Config const &config)
 			//std::set<NamedDecl const *> stack;
 			IncludeSet includes;
 
-			for(; code.size()<config.maximum_file_length  and  i<binders.size()  and  namespace_==namespace_from_named_decl( binders[i]->named_decl() ); ++i) {
+			for(; code.size()<config.maximum_file_length  &&  i<binders.size()  &&  namespace_==namespace_from_named_decl( binders[i]->named_decl() ); ++i) {
 				//outs() << "Binding: " << string(*binders[i]) << "\n";
 				// if( ClassBinder * CB = dynamic_cast<ClassBinder*>( binders[i].get() ) ) {
 				// 	std::vector<clang::CXXRecordDecl const *> const dependencies = CB->dependencies();

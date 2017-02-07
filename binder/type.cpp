@@ -74,14 +74,14 @@ string relevant_include(NamedDecl const *decl)
 	if( include.isValid() ) {
 		char const *data = sm.getCharacterData(include);
 
-		if( strlen(data) > 2  and  (*data == '"' or  *data == '<') ) {  // should be at least 3 chars: open/close symbol + file name
+		if( strlen(data) > 2  &&  (*data == '"' ||  *data == '<') ) {  // should be at least 3 chars: open/close symbol + file name
 			char terminator = *data == '"' ? '"' : '>';
 
 			include_string.push_back(*data); ++data;
-			for(; *data and  *data != terminator; ++data ) include_string.push_back(*data);
+			for(; *data &&  *data != terminator; ++data ) include_string.push_back(*data);
 			if(*data == terminator) include_string.push_back(*data);
 		}
-		if( include_string.size()  and  include_string[0]=='"' ) include_string.resize(0); // avoid adding include in quotes because compiler will not be able to find them
+		if( include_string.size()  &&  include_string[0]=='"' ) include_string.resize(0); // avoid adding include in quotes because compiler will ! be able to find them
 	}
 
 	return include_string;
@@ -195,17 +195,17 @@ bool is_bindable(QualType const &qt)
 {
 	bool r = true;
 
-	r &= !qt->isFunctionPointerType()  and  !qt->isRValueReferenceType()  and  !qt->isInstantiationDependentType()  and  !qt->isArrayType();  //and  !qt->isConstantArrayType()  and  !qt->isIncompleteArrayType()  and  !qt->isVariableArrayType()  and  !qt->isDependentSizedArrayType()
+	r &= !qt->isFunctionPointerType()  &&  !qt->isRValueReferenceType()  &&  !qt->isInstantiationDependentType()  &&  !qt->isArrayType();  //&&  !qt->isConstantArrayType()  &&  !qt->isIncompleteArrayType()  &&  !qt->isVariableArrayType()  &&  !qt->isDependentSizedArrayType()
 
 	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
 		QualType pqt = pt->getPointeeType();
 
 		if( pqt->isPointerType() ) return false;  // refuse to bind 'value**...' types
 		//if( pqt->isArithmeticType() ) return false;  // refuse to bind 'int*, doublle*...' types
-		if( pqt->isArrayType() or pqt->isConstantArrayType() ) return false;  // refuse to bind 'T* v[]...' types
+		if( pqt->isArrayType() || pqt->isConstantArrayType() ) return false;  // refuse to bind 'T* v[]...' types
 
 		string pqt_name = pqt.getAsString();
-		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
+		if( begins_with(pqt_name, "struct std::pair")  ||  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' && 'const std::pair'
 		//qt->dump();
 		r &= is_bindable( pt->getPointeeType()/*.getCanonicalType()*/ );
 	}
@@ -216,7 +216,7 @@ bool is_bindable(QualType const &qt)
 
 		// special handling for std::pair&  and  std::tuple&  whitch pybind11 can't pass by refference
 		string pqt_name = standard_name( pqt.getAsString() );
-		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
+		if( begins_with(pqt_name, "struct std::pair")  ||  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' && 'const std::pair'
 
 		//rt->dump();
 		//outs() << "Ref " << qt.getAsString() << " -> " << is_bindable( rt->getPointeeType().getCanonicalType() ) << "\n";
@@ -229,7 +229,7 @@ bool is_bindable(QualType const &qt)
 			r &= is_bindable(rd);
 		}
 		if( TagDecl *td = tp->getAsTagDecl() ) {
-			if( td->getAccess() == AS_protected  or  td->getAccess() == AS_private  ) return false;
+			if( td->getAccess() == AS_protected  ||  td->getAccess() == AS_private  ) return false;
 		}
 	}
 
@@ -244,7 +244,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 	if( /*is_bindable(qt)  and*/  !is_skipping_requested(qt, Config::get()) ) {
 		//outs() << "request_bindings(clang::QualType,...): " << qt.getAsString() << "\n";
 		if( TagDecl *td = qt->getAsTagDecl() ) {
-			if( td->isCompleteDefinition()  or  dyn_cast<ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
+			if( td->isCompleteDefinition()  ||  dyn_cast<ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
 		}
 
 		if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {

@@ -66,7 +66,7 @@ string EnumBinder::id() const
 /// check if generator can create binding
 bool EnumBinder::bindable() const
 {
-	if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return false;
+	if( E->isCXXInstanceMember()  ||  E->isCXXClassMember() ) return false;
 	else return true;
 }
 

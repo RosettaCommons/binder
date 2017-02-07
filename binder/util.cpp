@@ -21,6 +21,7 @@
 #include <clang/AST/Comment.h>
 
 //#include <experimental/filesystem>
+#include <cctype>
 #include <cstdlib>
 #include <fstream>
 
@@ -38,7 +39,7 @@ vector<string> split(string const &buffer, string const & separator)
 	string line;
 	vector<string> lines;
 
-	for(uint i=0; i<buffer.size(); ++i) {
+	for(unsigned int i=0; i<buffer.size(); ++i) {
 		if( buffer.compare(i, separator.size(), separator) ) line.push_back( buffer[i] );
 		else {
 			lines.push_back(line);
@@ -162,8 +163,8 @@ void fix_boolean_types(string &type)
 	string B("_Bool");
 	size_t i = 0;
 	while( ( i = type.find(B, i) ) != string::npos ) {
-		if( ( i==0  or ( !std::isalpha(type[i-1]) and  !std::isdigit(type[i-1]) ) ) and
-			( i+B.size() == type.size()  or ( !std::isalpha(type[i+B.size()]) and  !std::isdigit(type[i+B.size()]) ) ) ) type.replace(i, B.size(), "bool");
+		if( ( i==0  || ( !std::isalpha(type[i-1]) &&  !std::isdigit(type[i-1]) ) ) &&
+			( i+B.size() == type.size()  || ( !std::isalpha(type[i+B.size()]) &&  !std::isdigit(type[i+B.size()]) ) ) ) type.replace(i, B.size(), "bool");
 		++i;
 	}
 }
@@ -219,13 +220,13 @@ string mangle_type_name(string const &name, bool mark_template)
 	bool template_ = false;
 
 	for(auto & c : name) {
-		if(c!=' '  and  c!='<'  and  c!='>'  and  c!=','  and  c!=':') { r.push_back(c); mangle=false; }
+		if(c!=' '  &&  c!='<'  &&  c!='>'  &&  c!=','  &&  c!=':') { r.push_back(c); mangle=false; }
 		else if(!mangle) { mangle = true; r.push_back('_'); }
 
-		if( c=='<'  or  c=='>'  or  c==',') template_ = true;
+		if( c=='<'  ||  c=='>'  ||  c==',') template_ = true;
 	}
 
-	if(template_ and mark_template) r.push_back('t');
+	if(template_ && mark_template) r.push_back('t');
 	return r;
 }
 
@@ -276,8 +277,8 @@ std::string generate_documentation_string_for_declaration(clang::Decl const* dec
 
 		text = get_text(comment, sm, SourceLocation());
 
-		uint i=0;
-		for(; i<text.size()  and  (text[i]==' ' or text[i]=='\n'); ++i) {}
+		unsigned int i=0;
+		for(; i<text.size()  &&  (text[i]==' ' || text[i]=='\n'); ++i) {}
 		if(i) text = text.substr(i);
 
 		//replace(text, "\n\n\n", "\n");
