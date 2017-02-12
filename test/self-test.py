@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # :noTabs=true: :collapseFolds=10:
-
-# (c) Copyright Rosetta Commons Member Institutions.
-# (c) This file is part of the Rosetta software suite and is made available under license.
-# (c) The Rosetta software is developed by the contributing members of the Rosetta Commons.
-# (c) For more information, see http://www.rosettacommons.org. Questions about this can be
-# (c) addressed to University of Washington CoMotion, email: license@uw.edu.
+#
+# Copyright (c) 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+#
+# All rights reserved. Use of this source code is governed by a
+# MIT license that can be found in the LICENSE file.
 
 ## @file   self-test.py
 ## @brief  Script to run Binder tool self-test
