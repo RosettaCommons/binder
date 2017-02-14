@@ -396,6 +396,8 @@ inline string callback_structure_name(CXXRecordDecl const *C)
 // Check if binding this class require creation of call-back structure to allow overriding virtual functions in Python
 bool is_callback_structure_needed(CXXRecordDecl const *C)
 {
+	if( C->hasAttr<FinalAttr>() ) return false;
+
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 		if( m->getAccess() != AS_private  and  is_bindable(*m)   and  m->isVirtual()  and  !isa<CXXDestructorDecl>(*m) ) return true;
 	}
@@ -475,17 +477,23 @@ if (overload) {{
 string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const & class_name, /*string const & base_type_alias,*/ set<string> &binded, int &ret_id, std::vector<clang::FunctionDecl const *> &prefix_includes/*, std::set<clang::NamedDecl const *> &prefix_includes_stack*/)
 {
 	string c;
+
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 		if( (m->getAccess() != AS_private)  and  is_bindable(*m)  and  is_overloadable(*m)
 			and  !is_skipping_requested(*m, Config::get())
-			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual() and  !is_const_overload(*m) ) {
+			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual() and  !is_const_overload(*m)
+			) {
 
 			string return_type = m->getReturnType().getCanonicalType().getAsString();  fix_boolean_types(return_type);
 			tuple<string, string, string> args = function_arguments_for_py_overload(*m);
 
 			string key = /*return_type + ' ' +*/ m->getNameAsString() + '(' + std::get<0>(args) + (m->isConst() ? ") const" : ")");
+
 			if( !binded.count(key) ) {
 				binded.insert(key);
+
+				// m->hasAttr<OverrideAttr>
+				if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be be binded by some of the base classes
 
 				if( return_type.find(',') != std::string::npos ) {
 					string return_type_alias = "_binder_ret_" + std::to_string(ret_id); ++ret_id;
