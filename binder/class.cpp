@@ -512,6 +512,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 				string exception_specification;
 				if(FunctionProtoType const *fpt = dyn_cast<FunctionProtoType>( m->getType().getTypePtr() ) ) {
 					if( fpt->getExceptionSpecType() & clang::ExceptionSpecificationType::EST_BasicNoexcept ) exception_specification = "noexcept ";
+					if( fpt->getExceptionSpecType() & (clang::ExceptionSpecificationType::EST_DynamicNone | clang::ExceptionSpecificationType::EST_Dynamic | clang::ExceptionSpecificationType::EST_MSAny) ) exception_specification = "throw() ";
 				}
 
 				c += "\t{} {}({}){} {}override {{ "_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
