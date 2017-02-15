@@ -396,6 +396,7 @@ inline string callback_structure_name(CXXRecordDecl const *C)
 // Check if binding this class require creation of call-back structure to allow overriding virtual functions in Python
 bool is_callback_structure_needed(CXXRecordDecl const *C)
 {
+	//C->dump();
 	if( C->hasAttr<FinalAttr>() ) return false;
 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
@@ -484,6 +485,11 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual() and  !is_const_overload(*m)
 			) {
 
+
+			//if( m->hasAttr<NoExceptAttr>() ) {
+			// 	(*m)->dump();
+			// }
+
 			string return_type = m->getReturnType().getCanonicalType().getAsString();  fix_boolean_types(return_type);
 			tuple<string, string, string> args = function_arguments_for_py_overload(*m);
 
@@ -492,7 +498,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			if( !binded.count(key) ) {
 				binded.insert(key);
 
-				// m->hasAttr<OverrideAttr>
+				// m->hasAttr<OverrideAttr>, attribute list is automatically generated, see <release>/tools/clang/include/clang/Basic/AttrList.inc for attribute list
 				if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be be binded by some of the base classes
 
 				if( return_type.find(',') != std::string::npos ) {
@@ -503,7 +509,12 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 
 				string python_name = python_function_name(*m);
 
-				c += "\t{} {}({}){} override {{ "_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "");
+				string exception_specification;
+				if(FunctionProtoType const *fpt = dyn_cast<FunctionProtoType>( m->getType().getTypePtr() ) ) {
+					if( fpt->getExceptionSpecType() & clang::ExceptionSpecificationType::EST_BasicNoexcept ) exception_specification = "noexcept ";
+				}
+
+				c += "\t{} {}({}){} {}override {{ "_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
 
 				c += indent( fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */python_name, std::get<1>(args), return_type), "\t\t");
 				if( m->isPure() ) c+= "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
