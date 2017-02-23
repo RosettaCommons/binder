@@ -10,12 +10,13 @@ The following tools need to be present in order to build and use **Binder**
 
 - CMake, https://cmake.org
 - Pybind11, RosettaCommons fork: https://github.com/RosettaCommons/pybind11
+- [optional] Ninja (or you can use `make` by ommiting `-G Ninja` command below) 
 
 
 
 Building
 ********
-The steps below is encoded in binder/install.py file so for default install you can just run this script directly
+The steps below is encoded in binder/build.py file so for default install you can just run this script directly
 
 
 #. To build Binder exectute the following command sequence in shell (replace ``$HOME/prefix`` and ``$HOME/binder`` with your paths):
@@ -28,12 +29,12 @@ The steps below is encoded in binder/install.py file so for default install you 
 
   # Clone  LLVM
   git clone http://llvm.org/git/llvm.git llvm && cd llvm
-  git reset --hard release_38
+  git reset --hard origin/release_38
 
   # Clone Clang
   cd $HOME/prefix/llvm/tools
   git clone http://llvm.org/git/clang.git clang
-  cd clang && git reset --hard release_38
+  cd clang && git reset --hard origin/release_38
 
 
   # Clone Clang extra tools
@@ -41,7 +42,7 @@ The steps below is encoded in binder/install.py file so for default install you 
   git clone http://llvm.org/git/clang-tools-extra.git extra
 
   # Create symlink pointing to binder/src dir
-  ln -s $HOME/binder/src $HOME/prefix/llvm/tools/clang/tools/extra/binder
+  ln -s $HOME/binder/binder $HOME/prefix/llvm/tools/clang/tools/extra/binder
 
 
   # Create ``llvm/tools/clang/tools/extra/CMakeLists.txt`` file with content: ``add_subdirectory(binder)``
