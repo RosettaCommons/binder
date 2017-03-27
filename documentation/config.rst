@@ -113,16 +113,31 @@ Config file directives:
 
 
 
-* ``default_pointer_return_value_policy``, specify return value policy for functions returning pointer to objects. Default is
+* ``default_static_pointer_return_value_policy``, specify return value policy for static functions returning pointer to objects. Default is
   'pybind11::return_value_policy::automatic'.
 
 
-* ``default_lvalue_reference_return_value_policy``, specify return value policy for functions returning l-value reference. Default
+* ``default_static_lvalue_reference_return_value_policy``, specify return value policy for static functions returning l-value reference. Default
   is 'pybind11::return_value_policy::automatic'.
 
 
-* ``default_rvalue_reference_return_value_policy``, specify return value policy for functions returning r-value reference. Default
+* ``default_static_rvalue_reference_return_value_policy``, specify return value policy for static functions returning r-value reference. Default
   is 'pybind11::return_value_policy::automatic'.
+
+
+* ``default_member_pointer_return_value_policy``, specify return value policy for member functions returning pointer to objects. Default is
+  'pybind11::return_value_policy::automatic'.
+
+
+* ``default_member_lvalue_reference_return_value_policy``, specify return value policy for member functions returning l-value reference. Default
+  is 'pybind11::return_value_policy::automatic'.
+
+
+* ``default_member_rvalue_reference_return_value_policy``, specify return value policy for member functions returning r-value reference. Default
+  is 'pybind11::return_value_policy::automatic'.
+
+
+
 
 
 .. code-block:: bash
