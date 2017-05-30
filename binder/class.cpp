@@ -65,7 +65,13 @@ string template_specialization(clang::CXXRecordDecl const *C)
 // generate class name that could be used in bindings code indcluding template specialization if any
 string class_name(CXXRecordDecl const *C)
 {
-	return standard_name(C->getNameAsString() + template_specialization(C));
+	string res = standard_name( C->getNameAsString() + template_specialization(C) );
+
+	if(  namespace_from_named_decl(C) == "std" ) res = simplify_std_class_name(res);
+
+	return res;
+
+	//return standard_name(C->getNameAsString() + template_specialization(C));
 }
 
 
