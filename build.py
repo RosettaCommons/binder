@@ -160,7 +160,7 @@ def main(args):
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/binder', source_path + '/build', Options.binder_debug, jobs=Options.jobs)
+    if not Options.binder: Options.binder = install_llvm_tool__('binder', source_path+'/source', source_path + '/build', Options.binder_debug, jobs=Options.jobs)
 
     if not Options.pybind11: Options.pybind11 = install_pybind11(source_path + '/build')
 

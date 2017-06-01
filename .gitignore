@@ -2,3 +2,4 @@
 
 build
 documentation/.build/
+source/.gitignore

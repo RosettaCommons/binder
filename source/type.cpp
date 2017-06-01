@@ -148,6 +148,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/shared_ptr_base.h>", "<memory>"),
 		make_pair("<backward/auto_ptr.h>",    "<memory>"),
 		make_pair("<ext/concurrence.h>",      "<memory>"),
+		make_pair("<bits/ptr_traits.h>",      "<memory>"),
+		make_pair("<bits/alloc_traits.h>",    "<memory>"),
 
 		make_pair("<bits/error_constants.h>", "<system_error>"),
 
