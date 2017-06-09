@@ -383,6 +383,9 @@ string simplify_std_class_name(string const &type)
 		make_pair("^multiset<(.*),std::less<(.*)>,std::allocator<(.*)>>$", "multiset<\\1>"),
 		make_pair("^multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "multimap<\\1,\\2>"),
 
+		// LLVM-3.7
+		//make_pair("^std::multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>", "multimap<\\1,\\2>"),
+
 		make_pair("^unordered_set<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_set<\\1>"),
 		make_pair("^unordered_map<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_map<\\1,\\2>"),
 

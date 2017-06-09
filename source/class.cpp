@@ -544,6 +544,15 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			// }
 
 			string return_type = m->getReturnType().getCanonicalType().getAsString();  fix_boolean_types(return_type);
+
+			// check if we need to fix return class to be 'derived-class &' or 'derived-class *'
+			// if( m->isVirtual() ) {
+			// 	if( begins_with(return_type, "class ") ) return_type = return_type.substr(6/*len("class ")*/);
+			// 	else if( begins_with(return_type, "struct ") ) return_type = return_type.substr(7/*len("struct ")*/);
+			// 	if( return_type == class_qualified_name(C) + " &") return_type = class_name + " &";
+			// 	if( return_type == class_qualified_name(C) + " *") return_type = class_name + " *";
+			// }
+
 			tuple<string, string, string> args = function_arguments_for_py_overload(*m);
 
 			string key = /*return_type + ' ' +*/ m->getNameAsString() + '(' + std::get<0>(args) + (m->isConst() ? ") const" : ")");
