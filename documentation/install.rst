@@ -1,6 +1,6 @@
 Installation
 ============
-**Binder** is written in C++11 and need to be builded before it could be used. This page describe steps for build process.
+**Binder** is written in C++11 and need to be built before use. This page describe steps for build process.
 
 
 
