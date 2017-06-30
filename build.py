@@ -90,10 +90,10 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True):
 
     if not os.path.isdir(prefix): os.makedirs(prefix)
 
-    if not os.path.isdir(prefix+'/.git'): execute('Clonning llvm...', 'cd {} && git clone http://llvm.org/git/llvm.git .'.format(prefix) )
+    if not os.path.isdir(prefix+'/.git'): execute('Clonning llvm...', 'cd {} && git clone https://github.com/llvm-mirror/llvm.git .'.format(prefix) )
     execute('Checking out LLVM revision: {}...'.format(release), 'cd {prefix} && ( {git_checkout} || ( git fetch && {git_checkout} ) )'.format(prefix=prefix, git_checkout=git_checkout) )
 
-    if not os.path.isdir(prefix+'/tools/clang'): execute('Clonning clang...', 'cd {}/tools && git clone http://llvm.org/git/clang.git clang'.format(prefix) )
+    if not os.path.isdir(prefix+'/tools/clang'): execute('Clonning clang...', 'cd {}/tools && git clone https://github.com/llvm-mirror/clang.git clang'.format(prefix) )
     execute('Checking out Clang revision: {}...'.format(release), 'cd {prefix}/tools/clang && ( {git_checkout} || ( git fetch && {git_checkout} ) )'.format(prefix=prefix, git_checkout=git_checkout) )
 
     if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
