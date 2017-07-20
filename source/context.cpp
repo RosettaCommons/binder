@@ -218,7 +218,7 @@ void Context::bind(Config const &config)
 	while(flag) {
 		flag = false;
 
-		outs() << "Generate bindings, pass №" << pass << "...\n";
+		outs() << "Generate bindings, pass " << pass << "...\n";
 
 		for(auto & sp : binders) {
 			Binder & b( *sp );

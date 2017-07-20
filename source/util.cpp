@@ -24,6 +24,7 @@
 //#include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
+#include <cctype>
 
 using namespace llvm;
 using namespace clang;
