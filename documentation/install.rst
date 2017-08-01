@@ -1,6 +1,6 @@
 Installation
 ============
-**Binder** is written in C++11 and must be built before use. This page describes the steps for the build process.
+**Binder** is written in C++11 and must be built before use. This page describes the steps for the build process. Please note that installiation require up to ~2.6+ Gb of free disk space.
 
 
 
