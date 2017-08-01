@@ -25,6 +25,8 @@ elif sys.platform == "win32" : Platform = "windows"
 else: Platform = "unknown"
 PlatformBits = platform.architecture()[0][:2]
 
+_machine_name_ = os.uname()[1]
+
 _python_version_ = '{}.{}'.format(sys.version_info.major, sys.version_info.minor)  # should be formatted: 2.7 or 3.5
 
 _pybind11_version_ = '1ee4128cfe8efcab618a980649cad9d830d8b32b'
@@ -79,7 +81,7 @@ def get_compiler_family():
     return 'unknown'
 
 
-def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True):
+def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, gcc_install_prefix=None):
     ''' Install and update (if needed) custom LLVM tool at given prefix (from config).
         Return absolute path to executable on success and terminate with error on failure
     '''
@@ -114,9 +116,9 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True):
         'Building tool: {}...'.format(name),
         'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja {jobs}'.format(
             build_dir=build_dir,
-            jobs="-j{}".format(Options.jobs) if Options.jobs else "",
+            jobs="-j{}".format(jobs) if jobs else "",
             build_type='Debug' if debug else 'Release',
-            gcc_install_prefix='-DGCC_INSTALL_PREFIX='+Options.gcc_install_prefix if Options.gcc_install_prefix else ''),
+            gcc_install_prefix='-DGCC_INSTALL_PREFIX='+gcc_install_prefix if gcc_install_prefix else ''),
         silent=True)
     print()
 
