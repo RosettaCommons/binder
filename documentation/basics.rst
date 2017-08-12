@@ -7,7 +7,7 @@ In this sections we describe basic Binder usage.
 Principles
 ==========
 
-In order to create shareed library that will provide bindings to C++ code we need to:
+In order to create shared library that will provide bindings to C++ code we need to:
 
 1. Gather data about what classes/functions are available and acquire in-depth information of class heritage, member functions
    and standalone functions type signatures.
