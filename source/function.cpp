@@ -212,12 +212,14 @@ string function_pointer_type(FunctionDecl const *F)
 
 
 // generate qualified function name that could be used in bindings code indcluding template specialization if any
-string function_qualified_name(FunctionDecl const *F)
+string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 {
 	string maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
-	string r = F->getReturnType().getCanonicalType().getAsString() + " "+ standard_name( F->getQualifiedNameAsString() + template_specialization(F) ) + "(" + function_arguments(F) + ")" + maybe_const;
+	string r = ( omit_return_type ? "" : F->getReturnType().getCanonicalType().getAsString() + " " ) +
+		       standard_name( F->getQualifiedNameAsString() + template_specialization(F) ) + "(" + function_arguments(F) + ")" + maybe_const;
+
 	fix_boolean_types(r);
 	return r;
 }

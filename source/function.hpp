@@ -47,7 +47,7 @@ std::string function_pointer_type(clang::FunctionDecl const *record);
 
 
 // generate qualified function name that could be used in bindings code indcluding template specialization if any
-std::string function_qualified_name(clang::FunctionDecl const *F);
+std::string function_qualified_name(clang::FunctionDecl const *F, bool omit_return_type=false);
 
 /// check if user requested binding for the given declaration
 bool is_binding_requested(clang::FunctionDecl const *F, Config const &config);

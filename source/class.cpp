@@ -231,10 +231,10 @@ bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config)
 }
 
 
-// Check if given method is const overload of some other method in class
+// Check if given method is const-overload (and return-const-overload) of some other method in class
 bool is_const_overload(CXXMethodDecl *mc)
 {
-	string name = function_qualified_name(mc);
+	string name = function_qualified_name(mc, true);
 
 	string _const = " const";
 
@@ -244,12 +244,13 @@ bool is_const_overload(CXXMethodDecl *mc)
 		CXXRecordDecl const *C = mc->getParent();
 
 		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( m->getAccess() == mc->getAccess()  and  function_qualified_name(*m) == name ) return true;
+			if( m->getAccess() == mc->getAccess()  and  function_qualified_name(*m, true) == name ) return true;
 		}
 	}
 
-	return false;;
+	return false;
 }
+
 
 // extract include needed for declaration and add it to includes
 void add_relevant_includes(clang::CXXRecordDecl const *C, IncludeSet &includes, int level)
@@ -287,7 +288,8 @@ void add_relevant_includes(clang::CXXRecordDecl const *C, IncludeSet &includes, 
 						and  is_bindable(m)  //and  !is_skipping_requested(FunctionDecl const *F, Config const &config)
 						and  !is_skipping_requested(m, Config::get())
 						and  !isa<CXXConstructorDecl>(m)  and   !isa<CXXDestructorDecl>(m)
-						and  !is_const_overload(m) ) {
+						// and  !is_const_overload(m) // commenting out for now - because const overload functions might be not bound but still re-implemented in call-back struct's for pure-virtual methods
+						) {
 						//m->dump();
 						add_relevant_includes(m, includes, level+1);
 					}
@@ -535,7 +537,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 		if( (m->getAccess() != AS_private)  and  is_bindable(*m)  and  is_overloadable(*m)
 			and  !is_skipping_requested(*m, Config::get())
-			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual() and  !is_const_overload(*m)
+			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual()  and  ( !is_const_overload(*m) or m->isPure() )
 			) {
 
 
