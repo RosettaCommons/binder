@@ -902,7 +902,7 @@ void ClassBinder::bind(Context &context)
 
 		string constructors;
 		for(auto t = C->ctor_begin(); t != C->ctor_end(); ++t) {
-			if( t->getAccess() == AS_public  and  !t->isMoveConstructor()  and  is_bindable(*t)  /*and  t->doesThisDeclarationHaveABody()*/ ) {
+			if( t->getAccess() == AS_public  and  !t->isMoveConstructor()  and  is_bindable(*t)  and  !is_skipping_requested(*t, Config::get())  /*and  t->doesThisDeclarationHaveABody()*/ ) {
 				if( t->isCopyConstructor()  and  callback_structure_constructible) constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 				else constructors += bind_constructor(*t, std::make_pair(!C->isAbstract() ? qualified_name : "",
 																		 callback_structure_constructible ? callback_structure_name(C) : ""), context);
