@@ -244,6 +244,9 @@ bool is_bindable(QualType const &qt)
 		string pqt_name = standard_name( pqt.getAsString() );
 		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
 
+		//if( pqt_name == "char"  or  pqt_name == "wchar_t") return false; // WARNING only TEMPORARY, until Pybind11 upstream is fixed
+
+
 		//rt->dump();
 		//outs() << "Ref " << qt.getAsString() << " -> " << is_bindable( rt->getPointeeType().getCanonicalType() ) << "\n";
 		r &= is_bindable( pqt/*.getCanonicalType()*/ );
@@ -324,7 +327,6 @@ string standard_name(string const &type)
 	return r;
 }
 
-
 /// Attempt to simplify std:: name by removing unneded template arguments. Function assume that there is no 'std::' namespaces prefix at the beginning of the argument string
 string simplify_std_class_name(string const &type)
 {
@@ -372,30 +374,36 @@ string simplify_std_class_name(string const &type)
 
 	string res = type;
 
-	static vector< std::pair<string, string> > regex_map = {
-		make_pair("^list<(.*),std::allocator<\\1>>$", "list<\\1>"),
-		make_pair("^deque<(.*),std::allocator<\\1>>$", "deque<\\1>"),
-		make_pair("^vector<(.*),std::allocator<\\1>>$", "vector<\\1>"),
-		make_pair("^set<(.*),std::less<\\1>,std::allocator<\\1>>$", "set<\\1>"),
-		make_pair("^forward_list<(.*),std::allocator<\\1>>$", "forward_list<\\1>"),
-		make_pair("^map<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "map<\\1,\\2>"),
+	static vector< std::pair<llvm::Regex, string> > regex_map;
 
-		make_pair("^multiset<(.*),std::less<(.*)>,std::allocator<(.*)>>$", "multiset<\\1>"),
-		make_pair("^multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "multimap<\\1,\\2>"),
+	if( regex_map.empty() ) {
+		vector< std::pair<string, string> > regex_arg_map = {
+			make_pair("^list<(.*),std::allocator<\\1>>$", "list<\\1>"),
+			make_pair("^deque<(.*),std::allocator<\\1>>$", "deque<\\1>"),
+			make_pair("^vector<(.*),std::allocator<\\1>>$", "vector<\\1>"),
+			make_pair("^set<(.*),std::less<\\1>,std::allocator<\\1>>$", "set<\\1>"),
+			make_pair("^forward_list<(.*),std::allocator<\\1>>$", "forward_list<\\1>"),
+			make_pair("^map<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "map<\\1,\\2>"),
 
-		// LLVM-3.7
-		//make_pair("^std::multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>", "multimap<\\1,\\2>"),
+			make_pair("^multiset<(.*),std::less<(.*)>,std::allocator<(.*)>>$", "multiset<\\1>"),
+			make_pair("^multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "multimap<\\1,\\2>"),
 
-		make_pair("^unordered_set<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_set<\\1>"),
-		make_pair("^unordered_map<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_map<\\1,\\2>"),
+			// LLVM-3.7
+			//make_pair("^std::multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>", "multimap<\\1,\\2>"),
 
-		make_pair("^unordered_multiset<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_multiset<\\1>"),
-		make_pair("^unordered_multimap<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_multimap<\\1,\\2>"),
-	};
+			make_pair("^unordered_set<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_set<\\1>"),
+			make_pair("^unordered_map<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_map<\\1,\\2>"),
+
+			make_pair("^unordered_multiset<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_multiset<\\1>"),
+			make_pair("^unordered_multimap<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_multimap<\\1,\\2>"),
+		};
+
+		for(auto & p : regex_arg_map) regex_map.emplace_back(llvm::Regex(p.first), p.second);
+	}
 
 	for(auto & p : regex_map) {
-		llvm::Regex R(p.first);
-		res = R.sub(p.second, res);
+		//llvm::Regex R(p.first);
+		res = p.first.sub(p.second, res);
 	}
 
 	return res;
