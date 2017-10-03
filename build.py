@@ -166,11 +166,11 @@ def main(args):
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = install_llvm_tool__('binder', source_path+'/source', source_path + '/build', Options.binder_debug, jobs=Options.jobs)
+    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', Options.binder_debug, jobs=Options.jobs)
 
     if not Options.pybind11: Options.pybind11 = install_pybind11(source_path + '/build')
 
-    print( 'Binder binaries now ready at: {}\n{Pybind11 clone is ready at: {}'.format(Options.binder, Options.pybind11) )
+    print( 'Binder binaries now ready at: {}\nPybind11 clone is ready at: {}'.format(Options.binder, Options.pybind11) )
 
 
 if __name__ == "__main__":
