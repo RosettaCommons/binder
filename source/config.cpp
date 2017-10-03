@@ -55,6 +55,7 @@ void Config::read(string const &file_name)
 	string const _function_      {"function"};
 	string const _class_         {"class"};
 	string const _include_       {"include"};
+	string const _include_for_class_       {"include_for_class"};
 	string const _binder_        {"binder"};
 	string const _add_on_binder_ {"add_on_binder"};
 
@@ -101,6 +102,16 @@ void Config::read(string const &file_name)
 
 						if(bind) includes_to_add.push_back(name_without_spaces);
 						else includes_to_skip.push_back(name_without_spaces);
+
+					} else if( token == _include_for_class_ ) {
+
+						if(bind) {
+							auto class_and_include = split_in_two(name, "Invalid line for include_for_class specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
+							per_class_includes_[class_and_include.first].push_back(class_and_include.second);
+						}
+						else {
+							throw std::runtime_error("include_for_class must be '+' configuration.");
+						}
 
 					} else if( token == _binder_ ) {
 
