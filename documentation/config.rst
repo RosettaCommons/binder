@@ -87,6 +87,14 @@ Config file directives:
   -include <boost/format/internals.hpp>
   +include <python/PyRosetta/binder/stl_binders.hpp>
 
+* ``include_for_class``, directive to control C++ include directives on a per-class basis. Force Binder to add particular include
+  into generated source files when a given target class is present. This allows the inclusion of custom binding code, which may
+  then be referenced with either ``+binder`` or ``+add_on_binder`` directives.
+
+.. code-block:: bash
+
+  +include_for_class example::class <example/class_binding.hpp>
+
 
 * ``binder``, specify custom binding function for particular concreate or template class. In the example below all
   specializations of tempalte std::vector will be handled by ``binder::vector_binder`` function. For template classes binder

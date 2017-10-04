@@ -10,6 +10,7 @@
 /// @brief  Binding generation for C++ struct and class objects
 /// @author Sergey Lyskov
 
+#include <binder.hpp>
 #include <class.hpp>
 #include <function.hpp>
 #include <enum.hpp>
@@ -408,6 +409,17 @@ void ClassBinder::request_bindings_and_skipping(Config const &config)
 /// extract include needed for this generator and add it to includes vector
 void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 {
+	string const qualified_name_without_template = standard_name( C->getQualifiedNameAsString() );
+	std::map<string, std::vector<string>> const &per_class_includes= Config::get().per_class_includes();
+	
+	auto pci = per_class_includes.find(qualified_name_without_template);
+	if(pci != per_class_includes.end()) {
+		for(auto const & i : pci->second) {
+			if(O_annotate_includes) includes.add_include(i + " // +include_for_class");
+			else includes.add_include(i);
+		}
+	}
+
 	for(auto & m : prefix_includes ) binder::add_relevant_includes(m, includes, 0);
 	binder::add_relevant_includes(C, includes, 0);
 
