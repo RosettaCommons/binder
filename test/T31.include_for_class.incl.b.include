@@ -1,0 +1,9 @@
+#pragma once
+
+namespace bbbb
+{
+
+class B
+{};
+
+}
