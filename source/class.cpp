@@ -410,10 +410,10 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 {
 	string const qualified_name_without_template = standard_name( C->getQualifiedNameAsString() );
 	std::map<string, std::vector<string>> const &per_class_includes= Config::get().per_class_includes();
-
-	if( per_class_includes.count(qualified_name_without_template) ) {
-		for(auto i : per_class_includes.at(qualified_name_without_template))
-		{
+	
+	auto pci = per_class_includes.find(qualified_name_without_template);
+	if(pci != per_class_includes.end()) {
+		for(auto const & i : pci->second) {
 			includes.add_include(i);
 		}
 	}
