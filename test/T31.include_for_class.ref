@@ -23,7 +23,7 @@ void bind_T31_include_for_class_incl_a_include(std::function< pybind11::module &
 
 
 // File: T31_include_for_class_incl_b_include.cpp
-#include <T31.include_for_class.incl.b.extra.include>
+#include <T31.include_for_class.incl.b.extra.include> // +include_for_class
 #include <T31.include_for_class.incl.b.include> // bbbb::B
 #include <sstream> // __str__
 

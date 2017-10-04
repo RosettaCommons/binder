@@ -10,6 +10,7 @@
 /// @brief  Binding generation for C++ struct and class objects
 /// @author Sergey Lyskov
 
+#include <binder.hpp>
 #include <class.hpp>
 #include <function.hpp>
 #include <enum.hpp>
@@ -414,7 +415,8 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 	auto pci = per_class_includes.find(qualified_name_without_template);
 	if(pci != per_class_includes.end()) {
 		for(auto const & i : pci->second) {
-			includes.add_include(i);
+			if(O_annotate_includes) includes.add_include(i + " // +include_for_class");
+			else includes.add_include(i);
 		}
 	}
 
