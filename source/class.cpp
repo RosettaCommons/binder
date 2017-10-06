@@ -411,13 +411,10 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 {
 	string const qualified_name_without_template = standard_name( C->getQualifiedNameAsString() );
 	std::map<string, std::vector<string>> const &per_class_includes= Config::get().per_class_includes();
-	
+
 	auto pci = per_class_includes.find(qualified_name_without_template);
 	if(pci != per_class_includes.end()) {
-		for(auto const & i : pci->second) {
-			if(O_annotate_includes) includes.add_include(i + " // +include_for_class");
-			else includes.add_include(i);
-		}
+		for(auto const & i : pci->second) includes.add_include(O_annotate_includes ? i + " // +include_for_class" : i);
 	}
 
 	for(auto & m : prefix_includes ) binder::add_relevant_includes(m, includes, 0);
