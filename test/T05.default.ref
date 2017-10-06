@@ -36,18 +36,17 @@ void bind_T05_default(std::function< pybind11::module &(std::string const &names
 
 		cl.def(pybind11::init<>());
 
-		cl.def(pybind11::init<const struct A &>(), pybind11::arg(""));
-
+		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 	}
 	{ // B file:T05.default.hpp line:23
 		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def("__init__", [](B *self_) { new (self_) B(); }, "doc");
-		cl.def("__init__", [](B *self_, const int  &a0) { new (self_) B(a0); }, "doc");
-		cl.def("__init__", [](B *self_, const int  &a0, float  const &a1) { new (self_) B(a0, a1); }, "doc");
-		cl.def("__init__", [](B *self_, const int  &a0, float  const &a1, struct A & a2) { new (self_) B(a0, a1, a2); }, "doc");
-		cl.def("__init__", [](B *self_, const int  &a0, float  const &a1, struct A & a2, struct A * a3) { new (self_) B(a0, a1, a2, a3); }, "doc");
+		cl.def(pybind11::init([](){ return new B(); }), "doc");
+		cl.def(pybind11::init([](const int  &a0){ return new B(a0); }), "doc");
+		cl.def(pybind11::init([](const int  &a0, float  const &a1){ return new B(a0, a1); }), "doc");
+		cl.def(pybind11::init([](const int  &a0, float  const &a1, struct A & a2){ return new B(a0, a1, a2); }), "doc");
+		cl.def(pybind11::init([](const int  &a0, float  const &a1, struct A & a2, struct A * a3){ return new B(a0, a1, a2, a3); }), "doc");
 		cl.def(pybind11::init<const int, float, struct A &, struct A *, int>(), pybind11::arg("a"), pybind11::arg("b"), pybind11::arg("a2"), pybind11::arg("a3"), pybind11::arg("i"));
 
 		cl.def("foo", [](B &o) -> void { return o.foo(); }, "");
@@ -83,25 +82,26 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 void bind_T05_default(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
-PYBIND11_PLUGIN(T05_default) {
-	std::map <std::string, std::shared_ptr<pybind11::module> > modules;
+PYBIND11_MODULE(T05_default, root_module) {
+	root_module.doc() = "T05_default module";
+
+	std::map <std::string, pybind11::module> modules;
 	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
 		auto it = modules.find(namespace_);
 		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
-		return * it->second;
+		return it->second;
 	};
 
-	modules[""] = std::make_shared<pybind11::module>("T05_default", "T05_default module");
+	modules[""] = root_module;
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 	};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = std::make_shared<pybind11::module>( modules[p.first]->def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() ) );
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T05_default(M);
 
-	return modules[""]->ptr();
 }
 
 // Source list file: TEST/T05_default.sources

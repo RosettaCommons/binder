@@ -60,7 +60,7 @@ bool is_skipping_requested(clang::FunctionDecl const *F, Config const &config);
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 // If function have default arguments generate set of bindings by creating separate bindings for each argument with default.
 // if parent is not nullptr then bind function as-if it a member of that CXXRecordDecl (for handling visibility changes with 'using' directive)
-std::string bind_function(std::string const & module, clang::FunctionDecl const *F, Context &, clang::CXXRecordDecl const *parent = nullptr);
+std::string bind_function(std::string const & module, clang::FunctionDecl const *F, Context &, clang::CXXRecordDecl const *parent = nullptr, bool always_use_lambda=false);
 
 
 /// extract include needed for this generator and add it to includes vector

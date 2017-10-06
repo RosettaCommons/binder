@@ -86,7 +86,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def("__init__", [](A1 *self_) { new (self_) A1(); }, "doc");
+		cl.def(pybind11::init([](){ return new A1(); }), "doc");
 		cl.def(pybind11::init<int>(), pybind11::arg("a"));
 
 	}
@@ -94,7 +94,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A2, std::shared_ptr<A2>, PyCallBack_A2> cl(M(""), "A2", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def("__init__", [cl_type](pybind11::handle self_) { if (self_.get_type() == cl_type) new (self_.cast<A2 *>()) A2(); else new (self_.cast<PyCallBack_A2 *>()) PyCallBack_A2(); }, "doc");
+		cl.def(pybind11::init([](){ return new A2(); }, [](){ return new PyCallBack_A2(); } ), "doc");
 		cl.def(pybind11::init<int>(), pybind11::arg("a"));
 
 		cl.def("f", (void (A2::*)()) &A2::f, "C++: A2::f() --> void");
@@ -104,7 +104,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A3, std::shared_ptr<A3>, PyCallBack_A3> cl(M(""), "A3", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def("__init__", [](PyCallBack_A3 *self_) { new (self_) PyCallBack_A3(); }, "doc");
+		cl.def(pybind11::init([](){ return new PyCallBack_A3(); }), "doc");
 		cl.def(pybind11::init<int>(), pybind11::arg("a"));
 
 		cl.def("f", (void (A3::*)()) &A3::f, "C++: A3::f() --> void");
@@ -114,7 +114,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A4, std::shared_ptr<A4>, PyCallBack_A4> cl(M(""), "A4", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def("__init__", [](PyCallBack_A4 *self_) { new (self_) PyCallBack_A4(); }, "doc");
+		cl.def(pybind11::init([](){ return new PyCallBack_A4(); }), "doc");
 		cl.def(pybind11::init<int>(), pybind11::arg("a"));
 
 		cl.def("assign", (int (A4::*)(int)) &A4::operator=, "C++: A4::operator=(int) --> int", pybind11::arg(""));
@@ -135,25 +135,26 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 void bind_T09_overload(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
-PYBIND11_PLUGIN(T09_overload) {
-	std::map <std::string, std::shared_ptr<pybind11::module> > modules;
+PYBIND11_MODULE(T09_overload, root_module) {
+	root_module.doc() = "T09_overload module";
+
+	std::map <std::string, pybind11::module> modules;
 	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
 		auto it = modules.find(namespace_);
 		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
-		return * it->second;
+		return it->second;
 	};
 
-	modules[""] = std::make_shared<pybind11::module>("T09_overload", "T09_overload module");
+	modules[""] = root_module;
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 	};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = std::make_shared<pybind11::module>( modules[p.first]->def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() ) );
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T09_overload(M);
 
-	return modules[""]->ptr();
 }
 
 // Source list file: TEST/T09_overload.sources

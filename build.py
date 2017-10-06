@@ -29,7 +29,7 @@ _machine_name_ = os.uname()[1]
 
 _python_version_ = '{}.{}'.format(sys.version_info.major, sys.version_info.minor)  # should be formatted: 2.7 or 3.5
 
-_pybind11_version_ = '1ee4128cfe8efcab618a980649cad9d830d8b32b'
+_pybind11_version_ = 'fa6a4241326a361fc23915f6a82c1e48667de668'
 
 
 def execute(message, command_line, return_='status', until_successes=False, terminate_on_failure=True, silent=False):

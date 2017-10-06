@@ -292,7 +292,7 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 
 
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
-string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bindings_f, Context &context, CXXRecordDecl const *parent)
+string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bindings_f, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
 {
 	string function_name = python_function_name(F);
 
@@ -302,7 +302,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	string maybe_static = m and m->isStatic() ? "_static" : "";
 
 	string function, documentation;
-	if( args_to_bind == F->getNumParams() ) {
+	if( args_to_bind == F->getNumParams() and (not always_use_lambda) ) {
 		function = "({}) &{}{}"_format(function_pointer_type(F), function_qualified_name, template_specialization(F));
 
 		documentation = generate_documentation_string_for_declaration(F);
@@ -331,7 +331,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		}
 
 		if( m and !m->isStatic() ) {
-			string object = class_qualified_name( m->getParent() ) + (m->isConst() ? " const" : "") + " &o" + ( args_to_bind ? ", " : "" );
+			//string object = class_qualified_name( m->getParent() ) + (m->isConst() ? " const" : "") + " &o" + ( args_to_bind ? ", " : "" );
+			string object = class_qualified_name(parent ? parent : m->getParent() ) + (m->isConst() ? " const" : "") + " &o" + ( args_to_bind ? ", " : "" );  // forcing object type to be of parent class so member function with lifted access could be used
 			function = "[]({}{}) -> {} {{ return o.{}({}); }}"_format(object, args.first, return_type, F->getNameAsString(), args.second);
 		}
 		else {
@@ -368,7 +369,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 // Generate binding for given function. If function have default arguments generate set of bindings by creating separate bindings for each argument with default.
 // if parent is not nullptr then bind function as-if it a member of that CXXRecordDecl (for handling visibility changes with 'using' directive)
-string bind_function(string const & module, FunctionDecl const *F, Context &context, CXXRecordDecl const *parent)
+string bind_function(string const & module, FunctionDecl const *F, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
 {
 	string code;
 
@@ -379,7 +380,7 @@ string bind_function(string const & module, FunctionDecl const *F, Context &cont
 		if( F->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
 	}
 
-	for(; args_to_bind <= num_params; ++args_to_bind) code += module + bind_function(F, args_to_bind, args_to_bind == num_params, context, parent) + '\n';
+	for(; args_to_bind <= num_params; ++args_to_bind) code += module + bind_function(F, args_to_bind, args_to_bind == num_params, context, parent, always_use_lambda) + '\n';
 
 	return code;
 }

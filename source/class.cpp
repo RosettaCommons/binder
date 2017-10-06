@@ -649,7 +649,7 @@ void ClassBinder::generate_prefix_code()
 string binding_public_member_functions(CXXRecordDecl const *C, bool callback_structure, bool callback_structure_constructible, Context &context)
 {
 	string c;
-	// binding protected member functions that was made public in child class by 'using' declaration
+	// binding protected/private member functions that was made public in child class by 'using' declaration
 	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
 		if(UsingDecl *u = dyn_cast<UsingDecl>(*d) ) {
 			if( u->getAccess() == AS_public ) {
@@ -662,7 +662,7 @@ string binding_public_member_functions(CXXRecordDecl const *C, bool callback_str
 								// CXXMethodDecl *nm = CXXMethodDecl::Create(m->getParentASTContext(), &NC, m->getLocStart(), m->getNameInfo(), m->getType(), m->getTypeSourceInfo(),
 								// 										  m->getStorageClass(), m->isInlineSpecified(), m->isConstexpr() , m->getLocStart());
 								// it looks like LLVM will delete this object when parent CXXRecordDecl is destroyed so commenting out for now... // delete nm;
-								c += bind_function("\tcl", m, context, C);
+								c += bind_function("\tcl", m, context, C, /*always_use_lambda=*/true);
 							}
 						}
 					}
@@ -802,8 +802,12 @@ void ClassBinder::bind_with(string const &binder, Context &context)
 }
 
 
-char const * constructor_template = "\tcl.def(\"__init__\", []({2} *self_{0}) {{ new (self_) {2}({1}); }}, \"doc\");";
-char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
+//char const * constructor_template = "\tcl.def(\"__init__\", []({2} *self_{0}) {{ new (self_) {2}({1}); }}, \"doc\");";
+//char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
+
+char const * constructor_template =        "\tcl.def(pybind11::init([]({0}){{ return new {2}({1}); }}), \"doc\");";
+char const * constructor_lambda_template = "\tcl.def(pybind11::init([]({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
+
 
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 // constructor_types is pair<Base, Alias> - if one of these is absent empty string is expected
@@ -826,9 +830,11 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 	else {
 		pair<string, string> args = function_arguments_for_lambda(T, args_to_bind);
 
-		string params = args_to_bind ? ", " + args.first : "";
+		//string params = args_to_bind ? ", " + args.first : "";
+		string params = args_to_bind ? args.first : "";
 
-		if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_if_template, params, args.second, constructor_types.first, constructor_types.second);
+		//if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_if_template, params, args.second, constructor_types.first, constructor_types.second);
+		if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
 		else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first);
 		else c = fmt::format(constructor_template, params, args.second, constructor_types.second);
 	}
@@ -851,6 +857,25 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 	return code;
 }
 
+/// Generate copy constructor in most cases this will be just: "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
+/// but for POD structs with zero data mambers this will be a lambda function. This is done as a workaround for Pybind11 2,2+ bug
+string bind_copy_constructor(CXXConstructorDecl const *T, string const & binding_qualified_name)
+{
+	CXXRecordDecl const *C = T->getParent();
+
+	//C->dump();
+	//outs() << "isCLike=" << C->isCLike() << " isTrivial=" << T->isTrivial() << " isEmpty=" << C->isEmpty() << " isPOD=" << C->isPOD() << " isAggregate=" << C->isAggregate() << "\n";
+
+	bool generate_init_with_lambda = C->isAggregate();  //C->isCLike() or (T->isTrivial() and  C->isEmpty());
+
+	if(generate_init_with_lambda) return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(binding_qualified_name);
+	else return "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
+
+
+	//bool use_class_copy_constructor = (not C->isCLike() ) and ( (not T->isTrivial())  or  (not C->isEmpty()) );
+	//if(use_class_copy_constructor) return "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
+	//else return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(binding_qualified_name);
+}
 
 /// generate (if any) bindings for Python __str__ by using appropriate global operator<<
 std::string ClassBinder::bind_repr(Context &context)
@@ -915,7 +940,11 @@ void ClassBinder::bind(Context &context)
 		string constructors;
 		for(auto t = C->ctor_begin(); t != C->ctor_end(); ++t) {
 			if( t->getAccess() == AS_public  and  !t->isMoveConstructor()  and  is_bindable(*t)  and  !is_skipping_requested(*t, Config::get())  /*and  t->doesThisDeclarationHaveABody()*/ ) {
-				if( t->isCopyConstructor()  and  callback_structure_constructible) constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
+				if( t->isCopyConstructor() /*and  callback_structure_constructible */) {
+					//constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
+					//(*t) -> dump();
+					constructors += bind_copy_constructor(*t, binding_qualified_name);
+				}
 				else constructors += bind_constructor(*t, std::make_pair(!C->isAbstract() ? qualified_name : "",
 																		 callback_structure_constructible ? callback_structure_name(C) : ""), context);
 			}

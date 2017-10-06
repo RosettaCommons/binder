@@ -1,5 +1,6 @@
 // File: T00_basic.cpp
 #include <T00.basic.hpp> // foo
+#include <T00.basic.hpp> // foo_char
 #include <T00.basic.hpp> // foo_double
 #include <T00.basic.hpp> // foo_float
 #include <T00.basic.hpp> // foo_int
@@ -19,40 +20,49 @@ void bind_T00_basic(std::function< pybind11::module &(std::string const &namespa
 	// foo() file:T00.basic.hpp line:25
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
-	// foo_int(int) file:T00.basic.hpp line:27
+	// foo_char(char) file:T00.basic.hpp line:27
+	M("").def("foo_char", (int (*)(char)) &foo_char, "C++: foo_char(char) --> int", pybind11::arg(""));
+
+	// foo_char(char &) file:T00.basic.hpp line:28
+	M("").def("foo_char", (int (*)(char &)) &foo_char, "C++: foo_char(char &) --> int", pybind11::arg(""));
+
+	// foo_char(char *) file:T00.basic.hpp line:29
+	M("").def("foo_char", (int (*)(char *)) &foo_char, "C++: foo_char(char *) --> int", pybind11::arg(""));
+
+	// foo_int(int) file:T00.basic.hpp line:31
 	M("").def("foo_int", (int (*)(int)) &foo_int, "C++: foo_int(int) --> int", pybind11::arg(""));
 
-	// foo_int(int &) file:T00.basic.hpp line:28
+	// foo_int(int &) file:T00.basic.hpp line:32
 	M("").def("foo_int", (int (*)(int &)) &foo_int, "C++: foo_int(int &) --> int", pybind11::arg(""));
 
-	// foo_int(int *) file:T00.basic.hpp line:29
+	// foo_int(int *) file:T00.basic.hpp line:33
 	M("").def("foo_int", (int (*)(int *)) &foo_int, "C++: foo_int(int *) --> int", pybind11::arg(""));
 
-	// foo_float(float) file:T00.basic.hpp line:31
+	// foo_float(float) file:T00.basic.hpp line:35
 	M("").def("foo_float", (float (*)(float)) &foo_float, "C++: foo_float(float) --> float", pybind11::arg(""));
 
-	// foo_float(float &) file:T00.basic.hpp line:32
+	// foo_float(float &) file:T00.basic.hpp line:36
 	M("").def("foo_float", (float (*)(float &)) &foo_float, "C++: foo_float(float &) --> float", pybind11::arg(""));
 
-	// foo_float(float *) file:T00.basic.hpp line:33
+	// foo_float(float *) file:T00.basic.hpp line:37
 	M("").def("foo_float", (float (*)(float *)) &foo_float, "C++: foo_float(float *) --> float", pybind11::arg(""));
 
-	// foo_double(double) file:T00.basic.hpp line:35
+	// foo_double(double) file:T00.basic.hpp line:39
 	M("").def("foo_double", (double (*)(double)) &foo_double, "C++: foo_double(double) --> double", pybind11::arg(""));
 
-	// foo_double(double &) file:T00.basic.hpp line:36
+	// foo_double(double &) file:T00.basic.hpp line:40
 	M("").def("foo_double", (double (*)(double &)) &foo_double, "C++: foo_double(double &) --> double", pybind11::arg(""));
 
-	// foo_double(double *) file:T00.basic.hpp line:37
+	// foo_double(double *) file:T00.basic.hpp line:41
 	M("").def("foo_double", (double (*)(double *)) &foo_double, "C++: foo_double(double *) --> double", pybind11::arg(""));
 
-	// foo_void_p(void *) file:T00.basic.hpp line:41
+	// foo_void_p(void *) file:T00.basic.hpp line:45
 	M("").def("foo_void_p", (void * (*)(void *)) &foo_void_p, "C++: foo_void_p(void *) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *const &) file:T00.basic.hpp line:42
+	// foo_void_p(void *const &) file:T00.basic.hpp line:46
 	M("").def("foo_void_p", (void * (*)(void *const &)) &foo_void_p, "C++: foo_void_p(void *const &) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *&) file:T00.basic.hpp line:43
+	// foo_void_p(void *&) file:T00.basic.hpp line:47
 	M("").def("foo_void_p", (void * (*)(void *&)) &foo_void_p, "C++: foo_void_p(void *&) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
 }
@@ -70,25 +80,26 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 void bind_T00_basic(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
-PYBIND11_PLUGIN(T00_basic) {
-	std::map <std::string, std::shared_ptr<pybind11::module> > modules;
+PYBIND11_MODULE(T00_basic, root_module) {
+	root_module.doc() = "T00_basic module";
+
+	std::map <std::string, pybind11::module> modules;
 	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
 		auto it = modules.find(namespace_);
 		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
-		return * it->second;
+		return it->second;
 	};
 
-	modules[""] = std::make_shared<pybind11::module>("T00_basic", "T00_basic module");
+	modules[""] = root_module;
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 	};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = std::make_shared<pybind11::module>( modules[p.first]->def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() ) );
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T00_basic(M);
 
-	return modules[""]->ptr();
 }
 
 // Source list file: TEST/T00_basic.sources

@@ -246,7 +246,6 @@ bool is_bindable(QualType const &qt)
 
 		//if( pqt_name == "char"  or  pqt_name == "wchar_t") return false; // WARNING only TEMPORARY, until Pybind11 upstream is fixed
 
-
 		//rt->dump();
 		//outs() << "Ref " << qt.getAsString() << " -> " << is_bindable( rt->getPointeeType().getCanonicalType() ) << "\n";
 		r &= is_bindable( pqt/*.getCanonicalType()*/ );

@@ -24,6 +24,10 @@ double global_double;
 
 void foo() {}
 
+int foo_char(char)   { return 0; }
+int foo_char(char &) { return 0; }
+int foo_char(char *) { return 0; }
+
 int foo_int(int)   { return 0; }
 int foo_int(int &) { return 0; }
 int foo_int(int *) { return 0; }
