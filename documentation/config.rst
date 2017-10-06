@@ -1,19 +1,19 @@
 Configuration
 #############
 
-Binder provide two way to supply configiration options: command-line and config file.
+Binder provides two ways to supply configuration options: command-line and config file.
 
 
 
 Command line options
 ====================
 
-`--root-module` specify name of generatred Python root module. This name is also used as prefix for various Binder output
+`--root-module` specify name of generated Python root module. This name is also used as prefix for various Binder output
 files. Typically the following files will be generated: ``<root-module>.cpp``, ``<root-module>.sources``,
 ``<root-module>.modules``.
 
 
-`--max-file-size` specify maximum file size in bytes exiding which Binder will split generated sources into multiple files.
+`--max-file-size` specify maximum file size in bytes exceeding which Binder will split generated sources into multiple files.
 
 
 `--prefix` name/path prefix for generated files.
@@ -41,16 +41,16 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 Config file options
 ===================
 
-Config file is text file containing either comment-line (starts with #) or dirctive line stated with either ``+`` or ``-`` signs
-following by a directives name and optional prameters. Some directives will accept only the ``+`` while other could be used with
+Config file is text file containing either comment-line (starts with #) or directive line started with either ``+`` or ``-`` signs
+followed by a directive's name and optional parameters. Some directives will accept only the ``+`` while others could be used with
 both prefixes.
 
 Config file directives:
 -----------------------
 
 * ``namespace``, specify if functions/classes/enums from particular namespace should be bound. Could be used with both ``+`` and ``-``
-  prefixes. This directives work recursivly so for example if you specify ``+namespace root`` and later ``-namespace root::a`` then
-  all objects in ``root`` will be bound with exception of ``root::a`` and it decedents.
+  prefixes. This directive works recursively so for example if you specify ``+namespace root`` and later ``-namespace root::a`` then
+  all objects in ``root`` will be bound with exception of ``root::a`` and its descendants.
 
 .. code-block:: bash
 
@@ -59,7 +59,7 @@ Config file directives:
 
 
 * ``class``, specify if particular class/struct should be bound. Purpose of this directive is to allow developer to cherry-pick
-  particular class from other wise binded/skipped namespaces and mark it for binding/skipping.
+  particular class from otherwise binded/skipped namespaces and mark it for binding/skipping.
 
 .. code-block:: bash
 
@@ -78,8 +78,8 @@ Config file directives:
 
 * ``include``, directive to control C++ include directives. Force Binder to either skip adding particular include into generated
   source files (``-`` prefix) or force Binder to always add some include files into each generated file. Normally Binder could
-  automatically determent which C++ header files is needed in orger to specify type/functions but in some cases it might be
-  useful to be able to control this process. For exampel forcing some includes is particularly useful when you want to provide
+  automatically determine which C++ header files is needed in order to specify type/functions but in some cases it might be
+  useful to be able to control this process. For example forcing some includes is particularly useful when you want to provide
   custom-binder-functions with either ``+binder`` or ``+add_on_binder`` directives.
 
 .. code-block:: bash
@@ -96,9 +96,9 @@ Config file directives:
   +include_for_class example::class <example/class_binding.hpp>
 
 
-* ``binder``, specify custom binding function for particular concreate or template class. In the example below all
-  specializations of tempalte std::vector will be handled by ``binder::vector_binder`` function. For template classes binder
-  function should be a template function taking the same number of types as original type and having the follwoing type
+* ``binder``, specify custom binding function for particular concrete or template class. In the example below all
+  specializations of template std::vector will be handled by ``binder::vector_binder`` function. For template classes binder
+  function should be a template function taking the same number of types as original type and having the following type
   signature: pybind11 module, then std::string for each template argument provided. So for ``std::vector`` it will be:
 
 .. code-block:: c++
@@ -108,7 +108,7 @@ Config file directives:
 
 
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
-  generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methos,
+  generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
   operators, etc.)
 
 .. code-block:: bash
