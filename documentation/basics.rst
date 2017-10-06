@@ -1,7 +1,7 @@
 The Basics
 ##########
 
-In this sections we describe basic Binder usage.
+In this section we describe basic Binder usage.
 
 
 Principles
@@ -17,16 +17,16 @@ In order to create shared library that will provide bindings to C++ code we need
 3. Compile code into shared library
 
 
-Binder is tool that aim to automate steps 1 and 2.
+Binder is tool that aims to automate steps 1 and 2.
 
 
 
 Preparing the input file
 ------------------------
 
-In order to feed Binder infromation our underlying C++ code we need to create special C++ include file that in turn include all
-header files from our project. For example: suppose that our C++ project conatin the following header files: `frutes/apple.hpp`,
-`frutes/orange.hpp` and `vegetables/tomato.hpp`. In this call our special include file should contain something like this:
+In order to feed Binder information about our underlying C++ code we need to create special C++ include file that in turn includes all
+header files from our project. For example: suppose that our C++ project contain the following header files: `frutes/apple.hpp`,
+`frutes/orange.hpp` and `vegetables/tomato.hpp`. In this case our special include file should contain something like this:
 
 .. code-block:: C++
 
@@ -72,10 +72,10 @@ please see :any:`config`.
 Compiling generated code
 ------------------------
 
-If all goes well and Binder finished its run without error the path spefied by ``--prefix`` option should contain geneated source code and auxiliary files:
+If all goes well and Binder finished its run without error the path specified by ``--prefix`` option should contain generated source code and auxiliary files:
 
 ``<root_module_name>.sources`` list of generated source files
 
 ``<root_module_name>.cpp`` main file for binding code
 
-``<root_module_name>.modules`` file contatining the list of Python modules that was generated
+``<root_module_name>.modules`` file containing the list of Python modules that were generated
