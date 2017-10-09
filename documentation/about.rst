@@ -22,7 +22,7 @@ Automatically determine which types/functions could be bound and generate bindin
 
 Goodies
 *******
-Bindings generation is guided thought config file which allows to configure:
+Bindings generation is guided through config file which allows to configure:
 
 - bindings for which namespace/type/function bindings should be generated
 
