@@ -839,19 +839,14 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 	return c;
 }
 
-// Generate binding for given constructor. If constructor have default arguments generate set of bindings by creating separate bindings for each argument with default.
-string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const &constructor_types, Context &context)
+
+/// Generate code for binding default constructor
+string bind_default_constructor(CXXRecordDecl const *, string const & binding_qualified_name)
 {
-	string code;
+	// version before error: chosen constructor is explicit in copy-initialization
+	// return "\tcl.def(pybind11::init<>());__\n";
 
-	uint args_to_bind = 0;
-	for(; args_to_bind < T->getNumParams(); ++args_to_bind) {
-		if( T->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
-	}
-
-	for(; args_to_bind <= T->getNumParams(); ++args_to_bind) code += bind_constructor(T, constructor_types, args_to_bind, args_to_bind == T->getNumParams(), context) + '\n';
-
-	return code;
+	return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(binding_qualified_name);
 }
 
 /// Generate copy constructor in most cases this will be just: "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
@@ -873,6 +868,22 @@ string bind_copy_constructor(CXXConstructorDecl const *T, string const & binding
 	//if(use_class_copy_constructor) return "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 	//else return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(binding_qualified_name);
 }
+
+// Generate binding for given constructor. If constructor have default arguments generate set of bindings by creating separate bindings for each argument with default.
+string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const &constructor_types, Context &context)
+{
+	string code;
+
+	uint args_to_bind = 0;
+	for(; args_to_bind < T->getNumParams(); ++args_to_bind) {
+		if( T->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
+	}
+
+	for(; args_to_bind <= T->getNumParams(); ++args_to_bind) code += bind_constructor(T, constructor_types, args_to_bind, args_to_bind == T->getNumParams(), context) + '\n';
+
+	return code;
+}
+
 
 /// generate (if any) bindings for Python __str__ by using appropriate global operator<<
 std::string ClassBinder::bind_repr(Context &context)
@@ -958,7 +969,8 @@ void ClassBinder::bind(Context &context)
 			/*and  !C->needsImplicitDefaultConstructor() and !C->hasNonTrivialDefaultConstructor()*/
 			) {  // No constructors defined, adding default constructor
 
-			c += "\tcl.def(pybind11::init<>());\n";  // making sure that default is appering first
+			//c += "\tcl.def(pybind11::init<>());__\n";  // making sure that default is appering first
+			c += bind_default_constructor(C, binding_qualified_name);  // making sure that default is appering first
 		}
 		c += constructors;
 	}
