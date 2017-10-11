@@ -953,6 +953,7 @@ void ClassBinder::bind(Context &context)
 					//(*t) -> dump();
 					constructors += bind_copy_constructor(*t, binding_qualified_name);
 				}
+				else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(C, binding_qualified_name); // workaround for Pybind11-2.2 issues
 				else constructors += bind_constructor(*t, std::make_pair(!C->isAbstract() ? qualified_name : "",
 																		 callback_structure_constructible ? callback_structure_name(C) : ""), context);
 			}
