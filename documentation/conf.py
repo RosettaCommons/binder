@@ -121,7 +121,9 @@ todo_include_todos = False
 #
 #html_theme = 'alabaster'
 
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = 'nature'
+
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if not on_rtd:  # only import and set the theme if we're building docs locally
