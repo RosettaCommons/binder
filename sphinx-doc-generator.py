@@ -23,6 +23,7 @@ _template_ = '''
 {name_underline}
 
 .. toctree::
+    :maxdepth: 1
 
     {sub_modules}
 
@@ -151,7 +152,6 @@ def main(args):
     if os.path.isdir(Options.module_file):
         print( '{Options.module_file} is a directory... treating it as root to Python module and collecting sub-modules info...'.format(**vars()) )
         modules = collect_python_modules(Options.module_file, name=Options.root)
-        print(f'modules:{modules}')
     else:
         with open(Options.module_file) as f: modules = [Options.root] + [Options.root + '.' + m for m in f.read().split()]  # if m.count('.') < 1
 
