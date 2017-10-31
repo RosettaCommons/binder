@@ -408,12 +408,13 @@ string FunctionBinder::id() const
 bool is_bindable(FunctionDecl const *F)
 {
 	// outs() << "is_bindable: " << F->getQualifiedNameAsString() << "\n";
-	// if( F->getQualifiedNameAsString() == "utility::Base::foo" ) {
-	// 	outs() << "FunctionDecl::TK_FunctionTemplate: " << F->getQualifiedNameAsString() << "\n";
+	// if( F->getQualifiedNameAsString() == "utility::foo" ) {
+	// 	//outs() << "FunctionDecl::TK_FunctionTemplate: " << F->getQualifiedNameAsString() << "\n";
+	// 	F->dump();
 	// }
 
 	//bool r = true;
-	bool r = !F->isDeleted();
+	bool r = !F->isDeleted()  and  !F->isVariadic();
 
 	if( F->isOverloadedOperator() ) {
 		//outs() << "Operator: " << F->getNameAsString() << '\n';
@@ -428,7 +429,6 @@ bool is_bindable(FunctionDecl const *F)
 
 	for(auto p = F->param_begin(); p != F->param_end(); ++p) r &= is_bindable( (*p)->getOriginalType().getCanonicalType() );
 	//outs() << "is_bindable: " << F->getQualifiedNameAsString() << " " << r << "\n";
-
 	return r;
 }
 
