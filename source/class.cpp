@@ -814,7 +814,7 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 	//string function_qualified_name { F->getQualifiedNameAsString() };
 
 	string c;
-	if( args_to_bind == T->getNumParams() ) {
+	if( args_to_bind == T->getNumParams()  and  not T->isVariadic()) {
 		c = "\tcl.def(pybind11::init<{}>()"_format( function_arguments(T) );
 
 		for(uint i=0; i<T->getNumParams()  and  i < args_to_bind; ++i) {
@@ -831,7 +831,8 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 		string params = args_to_bind ? args.first : "";
 
 		//if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_if_template, params, args.second, constructor_types.first, constructor_types.second);
-		if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
+		if( T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
+		else if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
 		else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first);
 		else c = fmt::format(constructor_template, params, args.second, constructor_types.second);
 	}

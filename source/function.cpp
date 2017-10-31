@@ -380,7 +380,7 @@ string bind_function(string const & module, FunctionDecl const *F, Context &cont
 		if( F->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
 	}
 
-	for(; args_to_bind <= num_params; ++args_to_bind) code += module + bind_function(F, args_to_bind, args_to_bind == num_params, context, parent, always_use_lambda) + '\n';
+	for(; args_to_bind <= num_params; ++args_to_bind) code += module + bind_function(F, args_to_bind, args_to_bind == num_params, context, parent, always_use_lambda or F->isVariadic()) + '\n';
 
 	return code;
 }
@@ -414,7 +414,7 @@ bool is_bindable(FunctionDecl const *F)
 	// }
 
 	//bool r = true;
-	bool r = !F->isDeleted()  and  !F->isVariadic();
+	bool r = !F->isDeleted(); //  and  !F->isVariadic(); disabled, instead we force bindings with lambda for variadic
 
 	if( F->isOverloadedOperator() ) {
 		//outs() << "Operator: " << F->getNameAsString() << '\n';
