@@ -945,14 +945,16 @@ void ClassBinder::bind(Context &context)
 
 	if( !C->isAbstract()  or  callback_structure_constructible) {
 		bool default_constructor_processed = false;
+		//bool copy_constructor_processed = false;
 
 		string constructors;
 		for(auto t = C->ctor_begin(); t != C->ctor_end(); ++t) {
 			if( t->getAccess() == AS_public  and  !t->isMoveConstructor()  and  is_bindable(*t)  and  !is_skipping_requested(*t, Config::get())  /*and  t->doesThisDeclarationHaveABody()*/ ) {
-				if( t->isCopyConstructor() /*and  callback_structure_constructible */) {
+				if( t->isCopyConstructor()  /*and  not copy_constructor_processed*/) {
 					//constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 					//(*t) -> dump();
 					constructors += bind_copy_constructor(*t, binding_qualified_name);
+					//copy_constructor_processed = true;
 				}
 				else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(C, binding_qualified_name); // workaround for Pybind11-2.2 issues
 				else constructors += bind_constructor(*t, std::make_pair(!C->isAbstract() ? qualified_name : "",
@@ -960,6 +962,32 @@ void ClassBinder::bind(Context &context)
 			}
 			if( t->isDefaultConstructor() ) default_constructor_processed = true;
 		}
+
+		// Generate bindings for constructors inherited from base classes though `using` declaration
+		for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
+			if(UsingDecl *u = dyn_cast<UsingDecl>(*d) ) {
+				if( u->getAccess() == AS_public ) {
+					for(auto s = u->shadow_begin(); s != u->shadow_end(); ++s) {
+						if(UsingShadowDecl *us = dyn_cast<UsingShadowDecl>(*s) ) {
+							if( CXXConstructorDecl *t = dyn_cast<CXXConstructorDecl>( us->getTargetDecl() ) ) {
+								if( is_bindable(t) ) {
+									if( t->isCopyConstructor() /*and  not copy_constructor_processed*/) {
+										// Do not bind copy-construcotors though thorough using...
+										//constructors += bind_copy_constructor(t, binding_qualified_name);
+										//copy_constructor_processed = true;
+									}
+									else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(C, binding_qualified_name); // workaround for Pybind11-2.2 issues
+									else constructors += bind_constructor(t, std::make_pair(!C->isAbstract() ? qualified_name : "",
+																							callback_structure_constructible ? callback_structure_name(C) : ""), context);
+								}
+								if( t->isDefaultConstructor() ) default_constructor_processed = true;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		//c += "\t// hasDefaultConstructor={} needsImplicitDefaultConstructor={} base_default_default_constructor_available={}\n"_format(C->hasDefaultConstructor(), C->needsImplicitDefaultConstructor(), base_default_default_constructor_available(C));
 
 		if( !default_constructor_processed  and  C->needsImplicitDefaultConstructor()  and  base_default_default_constructor_available(C)
