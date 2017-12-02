@@ -95,8 +95,8 @@ def run_test(test_path, build_dir):
     if not_binded: print('{}\n"not_binded" string found in results for test {}!!!\n'.format('\n'.join(not_binded), test)); sys.exit(1)
 
     if r  and  Options.accept:
-            a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
-            if a in ['y', 'yes']: shutil.copyfile(new, ref)
+        a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
+        if a in ['y', 'yes']: shutil.copyfile(new, ref)
 
 
 
