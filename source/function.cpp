@@ -362,6 +362,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		if(request_bindings_f) request_bindings( F->getParamDecl(i)->getOriginalType(), context);
 	}
 
+	if(!Config::get().default_call_guard().empty()) r += ", pybind11::call_guard<" + Config::get().default_call_guard() + ">()";
+
 	r += ");";
 
 	return r;

@@ -81,7 +81,7 @@ def run_test(test_path, build_dir):
     command_line = 'cd {build_dir} && clang++ -O3 -shared -std=c++11 -I {pybind11} -I/usr/include/python2.7 -I./.. -I./../.. -I./../../source {root_module}.cpp -o {root_module}.so -fPIC'.format(pybind11=Options.pybind11, root_module=root_module, build_dir=build_dir)
     execute('{} Compiling binding results...'.format(test), command_line);
 
-    command_line = "cd {build_dir} && python -c 'import {root_module}'".format(root_module=root_module, build_dir=build_dir)
+    command_line = "cd {build_dir} && python2.7 -c 'import {root_module}'".format(root_module=root_module, build_dir=build_dir)
     execute('{} Testing imports...'.format(test), command_line);
 
     ref = source_dir + '/' + test_name + '.ref'
@@ -95,8 +95,8 @@ def run_test(test_path, build_dir):
     if not_binded: print('{}\n"not_binded" string found in results for test {}!!!\n'.format('\n'.join(not_binded), test)); sys.exit(1)
 
     if r  and  Options.accept:
-        a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
-        if a in ['y', 'yes']: shutil.copyfile(new, ref)
+            a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
+            if a in ['y', 'yes']: shutil.copyfile(new, ref)
 
 
 

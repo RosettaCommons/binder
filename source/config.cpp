@@ -66,6 +66,7 @@ void Config::read(string const &file_name)
 	string const _default_member_pointer_return_value_policy_           {"default_member_pointer_return_value_policy"};
 	string const _default_member_lvalue_reference_return_value_policy_	{"default_member_lvalue_reference_return_value_policy"};
 	string const _default_member_rvalue_reference_return_value_policy_  {"default_member_rvalue_reference_return_value_policy"};
+	string const _default_call_guard_   {"default_call_guard"};
 
 	std::ifstream f(file_name);
 	string line;
@@ -134,6 +135,7 @@ void Config::read(string const &file_name)
 					else if( token == _default_member_pointer_return_value_policy_ )          default_member_pointer_return_value_policy_ = name_without_spaces;
 					else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
 					else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
+					else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
 
 					else throw std::runtime_error("Invalid token in config file! Each token must be ether: namespace, class or function! For example: '+function aaa::bb::my_function'. Token: '" + token + "' Line: '" + line + '\'');
 				}
