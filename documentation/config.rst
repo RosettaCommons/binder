@@ -144,6 +144,8 @@ Config file directives:
 * ``default_member_rvalue_reference_return_value_policy``, specify return value policy for member functions returning r-value reference. Default
   is 'pybind11::return_value_policy::automatic'.
 
+* ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <http://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard`_. Default None.
+
 
 
 
@@ -153,3 +155,4 @@ Config file directives:
   +default_pointer_return_value_policy           pybind11::return_value_policy::reference
   +default_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference_internal
   +default_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
+  +default_call_guard pybind11::gil_scoped_release
