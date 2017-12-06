@@ -105,6 +105,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("std::set",              "<set>"),
 		make_pair("std::vector",           "<vector>"),
 		make_pair("std::basic_ios",        "<ios>"),
+		make_pair("std::stack",            "<stack>"),
 
 		make_pair("__gnu_cxx::__normal_iterator", "<iterator>"),
 
@@ -179,6 +180,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<__bit_reference>", "<vector>"),
 
+		make_pair("<bits/stl_stack.h>", "<stack>"),
 	};
 
 	string name = decl->getQualifiedNameAsString();
