@@ -179,7 +179,7 @@ void bind_T11_override(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
+		cl.def( pybind11::init( [](){ return new PyCallBack_Base(); } ) );
 		cl.def(pybind11::init<PyCallBack_Base const &>());
 		cl.def_readwrite("s_", &Base::s_);
 		cl.def("foo_void", (void (Base::*)()) &Base::foo_void, "C++: Base::foo_void() --> void");

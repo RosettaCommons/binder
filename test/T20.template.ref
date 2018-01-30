@@ -27,7 +27,7 @@ void bind_T20_template(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A<int>, std::shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
+		cl.def( pybind11::init( [](){ return new A<int>(); } ) );
 		cl.def_readwrite("t_value", &A<int>::t_value);
 		cl.def("foo", (void (A<int>::*)(int &)) &A<int>::foo, "C++: A<int>::foo(int &) --> void", pybind11::arg(""));
 	}

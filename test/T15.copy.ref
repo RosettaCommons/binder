@@ -27,7 +27,7 @@ void bind_T15_copy(std::function< pybind11::module &(std::string const &namespac
 		pybind11::class_<POD1, std::shared_ptr<POD1>> cl(M(""), "POD1", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
+		cl.def( pybind11::init( [](){ return new POD1(); } ) );
 	}
 	{ // POD2 file:T15.copy.hpp line:20
 		pybind11::class_<POD2, std::shared_ptr<POD2>> cl(M(""), "POD2", "");

@@ -34,8 +34,7 @@ void bind_T05_default(std::function< pybind11::module &(std::string const &names
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new A(); } ) );
 		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 	}
 	{ // B file:T05.default.hpp line:23

@@ -125,16 +125,14 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](std::binary_function<float,float,bool> const &o){ return new std::binary_function<float,float,bool>(o); } ) );
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::binary_function<float,float,bool>(); } ) );
 		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::equal_to file:bits/stl_function.h line:204
 		pybind11::class_<std::equal_to<float>, std::shared_ptr<std::equal_to<float>>, std::binary_function<float,float,bool>> cl(M("std"), "equal_to_float_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::equal_to<float>(); } ) );
 		cl.def("__call__", (bool (std::equal_to<float>::*)(const float &, const float &) const) &std::equal_to<float>::operator(), "C++: std::equal_to<float>::operator()(const float &, const float &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
 		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
@@ -142,8 +140,7 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 		pybind11::class_<std::set<float>, std::shared_ptr<std::set<float>>> cl(M("std"), "set_float_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::set<float>(); } ) );
 		cl.def(pybind11::init([](const struct std::less<float> & a0){ return new std::set<float>(a0); }), "doc");
 		cl.def(pybind11::init<const struct std::less<float> &, const class std::allocator<float> &>(), pybind11::arg("__comp"), pybind11::arg("__a"));
 
@@ -182,8 +179,7 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 		pybind11::class_<std::multiset<float>, std::shared_ptr<std::multiset<float>>> cl(M("std"), "multiset_float_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::multiset<float>(); } ) );
 		cl.def(pybind11::init([](const struct std::less<float> & a0){ return new std::multiset<float>(a0); }), "doc");
 		cl.def(pybind11::init<const struct std::less<float> &, const class std::allocator<float> &>(), pybind11::arg("__comp"), pybind11::arg("__a"));
 
@@ -595,8 +591,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		pybind11::class_<std::__hash_base<unsigned long,float>, std::shared_ptr<std::__hash_base<unsigned long,float>>> cl(M("std"), "__hash_base_unsigned_long_float_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::__hash_base<unsigned long,float>(); } ) );
 		cl.def( pybind11::init( [](std::__hash_base<unsigned long,float> const &o){ return new std::__hash_base<unsigned long,float>(o); } ) );
 		cl.def("assign", (struct std::__hash_base<unsigned long, float> & (std::__hash_base<unsigned long,float>::*)(const struct std::__hash_base<unsigned long, float> &)) &std::__hash_base<unsigned long, float>::operator=, "C++: std::__hash_base<unsigned long, float>::operator=(const struct std::__hash_base<unsigned long, float> &) --> struct std::__hash_base<unsigned long, float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
@@ -604,8 +599,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>, std::__hash_base<unsigned long,float>> cl(M("std"), "hash_float_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def(pybind11::init<std::hash<float> const &>());
 		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
 		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -615,8 +609,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		pybind11::class_<std::map<float,int>, std::shared_ptr<std::map<float,int>>> cl(M("std"), "map_float_int_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::map<float,int>(); } ) );
 		cl.def(pybind11::init([](const struct std::less<float> & a0){ return new std::map<float,int>(a0); }), "doc");
 		cl.def(pybind11::init<const struct std::less<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__comp"), pybind11::arg("__a"));
 
@@ -657,8 +650,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		pybind11::class_<std::multimap<float,int>, std::shared_ptr<std::multimap<float,int>>> cl(M("std"), "multimap_float_int_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::multimap<float,int>(); } ) );
 		cl.def(pybind11::init([](const struct std::less<float> & a0){ return new std::multimap<float,int>(a0); }), "doc");
 		cl.def(pybind11::init<const struct std::less<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__comp"), pybind11::arg("__a"));
 
@@ -749,8 +741,7 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<std::list<double>, std::shared_ptr<std::list<double>>> cl(M("std"), "list_double_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::list<double>(); } ) );
 		cl.def(pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a"));
 
 		cl.def(pybind11::init([](unsigned long  const &a0, const double & a1){ return new std::list<double>(a0, a1); }), "doc");
@@ -895,8 +886,7 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 		pybind11::class_<std::_Deque_iterator<int,int &,int *>, std::shared_ptr<std::_Deque_iterator<int,int &,int *>>> cl(M("std"), "_Deque_iterator_int_int_&_int_*_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::_Deque_iterator<int,int &,int *>(); } ) );
 		cl.def(pybind11::init<std::_Deque_iterator<int,int &,int *> const &>());
 		cl.def_static("_S_buffer_size", (unsigned long (*)()) &std::_Deque_iterator<int, int &, int *>::_S_buffer_size, "C++: std::_Deque_iterator<int, int &, int *>::_S_buffer_size() --> unsigned long");
 		cl.def("__mul__", (int & (std::_Deque_iterator<int,int &,int *>::*)() const) &std::_Deque_iterator<int, int &, int *>::operator*, "C++: std::_Deque_iterator<int, int &, int *>::operator*() const --> int &", pybind11::return_value_policy::automatic);
@@ -915,8 +905,7 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 		pybind11::class_<std::deque<int>, std::shared_ptr<std::deque<int>>> cl(M("std"), "deque_int_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::deque<int>(); } ) );
 		cl.def(pybind11::init<const class std::allocator<int> &>(), pybind11::arg("__a"));
 
 		cl.def(pybind11::init([](unsigned long  const &a0, const int & a1){ return new std::deque<int>(a0, a1); }), "doc");
@@ -959,8 +948,7 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 		pybind11::class_<std::vector<double>, std::shared_ptr<std::vector<double>>> cl(M("std"), "vector_double_t", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
-
+		cl.def( pybind11::init( [](){ return new std::vector<double>(); } ) );
 		cl.def(pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a"));
 
 		cl.def(pybind11::init([](unsigned long  const &a0){ return new std::vector<double>(a0); }), "doc");

@@ -27,13 +27,13 @@ void bind_T08_constructor(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<BaseA, std::shared_ptr<BaseA>> cl(M(""), "BaseA", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
+		cl.def( pybind11::init( [](){ return new BaseA(); } ) );
 	}
 	{ // DerivedA file:T08.constructor.hpp line:17
 		pybind11::class_<DerivedA, std::shared_ptr<DerivedA>, BaseA> cl(M(""), "DerivedA", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<>());
+		cl.def( pybind11::init( [](){ return new DerivedA(); } ) );
 	}
 	{ // BaseB file:T08.constructor.hpp line:20
 		pybind11::class_<BaseB, std::shared_ptr<BaseB>> cl(M(""), "BaseB", "");
