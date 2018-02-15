@@ -798,43 +798,60 @@ void ClassBinder::bind_with(string const &binder, Context &context)
 	code() = c;
 }
 
+struct ConstructorBindingInfo
+{
+	CXXRecordDecl const * C;
+	CXXConstructorDecl const * T;
+
+	bool trampoline;
+
+	string class_qualified_name;
+	string trampoline_qualified_name;
+
+	Context &context;
+};
+
 
 //char const * constructor_template = "\tcl.def(\"__init__\", []({2} *self_{0}) {{ new (self_) {2}({1}); }}, \"doc\");";
 //char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
 
-char const * constructor_template =        "\tcl.def(pybind11::init([]({0}){{ return new {2}({1}); }}), \"doc\");";
-char const * constructor_lambda_template = "\tcl.def(pybind11::init([]({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
+char const * constructor_template =                 "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\");";
+//char const * constructor_with_trampoline_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
+//char const * constructor_lambda_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 
 
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 // constructor_types is pair<Base, Alias> - if one of these is absent empty string is expected
-string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const &constructor_types, uint args_to_bind, bool request_bindings_f, Context &context)
+//string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const &constructor_types, uint args_to_bind, bool request_bindings_f, Context &context)
+string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bool request_bindings_f)
 {
 	//string function_name = python_function_name(F);
 	//string function_qualified_name { F->getQualifiedNameAsString() };
 
 	string c;
-	if( args_to_bind == T->getNumParams()  and  not T->isVariadic()) {
-		c = "\tcl.def(pybind11::init<{}>()"_format( function_arguments(T) );
+	if( args_to_bind == CBI.T->getNumParams()  and  not CBI.T->isVariadic()) {
+		c = "\tcl.def(pybind11::init<{}>()"_format( function_arguments(CBI.T) );
 
-		for(uint i=0; i<T->getNumParams()  and  i < args_to_bind; ++i) {
-			c += ", pybind11::arg(\"{}\")"_format( string( T->getParamDecl(i)->getName() ) );
+		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
+			c += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
 
-			if(request_bindings_f) request_bindings( T->getParamDecl(i)->getOriginalType(), context);
+			if(request_bindings_f) request_bindings( CBI.T->getParamDecl(i)->getOriginalType(), CBI.context);
 		}
 		c += ");\n";
 	}
 	else {
-		pair<string, string> args = function_arguments_for_lambda(T, args_to_bind);
+		pair<string, string> args = function_arguments_for_lambda(CBI.T, args_to_bind);
 
 		//string params = args_to_bind ? ", " + args.first : "";
 		string params = args_to_bind ? args.first : "";
 
-		//if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_if_template, params, args.second, constructor_types.first, constructor_types.second);
-		if( T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
-		else if( constructor_types.first.size()  and  constructor_types.second.size()  ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
-		else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first);
-		else c = fmt::format(constructor_template, params, args.second, constructor_types.second);
+		// if( CBI.T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
+		// else if( constructor_types.first.size()  and  constructor_types.second.size() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
+		// else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first);
+		// else c = fmt::format(constructor_template, params, args.second, constructor_types.second);
+
+		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
+		else c = fmt::format(constructor_template, params, args.second, CBI.class_qualified_name);
 	}
 
 	return c;
@@ -842,45 +859,65 @@ string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const 
 
 
 /// Generate code for binding default constructor
-string bind_default_constructor(CXXRecordDecl const *, string const & binding_qualified_name)
+string bind_default_constructor(ConstructorBindingInfo const &CBI)  // CXXRecordDecl const *, string const & binding_qualified_name)
 {
 	// version before error: chosen constructor is explicit in copy-initialization
 	// return "\tcl.def(pybind11::init<>());__\n";
 
-	return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(binding_qualified_name);
+	//return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(binding_qualified_name);
+
+	if( CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.trampoline_qualified_name);
+	//else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
+	else return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.class_qualified_name);
 }
 
 /// Generate copy constructor in most cases this will be just: "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 /// but for POD structs with zero data mambers this will be a lambda function. This is done as a workaround for Pybind11 2,2+ bug
-string bind_copy_constructor(CXXConstructorDecl const *T, string const & binding_qualified_name)
+string bind_copy_constructor(ConstructorBindingInfo const &CBI) //CXXConstructorDecl const *T, string const & binding_qualified_name)
 {
-	CXXRecordDecl const *C = T->getParent();
+	//CXXRecordDecl const *C = T->getParent();
 
 	//C->dump();
 	//outs() << "isCLike=" << C->isCLike() << " isTrivial=" << T->isTrivial() << " isEmpty=" << C->isEmpty() << " isPOD=" << C->isPOD() << " isAggregate=" << C->isAggregate() << "\n";
 
-	bool generate_init_with_lambda = C->isAggregate();  //C->isCLike() or (T->isTrivial() and  C->isEmpty());
-
-	if(generate_init_with_lambda) return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(binding_qualified_name);
-	else return "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
-
-
 	//bool use_class_copy_constructor = (not C->isCLike() ) and ( (not T->isTrivial())  or  (not C->isEmpty()) );
 	//if(use_class_copy_constructor) return "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 	//else return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(binding_qualified_name);
+
+	// bool generate_init_with_lambda = CBI.C->isAggregate()  or  CBI.callback_structure_constructible;  //C->isCLike() or (T->isTrivial() and  C->isEmpty());
+	// if(generate_init_with_lambda) {
+	// 	if( CBI.callback_structure_constructible  and  not CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }}, []({1} const &o){{ return new {1}(o); }} ) );\n"_format(CBI.class_qualified_name, CBI.binding_qualified_name);
+	// 	else return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name );
+	// }
+	// else {
+	// 	if( CBI.C->isAbstract() ) return "\tcl.def(pybind11::init<{} const &>());\n"_format( CBI.binding_qualified_name );
+	// 	else return "\tcl.def(pybind11::init<{} const &>());\n"_format( CBI.class_qualified_name );
+	// }
+
+	if( CBI.trampoline ) {
+		if( CBI.C->isAbstract() ) return "\tcl.def(pybind11::init<{} const &>());\n"_format( CBI.trampoline_qualified_name );
+		else {
+			// not yet supported by Pybind11? return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }}, []({1} const &o){{ return new {1}(o); }} ) );\n"_format(CBI.class_qualified_name, CBI.binding_qualified_name);
+			return
+				"\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.trampoline_qualified_name) +
+				( CBI.T->getAccess() == AS_public ? "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name) : "" );
+		}
+	}
+	else
+		return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name);
 }
 
 // Generate binding for given constructor. If constructor have default arguments generate set of bindings by creating separate bindings for each argument with default.
-string bind_constructor(CXXConstructorDecl const *T, pair<string, string> const &constructor_types, Context &context)
+string bind_constructor(ConstructorBindingInfo const &CBI)
 {
 	string code;
 
 	uint args_to_bind = 0;
-	for(; args_to_bind < T->getNumParams(); ++args_to_bind) {
-		if( T->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
+	for(; args_to_bind < CBI.T->getNumParams(); ++args_to_bind) {
+		if( CBI.T->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
 	}
 
-	for(; args_to_bind <= T->getNumParams(); ++args_to_bind) code += bind_constructor(T, constructor_types, args_to_bind, args_to_bind == T->getNumParams(), context) + '\n';
+	for(; args_to_bind <= CBI.T->getNumParams(); ++args_to_bind) code += bind_constructor(CBI, args_to_bind, args_to_bind == CBI.T->getNumParams()) + '\n';
 
 	return code;
 }
@@ -920,7 +957,9 @@ void ClassBinder::bind(Context &context)
 
 	bool callback_structure = is_callback_structure_needed(C);
 	bool callback_structure_constructible = callback_structure and is_callback_structure_constructible(C);
-	if(callback_structure  and  callback_structure_constructible) generate_prefix_code();
+	bool trampoline = callback_structure  and  callback_structure_constructible;
+
+	if(trampoline) generate_prefix_code();
 
 	string const qualified_name{ class_qualified_name(C) };
 	string const module_variable_name = context.module_variable_name( namespace_from_named_decl(C) );
@@ -928,6 +967,7 @@ void ClassBinder::bind(Context &context)
 
 	string c = "{ " + generate_comment_for_declaration(C);
 
+	string const trampoline_name = callback_structure_constructible ? callback_structure_name(C) : "";
 	string const binding_qualified_name = callback_structure_constructible ? callback_structure_name(C) : qualified_name;
 
 	string maybe_holder_type =  ", std::shared_ptr<{}>"_format(qualified_name); // for now enable std::shared_ptr by default
@@ -950,15 +990,16 @@ void ClassBinder::bind(Context &context)
 		string constructors;
 		for(auto t = C->ctor_begin(); t != C->ctor_end(); ++t) {
 			if( t->getAccess() == AS_public  and  !t->isMoveConstructor()  and  is_bindable(*t)  and  !is_skipping_requested(*t, Config::get())  /*and  t->doesThisDeclarationHaveABody()*/ ) {
+				ConstructorBindingInfo CBI = { C, *t, trampoline, qualified_name, trampoline_name, context };
+
 				if( t->isCopyConstructor()  /*and  not copy_constructor_processed*/) {
 					//constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 					//(*t) -> dump();
-					constructors += bind_copy_constructor(*t, binding_qualified_name);
+					constructors += bind_copy_constructor(CBI);
 					//copy_constructor_processed = true;
 				}
-				else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(C, binding_qualified_name); // workaround for Pybind11-2.2 issues
-				else constructors += bind_constructor(*t, std::make_pair(!C->isAbstract() ? qualified_name : "",
-																		 callback_structure_constructible ? callback_structure_name(C) : ""), context);
+				else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(CBI); // workaround for Pybind11-2.2 issues
+				else constructors += bind_constructor(CBI);
 			}
 			if( t->isDefaultConstructor() ) default_constructor_processed = true;
 		}
@@ -971,14 +1012,15 @@ void ClassBinder::bind(Context &context)
 						if(UsingShadowDecl *us = dyn_cast<UsingShadowDecl>(*s) ) {
 							if( CXXConstructorDecl *t = dyn_cast<CXXConstructorDecl>( us->getTargetDecl() ) ) {
 								if( is_bindable(t) ) {
+									ConstructorBindingInfo CBI = { C, t, trampoline, qualified_name, trampoline_name, context };
+
 									if( t->isCopyConstructor() /*and  not copy_constructor_processed*/) {
 										// Do not bind copy-construcotors though thorough using...
 										//constructors += bind_copy_constructor(t, binding_qualified_name);
 										//copy_constructor_processed = true;
 									}
-									else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(C, binding_qualified_name); // workaround for Pybind11-2.2 issues
-									else constructors += bind_constructor(t, std::make_pair(!C->isAbstract() ? qualified_name : "",
-																							callback_structure_constructible ? callback_structure_name(C) : ""), context);
+									else if( t->isDefaultConstructor()  and  t->getNumParams()==0 ) constructors += bind_default_constructor(CBI); // workaround for Pybind11-2.2 issues
+									else constructors += bind_constructor(CBI);
 								}
 								if( t->isDefaultConstructor() ) default_constructor_processed = true;
 							}
@@ -1000,7 +1042,7 @@ void ClassBinder::bind(Context &context)
 			) {  // No constructors defined, adding default constructor
 
 			//c += "\tcl.def(pybind11::init<>());__\n";  // making sure that default is appering first
-			c += bind_default_constructor(C, binding_qualified_name);  // making sure that default is appering first
+			c += bind_default_constructor( ConstructorBindingInfo {C, nullptr, trampoline, qualified_name, trampoline_name, context} );  // making sure that default is appering first
 		}
 		c += constructors;
 	}

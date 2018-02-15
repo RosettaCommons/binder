@@ -38,9 +38,9 @@ _template_ = '''
     :members:
     :show-inheritance:
     :private-members:
-    :special-members:
     :inherited-members:
 
+..    :special-members:
 ..    :undoc-members:
 ..    :special-members:
 
