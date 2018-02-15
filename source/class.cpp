@@ -815,8 +815,8 @@ struct ConstructorBindingInfo
 //char const * constructor_template = "\tcl.def(\"__init__\", []({2} *self_{0}) {{ new (self_) {2}({1}); }}, \"doc\");";
 //char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
 
-char const * constructor_template =                 "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\");";
-//char const * constructor_with_trampoline_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
+char const * constructor_template =                 "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\");";
+char const * constructor_with_trampoline_template = "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 //char const * constructor_lambda_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 
 
@@ -830,14 +830,14 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 	string c;
 	if( args_to_bind == CBI.T->getNumParams()  and  not CBI.T->isVariadic()) {
-		c = "\tcl.def(pybind11::init<{}>()"_format( function_arguments(CBI.T) );
+		c = "\tcl.def( pybind11::init<{}>()"_format( function_arguments(CBI.T) );
 
 		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
 			c += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
 
 			if(request_bindings_f) request_bindings( CBI.T->getParamDecl(i)->getOriginalType(), CBI.context);
 		}
-		c += ");\n";
+		c += " );\n";
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(CBI.T, args_to_bind);
@@ -851,6 +851,7 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 		// else c = fmt::format(constructor_template, params, args.second, constructor_types.second);
 
 		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
+		else if( CBI.trampoline ) c = fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
 		else c = fmt::format(constructor_template, params, args.second, CBI.class_qualified_name);
 	}
 
@@ -867,7 +868,7 @@ string bind_default_constructor(ConstructorBindingInfo const &CBI)  // CXXRecord
 	//return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(binding_qualified_name);
 
 	if( CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.trampoline_qualified_name);
-	//else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
+	else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
 	else return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.class_qualified_name);
 }
 
