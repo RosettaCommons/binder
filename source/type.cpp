@@ -181,6 +181,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<__bit_reference>", "<vector>"),
 
 		make_pair("<bits/stl_stack.h>", "<stack>"),
+
+		make_pair("<bits/regex_cursor.h>", "<regex>"),
+		make_pair("<bits/regex_nfa.h>",    "<regex>"),
 	};
 
 	string name = decl->getQualifiedNameAsString();
