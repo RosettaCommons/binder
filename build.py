@@ -86,17 +86,26 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
         Return absolute path to executable on success and terminate with error on failure
     '''
     release = 'release_40'
-    prefix += '/llvm-4.0'
-
-    git_checkout = '( git checkout {0} && git reset --hard {0} )'.format(release) if clean else 'git checkout {}'.format(release)
-
     if not os.path.isdir(prefix): os.makedirs(prefix)
 
-    if not os.path.isdir(prefix+'/.git'): execute('Clonning llvm...', 'cd {} && git clone https://github.com/llvm-mirror/llvm.git .'.format(prefix) )
-    execute('Checking out LLVM revision: {}...'.format(release), 'cd {prefix} && ( {git_checkout} || ( git fetch && {git_checkout} ) )'.format(prefix=prefix, git_checkout=git_checkout) )
+    llvm_version='4.0.0'
+    prefix += '/llvm-' + llvm_version
+    clang_path = "{prefix}/tools/clang".format(**locals())
 
-    if not os.path.isdir(prefix+'/tools/clang'): execute('Clonning clang...', 'cd {}/tools && git clone https://github.com/llvm-mirror/clang.git clang'.format(prefix) )
-    execute('Checking out Clang revision: {}...'.format(release), 'cd {prefix}/tools/clang && ( {git_checkout} || ( git fetch && {git_checkout} ) )'.format(prefix=prefix, git_checkout=git_checkout) )
+
+    if not os.path.isdir(prefix):
+        execute(
+            "Download llvm source.",
+            "curl http://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo &&"
+            "mv llvm-{llvm_version}.src {prefix}"
+            .format(llvm_version=llvm_version, prefix=prefix))
+
+    if not os.path.isdir(clang_path):
+        execute(
+            "Download clang source.",
+            "curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo &&"
+            "mv cfe-{llvm_version}.src {clang_path}"
+            .format(llvm_version=llvm_version, clang_path=clang_path))
 
     if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
@@ -114,7 +123,7 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     if not os.path.isdir(build_dir): os.makedirs(build_dir)
     execute(
         'Building tool: {}...'.format(name),
-        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja {jobs}'.format(
+        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja bin/binder {jobs}'.format(
             build_dir=build_dir,
             jobs="-j{}".format(jobs) if jobs else "",
             build_type='Debug' if debug else 'Release',
@@ -160,6 +169,7 @@ def main(args):
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
+    parser.add_argument('--standalone-install', default="", help='Install standalone binder binary at given installation prefix.')
 
     global Options
     Options = parser.parse_args()
