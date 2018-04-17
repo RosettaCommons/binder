@@ -111,7 +111,7 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     if not os.path.isdir(build_dir): os.makedirs(build_dir)
     execute(
         'Building tool: {}...'.format(name),
-        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja bin/binder {jobs}'.format(
+        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja bin/binder clang {jobs}'.format( # we need to build Clang so lib/clang/<version>/include is also built
             build_dir=build_dir,
             jobs="-j{}".format(jobs) if jobs else "",
             build_type='Debug' if debug else 'Release',
