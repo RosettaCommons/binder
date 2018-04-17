@@ -85,27 +85,15 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     ''' Install and update (if needed) custom LLVM tool at given prefix (from config).
         Return absolute path to executable on success and terminate with error on failure
     '''
-    release = 'release_40'
     if not os.path.isdir(prefix): os.makedirs(prefix)
 
     llvm_version='4.0.0'
     prefix += '/llvm-' + llvm_version
     clang_path = "{prefix}/tools/clang".format(**locals())
 
+    if not os.path.isfile(prefix + '/CMakeLists.txt'): execute('Download llvm source.', 'curl http://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo && mv llvm-{llvm_version}.src {prefix}'.format(llvm_version=llvm_version, prefix=prefix) )
 
-    if not os.path.isdir(prefix):
-        execute(
-            "Download llvm source.",
-            "curl http://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo &&"
-            "mv llvm-{llvm_version}.src {prefix}"
-            .format(llvm_version=llvm_version, prefix=prefix))
-
-    if not os.path.isdir(clang_path):
-        execute(
-            "Download clang source.",
-            "curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo &&"
-            "mv cfe-{llvm_version}.src {clang_path}"
-            .format(llvm_version=llvm_version, clang_path=clang_path))
+    if not os.path.isdir(clang_path): execute('Download clang source.', 'curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo && mv cfe-{llvm_version}.src {clang_path}'.format(llvm_version=llvm_version, clang_path=clang_path) )
 
     if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
@@ -119,7 +107,7 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     if not os.path.isfile(cmake_lists):
         with open(cmake_lists, 'w') as f: f.write(tool_build_line + '\n')
 
-    build_dir = prefix+'/build_' + release + '.' + Platform + '.' +_machine_name_ + ('.debug' if debug else '.release')
+    build_dir = prefix+'/build_' + llvm_version + '.' + Platform + '.' +_machine_name_ + ('.debug' if debug else '.release')
     if not os.path.isdir(build_dir): os.makedirs(build_dir)
     execute(
         'Building tool: {}...'.format(name),
@@ -169,7 +157,6 @@ def main(args):
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
-    parser.add_argument('--standalone-install', default="", help='Install standalone binder binary at given installation prefix.')
 
     global Options
     Options = parser.parse_args()
