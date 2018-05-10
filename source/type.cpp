@@ -1,3 +1,4 @@
+
 // -*- mode:c++;tab-width:2;indent-tabs-mode:t;show-trailing-whitespace:t;rm-trailing-spaces:t -*-
 // vi: set ts=2 noet:
 //
@@ -184,6 +185,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/regex_cursor.h>", "<regex>"),
 		make_pair("<bits/regex_nfa.h>",    "<regex>"),
+
+		make_pair("<bits/exception.h>", "<exception>"),
 	};
 
 	string name = decl->getQualifiedNameAsString();
