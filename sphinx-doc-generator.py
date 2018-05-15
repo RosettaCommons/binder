@@ -36,12 +36,11 @@ _template_ = '''
 
 .. automodule:: {module}
     :members:
+    :undoc-members:
     :show-inheritance:
     :private-members:
     :inherited-members:
 
-..    :special-members:
-..    :undoc-members:
 ..    :special-members:
 
 '''
