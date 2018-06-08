@@ -332,6 +332,7 @@ PYBIND11_MODULE({1}, root_module) {{
 
 const char * module_header = R"_(
 #include <pybind11/pybind11.h>
+#include <functional>
 {}
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
