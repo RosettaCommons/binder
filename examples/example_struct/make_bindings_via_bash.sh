@@ -12,7 +12,7 @@ $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
   --bind testers -trace \
   all_bash_includes.hpp \
   -- -std=c++11 -I$PWD/include \
-  -DMY_PROJECT_DEFINE -DNDEBUG
+  -DNDEBUG
 
 # compile first generated bindings
 # NOTE 'pybase' may need to change on your system
