@@ -15,6 +15,7 @@ Contents:
     install
     basics
     config
+    examples
 
 Indices and tables
 ==================
