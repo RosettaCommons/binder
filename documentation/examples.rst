@@ -171,18 +171,19 @@ You can get around this by remaking your bindings with a config file.
 
 .. code-block:: C
 
-    +include <python/PyRosetta/binder/stl_binders.hpp>
+    +include <pybind11/stl.h>
 
 **New binder compile command**
 
 .. code-block:: console
 
+    pybase=`which python3`
     $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
       --root-module test_struct \
       --prefix $PWD/bash_bindings/ \
       --bind testers -trace --config my_config_file.cfg \
       all_bash_includes.hpp \
-      -- -std=c++11 -I$PWD/include \
+      -- -std=c++11 -I$PWD/include -I$PWD/../../../build/pybind11/include -I${pybase::-12}/include/python3.6m \
       -DNDEBUG
 
 **NOTE: ^^**
@@ -199,4 +200,3 @@ As an example of this, try running the command without adding the stl bindings:
     python3 -c "import sys; sys.path.append('.'); import test_struct; f = test_struct.testers.test_my_struct(); print(f.a_float); f.add_float(); print(f.a_float); f.append_vec()"
 
 Since python never 'sees' the vector, it doesn't crash.
-
