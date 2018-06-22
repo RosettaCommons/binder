@@ -165,6 +165,7 @@ Again, a skeleton of this command would be:
       -o ${output_object_file_name} -fPIC
 
 4. Do this again for the other generated ``.cpp`` file
+
    - **All** ``.cpp`` **files to compile are located in the** ``.sources`` **file.**
 
 5. Link together all of the compiled ``object files``
@@ -253,6 +254,7 @@ that have to be changed though, before this will work.
 changes to allow for binder bindings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. We must add a function that returns the ``std::vector<>`` type of interest.
+
    - **std::vector bindings will be optimized out unless we add this function**
 
 .. code-block:: C++
@@ -263,6 +265,7 @@ changes to allow for binder bindings
 	}
 
 2. We must make a config file that tells binder to build the vector bindings
+
    - you can also move the ``--bind`` commandline flags here by using the format ``+namespace {what to bind}``.
 
 .. code-block:: C++
