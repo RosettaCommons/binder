@@ -87,7 +87,7 @@ this simple struct.**
     $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
       --root-module test_struct \
       --prefix $PWD/bash_bindings/ \
-      --bind testers -trace \
+      --bind testers \
       all_bash_includes.hpp \
       -- -std=c++11 -I$PWD/include \
       -DNDEBUG
@@ -99,7 +99,7 @@ A skeleton of this would be:
     $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
       --root-module ${my_python_module_name} \
       --prefix ${where_i_want_to_build_this} \
-      --bind ${my_namespaces_to_build} -trace \
+      --bind ${my_namespaces_to_build} \
       ${my_all_includes_file} \
       -- -std=c++11 -I${any_directores_to_include_for_compiler} \
       -DNDEBUG
@@ -181,7 +181,7 @@ You can get around this by remaking your bindings with a config file.
     $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
       --root-module test_struct \
       --prefix $PWD/bash_bindings/ \
-      --bind testers -trace --config my_config_file.cfg \
+      --bind testers --config my_config_file.cfg \
       all_bash_includes.hpp \
       -- -std=c++11 -I$PWD/include -I$PWD/../../../build/pybind11/include -I${pybase::-12}/include/python3.6m \
       -DNDEBUG

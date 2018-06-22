@@ -9,7 +9,7 @@ rm -rf ./bash_bindings/ && mkdir bash_bindings/
 $PWD/../../build/llvm-4.0.0/build_4.0.0*/bin/binder \
   --root-module test_struct \
   --prefix $PWD/bash_bindings/ \
-  --bind testers -trace \
+  --bind testers \
   all_bash_includes.hpp \
   -- -std=c++11 -I$PWD/include \
   -DNDEBUG
