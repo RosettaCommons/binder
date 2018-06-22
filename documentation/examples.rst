@@ -51,16 +51,6 @@ binder's bindings for `std::vector` to access `std::vector` objects without
 converting them to python lists.  This allows us to benefit from the speed of
 c++!
 
-.. code-block:: python
-
-    In [18]: timeit.timeit("l=[]\nfor x in range(1000):\n l.append(x)", number=10000)
-    Out[18]: 0.6870336419997329
-
-.. code-block:: python
-
-    In [23]: timeit.repeat("l=std.vector_int()\nfor x in range(1000):\n l.append(x)", setup="import sys\nsys.path.append('.')\nimport test_struct.std as std", number=10000)
-    Out[23]: [2.1859435529986513, 2.169744377002644, 2.17523188999985]
-
 
 Building bindings basics
 ************************
