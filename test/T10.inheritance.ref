@@ -25,6 +25,7 @@
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
+#include <functional>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -206,7 +207,7 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def( pybind11::init( [](){ return new PyCallBack_Base(); } ) );
+		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
 		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
 		cl.def("maybe", (void (Base::*)()) &Base::maybe, "C++: Base::maybe() --> void");
 		cl.def("f_v", (void (Base::*)()) &Base::f_v, "C++: Base::f_v() --> void");
@@ -217,7 +218,7 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<Derived, std::shared_ptr<Derived>, PyCallBack_Derived, Base> cl(M(""), "Derived", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def( pybind11::init( [](){ return new PyCallBack_Derived(); } ) );
+		cl.def( pybind11::init( [](){ return new Derived(); }, [](){ return new PyCallBack_Derived(); } ) );
 		cl.def_readwrite("data", &Derived::data);
 		cl.def("foo_protected", [](Derived &o) -> void { return o.foo_protected(); }, "");
 		cl.def("assign", (class Derived & (Derived::*)(const class Derived &)) &Derived::operator=, "C++: Derived::operator=(const class Derived &) --> class Derived &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -233,7 +234,7 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new A(); } ) );
-		cl.def(pybind11::init<A const &>());
+		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 		cl.def("assign", (class A & (A::*)(const class A &)) &A::operator=, "C++: A::operator=(const class A &) --> class A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // B file:T10.inheritance.hpp line:53
@@ -241,14 +242,14 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new B(); } ) );
-		cl.def(pybind11::init<B const &>());
+		cl.def( pybind11::init( [](B const &o){ return new B(o); } ) );
 		cl.def("assign", (class B & (B::*)(const class B &)) &B::operator=, "C++: B::operator=(const class B &) --> class B &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // X file:T10.inheritance.hpp line:57
 		pybind11::class_<X, std::shared_ptr<X>, PyCallBack_X, Base> cl(M(""), "X", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def( pybind11::init( [](){ return new PyCallBack_X(); } ) );
+		cl.def( pybind11::init( [](){ return new X(); }, [](){ return new PyCallBack_X(); } ) );
 		cl.def("f_v", (void (X::*)()) &X::f_v, "C++: X::f_v() --> void");
 		cl.def("assign", (class X & (X::*)(const class X &)) &X::operator=, "C++: X::operator=(const class X &) --> class X &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}

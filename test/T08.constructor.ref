@@ -13,6 +13,7 @@
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
+#include <functional>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -39,7 +40,7 @@ void bind_T08_constructor(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<BaseB, std::shared_ptr<BaseB>> cl(M(""), "BaseB", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<int>(), pybind11::arg(""));
+		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedB file:T08.constructor.hpp line:25
@@ -51,7 +52,7 @@ void bind_T08_constructor(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<BaseC, std::shared_ptr<BaseC>> cl(M(""), "BaseC", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<int>(), pybind11::arg(""));
+		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedC file:T08.constructor.hpp line:35
@@ -63,7 +64,7 @@ void bind_T08_constructor(std::function< pybind11::module &(std::string const &n
 		pybind11::class_<BaseD, std::shared_ptr<BaseD>> cl(M(""), "BaseD", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<int>(), pybind11::arg(""));
+		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedD file:T08.constructor.hpp line:44

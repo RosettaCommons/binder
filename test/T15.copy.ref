@@ -13,6 +13,7 @@
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
+#include <functional>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -33,7 +34,7 @@ void bind_T15_copy(std::function< pybind11::module &(std::string const &namespac
 		pybind11::class_<POD2, std::shared_ptr<POD2>> cl(M(""), "POD2", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<POD2 const &>());
+		cl.def( pybind11::init( [](POD2 const &o){ return new POD2(o); } ) );
 	}
 	{ // POD3 file:T15.copy.hpp line:26
 		pybind11::class_<POD3, std::shared_ptr<POD3>> cl(M(""), "POD3", "");
@@ -63,7 +64,7 @@ void bind_T15_copy(std::function< pybind11::module &(std::string const &namespac
 		pybind11::class_<Data1, std::shared_ptr<Data1>> cl(M(""), "Data1", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def(pybind11::init<Data1 const &>());
+		cl.def( pybind11::init( [](Data1 const &o){ return new Data1(o); } ) );
 	}
 }
 

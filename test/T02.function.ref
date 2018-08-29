@@ -12,6 +12,7 @@
 #include <utility> // std::pair
 
 #include <pybind11/pybind11.h>
+#include <functional>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER

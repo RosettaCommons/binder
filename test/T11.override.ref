@@ -94,6 +94,7 @@
 #include <string> // std::char_traits<char>::to_int_type
 
 #include <pybind11/pybind11.h>
+#include <functional>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
