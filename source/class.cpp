@@ -156,6 +156,28 @@ string bind_data_member(FieldDecl const *d, string const &class_qualified_name)
 }
 
 
+// Check if given method is const-overload (and return-const-overload) of some other method in class
+bool is_const_overload(CXXMethodDecl *mc)
+{
+	string name = function_qualified_name(mc, true);
+
+	string const _const = " const";
+
+	if( ends_with(name, _const) ) {
+		name.resize( name.size() - _const.size() );
+
+		CXXRecordDecl const *C = mc->getParent();
+
+		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+			if( m->getAccess() == mc->getAccess()  and  function_qualified_name(*m, true) == name ) return true;
+		}
+	}
+
+	//outs() << "is_const_overload: " << function_qualified_name(mc, false) << " -> false\n\n";
+
+	return false;
+}
+
 
 /// check if generator can create binding
 bool is_bindable(clang::CXXRecordDecl const *C)
@@ -209,6 +231,12 @@ bool is_bindable(clang::CXXRecordDecl const *C)
 		}
 	}
 
+	if( C->hasDefinition()  and  C->isAbstract() ) {
+		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+			if( is_const_overload(*m) and m->isPure() ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+		}
+	}
+
 	return r;
 }
 
@@ -229,27 +257,6 @@ bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config)
 	for(auto & t : get_type_dependencies(C) ) skip |= is_skipping_requested(t, config);
 
 	return skip;
-}
-
-
-// Check if given method is const-overload (and return-const-overload) of some other method in class
-bool is_const_overload(CXXMethodDecl *mc)
-{
-	string name = function_qualified_name(mc, true);
-
-	string _const = " const";
-
-	if( ends_with(name, _const) ) {
-		name.resize( name.size() - _const.size() );
-
-		CXXRecordDecl const *C = mc->getParent();
-
-		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( m->getAccess() == mc->getAccess()  and  function_qualified_name(*m, true) == name ) return true;
-		}
-	}
-
-	return false;
 }
 
 
@@ -546,7 +553,8 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 		if( (m->getAccess() != AS_private)  and  is_bindable(*m)  and  is_overloadable(*m)
 			and  !is_skipping_requested(*m, Config::get())
-			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual()  and  ( !is_const_overload(*m) or m->isPure() )
+			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual()
+			and  !is_const_overload(*m) // was ( !is_const_overload(*m) or m->isPure() ) but now we ignoring this case since it is not possible to overload both const and non-const variants in Python anyway
 			) {
 
 
@@ -568,11 +576,14 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 
 			string key = /*return_type + ' ' +*/ m->getNameAsString() + '(' + std::get<0>(args) + (m->isConst() ? ") const" : ")");
 
+			//outs() << "Class: " << C->getNameAsString() << "Key: " << key << "\n";
+			//c += "// Key: " + key + "\n";
+
 			if( !binded.count(key) ) {
 				binded.insert(key);
 
 				// m->hasAttr<OverrideAttr>, attribute list is automatically generated, see <release>/tools/clang/include/clang/Basic/AttrList.inc for attribute list
-				if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be be binded by some of the base classes
+				if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be binded by some of the base classes
 
 				if( return_type.find(',') != std::string::npos ) {
 					string return_type_alias = "_binder_ret_" + std::to_string(ret_id); ++ret_id;
