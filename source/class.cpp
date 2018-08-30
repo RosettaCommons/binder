@@ -159,17 +159,19 @@ string bind_data_member(FieldDecl const *d, string const &class_qualified_name)
 // Check if given method is const-overload (and return-const-overload) of some other method in class
 bool is_const_overload(CXXMethodDecl *mc)
 {
-	string name = function_qualified_name(mc, true);
+	if( mc->isConst() ) {
+		string name = function_qualified_name(mc, true);
 
-	string const _const = " const";
+		string const _const = " const";
 
-	if( ends_with(name, _const) ) {
-		name.resize( name.size() - _const.size() );
+		if( name.size() > _const.size() ) {
+			name.resize( name.size() - _const.size() );
 
-		CXXRecordDecl const *C = mc->getParent();
+			CXXRecordDecl const *C = mc->getParent();
 
-		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( m->getAccess() == mc->getAccess()  and  function_qualified_name(*m, true) == name ) return true;
+			for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+				if( m->getAccess() == mc->getAccess()  and  !m->isConst()  and  function_qualified_name(*m, true) == name ) return true;
+			}
 		}
 	}
 
@@ -178,9 +180,26 @@ bool is_const_overload(CXXMethodDecl *mc)
 	return false;
 }
 
+bool is_bindable_raw(clang::CXXRecordDecl const *C);
+
 
 /// check if generator can create binding
 bool is_bindable(clang::CXXRecordDecl const *C)
+{
+	static std::unordered_map<CXXRecordDecl const *, bool> cache;
+
+	auto it = cache.find(C);
+
+	if( it != cache.end() ) return it->second;
+	else {
+		bool r = is_bindable_raw(C);
+		cache.emplace(C, r);
+		return r;
+	}
+}
+
+/// check if generator can create binding
+bool is_bindable_raw(clang::CXXRecordDecl const *C)
 {
 	bool r = true;
 
@@ -233,7 +252,7 @@ bool is_bindable(clang::CXXRecordDecl const *C)
 
 	if( C->hasDefinition()  and  C->isAbstract() ) {
 		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( is_const_overload(*m) and m->isPure() ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
 		}
 	}
 
