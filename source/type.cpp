@@ -307,6 +307,7 @@ string standard_name(string const &type)
 		make_pair("class std::string",  "std::string"), // for return/paremeters types
 		make_pair("class std::ostream", "std::ostream"),
 
+		make_pair("nullptr_t",     "std::nullptr_t"),
 
 		//make_pair("const class ", "const "),
 		//make_pair("const struct ", "const "),
@@ -424,7 +425,8 @@ bool is_python_builtin(NamedDecl const *C)
 	string name = standard_name( C->getQualifiedNameAsString() );
 	//if( begins_with(name, "class ") ) name = name.substr(6); // len("class ")
 
-	static std::vector<string> const known_builtin = {"std::basic_string", "std::allocator", "std::initializer_list",
+	static std::vector<string> const known_builtin = {//"std::nullptr_t", "nullptr_t",
+													  "std::basic_string", "std::allocator", "std::initializer_list",
 													  "std::__1::basic_string",
 
 													  "std::shared_ptr", "std::enable_shared_from_this",  "std::__shared_ptr",  // "std::weak_ptr",  "std::__weak_ptr"

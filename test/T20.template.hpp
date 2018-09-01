@@ -37,4 +37,26 @@ void fi(A<int> *) {}
 void ff_instantiated_by_use_in_function_not_binded(A<float> &) {}  // accessing class by reference will not trigger class instantiation
 void fd_instantiated_by_use_in_function_not_binded(A<double> *) {} // accessing class by pointer will not trigger class instantiation
 
+
+
+// variadic templates support
+template<typename T>
+T add(T v)
+{
+  return v;
+}
+
+template<typename T, typename... As>
+T add(T first, As... as)
+{
+  return first + add(as...);
+}
+
+void foo()
+{
+	add(1, 2, 3);
+}
+
+
+
 #endif // _INCLUDED_T20_template_hpp_

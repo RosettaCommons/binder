@@ -65,7 +65,7 @@ string function_arguments(clang::FunctionDecl const *record)
 	string r;
 
 	for(uint i=0; i<record->getNumParams(); ++i) {
-		r += record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString();
+		r += standard_name( record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString() );
 		if( i+1 != record->getNumParams() ) r += ", ";
 	}
 
@@ -155,25 +155,30 @@ string template_specialization(FunctionDecl const *F)
 
 		if( TemplateArgumentList const *ta = F->getTemplateSpecializationArgs() ) {
 
-			templ += "<";
-			for(uint i=0; i < ta->size(); ++i) {
-				//outs() << "function template argument: " << template_argument_to_string( ta->get(i) ) << "\n";
+			if( ta->size() ) {
+				templ += "<";
+				for(uint i=0; i < ta->size(); ++i) {
+					//if( ta->get(i).getKind() != TemplateArgument::ArgKind::Null ) {
+					//outs() << "function template argument: " << template_argument_to_string( ta->get(i) ) << " kind:" << ta->get(i).getKind() << "\n";
 
-				//if( ta->get(i).isDependent() ) break;  // avoid explicitly specifying SFINAE related arguments
-				//if( ta->get(i).getKind() == TemplateArgument::Expression ) break;  // avoid explicitly specifying SFINAE related arguments
+					//if( ta->get(i).isDependent() ) break;  // avoid explicitly specifying SFINAE related arguments
+					//if( ta->get(i).getKind() == TemplateArgument::Expression ) break;  // avoid explicitly specifying SFINAE related arguments
 
-				string arg = template_argument_to_string( ta->get(i) );
-				if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack   and  arg.size() > 2 ) arg = arg.substr(1, arg.size()-2);  // removing extra <> around template parameter pack
-				templ += arg + ",";
+					if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack  and  !ta->get(i).pack_size() ) continue; // skipping `<>` at the end of parameter packs
 
-				//outs() << arg << " kind: " << ta->get(i).getKind()  << "\n";
+					string arg = template_argument_to_string( ta->get(i) );
+					if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack   and  arg.size() > 2 ) arg = arg.substr(1, arg.size()-2);  // removing extra <> around template parameter pack
+					templ += arg + ",";
 
-				//if( t->getTemplateArgs()[i].ArgKind() == TemplateArgument::ArgKind::Integral ) outs() << " template arg:" << t->getTemplateArgs()[i].<< "\n";
-				//outs() << expresion_to_string( t->getTemplateArgs()[i].getAsExpr() ) << "\n";
+					//outs() << arg << " kind: " << ta->get(i).getKind()  << "\n";
+
+					//if( t->getTemplateArgs()[i].ArgKind() == TemplateArgument::ArgKind::Integral ) outs() << " template arg:" << t->getTemplateArgs()[i].<< "\n";
+					//outs() << expresion_to_string( t->getTemplateArgs()[i].getAsExpr() ) << "\n";
+				}
+				templ.back() = '>';
+
+				fix_boolean_types(templ);
 			}
-			templ.back() = '>';
-
-			fix_boolean_types(templ);
 		}
 	}
 
@@ -199,7 +204,7 @@ string function_pointer_type(FunctionDecl const *F)
 	    maybe_const = m->isConst() ? " const" : "";
 	}
 
-	r += F->getReturnType().getCanonicalType().getAsString();  r+= " ({}*)("_format(prefix);
+	r += standard_name( F->getReturnType().getCanonicalType().getAsString() );  r+= " ({}*)("_format(prefix);
 
 	r += function_arguments(F);
 
@@ -207,7 +212,7 @@ string function_pointer_type(FunctionDecl const *F)
 
 	fix_boolean_types(r);
 
-	return standard_name(r);
+	return r;  // standard_name(r) call moved to function_arguments
 }
 
 
