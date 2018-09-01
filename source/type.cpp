@@ -187,6 +187,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/regex_nfa.h>",    "<regex>"),
 
 		make_pair("<bits/exception.h>", "<exception>"),
+
+		make_pair("<bits/hashtable_policy.h>", "<unordered_map>"),
+
 	};
 
 	string name = decl->getQualifiedNameAsString();
@@ -448,6 +451,7 @@ bool is_python_builtin(NamedDecl const *C)
 
 													  "std::__value_type",
 
+													  "std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base",
  	};
 
 	for(auto &k : known_builtin) {
