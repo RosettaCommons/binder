@@ -155,30 +155,29 @@ string template_specialization(FunctionDecl const *F)
 
 		if( TemplateArgumentList const *ta = F->getTemplateSpecializationArgs() ) {
 
-			if( ta->size() ) {
-				templ += "<";
-				for(uint i=0; i < ta->size(); ++i) {
-					//if( ta->get(i).getKind() != TemplateArgument::ArgKind::Null ) {
-					//outs() << "function template argument: " << template_argument_to_string( ta->get(i) ) << " kind:" << ta->get(i).getKind() << "\n";
+			templ += "<";
+			for(uint i=0; i < ta->size(); ++i) {
+				//if( ta->get(i).getKind() != TemplateArgument::ArgKind::Null ) {
+				//outs() << "function: '" << F->getNameAsString() << "' template argument[" << i << "]=" << template_argument_to_string( ta->get(i) ) << " kind:" << ta->get(i).getKind() << "\n";
 
-					//if( ta->get(i).isDependent() ) break;  // avoid explicitly specifying SFINAE related arguments
-					//if( ta->get(i).getKind() == TemplateArgument::Expression ) break;  // avoid explicitly specifying SFINAE related arguments
+				//if( ta->get(i).isDependent() ) break;  // avoid explicitly specifying SFINAE related arguments
+				//if( ta->get(i).getKind() == TemplateArgument::Expression ) break;  // avoid explicitly specifying SFINAE related arguments
 
-					if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack  and  !ta->get(i).pack_size() ) continue; // skipping `<>` at the end of parameter packs
+				if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack  and  !ta->get(i).pack_size() ) continue; // skipping `<>` at the end of parameter packs
 
-					string arg = template_argument_to_string( ta->get(i) );
-					if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack   and  arg.size() > 2 ) arg = arg.substr(1, arg.size()-2);  // removing extra <> around template parameter pack
-					templ += arg + ",";
+				string arg = template_argument_to_string( ta->get(i) );
+				if( ta->get(i).getKind() == TemplateArgument::ArgKind::Pack   and  arg.size() > 2 ) arg = arg.substr(1, arg.size()-2);  // removing extra <> around template parameter pack
+				templ += arg + ",";
 
-					//outs() << arg << " kind: " << ta->get(i).getKind()  << "\n";
+				//outs() << arg << " kind: " << ta->get(i).getKind()  << "\n";
 
-					//if( t->getTemplateArgs()[i].ArgKind() == TemplateArgument::ArgKind::Integral ) outs() << " template arg:" << t->getTemplateArgs()[i].<< "\n";
-					//outs() << expresion_to_string( t->getTemplateArgs()[i].getAsExpr() ) << "\n";
-				}
-				templ.back() = '>';
-
-				fix_boolean_types(templ);
+				//if( t->getTemplateArgs()[i].ArgKind() == TemplateArgument::ArgKind::Integral ) outs() << " template arg:" << t->getTemplateArgs()[i].<< "\n";
+				//outs() << expresion_to_string( t->getTemplateArgs()[i].getAsExpr() ) << "\n";
 			}
+			templ.back() = '>';
+			if( templ.size() == 1 ) templ.resize(0);  // case for `<>`
+
+			fix_boolean_types(templ);
 		}
 	}
 

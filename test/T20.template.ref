@@ -5,6 +5,7 @@
 #include <T20.template.hpp> // fi
 #include <T20.template.hpp> // fi_instantiated_by_use_in_function
 #include <T20.template.hpp> // foo
+#include <T20.template.hpp> // instantiate
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -51,8 +52,20 @@ void bind_T20_template(std::function< pybind11::module &(std::string const &name
 	// add(int, int) file:T20.template.hpp line:50
 	M("").def("add", (int (*)(int, int)) &add<int,int>, "C++: add(int, int) --> int", pybind11::arg("first"), pybind11::arg("as"));
 
-	// foo() file:T20.template.hpp line:55
+	// foo() file:T20.template.hpp line:56
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
+
+	// foo(int) file:T20.template.hpp line:56
+	M("").def("foo", (void (*)(int)) &foo<int>, "C++: foo(int) --> void", pybind11::arg("as"));
+
+	// foo(int, int) file:T20.template.hpp line:56
+	M("").def("foo", (void (*)(int, int)) &foo<int, int>, "C++: foo(int, int) --> void", pybind11::arg("as"), pybind11::arg("as"));
+
+	// foo(int, int, int) file:T20.template.hpp line:56
+	M("").def("foo", (void (*)(int, int, int)) &foo<int, int, int>, "C++: foo(int, int, int) --> void", pybind11::arg("as"), pybind11::arg("as"), pybind11::arg("as"));
+
+	// instantiate() file:T20.template.hpp line:61
+	M("").def("instantiate", (void (*)()) &instantiate, "C++: instantiate() --> void");
 
 }
 

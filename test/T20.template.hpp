@@ -52,9 +52,20 @@ T add(T first, As... as)
   return first + add(as...);
 }
 
-void foo()
+template<typename... As>
+void foo(As... as)
+{
+}
+
+
+void instantiate()
 {
 	add(1, 2, 3);
+
+	foo();
+	foo(1);
+	foo(1, 2);
+	foo(1, 2, 3);
 }
 
 
