@@ -1,5 +1,6 @@
 # Binder
-Binder, tool for automatic generation of Python bindings
+
+**Binder** is a tool for automatic generation of Python bindings for C++11 projects using [Pybind11](https://github.com/pybind/pybind11) and [Clang LibTooling](http://clang.llvm.org/docs/LibTooling.html) libraries.  That is, Binder, takes a C++ project and compiles it into objects and functions that are all usable within Python.  Binder is different from prior tools in that it handles special features new in C++11.
 
 [![Documentation Status](https://readthedocs.org/projects/cppbinder/badge/?version=latest)](http://cppbinder.readthedocs.org/en/latest/?badge=latest)
 
