@@ -170,6 +170,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/functional_hash.h>", "<functional>"),
 		make_pair("<bits/unordered_set.h>",   "<unordered_set>"),
 		make_pair("<bits/unordered_map.h>",   "<unordered_map>"),
+		make_pair("<__hash_table>",           "<unordered_map>"),
 
 		make_pair("<bits/stl_multiset.h>", "<set>"),
 		make_pair("<bits/stl_multimap.h>", "<map>"),
@@ -452,6 +453,8 @@ bool is_python_builtin(NamedDecl const *C)
 													  "std::__value_type",
 
 													  "std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base",
+
+													  "std::__hash_value_type",
  	};
 
 	for(auto &k : known_builtin) {
