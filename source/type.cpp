@@ -172,12 +172,11 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/unordered_set.h>",   "<unordered_set>"),
 		make_pair("<bits/unordered_map.h>",   "<unordered_map>"),
 		make_pair("<__hash_table>",           "<unordered_map>"),
+		make_pair("<bits/hashtable_policy.h>", "<unordered_map>"),
+		make_pair("<bits/hashtable.h>",        "<unordered_map>"),
 
 		make_pair("<bits/stl_multiset.h>", "<set>"),
 		make_pair("<bits/stl_multimap.h>", "<map>"),
-
-		//make_pair("<bits/hashtable_policy.h>", could be either unordered_map or unordered_set
-		make_pair("<bits/hashtable_policy.h>", "<unordered_map>"),
 
 		make_pair("<__locale>", "<locale>"),
 
@@ -191,6 +190,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/exception.h>", "<exception>"),
 
 		make_pair("<bits/hashtable_policy.h>", "<unordered_map>"),
+
+		make_pair("<__mutex_base>", "<mutex>"),
 
 	};
 
@@ -431,10 +432,13 @@ bool is_python_builtin(NamedDecl const *C)
 	//if( begins_with(name, "class ") ) name = name.substr(6); // len("class ")
 
 	static std::vector<string> const known_builtin = {//"std::nullptr_t", "nullptr_t",
-													  "std::basic_string", "std::allocator", "std::initializer_list",
+													  "std::basic_string", "std::initializer_list",
 													  "std::__1::basic_string",
 
-													  "std::shared_ptr", "std::enable_shared_from_this",  "std::__shared_ptr",  // "std::weak_ptr",  "std::__weak_ptr"
+													  "std::allocator", "std::__allocator_destructor",
+
+													  "std::shared_ptr", "std::enable_shared_from_this",  "std::__shared_ptr", // "std::weak_ptr",  "std::__weak_ptr"
+													  "std::unique_ptr",
 													  //"std::__1::shared_ptr", "std::__1::weak_ptr", "std::__1::allocator",
 
 													  "std::pair", "std::tuple",
@@ -454,7 +458,7 @@ bool is_python_builtin(NamedDecl const *C)
 
 													  "std::__value_type",
 
-													  "std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base",
+													  "std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
 
 													  "std::__hash_value_type",
  	};
