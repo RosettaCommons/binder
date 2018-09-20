@@ -142,6 +142,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/basic_string.h>",  "<string>"),
 		make_pair("<bits/basic_string.tcc>","<string>"),
+		make_pair("<__string>",             "<string>"),
 		make_pair("<bits/streambuf_iterator.h>", "<streambuf>"),
 
 		make_pair("<bits/shared_ptr.h>",      "<memory>"),
@@ -441,6 +442,7 @@ bool is_python_builtin(NamedDecl const *C)
 
 													  "std::_Rb_tree_iterator", "std::_Rb_tree_const_iterator", "__gnu_cxx::__normal_iterator",
 													  "std::_List_iterator", "std::_List_const_iterator",
+													  "std::__list_node",
 
 													  "std::__wrap_iter",
 													  //"std::__1::__wrap_iter",
