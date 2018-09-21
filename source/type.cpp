@@ -193,6 +193,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<__mutex_base>", "<mutex>"),
 
+		make_pair("<bits/types/struct_FILE.h>", "<cstdio>"),
+
 	};
 
 	string name = decl->getQualifiedNameAsString();
