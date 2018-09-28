@@ -479,7 +479,8 @@ string binding_public_data_members(CXXRecordDecl const *C)
 // generate call-back structure name for given class
 inline string callback_structure_name(CXXRecordDecl const *C)
 {
-	return "PyCallBack_" + replace_(namespace_from_named_decl(C), "::", "_") + "_" + python_class_name(C);
+	string ns = replace_(namespace_from_named_decl(C), "::", "_");
+	return "PyCallBack_" + (ns.empty() ? "" : ns + '_')  + python_class_name(C);
 }
 
 
