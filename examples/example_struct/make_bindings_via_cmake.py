@@ -8,10 +8,17 @@ import subprocess
 from distutils.sysconfig import get_python_inc
 
 
+binder_executable = glob.glob(f"{os.getcwd()}/../../build/llvm-4.0.0/build_4.0.0*/bin/binder")[0]
+project_source = "include"
+
 def make_all_includes():
     all_includes = []
     all_include_filename = "all_cmake_includes.hpp"
-    for filename in glob.glob("include/**/*.hpp", recursive=True):
+    for filename in (glob.glob(f"{project_source}/**/*.hpp", recursive=True)+
+                     glob.glob(f"{project_source}/**/*.cpp", recursive=True)+
+                     glob.glob(f"{project_source}/**/*.h", recursive=True)+
+                     glob.glob(f"{project_source}/**/*.cc", recursive=True)
+    ):
         with open(filename, 'r') as fh:
             for line in fh:
                 if line.startswith("#include"):
@@ -27,7 +34,6 @@ def make_bindings_code(all_includes_fn):
     bindings_dir = "cmake_bindings"
     shutil.rmtree(bindings_dir, ignore_errors=True)
     os.mkdir(bindings_dir)
-    binder_executable = glob.glob(f"{os.getcwd()}/../../build/llvm-4.0.0/build_4.0.0*/bin/binder")[0]
     command = f'{binder_executable} --root-module test_struct --prefix {os.getcwd()}/{bindings_dir}/ --bind testers -trace {all_includes_fn}  -- -std=c++11 -I{os.getcwd()}/include -DNDEBUG -v'.split()
     print(" ".join(command))
     ret = subprocess.call(command)
