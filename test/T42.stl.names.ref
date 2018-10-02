@@ -301,13 +301,6 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 
 
 // File: std/functional_hash.cpp
-#include <functional> // std::_Fnv_hash_impl
-#include <functional> // std::_Fnv_hash_impl::hash
-#include <functional> // std::_Hash_impl
-#include <functional> // std::_Hash_impl::hash
-#include <functional> // std::__hash_base
-#include <functional> // std::__hash_base<unsigned long, float>::__hash_base
-#include <functional> // std::__hash_base<unsigned long, float>::operator=
 #include <functional> // std::__is_fast_hash
 #include <functional> // std::hash
 #include <functional> // std::hash<double>::operator()
@@ -590,23 +583,14 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::__hash_base file:bits/functional_hash.h line:50
-		pybind11::class_<std::__hash_base<unsigned long,float>, std::shared_ptr<std::__hash_base<unsigned long,float>>> cl(M("std"), "__hash_base_unsigned_long_float_t", "");
-		pybind11::handle cl_type = cl;
-
-		cl.def( pybind11::init( [](){ return new std::__hash_base<unsigned long,float>(); } ) );
-		cl.def( pybind11::init( [](std::__hash_base<unsigned long,float> const &o){ return new std::__hash_base<unsigned long,float>(o); } ) );
-		cl.def("assign", (struct std::__hash_base<unsigned long, float> & (std::__hash_base<unsigned long,float>::*)(const struct std::__hash_base<unsigned long, float> &)) &std::__hash_base<unsigned long, float>::operator=, "C++: std::__hash_base<unsigned long, float>::operator=(const struct std::__hash_base<unsigned long, float> &) --> struct std::__hash_base<unsigned long, float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
-	}
 	{ // std::hash file:bits/functional_hash.h line:164
-		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>, std::__hash_base<unsigned long,float>> cl(M("std"), "hash_float_t", "");
+		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def( pybind11::init( [](std::hash<float> const &o){ return new std::hash<float>(o); } ) );
 		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
 		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
-		cl.def("assign", (struct std::__hash_base<unsigned long, float> & (std::__hash_base<unsigned long,float>::*)(const struct std::__hash_base<unsigned long, float> &)) &std::__hash_base<unsigned long, float>::operator=, "C++: std::__hash_base<unsigned long, float>::operator=(const struct std::__hash_base<unsigned long, float> &) --> struct std::__hash_base<unsigned long, float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::map file:bits/stl_map.h line:96
 		pybind11::class_<std::map<float,int>, std::shared_ptr<std::map<float,int>>> cl(M("std"), "map_float_int_t", "");

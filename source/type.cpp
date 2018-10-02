@@ -197,6 +197,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/forward_list.h>", "<forward_list>"),
 
+		make_pair("<bits/stl_heap.h>", "<algorithm>"),
 
 	};
 
@@ -491,6 +492,8 @@ bool is_banned_type(clang::CXXRecordDecl const *C)
 		 "std::_List_iterator", "std::_List_const_iterator",
 		 "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
 		 "std::_Deque_iterator",
+
+		 "std::__hash_base",
 		};
 
 	for(auto &k : known_banned_types) {
