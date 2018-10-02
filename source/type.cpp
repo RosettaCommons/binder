@@ -195,6 +195,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/types/struct_FILE.h>", "<cstdio>"),
 
+		make_pair("<bits/forward_list.h>", "<forward_list>"),
+
+
 	};
 
 	string name = decl->getQualifiedNameAsString();
@@ -467,6 +470,30 @@ bool is_python_builtin(NamedDecl const *C)
 
 	for(auto &k : known_builtin) {
 		//if( begins_with(name, k) ) return true;
+		if( name == k ) return true;
+	}
+
+	return false;
+}
+
+// check if class/struct is in banned type lists
+bool is_banned_type(clang::CXXRecordDecl const *C)
+{
+	string name = C->getQualifiedNameAsString(); // standard_name( C->getQualifiedNameAsString() );
+
+	static std::vector<string> const known_banned_types =
+		{
+		 "std::initializer_list",
+
+		 // we need allocator bindings for some default constructors in std:: // "std::allocator", "std::__allocator_destructor",
+
+		 "std::_Rb_tree_iterator", "std::_Rb_tree_const_iterator", "__gnu_cxx::__normal_iterator",
+		 "std::_List_iterator", "std::_List_const_iterator",
+		 "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
+		 "std::_Deque_iterator",
+		};
+
+	for(auto &k : known_banned_types) {
 		if( name == k ) return true;
 	}
 

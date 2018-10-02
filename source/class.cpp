@@ -231,30 +231,32 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 		else return false;
 	}
 
-	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
-		for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
+	// if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+	// 	for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
 
-			if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Type ) {
-				if( !is_bindable( t->getTemplateArgs()[i].getAsType() ) ) return false;
-			}
+	// 		if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Type ) {
+	// 			if( !is_bindable( t->getTemplateArgs()[i].getAsType() ) ) return false;
+	// 		}
 
-			if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration )  {
-				if( ValueDecl *v = t->getTemplateArgs()[i].getAsDecl() ) {
-					if( v->getAccess() == AS_protected   or  v->getAccess() == AS_private ) {
-						outs() << "Private template VALUE arg: " << v->getNameAsString() << "\n";
-						return false;
-					}
-				}
-			}
+	// 		if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration )  {
+	// 			if( ValueDecl *v = t->getTemplateArgs()[i].getAsDecl() ) {
+	// 				if( v->getAccess() == AS_protected   or  v->getAccess() == AS_private ) {
+	// 					outs() << "Private template VALUE arg: " << v->getNameAsString() << "\n";
+	// 					return false;
+	// 				}
+	// 			}
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 	if( C->hasDefinition()  and  C->isAbstract() ) {
 		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
 		}
 	}
+
+	if( is_banned_type(C) ) return false;
 
 	return r;
 }

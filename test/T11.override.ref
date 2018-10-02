@@ -7,32 +7,6 @@
 #include <T11.override.hpp> // Base::foo_void
 #include <T11.override.hpp> // Base::foo_void_pure
 #include <T11.override.hpp> // Base::operator=
-#include <initializer_list> // std::initializer_list
-#include <initializer_list> // std::initializer_list<char>::begin
-#include <initializer_list> // std::initializer_list<char>::end
-#include <initializer_list> // std::initializer_list<char>::initializer_list
-#include <initializer_list> // std::initializer_list<char>::size
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::__normal_iterator
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::base
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator*
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator+
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator++
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator+=
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator-
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator--
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator-=
-#include <iterator> // __gnu_cxx::__normal_iterator<char *, std::basic_string<char> >::operator[]
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::__normal_iterator
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::base
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator*
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator+
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator++
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator+=
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator-
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator--
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator-=
-#include <iterator> // __gnu_cxx::__normal_iterator<const char *, std::basic_string<char> >::operator[]
 #include <memory> // std::allocator
 #include <memory> // std::allocator<char>::allocator
 #include <memory> // std::allocator<char>::operator=
@@ -43,17 +17,13 @@
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::at
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::back
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::capacity
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::cbegin
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::cend
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::copy
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::data
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::empty
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::end
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find
 #include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find_first_not_of
