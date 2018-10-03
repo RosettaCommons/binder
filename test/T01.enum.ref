@@ -2,6 +2,7 @@
 #include <T01.enum.hpp> // A
 #include <T01.enum.hpp> // E1
 #include <T01.enum.hpp> // E2
+#include <T01.enum.hpp> // E3
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -25,13 +26,21 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 ;
 
 	// E2 file:T01.enum.hpp line:18
-	pybind11::enum_<E2>(M(""), "E2", "")
+	pybind11::enum_<E2>(M(""), "E2", pybind11::arithmetic(), "")
 		.value("E2_V0", E2::E2_V0)
 		.value("E2_V1", E2::E2_V1);
 
 ;
 
-	{ // A file:T01.enum.hpp line:20
+	// E3 file:T01.enum.hpp line:20
+	pybind11::enum_<E3>(M(""), "E3", "")
+		.value("E3_V0", E3::E3_V0)
+		.value("E3_V1", E3::E3_V1)
+		.export_values();
+
+;
+
+	{ // A file:T01.enum.hpp line:22
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		pybind11::handle cl_type = cl;
 
@@ -41,9 +50,14 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 			.value("AE1_V1", A::AE1::AE1_V1)
 			.export_values();
 
-		pybind11::enum_<A::AE2>(cl, "AE2", "")
+		pybind11::enum_<A::AE2>(cl, "AE2", pybind11::arithmetic(), "")
 			.value("AE2_V0", A::AE2::AE2_V0)
 			.value("AE2_V1", A::AE2::AE2_V1);
+
+		pybind11::enum_<A::AE3>(cl, "AE3", "")
+			.value("AE3_V0", A::AE3::AE3_V0)
+			.value("AE3_V1", A::AE3::AE3_V1)
+			.export_values();
 
 	}
 }

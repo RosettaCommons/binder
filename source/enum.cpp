@@ -42,12 +42,14 @@ void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int l
 
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, EnumDecl *E)
+std::string bind_enum(std::string const & module, EnumDecl const *E)
 {
 	string name { E->getNameAsString() };
 	string qualified_name { E->getQualifiedNameAsString() };
 
-	string r = "\tpybind11::enum_<{}>({}, \"{}\", \"{}\")\n"_format(qualified_name, module, name, generate_documentation_string_for_declaration(E));
+	string maybe_arithmetic = E->isScopedUsingClassTag() ? ", pybind11::arithmetic()" : "";
+
+	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\")\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E));
 
 	for(auto e = E->enumerator_begin(); e != E->enumerator_end(); ++e) {
 		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), e->getQualifiedNameAsString());

@@ -27,7 +27,7 @@ void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int l
 
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, clang::EnumDecl *E);
+std::string bind_enum(std::string const & module, clang::EnumDecl const *E);
 
 
 class EnumBinder : public Binder
