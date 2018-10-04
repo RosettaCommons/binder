@@ -68,11 +68,9 @@ string class_name(CXXRecordDecl const *C)
 {
 	string res = standard_name( C->getNameAsString() + template_specialization(C) );
 
-	if(  namespace_from_named_decl(C) == "std" ) res = simplify_std_class_name(res);
+	if( namespace_from_named_decl(C) == "std" ) res = simplify_std_class_name(res);
 
 	return res;
-
-	//return standard_name(C->getNameAsString() + template_specialization(C));
 }
 
 
@@ -1000,6 +998,8 @@ void ClassBinder::bind(Context &context)
 	//string const decl_namespace = namespace_from_named_decl(C);
 
 	string c = "{ " + generate_comment_for_declaration(C);
+
+	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";
 
 	string const trampoline_name = callback_structure_constructible ? callback_structure_name(C) : "";
 	string const binding_qualified_name = callback_structure_constructible ? callback_structure_name(C) : qualified_name;

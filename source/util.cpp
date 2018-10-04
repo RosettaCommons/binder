@@ -127,6 +127,9 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 
 string namespace_from_named_decl(NamedDecl const *decl)
 {
+	//return decl->getOuterLexicalRecordContext()->getNameAsString();
+	//outs() << decl->getDeclKindName() << "\n";
+
 	string qn = standard_name( decl->getQualifiedNameAsString() );
 	string n  = decl->getNameAsString();
 
