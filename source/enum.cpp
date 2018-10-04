@@ -47,7 +47,7 @@ std::string bind_enum(std::string const & module, EnumDecl const *E)
 	string name { E->getNameAsString() };
 	string qualified_name { E->getQualifiedNameAsString() };
 
-	string maybe_arithmetic = E->isScopedUsingClassTag() ? ", pybind11::arithmetic()" : "";
+	string maybe_arithmetic = E->isScopedUsingClassTag() ? "" : ", pybind11::arithmetic()";
 
 	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\")\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E));
 
