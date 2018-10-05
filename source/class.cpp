@@ -985,7 +985,7 @@ string ClassBinder::bind_nested_classes(CXXRecordDecl const *EC, Context &contex
 				//c += "\t// Binding " + C->getNameAsString() + ";\n";
 				ClassBinder b(C);
 				b.bind(context);
-				c += b.code();
+				c += b.code();  c += '\n';
 				prefix_code_ += b.prefix_code();
 			}
 		}
@@ -1111,7 +1111,7 @@ void ClassBinder::bind(Context &context)
 		if(EnumDecl *e = dyn_cast<EnumDecl>(*d) ) {
 			if( e->getAccess() == AS_public  and  is_bindable(e) ) {
 				//outs() << "Enum: " << e->getQualifiedNameAsString() << "\n";
-				c += "\n;";
+				c += '\n';
 				c+= bind_enum("cl", e);
 			}
 		}
