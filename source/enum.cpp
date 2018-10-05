@@ -41,6 +41,22 @@ void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int l
 }
 
 
+/// check if generator can create binding
+bool is_bindable(EnumDecl const *E)
+{
+	// if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return false;
+	// else return true;
+
+	if( E->isCXXInstanceMember() ) return false;
+
+	string name = E->getNameAsString(); // getQualifiedNameAsString(); //
+	//if( name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
+	if( name.empty()  or  name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
+
+	return true;
+}
+
+
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
 std::string bind_enum(std::string const & module, EnumDecl const *E)
 {
@@ -50,6 +66,8 @@ std::string bind_enum(std::string const & module, EnumDecl const *E)
 	string maybe_arithmetic = E->isScoped() ? "" : ", pybind11::arithmetic()";
 
 	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\")\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E));
+
+	//r += "\t // is_bindable " + E->getNameAsString() + " -> " + std::to_string(is_bindable(E)) + "\n";
 
 	for(auto e = E->enumerator_begin(); e != E->enumerator_end(); ++e) {
 		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), e->getQualifiedNameAsString());
@@ -70,8 +88,7 @@ string EnumBinder::id() const
 /// check if generator can create binding
 bool EnumBinder::bindable() const
 {
-	if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return false;
-	else return true;
+	return is_bindable(E);
 }
 
 

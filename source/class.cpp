@@ -215,7 +215,10 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 	// }
 
-	if( qualified_name == "(anonymous)" ) return false;
+	//if( qualified_name == "(anonymous)" ) return false;
+	//if( C->getNameAsString() == "" ) return false;
+	if( qualified_name.rfind(')') != std::string::npos ) return false;
+
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 
@@ -973,6 +976,24 @@ std::string ClassBinder::bind_repr(Context &context)
 }
 
 
+string ClassBinder::bind_nested_classes(CXXRecordDecl const *EC, Context &context)
+{
+	string c;
+	for(auto d = EC->decls_begin(); d != EC->decls_end(); ++d) {
+		if(CXXRecordDecl *C = dyn_cast<CXXRecordDecl>(*d) ) {
+			if( C->getAccess() == AS_public  and  is_bindable(C) ) {
+				//c += "\t// Binding " + C->getNameAsString() + ";\n";
+				ClassBinder b(C);
+				b.bind(context);
+				c += b.code();
+				prefix_code_ += b.prefix_code();
+			}
+		}
+	}
+	return c;
+}
+
+
 /// generate binding code for this object and all its dependencies
 void ClassBinder::bind(Context &context)
 {
@@ -994,10 +1015,12 @@ void ClassBinder::bind(Context &context)
 	if(trampoline) generate_prefix_code();
 
 	string const qualified_name{ class_qualified_name(C) };
-	string const module_variable_name = context.module_variable_name( namespace_from_named_decl(C) );
+	string const module_variable_name = C->isCXXClassMember() ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
 	//string const decl_namespace = namespace_from_named_decl(C);
 
 	string c = "{ " + generate_comment_for_declaration(C);
+
+	if( C->isCXXClassMember() ) c += "\tauto & enclosing_class = cl;\n";
 
 	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";
 
@@ -1014,6 +1037,8 @@ void ClassBinder::bind(Context &context)
 
 	c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
 	c += "\tpybind11::handle cl_type = cl;\n\n";
+
+	c += bind_nested_classes(C, context);
 
 	//if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
 
@@ -1084,9 +1109,10 @@ void ClassBinder::bind(Context &context)
 	// binding public enums
 	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
 		if(EnumDecl *e = dyn_cast<EnumDecl>(*d) ) {
-			if( e->getAccess() == AS_public ) {
+			if( e->getAccess() == AS_public  and  is_bindable(e) ) {
 				//outs() << "Enum: " << e->getQualifiedNameAsString() << "\n";
-				c += bind_enum("cl", e);
+				c += "\n;";
+				c+= bind_enum("cl", e);
 			}
 		}
 	}
