@@ -28,7 +28,7 @@ def make_bindings_code(all_includes_fn):
     shutil.rmtree(bindings_dir, ignore_errors=True)
     os.mkdir(bindings_dir)
     binder_executable = glob.glob(f"{os.getcwd()}/../../build/llvm-4.0.0/build_4.0.0*/bin/binder")[0]
-    command = f'{binder_executable} --root-module test_struct --prefix {os.getcwd()}/{bindings_dir}/ --bind testers {all_includes_fn}  -- -std=c++11 -I{os.getcwd()}/include -DNDEBUG -v'.split()
+    command = f'{binder_executable} --root-module test_struct --prefix {os.getcwd()}/{bindings_dir}/ --bind testers {all_includes_fn} -- -std=c++11 -I{os.getcwd()}/include -DNDEBUG -v'.split()
     print(" ".join(command))
     ret = subprocess.call(command)
     sources_to_compile = []
