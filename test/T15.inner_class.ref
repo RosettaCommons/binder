@@ -1,7 +1,5 @@
 // File: T15_inner_class.cpp
 #include <T15.inner_class.hpp> // Base
-#include <T15.inner_class.hpp> // Base::foo
-#include <T15.inner_class.hpp> // Base::operator=
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -47,9 +45,8 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 
 
 // File: T15_inner_class_1.cpp
-#include <T15.inner_class.hpp> // Base::foo
+#include <T15.inner_class.hpp> // Base
 #include <T15.inner_class.hpp> // n1::A
-#include <T15.inner_class.hpp> // n1::A::operator=
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -94,9 +91,8 @@ void bind_T15_inner_class_1(std::function< pybind11::module &(std::string const 
 
 
 // File: T15_inner_class_2.cpp
-#include <T15.inner_class.hpp> // Base::foo
+#include <T15.inner_class.hpp> // Base
 #include <T15.inner_class.hpp> // n1::n2::A
-#include <T15.inner_class.hpp> // n1::n2::A::operator=
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>

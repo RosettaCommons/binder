@@ -1,227 +1,19 @@
 // File: std/stl_function.cpp
-#include <forward_list> // std::_Fwd_list_node
-#include <functional> // std::_Identity
-#include <functional> // std::_Select1st
 #include <functional> // std::binary_function
-#include <functional> // std::binary_function<float, float, bool>::binary_function
-#include <functional> // std::binary_function<float, float, bool>::operator=
 #include <functional> // std::equal_to
-#include <functional> // std::equal_to<float>::equal_to
-#include <functional> // std::equal_to<float>::operator()
 #include <functional> // std::less
-#include <functional> // std::less<float>::less
-#include <functional> // std::less<float>::operator()
-#include <functional> // std::less<float>::operator=
-#include <map> // std::_Rb_tree
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::_M_get_Node_allocator
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::_Rb_tree
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::__rb_verify
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::clear
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::count
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::empty
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::equal_range
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::erase
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::get_allocator
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::key_comp
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::max_size
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::operator=
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::size
-#include <map> // std::_Rb_tree<float, float, std::_Identity<float>, std::less<float>, std::allocator<float> >::swap
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::_M_get_Node_allocator
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::_Rb_tree
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::__rb_verify
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::count
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::size
-#include <map> // std::_Rb_tree<float, std::pair<const float, int>, std::_Select1st<std::pair<const float, int> >, std::less<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <map> // std::_Rb_tree_black_count
+#include <iterator> // __gnu_cxx::__normal_iterator
 #include <map> // std::_Rb_tree_color
 #include <map> // std::_Rb_tree_const_iterator
-#include <map> // std::_Rb_tree_decrement
-#include <map> // std::_Rb_tree_increment
-#include <map> // std::_Rb_tree_insert_and_rebalance
-#include <map> // std::_Rb_tree_iterator
-#include <map> // std::_Rb_tree_node
-#include <map> // std::_Rb_tree_node_base
-#include <map> // std::_Rb_tree_node_base::_Rb_tree_node_base
-#include <map> // std::_Rb_tree_node_base::_S_maximum
-#include <map> // std::_Rb_tree_node_base::_S_minimum
-#include <map> // std::_Rb_tree_node_base::operator=
-#include <map> // std::_Rb_tree_rebalance_for_erase
-#include <memory> // std::__alloctr_rebind
-#include <memory> // std::__alloctr_rebind_helper
-#include <memory> // std::__allow_copy_cons
-#include <memory> // std::__allow_copy_cons<false>::__allow_copy_cons
-#include <memory> // std::__allow_copy_cons<false>::operator=
-#include <memory> // std::__allow_copy_cons<true>::__allow_copy_cons
-#include <memory> // std::__allow_copy_cons<true>::operator=
-#include <memory> // std::__is_copy_insertable
-#include <memory> // std::__ptrtr_not_void
 #include <memory> // std::allocator
-#include <memory> // std::allocator<char16_t>::allocator
-#include <memory> // std::allocator<char16_t>::operator=
-#include <memory> // std::allocator<char32_t>::allocator
-#include <memory> // std::allocator<char32_t>::operator=
-#include <memory> // std::allocator<double>::allocator
-#include <memory> // std::allocator<double>::operator=
-#include <memory> // std::allocator<float>::allocator
-#include <memory> // std::allocator<std::_Rb_tree_node<float> >::allocator
-#include <memory> // std::allocator<std::_Rb_tree_node<float> >::operator=
-#include <memory> // std::allocator<std::_Rb_tree_node<std::pair<const float, int> > >::allocator
-#include <memory> // std::allocator<std::_Rb_tree_node<std::pair<const float, int> > >::operator=
-#include <memory> // std::allocator<std::pair<const float, int> >::allocator
 #include <memory> // std::allocator_traits
-#include <memory> // std::allocator_traits<std::allocator<double> >::allocate
-#include <memory> // std::allocator_traits<std::allocator<double> >::deallocate
-#include <memory> // std::allocator_traits<std::allocator<double> >::max_size
-#include <memory> // std::allocator_traits<std::allocator<double> >::select_on_container_copy_construction
-#include <memory> // std::allocator_traits<std::allocator<float> >::allocate
-#include <memory> // std::allocator_traits<std::allocator<float> >::deallocate
-#include <memory> // std::allocator_traits<std::allocator<float> >::max_size
-#include <memory> // std::allocator_traits<std::allocator<float> >::select_on_container_copy_construction
 #include <memory> // std::pointer_traits
-#include <memory> // std::pointer_traits<double *>::pointer_to
-#include <memory> // std::pointer_traits<float *>::pointer_to
 #include <set> // std::multiset
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::clear
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::count
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::empty
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::equal_range
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::erase
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::get_allocator
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::key_comp
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::max_size
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::multiset
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::operator=
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::size
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::swap
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::value_comp
 #include <set> // std::set
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::clear
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::count
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::empty
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::equal_range
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::erase
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::get_allocator
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::insert
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::key_comp
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::max_size
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::operator=
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::set
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::size
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::swap
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::value_comp
 #include <sstream> // __str__
 #include <string> // std::basic_string
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::append
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::assign
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::at
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::basic_string
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::c_str
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::capacity
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::clear
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::compare
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::copy
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::data
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::empty
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::erase
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_first_not_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_first_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_last_not_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_last_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::front
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::get_allocator
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::insert
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::length
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::max_size
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator+=
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator=
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator[]
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::pop_back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::push_back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::replace
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::reserve
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::resize
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::rfind
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::shrink_to_fit
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::size
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::substr
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::swap
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::append
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::assign
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::at
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::basic_string
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::c_str
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::capacity
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::clear
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::compare
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::copy
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::data
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::empty
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::erase
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_first_not_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_first_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_last_not_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_last_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::front
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::get_allocator
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::insert
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::length
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::max_size
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator+=
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator=
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator[]
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::pop_back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::push_back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::replace
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::reserve
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::resize
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::rfind
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::shrink_to_fit
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::size
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::substr
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::swap
 #include <string> // std::char_traits
-#include <string> // std::char_traits<char16_t>::assign
-#include <string> // std::char_traits<char16_t>::compare
-#include <string> // std::char_traits<char16_t>::copy
-#include <string> // std::char_traits<char16_t>::eof
-#include <string> // std::char_traits<char16_t>::eq
-#include <string> // std::char_traits<char16_t>::eq_int_type
-#include <string> // std::char_traits<char16_t>::find
-#include <string> // std::char_traits<char16_t>::length
-#include <string> // std::char_traits<char16_t>::lt
-#include <string> // std::char_traits<char16_t>::move
-#include <string> // std::char_traits<char16_t>::not_eof
-#include <string> // std::char_traits<char16_t>::to_char_type
-#include <string> // std::char_traits<char16_t>::to_int_type
-#include <string> // std::char_traits<char32_t>::assign
-#include <string> // std::char_traits<char32_t>::compare
-#include <string> // std::char_traits<char32_t>::copy
-#include <string> // std::char_traits<char32_t>::eof
-#include <string> // std::char_traits<char32_t>::eq
-#include <string> // std::char_traits<char32_t>::eq_int_type
-#include <string> // std::char_traits<char32_t>::find
-#include <string> // std::char_traits<char32_t>::length
-#include <string> // std::char_traits<char32_t>::lt
-#include <string> // std::char_traits<char32_t>::move
-#include <string> // std::char_traits<char32_t>::not_eof
-#include <string> // std::char_traits<char32_t>::to_char_type
-#include <string> // std::char_traits<char32_t>::to_int_type
-#include <utility> // std::__pair_get
 #include <utility> // std::pair
-#include <utility> // std::pair<const float, int>::pair
 #include <utility> // std::tuple_element
 
 #include <pybind11/pybind11.h>
@@ -301,275 +93,31 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 
 
 // File: std/functional_hash.cpp
-#include <functional> // std::__is_fast_hash
 #include <functional> // std::hash
-#include <functional> // std::hash<double>::operator()
-#include <functional> // std::hash<float>::hash
-#include <functional> // std::hash<float>::operator()
-#include <functional> // std::hash<float>::operator=
-#include <functional> // std::hash<long double>::operator()
 #include <functional> // std::less
-#include <functional> // std::less<float>::less
-#include <functional> // std::less<float>::operator()
-#include <functional> // std::less<float>::operator=
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <list> // std::list
 #include <map> // std::_Rb_tree_const_iterator
 #include <map> // std::_Rb_tree_iterator
 #include <map> // std::map
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::at
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::insert
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::map
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator[]
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap
 #include <map> // std::multimap
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::multimap
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <memory> // std::__uses_alloc0
-#include <memory> // std::__uses_alloc_base
 #include <memory> // std::allocator
-#include <memory> // std::allocator<char>::allocator
-#include <memory> // std::allocator<char>::operator=
-#include <memory> // std::allocator<std::pair<const float, int> >::allocator
-#include <memory> // std::allocator<wchar_t>::allocator
-#include <memory> // std::allocator<wchar_t>::operator=
 #include <memory> // std::allocator_arg_t
-#include <memory> // std::allocator_arg_t::allocator_arg_t
 #include <sstream> // __str__
 #include <stdexcept> // std::domain_error
-#include <stdexcept> // std::domain_error::domain_error
-#include <stdexcept> // std::domain_error::operator=
 #include <stdexcept> // std::invalid_argument
-#include <stdexcept> // std::invalid_argument::invalid_argument
-#include <stdexcept> // std::invalid_argument::operator=
 #include <stdexcept> // std::length_error
-#include <stdexcept> // std::length_error::length_error
-#include <stdexcept> // std::length_error::operator=
 #include <stdexcept> // std::logic_error
-#include <stdexcept> // std::logic_error::logic_error
-#include <stdexcept> // std::logic_error::operator=
-#include <stdexcept> // std::logic_error::what
 #include <stdexcept> // std::out_of_range
-#include <stdexcept> // std::out_of_range::operator=
-#include <stdexcept> // std::out_of_range::out_of_range
 #include <stdexcept> // std::overflow_error
-#include <stdexcept> // std::overflow_error::operator=
-#include <stdexcept> // std::overflow_error::overflow_error
 #include <stdexcept> // std::range_error
-#include <stdexcept> // std::range_error::operator=
-#include <stdexcept> // std::range_error::range_error
 #include <stdexcept> // std::runtime_error
-#include <stdexcept> // std::runtime_error::operator=
-#include <stdexcept> // std::runtime_error::runtime_error
-#include <stdexcept> // std::runtime_error::what
 #include <stdexcept> // std::underflow_error
-#include <stdexcept> // std::underflow_error::operator=
-#include <stdexcept> // std::underflow_error::underflow_error
-#include <string> // std::__is_fast_hash
 #include <string> // std::basic_string
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::append
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::assign
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::at
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::back
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::capacity
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::copy
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::data
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::empty
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::erase
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find_first_not_of
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find_first_of
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find_last_not_of
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::find_last_of
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::front
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::get_allocator
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::insert
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::length
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator+=
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[]
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::pop_back
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::push_back
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::replace
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::reserve
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::resize
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::rfind
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::shrink_to_fit
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::size
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::substr
-#include <string> // std::basic_string<char, std::char_traits<char>, std::allocator<char> >::swap
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::append
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::assign
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::at
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::basic_string
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::c_str
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::capacity
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::clear
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::compare
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::copy
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::data
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::empty
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::erase
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_first_not_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_first_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_last_not_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::find_last_of
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::front
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::get_allocator
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::insert
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::length
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::max_size
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator+=
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator=
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::operator[]
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::pop_back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::push_back
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::replace
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::reserve
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::resize
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::rfind
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::shrink_to_fit
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::size
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::substr
-#include <string> // std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> >::swap
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::append
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::assign
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::at
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::basic_string
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::c_str
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::capacity
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::clear
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::compare
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::copy
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::data
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::empty
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::erase
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_first_not_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_first_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_last_not_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::find_last_of
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::front
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::get_allocator
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::insert
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::length
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::max_size
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator+=
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator=
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::operator[]
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::pop_back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::push_back
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::replace
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::reserve
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::resize
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::rfind
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::shrink_to_fit
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::size
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::substr
-#include <string> // std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> >::swap
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::append
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::assign
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::at
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::back
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::basic_string
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::c_str
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::capacity
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::clear
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::compare
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::copy
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::data
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::empty
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::erase
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::find
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::find_first_not_of
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::find_first_of
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::find_last_not_of
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::find_last_of
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::front
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::get_allocator
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::insert
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::length
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::max_size
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::operator+=
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::operator=
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::operator[]
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::pop_back
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::push_back
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::replace
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::reserve
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::resize
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::rfind
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::shrink_to_fit
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::size
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::substr
-#include <string> // std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::swap
 #include <string> // std::char_traits
-#include <string> // std::char_traits<char>::assign
-#include <string> // std::char_traits<char>::compare
-#include <string> // std::char_traits<char>::copy
-#include <string> // std::char_traits<char>::eof
-#include <string> // std::char_traits<char>::eq
-#include <string> // std::char_traits<char>::eq_int_type
-#include <string> // std::char_traits<char>::find
-#include <string> // std::char_traits<char>::length
-#include <string> // std::char_traits<char>::lt
-#include <string> // std::char_traits<char>::move
-#include <string> // std::char_traits<char>::not_eof
-#include <string> // std::char_traits<char>::to_char_type
-#include <string> // std::char_traits<char>::to_int_type
-#include <string> // std::char_traits<wchar_t>::assign
-#include <string> // std::char_traits<wchar_t>::compare
-#include <string> // std::char_traits<wchar_t>::copy
-#include <string> // std::char_traits<wchar_t>::eof
-#include <string> // std::char_traits<wchar_t>::eq
-#include <string> // std::char_traits<wchar_t>::eq_int_type
-#include <string> // std::char_traits<wchar_t>::find
-#include <string> // std::char_traits<wchar_t>::length
-#include <string> // std::char_traits<wchar_t>::lt
-#include <string> // std::char_traits<wchar_t>::move
-#include <string> // std::char_traits<wchar_t>::not_eof
-#include <string> // std::char_traits<wchar_t>::to_char_type
-#include <string> // std::char_traits<wchar_t>::to_int_type
 #include <string> // std::hash
-#include <string> // std::hash<std::basic_string<char16_t, std::char_traits<char16_t>, std::allocator<char16_t> > >::operator()
-#include <string> // std::hash<std::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t> > >::operator()
-#include <string> // std::hash<std::basic_string<char> >::operator()
-#include <string> // std::hash<std::basic_string<wchar_t> >::operator()
-#include <tuple> // std::_Build_index_tuple
-#include <tuple> // std::_Swallow_assign
-#include <tuple> // std::__combine_tuples
-#include <tuple> // std::__make_1st_indices
 #include <tuple> // std::tuple
-#include <tuple> // std::tuple<>::swap
-#include <tuple> // std::tuple<>::tuple
 #include <utility> // std::pair
-#include <utility> // std::pair<const float, int>::pair
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -637,49 +185,6 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def("count", (unsigned long (std::multimap<float,int>::*)(const float &) const) &std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count, "C++: std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > > (std::multimap<float,int>::*)(const float &)) &std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range, "C++: std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > >", pybind11::arg("__x"));
 	}
-}
-
-
-// File: std/stl_list.cpp
-#include <list> // std::list
-#include <list> // std::list<double, std::allocator<double> >::assign
-#include <list> // std::list<double, std::allocator<double> >::back
-#include <list> // std::list<double, std::allocator<double> >::clear
-#include <list> // std::list<double, std::allocator<double> >::empty
-#include <list> // std::list<double, std::allocator<double> >::front
-#include <list> // std::list<double, std::allocator<double> >::get_allocator
-#include <list> // std::list<double, std::allocator<double> >::list
-#include <list> // std::list<double, std::allocator<double> >::max_size
-#include <list> // std::list<double, std::allocator<double> >::merge
-#include <list> // std::list<double, std::allocator<double> >::operator=
-#include <list> // std::list<double, std::allocator<double> >::pop_back
-#include <list> // std::list<double, std::allocator<double> >::pop_front
-#include <list> // std::list<double, std::allocator<double> >::push_back
-#include <list> // std::list<double, std::allocator<double> >::push_front
-#include <list> // std::list<double, std::allocator<double> >::remove
-#include <list> // std::list<double, std::allocator<double> >::resize
-#include <list> // std::list<double, std::allocator<double> >::reverse
-#include <list> // std::list<double, std::allocator<double> >::size
-#include <list> // std::list<double, std::allocator<double> >::sort
-#include <list> // std::list<double, std::allocator<double> >::swap
-#include <list> // std::list<double, std::allocator<double> >::unique
-#include <memory> // std::allocator
-#include <memory> // std::allocator<double>::allocator
-#include <memory> // std::allocator<double>::operator=
-#include <sstream> // __str__
-
-#include <pybind11/pybind11.h>
-#include <functional>
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
 	{ // std::list file:bits/stl_list.h line:438
 		pybind11::class_<std::list<double>, std::shared_ptr<std::list<double>>> cl(M("std"), "list_double_t", "");
 		pybind11::handle cl_type = cl;
@@ -718,57 +223,10 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 
 // File: std/stl_deque.cpp
 #include <deque> // std::deque
-#include <deque> // std::deque<int, std::allocator<int> >::assign
-#include <deque> // std::deque<int, std::allocator<int> >::at
-#include <deque> // std::deque<int, std::allocator<int> >::back
-#include <deque> // std::deque<int, std::allocator<int> >::clear
-#include <deque> // std::deque<int, std::allocator<int> >::deque
-#include <deque> // std::deque<int, std::allocator<int> >::empty
-#include <deque> // std::deque<int, std::allocator<int> >::front
-#include <deque> // std::deque<int, std::allocator<int> >::get_allocator
-#include <deque> // std::deque<int, std::allocator<int> >::max_size
-#include <deque> // std::deque<int, std::allocator<int> >::operator=
-#include <deque> // std::deque<int, std::allocator<int> >::operator[]
-#include <deque> // std::deque<int, std::allocator<int> >::pop_back
-#include <deque> // std::deque<int, std::allocator<int> >::pop_front
-#include <deque> // std::deque<int, std::allocator<int> >::push_back
-#include <deque> // std::deque<int, std::allocator<int> >::push_front
-#include <deque> // std::deque<int, std::allocator<int> >::resize
-#include <deque> // std::deque<int, std::allocator<int> >::shrink_to_fit
-#include <deque> // std::deque<int, std::allocator<int> >::size
-#include <deque> // std::deque<int, std::allocator<int> >::swap
+#include <iterator> // __gnu_cxx::__normal_iterator
 #include <memory> // std::allocator
-#include <memory> // std::allocator<double>::allocator
-#include <memory> // std::allocator<double>::operator=
-#include <memory> // std::allocator<int>::allocator
-#include <memory> // std::allocator<int>::operator=
 #include <sstream> // __str__
-#include <vector> // std::_Vector_base
-#include <vector> // std::_Vector_base<double, std::allocator<double> >::_M_allocate
-#include <vector> // std::_Vector_base<double, std::allocator<double> >::_M_deallocate
-#include <vector> // std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator
-#include <vector> // std::_Vector_base<double, std::allocator<double> >::_Vector_base
-#include <vector> // std::_Vector_base<double, std::allocator<double> >::get_allocator
 #include <vector> // std::vector
-#include <vector> // std::vector<double, std::allocator<double> >::assign
-#include <vector> // std::vector<double, std::allocator<double> >::at
-#include <vector> // std::vector<double, std::allocator<double> >::back
-#include <vector> // std::vector<double, std::allocator<double> >::capacity
-#include <vector> // std::vector<double, std::allocator<double> >::clear
-#include <vector> // std::vector<double, std::allocator<double> >::data
-#include <vector> // std::vector<double, std::allocator<double> >::empty
-#include <vector> // std::vector<double, std::allocator<double> >::front
-#include <vector> // std::vector<double, std::allocator<double> >::max_size
-#include <vector> // std::vector<double, std::allocator<double> >::operator=
-#include <vector> // std::vector<double, std::allocator<double> >::operator[]
-#include <vector> // std::vector<double, std::allocator<double> >::pop_back
-#include <vector> // std::vector<double, std::allocator<double> >::push_back
-#include <vector> // std::vector<double, std::allocator<double> >::reserve
-#include <vector> // std::vector<double, std::allocator<double> >::resize
-#include <vector> // std::vector<double, std::allocator<double> >::shrink_to_fit
-#include <vector> // std::vector<double, std::allocator<double> >::size
-#include <vector> // std::vector<double, std::allocator<double> >::swap
-#include <vector> // std::vector<double, std::allocator<double> >::vector
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -829,9 +287,12 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 		cl.def( pybind11::init( [](std::vector<double> const &o){ return new std::vector<double>(o); } ) );
 		cl.def( pybind11::init<const class std::vector<double, class std::allocator<double> > &, const class std::allocator<double> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
 
-		cl.def("get_allocator", [](std::vector<double> const &o) -> std::allocator<double> { return o.get_allocator(); }, "");
 		cl.def("assign", (class std::vector<double, class std::allocator<double> > & (std::vector<double>::*)(const class std::vector<double, class std::allocator<double> > &)) &std::vector<double, std::allocator<double> >::operator=, "C++: std::vector<double, std::allocator<double> >::operator=(const class std::vector<double, class std::allocator<double> > &) --> class std::vector<double, class std::allocator<double> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
 		cl.def("assign", (void (std::vector<double>::*)(unsigned long, const double &)) &std::vector<double, std::allocator<double> >::assign, "C++: std::vector<double, std::allocator<double> >::assign(unsigned long, const double &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
+		cl.def("begin", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::begin, "C++: std::vector<double, std::allocator<double> >::begin() --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("end", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::end, "C++: std::vector<double, std::allocator<double> >::end() --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("cbegin", (class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::cbegin, "C++: std::vector<double, std::allocator<double> >::cbegin() const --> class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("cend", (class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::cend, "C++: std::vector<double, std::allocator<double> >::cend() const --> class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >");
 		cl.def("size", (unsigned long (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::size, "C++: std::vector<double, std::allocator<double> >::size() const --> unsigned long");
 		cl.def("max_size", (unsigned long (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::max_size, "C++: std::vector<double, std::allocator<double> >::max_size() const --> unsigned long");
 		cl.def("resize", (void (std::vector<double>::*)(unsigned long)) &std::vector<double, std::allocator<double> >::resize, "C++: std::vector<double, std::allocator<double> >::resize(unsigned long) --> void", pybind11::arg("__new_size"));
@@ -847,6 +308,10 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 		cl.def("data", (double * (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::data, "C++: std::vector<double, std::allocator<double> >::data() --> double *", pybind11::return_value_policy::automatic);
 		cl.def("push_back", (void (std::vector<double>::*)(const double &)) &std::vector<double, std::allocator<double> >::push_back, "C++: std::vector<double, std::allocator<double> >::push_back(const double &) --> void", pybind11::arg("__x"));
 		cl.def("pop_back", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::pop_back, "C++: std::vector<double, std::allocator<double> >::pop_back() --> void");
+		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__x"));
+		cl.def("insert", (void (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &) --> void", pybind11::arg("__position"), pybind11::arg("__n"), pybind11::arg("__x"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__first"), pybind11::arg("__last"));
 		cl.def("swap", (void (std::vector<double>::*)(class std::vector<double, class std::allocator<double> > &)) &std::vector<double, std::allocator<double> >::swap, "C++: std::vector<double, std::allocator<double> >::swap(class std::vector<double, class std::allocator<double> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::clear, "C++: std::vector<double, std::allocator<double> >::clear() --> void");
 	}
@@ -855,137 +320,15 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 
 // File: std/forward_list.cpp
 #include <forward_list> // std::forward_list
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::assign
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::clear
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::empty
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::forward_list
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::get_allocator
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::max_size
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::merge
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::operator=
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::pop_front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::push_front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::remove
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::resize
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::reverse
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::sort
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::swap
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::unique
 #include <functional> // std::equal_to
-#include <functional> // std::equal_to<float>::equal_to
-#include <functional> // std::equal_to<float>::operator()
 #include <functional> // std::hash
-#include <functional> // std::hash<float>::hash
-#include <functional> // std::hash<float>::operator()
-#include <functional> // std::hash<float>::operator=
 #include <memory> // std::allocator
-#include <memory> // std::allocator<float>::allocator
-#include <memory> // std::allocator<std::pair<const float, int> >::allocator
 #include <sstream> // __str__
-#include <unordered_map> // std::_Hashtable
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::_Hashtable
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::__rehash_policy
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::bucket
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::bucket_count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::bucket_size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::clear
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::empty
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::equal_range
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::erase
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::get_allocator
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::key_eq
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::load_factor
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::max_bucket_count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::max_size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::operator=
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::rehash
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, false> >::swap
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::_Hashtable
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::__rehash_policy
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::bucket
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::bucket_count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::bucket_size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::clear
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::empty
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::equal_range
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::erase
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::get_allocator
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::key_eq
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::load_factor
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::max_bucket_count
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::max_size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::operator=
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::rehash
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::size
-#include <unordered_map> // std::_Hashtable<float, float, std::allocator<float>, std::__detail::_Identity, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, true, true> >::swap
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::_Hashtable
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::__rehash_policy
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::bucket
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::bucket_count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::bucket_size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::clear
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::empty
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::equal_range
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::erase
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::get_allocator
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::key_eq
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::load_factor
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::max_bucket_count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::max_size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::operator=
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::rehash
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, false> >::swap
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_Hashtable
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::__rehash_policy
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::bucket
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::bucket_count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::bucket_size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::clear
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::empty
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::equal_range
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::erase
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::get_allocator
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::key_eq
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::load_factor
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::max_bucket_count
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::max_size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::operator=
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::rehash
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::size
-#include <unordered_map> // std::_Hashtable<float, std::pair<const float, int>, std::allocator<std::pair<const float, int> >, std::__detail::_Select1st, std::equal_to<float>, std::hash<float>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::swap
-#include <unordered_map> // std::__detail::_Default_ranged_hash
-#include <unordered_map> // std::__detail::_Default_ranged_hash::_Default_ranged_hash
-#include <unordered_map> // std::__detail::_Hashtable_traits
-#include <unordered_map> // std::__detail::_Identity
-#include <unordered_map> // std::__detail::_Identity::_Identity
-#include <unordered_map> // std::__detail::_Identity::operator=
-#include <unordered_map> // std::__detail::_Mod_range_hashing
-#include <unordered_map> // std::__detail::_Mod_range_hashing::_Mod_range_hashing
-#include <unordered_map> // std::__detail::_Mod_range_hashing::operator()
-#include <unordered_map> // std::__detail::_Mod_range_hashing::operator=
 #include <unordered_map> // std::__detail::_Node_const_iterator
 #include <unordered_map> // std::__detail::_Node_iterator
-#include <unordered_map> // std::__detail::_Prime_rehash_policy
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_M_bkt_for_elements
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_M_need_rehash
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_M_next_bkt
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_M_reset
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_M_state
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::_Prime_rehash_policy
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::max_load_factor
-#include <unordered_map> // std::__detail::_Prime_rehash_policy::operator=
-#include <unordered_map> // std::__detail::_Select1st
-#include <unordered_map> // std::__detail::_Select1st::_Select1st
-#include <unordered_map> // std::__detail::_Select1st::operator=
+#include <unordered_set> // std::unordered_multiset
+#include <unordered_set> // std::unordered_set
 #include <utility> // std::pair
-#include <utility> // std::pair<const float, int>::pair
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1033,81 +376,6 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 		cl.def("sort", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::sort, "C++: std::forward_list<float, std::allocator<float> >::sort() --> void");
 		cl.def("reverse", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::reverse, "C++: std::forward_list<float, std::allocator<float> >::reverse() --> void");
 	}
-}
-
-
-// File: std/unordered_set.cpp
-#include <functional> // std::equal_to
-#include <functional> // std::equal_to<float>::equal_to
-#include <functional> // std::equal_to<float>::operator()
-#include <functional> // std::hash
-#include <functional> // std::hash<float>::hash
-#include <functional> // std::hash<float>::operator()
-#include <functional> // std::hash<float>::operator=
-#include <memory> // std::allocator
-#include <memory> // std::allocator<float>::allocator
-#include <sstream> // __str__
-#include <unordered_map> // std::__detail::_Node_const_iterator
-#include <unordered_map> // std::__detail::_Node_iterator
-#include <unordered_set> // std::unordered_multiset
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::clear
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::empty
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::equal_range
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::erase
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::get_allocator
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::hash_function
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::key_eq
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::load_factor
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_bucket_count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_load_factor
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::operator=
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::rehash
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::reserve
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::swap
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::unordered_multiset
-#include <unordered_set> // std::unordered_set
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::clear
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::empty
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::equal_range
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::erase
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::get_allocator
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::hash_function
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::insert
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::key_eq
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::load_factor
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_bucket_count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_load_factor
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::operator=
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::rehash
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::reserve
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::swap
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::unordered_set
-#include <utility> // std::pair
-
-#include <pybind11/pybind11.h>
-#include <functional>
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_unordered_set(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
 	{ // std::unordered_set file:bits/unordered_set.h line:93
 		pybind11::class_<std::unordered_set<float>, std::shared_ptr<std::unordered_set<float>>> cl(M("std"), "unordered_set_float_t", "");
 		pybind11::handle cl_type = cl;
@@ -1180,66 +448,14 @@ void bind_std_unordered_set(std::function< pybind11::module &(std::string const 
 
 // File: std/unordered_map.cpp
 #include <functional> // std::equal_to
-#include <functional> // std::equal_to<float>::equal_to
-#include <functional> // std::equal_to<float>::operator()
 #include <functional> // std::hash
-#include <functional> // std::hash<float>::hash
-#include <functional> // std::hash<float>::operator()
-#include <functional> // std::hash<float>::operator=
 #include <memory> // std::allocator
-#include <memory> // std::allocator<std::pair<const float, int> >::allocator
 #include <sstream> // __str__
 #include <unordered_map> // std::__detail::_Node_const_iterator
 #include <unordered_map> // std::__detail::_Node_iterator
 #include <unordered_map> // std::unordered_map
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::at
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::insert
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator[]
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::unordered_map
 #include <unordered_map> // std::unordered_multimap
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::unordered_multimap
 #include <utility> // std::pair
-#include <utility> // std::pair<const float, int>::pair
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1328,259 +544,27 @@ void bind_std_unordered_map(std::function< pybind11::module &(std::string const 
 // File: T42_stl_names.cpp
 #include <T42.stl.names.hpp> // foo
 #include <deque> // std::deque
-#include <deque> // std::deque<int, std::allocator<int> >::assign
-#include <deque> // std::deque<int, std::allocator<int> >::at
-#include <deque> // std::deque<int, std::allocator<int> >::back
-#include <deque> // std::deque<int, std::allocator<int> >::clear
-#include <deque> // std::deque<int, std::allocator<int> >::deque
-#include <deque> // std::deque<int, std::allocator<int> >::empty
-#include <deque> // std::deque<int, std::allocator<int> >::front
-#include <deque> // std::deque<int, std::allocator<int> >::get_allocator
-#include <deque> // std::deque<int, std::allocator<int> >::max_size
-#include <deque> // std::deque<int, std::allocator<int> >::operator=
-#include <deque> // std::deque<int, std::allocator<int> >::operator[]
-#include <deque> // std::deque<int, std::allocator<int> >::pop_back
-#include <deque> // std::deque<int, std::allocator<int> >::pop_front
-#include <deque> // std::deque<int, std::allocator<int> >::push_back
-#include <deque> // std::deque<int, std::allocator<int> >::push_front
-#include <deque> // std::deque<int, std::allocator<int> >::resize
-#include <deque> // std::deque<int, std::allocator<int> >::shrink_to_fit
-#include <deque> // std::deque<int, std::allocator<int> >::size
-#include <deque> // std::deque<int, std::allocator<int> >::swap
 #include <forward_list> // std::forward_list
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::assign
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::clear
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::empty
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::forward_list
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::get_allocator
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::max_size
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::merge
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::operator=
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::pop_front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::push_front
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::remove
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::resize
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::reverse
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::sort
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::swap
-#include <forward_list> // std::forward_list<float, std::allocator<float> >::unique
 #include <functional> // std::equal_to
-#include <functional> // std::equal_to<float>::equal_to
-#include <functional> // std::equal_to<float>::operator()
 #include <functional> // std::hash
-#include <functional> // std::hash<float>::hash
-#include <functional> // std::hash<float>::operator()
-#include <functional> // std::hash<float>::operator=
 #include <functional> // std::less
-#include <functional> // std::less<float>::less
-#include <functional> // std::less<float>::operator()
-#include <functional> // std::less<float>::operator=
+#include <iterator> // __gnu_cxx::__normal_iterator
 #include <list> // std::list
-#include <list> // std::list<double, std::allocator<double> >::assign
-#include <list> // std::list<double, std::allocator<double> >::back
-#include <list> // std::list<double, std::allocator<double> >::clear
-#include <list> // std::list<double, std::allocator<double> >::empty
-#include <list> // std::list<double, std::allocator<double> >::front
-#include <list> // std::list<double, std::allocator<double> >::get_allocator
-#include <list> // std::list<double, std::allocator<double> >::list
-#include <list> // std::list<double, std::allocator<double> >::max_size
-#include <list> // std::list<double, std::allocator<double> >::merge
-#include <list> // std::list<double, std::allocator<double> >::operator=
-#include <list> // std::list<double, std::allocator<double> >::pop_back
-#include <list> // std::list<double, std::allocator<double> >::pop_front
-#include <list> // std::list<double, std::allocator<double> >::push_back
-#include <list> // std::list<double, std::allocator<double> >::push_front
-#include <list> // std::list<double, std::allocator<double> >::remove
-#include <list> // std::list<double, std::allocator<double> >::resize
-#include <list> // std::list<double, std::allocator<double> >::reverse
-#include <list> // std::list<double, std::allocator<double> >::size
-#include <list> // std::list<double, std::allocator<double> >::sort
-#include <list> // std::list<double, std::allocator<double> >::swap
-#include <list> // std::list<double, std::allocator<double> >::unique
 #include <map> // std::_Rb_tree_const_iterator
 #include <map> // std::_Rb_tree_iterator
 #include <map> // std::map
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::at
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::insert
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::map
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator[]
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size
-#include <map> // std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap
 #include <map> // std::multimap
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::multimap
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size
-#include <map> // std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap
 #include <memory> // std::allocator
-#include <memory> // std::allocator<double>::allocator
-#include <memory> // std::allocator<double>::operator=
-#include <memory> // std::allocator<float>::allocator
-#include <memory> // std::allocator<int>::allocator
-#include <memory> // std::allocator<int>::operator=
-#include <memory> // std::allocator<std::pair<const float, int> >::allocator
 #include <set> // std::multiset
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::clear
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::count
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::empty
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::equal_range
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::erase
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::get_allocator
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::key_comp
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::max_size
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::multiset
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::operator=
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::size
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::swap
-#include <set> // std::multiset<float, std::less<float>, std::allocator<float> >::value_comp
 #include <set> // std::set
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::clear
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::count
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::empty
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::equal_range
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::erase
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::get_allocator
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::insert
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::key_comp
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::max_size
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::operator=
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::set
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::size
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::swap
-#include <set> // std::set<float, std::less<float>, std::allocator<float> >::value_comp
 #include <unordered_map> // std::__detail::_Node_const_iterator
 #include <unordered_map> // std::__detail::_Node_iterator
 #include <unordered_map> // std::unordered_map
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::at
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::insert
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator[]
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <unordered_map> // std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::unordered_map
 #include <unordered_map> // std::unordered_multimap
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap
-#include <unordered_map> // std::unordered_multimap<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::unordered_multimap
 #include <unordered_set> // std::unordered_multiset
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::clear
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::empty
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::equal_range
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::erase
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::get_allocator
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::hash_function
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::key_eq
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::load_factor
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_bucket_count
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_load_factor
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::operator=
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::rehash
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::reserve
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::size
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::swap
-#include <unordered_set> // std::unordered_multiset<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::unordered_multiset
 #include <unordered_set> // std::unordered_set
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::bucket_size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::clear
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::empty
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::equal_range
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::erase
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::get_allocator
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::hash_function
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::insert
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::key_eq
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::load_factor
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_bucket_count
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_load_factor
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::max_size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::operator=
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::rehash
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::reserve
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::size
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::swap
-#include <unordered_set> // std::unordered_set<float, std::hash<float>, std::equal_to<float>, std::allocator<float> >::unordered_set
 #include <utility> // std::pair
-#include <utility> // std::pair<const float, int>::pair
 #include <vector> // std::vector
-#include <vector> // std::vector<double, std::allocator<double> >::assign
-#include <vector> // std::vector<double, std::allocator<double> >::at
-#include <vector> // std::vector<double, std::allocator<double> >::back
-#include <vector> // std::vector<double, std::allocator<double> >::capacity
-#include <vector> // std::vector<double, std::allocator<double> >::clear
-#include <vector> // std::vector<double, std::allocator<double> >::data
-#include <vector> // std::vector<double, std::allocator<double> >::empty
-#include <vector> // std::vector<double, std::allocator<double> >::front
-#include <vector> // std::vector<double, std::allocator<double> >::max_size
-#include <vector> // std::vector<double, std::allocator<double> >::operator=
-#include <vector> // std::vector<double, std::allocator<double> >::operator[]
-#include <vector> // std::vector<double, std::allocator<double> >::pop_back
-#include <vector> // std::vector<double, std::allocator<double> >::push_back
-#include <vector> // std::vector<double, std::allocator<double> >::reserve
-#include <vector> // std::vector<double, std::allocator<double> >::resize
-#include <vector> // std::vector<double, std::allocator<double> >::shrink_to_fit
-#include <vector> // std::vector<double, std::allocator<double> >::size
-#include <vector> // std::vector<double, std::allocator<double> >::swap
-#include <vector> // std::vector<double, std::allocator<double> >::vector
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1644,10 +628,8 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stl_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_unordered_set(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_unordered_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T42_stl_names(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
@@ -1673,10 +655,8 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 
 	bind_std_stl_function(M);
 	bind_std_functional_hash(M);
-	bind_std_stl_list(M);
 	bind_std_stl_deque(M);
 	bind_std_forward_list(M);
-	bind_std_unordered_set(M);
 	bind_std_unordered_map(M);
 	bind_T42_stl_names(M);
 
@@ -1686,10 +666,8 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 // T42_stl_names.cpp
 // std/stl_function.cpp
 // std/functional_hash.cpp
-// std/stl_list.cpp
 // std/stl_deque.cpp
 // std/forward_list.cpp
-// std/unordered_set.cpp
 // std/unordered_map.cpp
 // T42_stl_names.cpp
 

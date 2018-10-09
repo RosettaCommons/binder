@@ -1,17 +1,8 @@
 // File: T09_overload.cpp
 #include <T09.overload.hpp> // A1
-#include <T09.overload.hpp> // A1::A1
 #include <T09.overload.hpp> // A2
-#include <T09.overload.hpp> // A2::A2
-#include <T09.overload.hpp> // A2::f
-#include <T09.overload.hpp> // A2::operator=
 #include <T09.overload.hpp> // A3
-#include <T09.overload.hpp> // A3::A3
-#include <T09.overload.hpp> // A3::f
-#include <T09.overload.hpp> // A3::operator=
 #include <T09.overload.hpp> // A4
-#include <T09.overload.hpp> // A4::A4
-#include <T09.overload.hpp> // A4::operator=
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>

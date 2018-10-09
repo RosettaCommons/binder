@@ -1,6 +1,5 @@
 // File: T32_call_guard.cpp
 #include <T32.call_guard.hpp> // Methods
-#include <T32.call_guard.hpp> // Methods::foo
 #include <T32.call_guard.hpp> // free
 #include <sstream> // __str__
 

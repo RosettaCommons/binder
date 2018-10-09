@@ -45,15 +45,18 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new A(); } ) );
+
 		pybind11::enum_<A::AE1>(cl, "AE1", pybind11::arithmetic(), "")
 			.value("AE1_V0", A::AE1::AE1_V0)
 			.value("AE1_V1", A::AE1::AE1_V1)
 			.export_values();
 
+
 		pybind11::enum_<A::AE2_struct>(cl, "AE2_struct", "")
 			.value("AE3_V0", A::AE2_struct::AE3_V0)
 			.value("AE3_V1", A::AE2_struct::AE3_V1)
 			.export_values();
+
 
 		pybind11::enum_<A::AE3_class>(cl, "AE3_class", "")
 			.value("AE2_V0", A::AE3_class::AE2_V0)

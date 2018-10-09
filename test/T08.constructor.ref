@@ -1,11 +1,8 @@
 // File: T08_constructor.cpp
 #include <T08.constructor.hpp> // BaseA
 #include <T08.constructor.hpp> // BaseB
-#include <T08.constructor.hpp> // BaseB::BaseB
 #include <T08.constructor.hpp> // BaseC
-#include <T08.constructor.hpp> // BaseC::BaseC
 #include <T08.constructor.hpp> // BaseD
-#include <T08.constructor.hpp> // BaseD::BaseD
 #include <T08.constructor.hpp> // DerivedA
 #include <T08.constructor.hpp> // DerivedB
 #include <T08.constructor.hpp> // DerivedC

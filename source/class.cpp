@@ -257,7 +257,7 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 		}
 	}
 
-	if( is_banned_type(C) ) return false;
+	if( r && is_banned_symbol(C) ) return false;
 
 	return r;
 }
