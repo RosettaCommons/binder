@@ -46,7 +46,7 @@ def make_bindings_code(all_includes_fn):
                f'--prefix {os.getcwd()}/{bindings_dir}/ '
                f'--bind {this_project_namespace_to_bind} '
                + ('--config config.cfg ' if use_pybind_stl else '') +
-               f'-trace {all_includes_fn}  -- -std=c++11 '
+               f' {all_includes_fn} -- -std=c++11 '
                f'-I{this_project_include} -DNDEBUG -v').split()
     print(' '.join(command))
     ret = subprocess.call(command)
