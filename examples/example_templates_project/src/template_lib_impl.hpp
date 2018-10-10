@@ -45,6 +45,9 @@ namespace lib_namespace
       }
     return std::sqrt(sum);
   }
+  StatVector<> stat_vector;
+	StatVector<std::complex<double> > complex_stat_vector;
 }  // end of namespace lib_namespace
+
 
 #endif // _SRC_template_lib_impl_hpp_
