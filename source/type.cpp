@@ -93,20 +93,42 @@ string relevant_include(NamedDecl const *decl)
 // extract include path needed for declaration itself (without template dependency if any), do nothing if include could not be found (ie for build-in's)
 void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*, std::set<clang::NamedDecl const *> &stack*/)
 {
-	static vector< std::pair<string, string> > const name_map = {
-		make_pair("std::allocator",        "<memory>"),
-		make_pair("std::basic_string",     "<string>"),
-		make_pair("std::char_traits",      "<string>"),
-		make_pair("std::iterator",         "<iterator>"),
-		make_pair("std::list",             "<list>"),
-		make_pair("std::locale",           "<locale>"),
-		make_pair("std::map",              "<map>"),
-		make_pair("std::pair",             "<utility>"),
-		make_pair("std::reverse_iterator", "<iterator>"),
-		make_pair("std::set",              "<set>"),
-		make_pair("std::vector",           "<vector>"),
+	static std::unordered_map<string, string> type_map;
+
+	if( type_map.empty() ) {
+		std::vector< std::pair< string, std::vector<string> > > const include_types_map =
+			{
+			 { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
+
+			 { "<iterator>", {"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag", "std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",} },
+
+			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base"} },
+
+			 { "<string>", {"std::basic_string", "std::char_traits"} },
+
+			 { "<utility>", {"std::move"} },
+
+			};
+
+		for(auto const & include_types : include_types_map ) {
+			for(auto const & type : include_types.second ) type_map.insert( make_pair(type, include_types.first) );
+		}
+	}
+
+	static vector< std::pair<string, string> > const name_map_old = {
 		make_pair("std::basic_ios",        "<ios>"),
+
+		make_pair("std::list",             "<list>"),
+
+		make_pair("std::map",              "<map>"),
+		make_pair("std::allocator",        "<memory>"),
+
+		make_pair("std::set",              "<set>"),
 		make_pair("std::stack",            "<stack>"),
+
+		make_pair("std::vector",           "<vector>"),
+
+		make_pair("std::pair",             "<utility>"),
 
 		make_pair("__gnu_cxx::__normal_iterator", "<iterator>"),
 
@@ -115,6 +137,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("std::__1::basic_istream<char,std::__1::char_traits<char>>",                          "<istream>"),
 		make_pair("std::__1::basic_iostream<char,std::__1::char_traits<char>>",                         "<ostream>"),
 	};
+
 
 	static vector< std::pair<string, string> > const include_map = {
 		make_pair("<bits/ios_base.h>",     "<ios>"),
@@ -195,17 +218,58 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/types/struct_FILE.h>", "<cstdio>"),
 
+		make_pair("<bits/forward_list.h>", "<forward_list>"),
+
+		make_pair("<bits/stl_heap.h>", "<algorithm>"),
+
 	};
 
-	string name = decl->getQualifiedNameAsString();
+	string name;
 
-	for(auto & p : name_map) {
+	if( decl->isCXXClassMember() ) {
+		NamedDecl const * D = decl;
+
+		if( auto m = dyn_cast<CXXMethodDecl>(decl) ) {
+			D = cast<CXXRecordDecl>( m->getParent() );
+			name = D->getQualifiedNameAsString();
+			//outs() << "CXXMethodDecl: looking for includes for type: " << name << " (was: " << decl->getQualifiedNameAsString() <<") \n";
+		}
+
+		if( D->isCXXClassMember() ) {
+			if( auto c = dyn_cast<CXXRecordDecl>(D) ) {
+
+				name = cast<CXXRecordDecl>( c->getParent() ) -> getQualifiedNameAsString();
+				//outs() << "CXXRecordDecl: looking for includes for type: " << name << " (was: " << D->getQualifiedNameAsString() <<") \n";
+			}
+		}
+	}
+	else {
+		name = decl->getQualifiedNameAsString();
+	}
+
+
+	auto it = type_map.find(name);
+	if( it != type_map.end() ) {
+		includes.add_include( O_annotate_includes ? it->second + " // " + name : it->second );
+		//outs() << "Found type map for: " << name << "\n";
+		return;
+	}
+
+	// if( begins_with(name, "std::money_base") ) {
+	// 	outs() << "Could not found type map for: " << name << "\n";
+	// 	decl->dump();
+	// }
+
+	for(auto & p : name_map_old) {
 		if( begins_with(name, p.first) ) {
 			if(O_annotate_includes) includes.add_include( p.second + " // " + name );
 			else includes.add_include(p.second);
 			return;
 		}
 	}
+
+
+
 
 	string include = relevant_include(decl);
 
@@ -472,5 +536,61 @@ bool is_python_builtin(NamedDecl const *C)
 
 	return false;
 }
+
+// check if class/struct/function/enum is in banned symbol lists
+bool is_banned_symbol(clang::NamedDecl const *D)
+{
+	static std::unordered_set<string> const known_banned_symbols =
+		{
+		 "std::initializer_list",
+
+		 "std::locale::facet", // nested base class
+
+		 // we need allocator bindings for some default constructors in std:: // "std::allocator", "std::__allocator_destructor",
+
+		 // "std::_Rb_tree_iterator", "std::_Rb_tree_const_iterator", "__gnu_cxx::__normal_iterator",
+		 // "std::_List_iterator", "std::_List_const_iterator",
+		 // "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
+		 // "std::_Deque_iterator",
+
+		 // "std::__hash_base",
+		};
+
+	string name = standard_name( D->getQualifiedNameAsString() );
+
+	if( begins_with(name, "std::_") ) return true;
+
+	return known_banned_symbols.find(name) != known_banned_symbols.end();
+}
+
+// // check if class/struct is in banned type lists
+// bool is_banned_type(clang::CXXRecordDecl const *C)
+// {
+// 	string name = C->getQualifiedNameAsString();
+
+// 	static std::vector<string> const known_banned_types =
+// 		{
+// 		 "std::initializer_list",
+
+// 		 "std::locale::facet", // nested base class
+
+// 		 // we need allocator bindings for some default constructors in std:: // "std::allocator", "std::__allocator_destructor",
+
+// 		 "std::_Rb_tree_iterator", "std::_Rb_tree_const_iterator", "__gnu_cxx::__normal_iterator",
+// 		 "std::_List_iterator", "std::_List_const_iterator",
+// 		 "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
+// 		 "std::_Deque_iterator",
+
+// 		 "std::__hash_base",
+// 		};
+
+// 	if( begins_with(name, "std::_") ) return true;
+
+// 	for(auto &k : known_banned_types) {
+// 		if( name == k ) return true;
+// 	}
+
+// 	return false;
+// }
 
 } // namespace binder

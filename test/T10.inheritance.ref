@@ -1,27 +1,11 @@
 // File: T10_inheritance.cpp
 #include <T10.inheritance.hpp> // A
-#include <T10.inheritance.hpp> // A::A
-#include <T10.inheritance.hpp> // A::operator=
 #include <T10.inheritance.hpp> // B
-#include <T10.inheritance.hpp> // B::B
-#include <T10.inheritance.hpp> // B::operator=
 #include <T10.inheritance.hpp> // Base
-#include <T10.inheritance.hpp> // Base::f_v
-#include <T10.inheritance.hpp> // Base::f_v_2
-#include <T10.inheritance.hpp> // Base::foo
-#include <T10.inheritance.hpp> // Base::foo_protected
-#include <T10.inheritance.hpp> // Base::maybe
-#include <T10.inheritance.hpp> // Base::operator=
 #include <T10.inheritance.hpp> // Delete
-#include <T10.inheritance.hpp> // Delete::operator=
 #include <T10.inheritance.hpp> // Derived
-#include <T10.inheritance.hpp> // Derived::operator=
 #include <T10.inheritance.hpp> // X
-#include <T10.inheritance.hpp> // X::f_v
-#include <T10.inheritance.hpp> // X::operator=
 #include <T10.inheritance.hpp> // Y
-#include <T10.inheritance.hpp> // Y::f_v_2
-#include <T10.inheritance.hpp> // Y::operator=
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>

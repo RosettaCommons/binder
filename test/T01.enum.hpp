@@ -15,13 +15,16 @@
 
 enum E1 {E1_V0, E1_V1};
 
-enum class E2 {E2_V0, E2_V1};
+enum struct E2_struct {V0, V1};
+enum class  E3_class  {V0, V1};
+
 
 class A
 {
 public:
     enum AE1 {AE1_V0, AE1_V1};
-    enum class AE2 {AE2_V0, AE2_V1};
+    enum struct AE2_struct {AE3_V0, AE3_V1};
+    enum class  AE3_class  {AE2_V0, AE2_V1};
 
 protected:
     enum AE3_not_binded {AE3_V0_not_binded, AE3_V1_not_binded};

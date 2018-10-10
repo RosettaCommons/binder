@@ -107,6 +107,9 @@ private:
 
 	void generate_prefix_code();
 
+	// generating bindings for public nested classes
+	string bind_nested_classes(clang::CXXRecordDecl const *EC, Context &context);
+
 	/// generate (if any) bindings for Python __str__ by using appropriate global operator<<
 	std::string bind_repr(Context &);
 };

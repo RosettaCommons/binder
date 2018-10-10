@@ -62,6 +62,13 @@ std::string simplify_std_class_name(std::string const &type);
 bool is_python_builtin(clang::NamedDecl const *C);
 
 
+// check if class/struct/function/enum is in banned symbol lists
+bool is_banned_symbol(clang::NamedDecl const *D);
+
+// check if class/struct is in banned type lists
+//bool is_banned_type(clang::CXXRecordDecl const *C);
+
+
 } // namespace binder
 
 #endif  // _INCLUDED_type_hpp_

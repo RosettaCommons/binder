@@ -1,10 +1,7 @@
 // File: T07_class.cpp
 #include <T07.class.hpp> // Access
-#include <T07.class.hpp> // Access::foo
-#include <T07.class.hpp> // Access::foo_public
 #include <T07.class.hpp> // Arrays
 #include <T07.class.hpp> // ConstOverload
-#include <T07.class.hpp> // ConstOverload::foo
 #include <T07.class.hpp> // Enums
 #include <T07.class.hpp> // Floating_point
 #include <T07.class.hpp> // Integral
@@ -58,12 +55,15 @@ void bind_T07_class(std::function< pybind11::module &(std::string const &namespa
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new Enums(); } ) );
-		pybind11::enum_<Enums::E1>(cl, "E1", "")
+
+		pybind11::enum_<Enums::E1>(cl, "E1", pybind11::arithmetic(), "")
 			.value("E1V", Enums::E1::E1V)
 			.export_values();
 
+
 		pybind11::enum_<Enums::E2>(cl, "E2", "")
 			.value("E2V", Enums::E2::E2V);
+
 
 		pybind11::enum_<Enums::E3>(cl, "E3", "");
 

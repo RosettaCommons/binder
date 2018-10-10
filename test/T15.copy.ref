@@ -1,13 +1,9 @@
 // File: T15_copy.cpp
 #include <T15.copy.hpp> // Data1
-#include <T15.copy.hpp> // Data1::Data1
 #include <T15.copy.hpp> // POD1
 #include <T15.copy.hpp> // POD2
-#include <T15.copy.hpp> // POD2::POD2
 #include <T15.copy.hpp> // POD3
-#include <T15.copy.hpp> // POD3::POD3
 #include <T15.copy.hpp> // POD4
-#include <T15.copy.hpp> // POD4::POD4
 #include <T15.copy.hpp> // POD5
 #include <T15.copy.hpp> // POD6
 #include <sstream> // __str__

@@ -6,8 +6,6 @@
 #include <T02.function.hpp> // foo_p
 #include <T02.function.hpp> // foo_r
 #include <memory> // std::shared_ptr
-#include <memory> // std::shared_ptr<A>::operator=
-#include <memory> // std::shared_ptr<A>::shared_ptr
 #include <sstream> // __str__
 #include <utility> // std::pair
 

@@ -68,11 +68,9 @@ string class_name(CXXRecordDecl const *C)
 {
 	string res = standard_name( C->getNameAsString() + template_specialization(C) );
 
-	if(  namespace_from_named_decl(C) == "std" ) res = simplify_std_class_name(res);
+	if( namespace_from_named_decl(C) == "std" ) res = simplify_std_class_name(res);
 
 	return res;
-
-	//return standard_name(C->getNameAsString() + template_specialization(C));
 }
 
 
@@ -217,7 +215,10 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 	// }
 
-	if( qualified_name == "(anonymous)" ) return false;
+	//if( qualified_name == "(anonymous)" ) return false;
+	//if( C->getNameAsString() == "" ) return false;
+	if( qualified_name.rfind(')') != std::string::npos ) return false;
+
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 
@@ -231,30 +232,32 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 		else return false;
 	}
 
-	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
-		for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
+	// if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+	// 	for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
 
-			if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Type ) {
-				if( !is_bindable( t->getTemplateArgs()[i].getAsType() ) ) return false;
-			}
+	// 		if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Type ) {
+	// 			if( !is_bindable( t->getTemplateArgs()[i].getAsType() ) ) return false;
+	// 		}
 
-			if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration )  {
-				if( ValueDecl *v = t->getTemplateArgs()[i].getAsDecl() ) {
-					if( v->getAccess() == AS_protected   or  v->getAccess() == AS_private ) {
-						outs() << "Private template VALUE arg: " << v->getNameAsString() << "\n";
-						return false;
-					}
-				}
-			}
+	// 		if( t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration )  {
+	// 			if( ValueDecl *v = t->getTemplateArgs()[i].getAsDecl() ) {
+	// 				if( v->getAccess() == AS_protected   or  v->getAccess() == AS_private ) {
+	// 					outs() << "Private template VALUE arg: " << v->getNameAsString() << "\n";
+	// 					return false;
+	// 				}
+	// 			}
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 	if( C->hasDefinition()  and  C->isAbstract() ) {
 		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
 			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
 		}
 	}
+
+	if( r && is_banned_symbol(C) ) return false;
 
 	return r;
 }
@@ -479,7 +482,8 @@ string binding_public_data_members(CXXRecordDecl const *C)
 // generate call-back structure name for given class
 inline string callback_structure_name(CXXRecordDecl const *C)
 {
-	return "PyCallBack_" + python_class_name(C);
+	string ns = replace_(namespace_from_named_decl(C), "::", "_");
+	return "PyCallBack_" + (ns.empty() ? "" : ns + '_')  + python_class_name(C);
 }
 
 
@@ -972,6 +976,24 @@ std::string ClassBinder::bind_repr(Context &context)
 }
 
 
+string ClassBinder::bind_nested_classes(CXXRecordDecl const *EC, Context &context)
+{
+	string c;
+	for(auto d = EC->decls_begin(); d != EC->decls_end(); ++d) {
+		if(CXXRecordDecl *C = dyn_cast<CXXRecordDecl>(*d) ) {
+			if( C->getAccess() == AS_public  and  is_bindable(C) ) {
+				//c += "\t// Binding " + C->getNameAsString() + ";\n";
+				ClassBinder b(C);
+				b.bind(context);
+				c += b.code();  c += '\n';
+				prefix_code_ += b.prefix_code();
+			}
+		}
+	}
+	return c;
+}
+
+
 /// generate binding code for this object and all its dependencies
 void ClassBinder::bind(Context &context)
 {
@@ -993,10 +1015,14 @@ void ClassBinder::bind(Context &context)
 	if(trampoline) generate_prefix_code();
 
 	string const qualified_name{ class_qualified_name(C) };
-	string const module_variable_name = context.module_variable_name( namespace_from_named_decl(C) );
+	string const module_variable_name = C->isCXXClassMember() ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
 	//string const decl_namespace = namespace_from_named_decl(C);
 
 	string c = "{ " + generate_comment_for_declaration(C);
+
+	if( C->isCXXClassMember() ) c += "\tauto & enclosing_class = cl;\n";
+
+	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";
 
 	string const trampoline_name = callback_structure_constructible ? callback_structure_name(C) : "";
 	string const binding_qualified_name = callback_structure_constructible ? callback_structure_name(C) : qualified_name;
@@ -1011,6 +1037,8 @@ void ClassBinder::bind(Context &context)
 
 	c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
 	c += "\tpybind11::handle cl_type = cl;\n\n";
+
+	c += bind_nested_classes(C, context);
 
 	//if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
 
@@ -1081,9 +1109,10 @@ void ClassBinder::bind(Context &context)
 	// binding public enums
 	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
 		if(EnumDecl *e = dyn_cast<EnumDecl>(*d) ) {
-			if( e->getAccess() == AS_public ) {
+			if( e->getAccess() == AS_public  and  is_bindable(e) ) {
 				//outs() << "Enum: " << e->getQualifiedNameAsString() << "\n";
-				c += bind_enum("cl", e);
+				c += '\n';
+				c+= bind_enum("cl", e);
 			}
 		}
 	}

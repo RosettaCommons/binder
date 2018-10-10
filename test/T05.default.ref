@@ -1,12 +1,6 @@
 // File: T05_default.cpp
 #include <T05.default.hpp> // A
-#include <T05.default.hpp> // A::A
 #include <T05.default.hpp> // B
-#include <T05.default.hpp> // B::B
-#include <T05.default.hpp> // B::foo
-#include <T05.default.hpp> // B::foo_member
-#include <T05.default.hpp> // B::foo_member_const
-#include <T05.default.hpp> // B::foo_static
 #include <T05.default.hpp> // foo
 #include <sstream> // __str__
 

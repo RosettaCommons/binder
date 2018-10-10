@@ -26,8 +26,12 @@ namespace binder {
 void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int level);
 
 
+/// check if generator can create binding
+bool is_bindable(clang::EnumDecl const *E);
+
+
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, clang::EnumDecl *E);
+std::string bind_enum(std::string const & module, clang::EnumDecl const *E);
 
 
 class EnumBinder : public Binder

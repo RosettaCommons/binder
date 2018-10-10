@@ -1,6 +1,5 @@
 // File: T20_template.cpp
 #include <T20.template.hpp> // A
-#include <T20.template.hpp> // A<int>::foo
 #include <T20.template.hpp> // add
 #include <T20.template.hpp> // fi
 #include <T20.template.hpp> // fi_instantiated_by_use_in_function

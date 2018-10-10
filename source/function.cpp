@@ -435,6 +435,8 @@ bool is_bindable(FunctionDecl const *F)
 
 	for(auto p = F->param_begin(); p != F->param_end(); ++p) r &= is_bindable( (*p)->getOriginalType().getCanonicalType() );
 	//outs() << "is_bindable: " << F->getQualifiedNameAsString() << " " << r << "\n";
+
+	if( r && is_banned_symbol(F) ) return false;
 	return r;
 }
 
