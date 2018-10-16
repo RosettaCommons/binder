@@ -4,7 +4,7 @@
 #define _SRC_template_lib_impl_hpp_
 
 #include <template_lib_h.hpp>
-//#include <binder_explicit_instantiation.hpp>
+#include <binder_explicit_instantiation.hpp>
 #include <cmath>
 #include <iostream>
 
@@ -50,8 +50,8 @@ namespace lib_namespace
 	StatVector <double> stat_vec;
 	StatVector <std::complex<double> > stat_vec_complex;
 	
-	template class lib_namespace::StatVector<double>;
-	template class lib_namespace::StatVector<std::complex<double> >;
+	// template class lib_namespace::StatVector<double>;
+	// template class lib_namespace::StatVector<std::complex<double> >;
 	
 }  // end of namespace lib_namespace
 
