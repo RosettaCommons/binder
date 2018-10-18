@@ -6,6 +6,7 @@
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 #include <stl_binders.hpp>
 
 
@@ -32,6 +33,7 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 #include <stl_binders.hpp>
 
 
@@ -54,6 +56,7 @@ void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace
 #include <memory>
 #include <stdexcept>
 #include <functional>
+#include <string>
 
 #include <pybind11/pybind11.h>
 

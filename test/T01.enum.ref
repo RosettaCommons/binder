@@ -7,6 +7,7 @@
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -70,6 +71,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 #include <memory>
 #include <stdexcept>
 #include <functional>
+#include <string>
 
 #include <pybind11/pybind11.h>
 
