@@ -1020,6 +1020,9 @@ void ClassBinder::bind(Context &context)
 
 	string c = "{ " + generate_comment_for_declaration(C);
 
+	c += " // qualified_name: {}\n"_format(qualified_name);
+	c += " // getQualifiedNameAsString: {}{}\n"_format( C->getQualifiedNameAsString(), template_specialization(C) );
+
 	if( C->isCXXClassMember() ) c += "\tauto & enclosing_class = cl;\n";
 
 	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";

@@ -102,7 +102,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<iterator>", {"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag", "std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",} },
 
-			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base"} },
+			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"} },
 
 			 { "<string>", {"std::basic_string", "std::char_traits"} },
 
