@@ -527,6 +527,8 @@ bool is_python_builtin(NamedDecl const *C)
 													  "std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
 
 													  "std::__hash_value_type",
+
+													  "std::function",
  	};
 
 	for(auto &k : known_builtin) {

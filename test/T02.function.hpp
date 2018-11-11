@@ -14,6 +14,7 @@
 #define _INCLUDED_T02_function_hpp_
 
 #include <memory>
+#include <functional>
 
 class A {};
 
@@ -52,6 +53,13 @@ void foo_p(double *) {}
 void foo_p(A *)               {}
 void foo_p(std::shared_ptr<A> *) {}
 void foo_p_not_binded(std::pair<int, int> *) {}
+
+void foo_f(std::function< bool(std::string const &) > const &f) {}
+
+using function_type = void (*)();
+
+void foo_f_not_binded(std::function< function_type(void) > const &f) {}
+void foo_f_not_binded(std::function< bool(function_type*, int (&)[1]) > const &f) {}
 
 
 #endif // _INCLUDED_T02_function_hpp_

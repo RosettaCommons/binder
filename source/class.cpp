@@ -1,7 +1,7 @@
 // -*- mode:c++;tab-width:2;indent-tabs-mode:t;show-trailing-whitespace:t;rm-trailing-spaces:t -*-
 // vi: set ts=2 noet:
 //
-// Copyright (c) 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+// Copyright (c) 2018 Sergey Lyskov <sergey.lyskov@jhu.edu>
 //
 // All rights reserved. Use of this source code is governed by a
 // MIT license that can be found in the LICENSE file.
@@ -178,6 +178,31 @@ bool is_const_overload(CXXMethodDecl *mc)
 	return false;
 }
 
+// check if given CXXRecordDecl (which known to be template specialization of std::function) is bindable
+bool is_std_function_bindable(CXXRecordDecl const *C)
+{
+	//outs() << "is_std_function_bindable( " << class_qualified_name(C) << "\n";
+	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+
+		for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
+
+
+			//outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
+			//t->getTemplateArgs()[i].dump();
+			QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
+			//qt.dump();
+
+			if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
+				if( not is_bindable( ft->getReturnType() ) ) return false;
+				for(uint i=0; i < ft->getNumParams(); ++i) {
+					if( not is_bindable( ft->getParamType(i) ) ) return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
 bool is_bindable_raw(clang::CXXRecordDecl const *C);
 
 
@@ -224,9 +249,14 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 
 	if( !C->isCompleteDefinition() ) {
 		if( auto ts = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
-			if( ts->getPointOfInstantiation()/* SourceLocation */.isInvalid()  and  not is_python_builtin(C) ) {
-				//outs() << "is_bindable( " << class_qualified_name(C) << " ): no point of instantiation  found, skipping...\n";
-				return false;
+			if( qualified_name == "std::function" ) {
+				if( not is_std_function_bindable(C) ) return false;
+			}
+			else {
+				if( ts->getPointOfInstantiation()/* SourceLocation */.isInvalid()  and  not is_python_builtin(C) ) {
+					//outs() << "is_bindable( " << qualified_name << " " << class_qualified_name(C) << " ): no point of instantiation  found, skipping...\n";
+					return false;
+				}
 			}
 		}
 		else return false;
