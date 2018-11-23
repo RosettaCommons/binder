@@ -4,6 +4,7 @@
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -30,6 +31,7 @@ void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::stri
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -56,6 +58,7 @@ void bind_T30_include_incl_b_include(std::function< pybind11::module &(std::stri
 
 #include <pybind11/pybind11.h>
 #include <functional>
+#include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -76,6 +79,7 @@ void bind_T30_include(std::function< pybind11::module &(std::string const &names
 #include <memory>
 #include <stdexcept>
 #include <functional>
+#include <string>
 
 #include <pybind11/pybind11.h>
 
