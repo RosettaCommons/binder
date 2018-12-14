@@ -110,6 +110,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<utility>", {"std::move"} },
 
+			 { "<exception>", {"std::nested_exception"} },
+
+			 { "<cwchar>", {"std::mbstate_t"} },
 			};
 
 		for(auto const & include_types : include_types_map ) {
@@ -223,6 +226,17 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/forward_list.h>", "<forward_list>"),
 
 		make_pair("<bits/stl_heap.h>", "<algorithm>"),
+
+
+		// C headers
+		make_pair("<bits/libio.h>", "<stdio.h>"),
+
+		make_pair("<bits/types/struct_tm.h>",         "<time.h>"),
+		make_pair("<bits/types/struct_timespec.h>",   "<time.h>"),
+		make_pair("<bits/types/struct_itimerspec.h>", "<time.h>"),
+
+		make_pair("<bits/pthreadtypes-arch.h>",   "<pthread.h>"),
+		make_pair("<bits/thread-shared-types.h>", "<pthread.h>"),
 
 	};
 
