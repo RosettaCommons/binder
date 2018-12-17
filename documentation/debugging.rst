@@ -3,9 +3,9 @@ Debugging
 
 This section is to talk about examples of how you would debug your config.
 
--------------
+---------------
 Basic knowledge
--------------
+---------------
 
 Sometimes, things aren't as point and click as you might expect it to be.  
 Here are some helpful tips that might help you on your way to making bindings.
@@ -43,9 +43,11 @@ compiling step failed with the error:
 
 1.  Rebuild bindings, but now add the flag ``--annotate-includes`` which will give us much
     more information than we would normally get
+
 2.  Since we know that ``bits`` is bad for binder, we can just grep for bits in the directory where we
     generate and compile the bindings.  In the ``examples`` section, this is the same as the directory
     ``cmake_bindings``.
+
 3.  We then run the ``grep -r "bits" cmake_bindings/*`` which yields:
 
 .. code-block:: console
@@ -72,24 +74,26 @@ compiling step failed with the error:
     cmake_bindings/std/complex.cpp:#include <bits/stl_uninitialized.h> // std::__uninitialized_move_if_noexcept_a
     cmake_bindings/std/complex.cpp:#include <bits/stl_uninitialized.h> // std::uninitialized_copy
   
-    Wow that's a lot, but we are really only interested in the std modules without ``_`` in them,
-    in this case, we are interested in ``std::uninitialized_copy``.  A quick google tells us that
-    this is part of the ``#include <memory>`` library.  Something that binder (in this case)
-    hadn't seen before.  Let's fix that!
+Wow that's a lot, but we are really only interested in the std modules without ``_`` in them,
+usually located near the bottom! in this case, we are interested in
+``std::uninitialized_copy``.  A quick google tells us that this is part of the
+``#include <memory>`` library.  Something that binder (in this case) hadn't seen before.
+
+Let's fix that!
 
 4.  The internal binder function that we have made all std library mappings for is located
     in ``source/types.cpp``:``add_relevant_include_for_decl``.  It has a vector that is
     instantiated via something that looks a lot like this:
 
-.. code-block:: C++
+.. code-block:: python
 
     { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
-    { "<exception>", {"std::nested_exception"} },
+    { "<exception>", {"std::nested_exception"} }
 
-    In this case, we needed to make a simple change that added a map for ``<memory>>
+In this case, we needed to make a simple change that added a map for ``<memory>``
 
 
-.. code-block:: C++
+.. code-block:: python
 
     { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
     { "<exception>", {"std::nested_exception"} },
