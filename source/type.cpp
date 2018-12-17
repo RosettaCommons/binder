@@ -113,6 +113,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			 { "<exception>", {"std::nested_exception"} },
 
 			 { "<cwchar>", {"std::mbstate_t"} },
+
+			 { "<memory>", {"std::uninitialized_copy"} },
+
 			};
 
 		for(auto const & include_types : include_types_map ) {
