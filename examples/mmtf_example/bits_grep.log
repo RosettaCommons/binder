@@ -1,0 +1,36 @@
+cmake_bindings/std/basic_ios_tcc.cpp:	{ // std::basic_ios file:bits/basic_ios.tcc line:178
+cmake_bindings/std/basic_ios_tcc.cpp:	{ // std::basic_ostream file:bits/ostream.tcc line:359
+cmake_bindings/std/stl_vector_1.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector_1.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/exception.cpp:// std::exception file:bits/exception.h line:60
+cmake_bindings/std/exception.cpp:	{ // std::exception file:bits/exception.h line:60
+cmake_bindings/std/system_error.cpp:// std::ios_base::failure file:bits/ios_base.h line:255
+cmake_bindings/std/system_error.cpp:// std::basic_streambuf file:bits/streambuf.tcc line:149
+cmake_bindings/std/system_error.cpp:	// std::_Ios_Fmtflags file:bits/ios_base.h line:57
+cmake_bindings/std/system_error.cpp:	// std::_Ios_Openmode file:bits/ios_base.h line:111
+cmake_bindings/std/system_error.cpp:	// std::_Ios_Iostate file:bits/ios_base.h line:153
+cmake_bindings/std/system_error.cpp:	// std::_Ios_Seekdir file:bits/ios_base.h line:193
+cmake_bindings/std/system_error.cpp:	{ // std::ios_base file:bits/ios_base.h line:228
+cmake_bindings/std/system_error.cpp:		{ // std::ios_base::failure file:bits/ios_base.h line:255
+cmake_bindings/std/system_error.cpp:		{ // std::ios_base::Init file:bits/ios_base.h line:601
+cmake_bindings/std/system_error.cpp:	{ // std::basic_streambuf file:bits/streambuf.tcc line:149
+cmake_bindings/std/stl_vector_4.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector_4.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector_2.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector_2.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/locale_classes.cpp:	{ // std::locale file:bits/locale_classes.h line:62
+cmake_bindings/std/fstream_tcc.cpp:// std::basic_filebuf file:bits/fstream.tcc line:1053
+cmake_bindings/std/fstream_tcc.cpp:	{ // std::basic_filebuf file:bits/fstream.tcc line:1053
+cmake_bindings/std/fstream_tcc.cpp:	{ // std::basic_ifstream file:bits/fstream.tcc line:1054
+cmake_bindings/std/stl_vector_5.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector_5.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/sstream_tcc.cpp:// std::basic_stringbuf file:bits/sstream.tcc line:291
+cmake_bindings/std/sstream_tcc.cpp:	{ // std::basic_stringbuf file:bits/sstream.tcc line:291
+cmake_bindings/std/sstream_tcc.cpp:	{ // std::basic_stringstream file:bits/sstream.tcc line:294
+cmake_bindings/std/stl_vector.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_vector.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/istream_tcc.cpp:	{ // std::basic_istream file:bits/istream.tcc line:1048
+cmake_bindings/std/istream_tcc.cpp:	{ // std::basic_iostream file:bits/istream.tcc line:1071
+cmake_bindings/std/stl_vector_3.cpp:	{ // std::vector file:bits/stl_vector.h line:216
+cmake_bindings/std/stl_map.cpp:	{ // std::map file:bits/stl_map.h line:99
+cmake_bindings/std/fstream_tcc_1.cpp:	{ // std::basic_ofstream file:bits/fstream.tcc line:1055
