@@ -1,0 +1,7 @@
+# ninja log v5
+0	4596	1545157595	CMakeFiles/mmtf_cpp.dir/mmtf_cpp.o	79f51576284e1964
+0	5754	1545157596	CMakeFiles/mmtf_cpp.dir/std/exception.o	9ceabd04a8f40408
+0	7143	1545157597	CMakeFiles/mmtf_cpp.dir/std/locale_classes.o	8662d1d1ae6ede6b
+2	8833	1545157599	CMakeFiles/mmtf_cpp.dir/std/stl_vector_1.o	816a88283c2cd26
+1	8928	1545157599	CMakeFiles/mmtf_cpp.dir/std/stl_vector.o	4828723277be4278
+0	12484	1545157602	CMakeFiles/mmtf_cpp.dir/std/system_error.o	1b126f50318c9ab
