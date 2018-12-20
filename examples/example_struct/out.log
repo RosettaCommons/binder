@@ -1,0 +1,578 @@
+clang version 4.0.0 (tags/RELEASE_400/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: 
+Found candidate GCC installation: /usr/lib/gcc/i686-linux-gnu/8
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.3.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.3.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang version 4.0.0 (tags/RELEASE_400/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: 
+Found candidate GCC installation: /usr/lib/gcc/i686-linux-gnu/8
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.3.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.3.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang Invocation:
+ "clang-tool" "-cc1" "-triple" "x86_64-unknown-linux-gnu" "-fsyntax-only" "-disable-free" "-disable-llvm-verifier" "-discard-value-names" "-main-file-name" "all_cmake_includes.hpp" "-mrelocation-model" "static" "-mthread-model" "posix" "-mdisable-fp-elim" "-fmath-errno" "-masm-verbose" "-mconstructor-aliases" "-munwind-tables" "-fuse-init-array" "-target-cpu" "x86-64" "-v" "-dwarf-column-info" "-debugger-tuning=gdb" "-resource-dir" "/home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.danpf-lappytappy.release/bin/../lib/clang/4.0.0" "-I" "/home/danpf/git/binder/examples/example_struct/include" "-D" "NDEBUG" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/x86_64-linux-gnu/c++/7.3.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/x86_64-linux-gnu/c++/7.3.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0/backward" "-internal-isystem" "/usr/local/include" "-internal-isystem" "/home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.danpf-lappytappy.release/bin/../lib/clang/4.0.0/include" "-internal-externc-isystem" "/usr/include/x86_64-linux-gnu" "-internal-externc-isystem" "/include" "-internal-externc-isystem" "/usr/include" "-std=c++11" "-fdeprecated-macro" "-fdebug-compilation-dir" "/home/danpf/git/binder/examples/example_struct" "-ferror-limit" "19" "-fmessage-length" "0" "-fobjc-runtime=gcc" "-fcxx-exceptions" "-fexceptions" "-fdiagnostics-show-option" "-x" "c++-header" "/home/danpf/git/binder/examples/example_struct/all_cmake_includes.hpp"
+
+clang -cc1 version 4.0.0 based upon LLVM 4.0.0 default target x86_64-unknown-linux-gnu
+ignoring nonexistent directory "/include"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/x86_64-linux-gnu/c++/7.3.0"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/danpf/git/binder/examples/example_struct/include
+ /usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0
+ /usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/x86_64-linux-gnu/c++/7.3.0
+ /usr/lib/gcc/x86_64-linux-gnu/7.3.0/../../../../include/c++/7.3.0/backward
+ /usr/local/include
+ /home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.danpf-lappytappy.release/bin/../lib/clang/4.0.0/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+Generate bindings, pass 1...
+Generate bindings, pass 2...
+Sorting Binders...
+Sorting Binders... Done.
+Writing code...
+Writing code... Done.
+-- The C compiler identification is GNU 7.3.0
+-- The CXX compiler identification is GNU 7.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.10)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/danpf/git/binder/examples/example_struct/cmake_bindings
+[1/4] Building CXX object CMakeFiles/test_struct.dir/test_struct/test_struct.o
+FAILED: CMakeFiles/test_struct.dir/test_struct/test_struct.o 
+/usr/bin/c++  -DNDEBUG -Dtest_struct_EXPORTS -I/home/danpf/git/binder/examples/example_struct/../../source -I/home/danpf/git/binder/examples/example_struct/include -I/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include -I/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m -fPIC -MD -MT CMakeFiles/test_struct.dir/test_struct/test_struct.o -MF CMakeFiles/test_struct.dir/test_struct/test_struct.o.d -o CMakeFiles/test_struct.dir/test_struct/test_struct.o -c test_struct/test_struct.cpp
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct.cpp:3:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct.cpp:3:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct.cpp:3:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct.cpp:3:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct.cpp:3:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct.cpp:3:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+test_struct/test_struct.cpp: In function ‘void bind_test_struct_test_struct(std::function<pybind11::module&(const std::__cxx11::basic_string<char>&)>&)’:
+test_struct/test_struct.cpp:19:92: error: expected unqualified-id before ‘(’ token
+  M("testers::(anonymous namespace)").def("print_an_int", (void (*)(const int &)) &testers::(anonymous namespace)::print_an_int, "C++: testers::(anonymous namespace)::print_an_int(const int &) --> void", pybind11::arg("myint"));
+                                                                                            ^
+test_struct/test_struct.cpp:19:93: error: ‘anonymous’ was not declared in this scope
+  M("testers::(anonymous namespace)").def("print_an_int", (void (*)(const int &)) &testers::(anonymous namespace)::print_an_int, "C++: testers::(anonymous namespace)::print_an_int(const int &) --> void", pybind11::arg("myint"));
+                                                                                             ^~~~~~~~~
+[2/4] Building CXX object CMakeFiles/test_struct.dir/test_struct.o
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct.cpp:7:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct.cpp:7:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct.cpp:7:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct.cpp:7:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct.cpp:7:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+[3/4] Building CXX object CMakeFiles/test_struct.dir/test_struct/test_struct_1.o
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct_1.cpp:4:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct_1.cpp:4:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct_1.cpp:4:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct_1.cpp:4:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from test_struct/test_struct_1.cpp:4:0:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/example_struct/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from test_struct/test_struct_1.cpp:4:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.
+BINDER COMMAND: /home/danpf/git/binder/examples/example_struct/../../build/llvm-4.0.0/build_4.0.0.linux.danpf-lappytappy.release/bin/binder --root-module test_struct --prefix /home/danpf/git/binder/examples/example_struct/cmake_bindings/ --bind testers --config config.cfg all_cmake_includes.hpp -- -std=c++11 -I/home/danpf/git/binder/examples/example_struct/include -DNDEBUG -v
+Testing Python lib...
+Traceback (most recent call last):
+  File "./make_bindings_via_cmake.py", line 106, in <module>
+    main()
+  File "./make_bindings_via_cmake.py", line 102, in main
+    compile_sources(sources_to_compile)
+  File "./make_bindings_via_cmake.py", line 93, in compile_sources
+    test_obj = test_struct.testers.test_my_struct()
+AttributeError: module 'test_struct' has no attribute 'testers'
