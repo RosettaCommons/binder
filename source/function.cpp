@@ -419,6 +419,8 @@ bool is_bindable(FunctionDecl const *F)
 	// 	F->dump();
 	// }
 
+	if( F->getQualifiedNameAsString().rfind(')') != std::string::npos ) return false; // check for functions in anonymous namespaces
+
 	//bool r = true;
 	bool r = !F->isDeleted(); //  and  !F->isVariadic(); disabled, instead we force bindings with lambda for variadic
 
