@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_ZBUFFER_DECL_HPP
 #define MSGPACK_V1_ZBUFFER_DECL_HPP
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #ifndef MSGPACK_ZBUFFER_RESERVE_SIZE
 #define MSGPACK_ZBUFFER_RESERVE_SIZE 512

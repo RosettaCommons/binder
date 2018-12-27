@@ -11,6 +11,6 @@
 #ifndef MSGPACK_TYPE_CPP11_ARRAY_HPP
 #define MSGPACK_TYPE_CPP11_ARRAY_HPP
 
-#include "msgpack/v1/adaptor/cpp11/array.hpp"
+#include <msgpack/v1/adaptor/cpp11/array.hpp>
 
 #endif // MSGPACK_TYPE_CPP11_ARRAY_HPP

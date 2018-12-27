@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V2_TYPE_RAW_DECL_HPP
 #define MSGPACK_V2_TYPE_RAW_DECL_HPP
 
-#include "msgpack/v1/adaptor/raw_decl.hpp"
+#include <msgpack/v1/adaptor/raw_decl.hpp>
 
 namespace msgpack {
 

@@ -10,7 +10,7 @@
 #ifndef MSGPACK_PACK_DECL_HPP
 #define MSGPACK_PACK_DECL_HPP
 
-#include "msgpack/v1/pack_decl.hpp"
-#include "msgpack/v2/pack_decl.hpp"
+#include <msgpack/v1/pack_decl.hpp>
+#include <msgpack/v2/pack_decl.hpp>
 
 #endif // MSGPACK_PACK_DECL_HPP

@@ -11,9 +11,9 @@
 #ifndef MSGPACK_V1_TYPE_CPP11_SHARED_PTR_HPP
 #define MSGPACK_V1_TYPE_CPP11_SHARED_PTR_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/adaptor/adaptor_base.hpp"
-#include "msgpack/adaptor/check_container_size.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/adaptor/adaptor_base.hpp>
+#include <msgpack/adaptor/check_container_size.hpp>
 
 #include <memory>
 

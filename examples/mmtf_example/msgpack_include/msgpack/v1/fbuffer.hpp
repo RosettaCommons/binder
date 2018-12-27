@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_FBUFFER_HPP
 #define MSGPACK_V1_FBUFFER_HPP
 
-#include "msgpack/v1/fbuffer_decl.hpp"
+#include <msgpack/v1/fbuffer_decl.hpp>
 
 #include <cstdio>
 #include <stdexcept>

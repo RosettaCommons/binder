@@ -10,7 +10,7 @@
 #ifndef MSGPACK_CPP_CONFIG_DECL_HPP
 #define MSGPACK_CPP_CONFIG_DECL_HPP
 
-#include "msgpack/v1/cpp_config_decl.hpp"
-#include "msgpack/v2/cpp_config_decl.hpp"
+#include <msgpack/v1/cpp_config_decl.hpp>
+#include <msgpack/v2/cpp_config_decl.hpp>
 
 #endif // MSGPACK_CPP_CONFIG_DECL_HPP

@@ -103,17 +103,17 @@ add_library(mmtf_cpp SHARED
 	std/stl_vector_4.cpp
 	std/stl_vector_5.cpp
 	std/sstream_tcc.cpp
+	msgpack/v1/detail/cpp11_zone.cpp
+	msgpack/object.cpp
+	msgpack/v1/object_fwd.cpp
+	msgpack/v2/object_fwd.cpp
+	std/stl_map.cpp
 	unknown/unknown.cpp
 	unknown/unknown_1.cpp
 	unknown/unknown_2.cpp
 	unknown/unknown_3.cpp
-	std/stl_map.cpp
 	unknown/unknown_4.cpp
 	unknown/unknown_5.cpp
-	unknown/unknown_6.cpp
-	unknown/unknown_7.cpp
-	unknown/unknown_8.cpp
-	unknown/unknown_9.cpp
 )
 set_target_properties(mmtf_cpp PROPERTIES PREFIX "")
 set_target_properties(mmtf_cpp PROPERTIES SUFFIX ".so")

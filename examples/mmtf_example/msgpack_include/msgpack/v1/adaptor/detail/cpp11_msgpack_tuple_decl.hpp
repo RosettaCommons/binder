@@ -10,9 +10,9 @@
 #ifndef MSGPACK_V1_CPP11_MSGPACK_TUPLE_DECL_HPP
 #define MSGPACK_V1_CPP11_MSGPACK_TUPLE_DECL_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/object_fwd.hpp"
-#include "msgpack/meta.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/object_fwd.hpp>
+#include <msgpack/meta.hpp>
 
 #include <tuple>
 

@@ -10,9 +10,9 @@
 #ifndef MSGPACK_V1_TYPE_CPP11_ARRAY_CHAR_HPP
 #define MSGPACK_V1_TYPE_CPP11_ARRAY_CHAR_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/adaptor/adaptor_base.hpp"
-#include "msgpack/adaptor/check_container_size.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/adaptor/adaptor_base.hpp>
+#include <msgpack/adaptor/check_container_size.hpp>
 
 #include <array>
 #include <cstring>

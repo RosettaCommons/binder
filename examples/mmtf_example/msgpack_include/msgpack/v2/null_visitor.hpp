@@ -10,8 +10,8 @@
 #ifndef MSGPACK_V2_NULL_VISITOR_HPP
 #define MSGPACK_V2_NULL_VISITOR_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/cpp_config.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/cpp_config.hpp>
 
 namespace msgpack {
 

@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_STRING_HPP
 #define MSGPACK_TYPE_STRING_HPP
 
-#include "msgpack/v1/adaptor/string.hpp"
+#include <msgpack/v1/adaptor/string.hpp>
 
 #endif // MSGPACK_TYPE_STRING_HPP

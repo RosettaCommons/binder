@@ -10,8 +10,8 @@
 #ifndef MSGPACK_PACK_HPP
 #define MSGPACK_PACK_HPP
 
-#include "msgpack/pack_decl.hpp"
+#include <msgpack/pack_decl.hpp>
 
-#include "msgpack/v1/pack.hpp"
+#include <msgpack/v1/pack.hpp>
 
 #endif // MSGPACK_PACK_HPP

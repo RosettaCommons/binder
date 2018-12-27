@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_CHECK_CONTAINER_SIZE_HPP
 #define MSGPACK_V1_CHECK_CONTAINER_SIZE_HPP
 
-#include "msgpack/v1/adaptor/check_container_size_decl.hpp"
+#include <msgpack/v1/adaptor/check_container_size_decl.hpp>
 #include <stdexcept>
 
 namespace msgpack {

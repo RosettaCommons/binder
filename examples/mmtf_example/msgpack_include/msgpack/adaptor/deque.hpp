@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_DEQUE_HPP
 #define MSGPACK_TYPE_DEQUE_HPP
 
-#include "msgpack/v1/adaptor/deque.hpp"
+#include <msgpack/v1/adaptor/deque.hpp>
 
 #endif // MSGPACK_TYPE_DEQUE_HPP

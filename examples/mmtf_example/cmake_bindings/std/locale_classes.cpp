@@ -15,6 +15,14 @@
 #include <map> // std::_Rb_tree_iterator
 #include <map> // std::map
 #include <memory> // std::allocator
+#include <msgpack/v1/detail/cpp11_zone.hpp> // msgpack::v1::zone
+#include <msgpack/v1/object.hpp> // msgpack::v1::object
+#include <msgpack/v1/object_fwd.hpp> // msgpack::v1::object
+#include <msgpack/v1/object_fwd_decl.hpp> // msgpack::v1::type::object_type
+#include <msgpack/v1/unpack.hpp> // msgpack::v1::detail::unpack_stack
+#include <msgpack/v2/object_fwd.hpp> // msgpack::v2::object
+#include <msgpack/v2/parse.hpp> // msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack
+#include <msgpack/v2/parse.hpp> // msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack
 #include <sstream> // __str__
 #include <stdexcept> // std::domain_error
 #include <stdexcept> // std::invalid_argument

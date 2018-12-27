@@ -10,8 +10,8 @@
 #ifndef MSGPACK_PACK_H
 #define MSGPACK_PACK_H
 
-#include "pack_define.h"
-#include "object.h"
+#include <pack_define.h>
+#include <object.h>
 #include <stdlib.h>
 
 #ifdef __cplusplus
@@ -118,7 +118,7 @@ int msgpack_pack_object(msgpack_packer* pk, msgpack_object d);
 #define msgpack_pack_append_buffer(user, buf, len) \
     return (*(user)->callback)((user)->data, (const char*)buf, len)
 
-#include "pack_template.h"
+#include <pack_template.h>
 
 inline void msgpack_packer_init(msgpack_packer* pk, void* data, msgpack_packer_write callback)
 {

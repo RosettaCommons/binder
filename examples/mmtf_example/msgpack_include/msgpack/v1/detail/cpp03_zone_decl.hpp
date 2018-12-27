@@ -14,7 +14,7 @@
 #include <memory>
 #include <vector>
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #ifndef MSGPACK_ZONE_CHUNK_SIZE
 #define MSGPACK_ZONE_CHUNK_SIZE 8192

@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_OBJECT_HPP
 #define MSGPACK_V1_OBJECT_HPP
 
-#include "msgpack/object_decl.hpp"
+#include <msgpack/object_decl.hpp>
 
 #include <cstring>
 #include <stdexcept>

@@ -10,8 +10,8 @@
 #ifndef MSGPACK_V1_TYPE_EXT_HPP
 #define MSGPACK_V1_TYPE_EXT_HPP
 
-#include "msgpack/v1/adaptor/ext_decl.hpp"
-#include "msgpack/adaptor/check_container_size.hpp"
+#include <msgpack/v1/adaptor/ext_decl.hpp>
+#include <msgpack/adaptor/check_container_size.hpp>
 #include <cstring>
 #include <string>
 #include <cassert>

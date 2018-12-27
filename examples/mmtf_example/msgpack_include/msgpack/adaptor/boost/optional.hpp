@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_BOOST_OPTIONAL_HPP
 #define MSGPACK_TYPE_BOOST_OPTIONAL_HPP
 
-#include "msgpack/v1/adaptor/boost/optional.hpp"
+#include <msgpack/v1/adaptor/boost/optional.hpp>
 
 #endif // MSGPACK_TYPE_BOOST_OPTIONAL_HPP

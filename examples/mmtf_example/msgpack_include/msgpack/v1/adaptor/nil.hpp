@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_TYPE_NIL_HPP
 #define MSGPACK_V1_TYPE_NIL_HPP
 
-#include "msgpack/v1/adaptor/nil_decl.hpp"
+#include <msgpack/v1/adaptor/nil_decl.hpp>
 
 namespace msgpack {
 

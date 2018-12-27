@@ -10,6 +10,6 @@
 #ifndef MSGPACK_UNPACK_EXCEPTION_HPP
 #define MSGPACK_UNPACK_EXCEPTION_HPP
 
-#include "msgpack/v1/unpack_exception.hpp"
+#include <msgpack/v1/unpack_exception.hpp>
 
 #endif // MSGPACK_UNPACK_EXCEPTION_HPP

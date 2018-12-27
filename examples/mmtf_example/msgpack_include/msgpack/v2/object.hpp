@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V2_OBJECT_HPP
 #define MSGPACK_V2_OBJECT_HPP
 
-#include "msgpack/object_fwd.hpp"
+#include <msgpack/object_fwd.hpp>
 
 
 namespace msgpack {

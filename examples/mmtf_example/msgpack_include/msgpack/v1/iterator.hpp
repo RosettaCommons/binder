@@ -12,7 +12,7 @@
 #define MSGPACK_V1_ITERATOR_HPP
 #if !defined(MSGPACK_USE_CPP03)
 
-#include "msgpack/v1/fbuffer_decl.hpp"
+#include <msgpack/v1/fbuffer_decl.hpp>
 
 namespace msgpack {
 

@@ -13,7 +13,7 @@
 
 #if !defined(MSGPACK_USE_CPP03)
 
-#include "msgpack/v1/meta_decl.hpp"
+#include <msgpack/v1/meta_decl.hpp>
 
 namespace msgpack {
 

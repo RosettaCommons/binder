@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_VECTOR_CHAR_HPP
 #define MSGPACK_TYPE_VECTOR_CHAR_HPP
 
-#include "msgpack/v1/adaptor/vector_char.hpp"
+#include <msgpack/v1/adaptor/vector_char.hpp>
 
 #endif // MSGPACK_TYPE_VECTOR_CHAR_HPP

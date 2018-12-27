@@ -10,7 +10,7 @@
 #ifndef MSGPACK_ZONE_H
 #define MSGPACK_ZONE_H
 
-#include "sysdep.h"
+#include <sysdep.h>
 
 #ifdef __cplusplus
 extern "C" {

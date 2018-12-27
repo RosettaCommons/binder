@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V2_CPP03_DEFINE_ARRAY_DECL_HPP
 #define MSGPACK_V2_CPP03_DEFINE_ARRAY_DECL_HPP
 
-#include "msgpack/v1/adaptor/detail/cpp03_define_array_decl.hpp"
+#include <msgpack/v1/adaptor/detail/cpp03_define_array_decl.hpp>
 
 namespace msgpack {
 /// @cond

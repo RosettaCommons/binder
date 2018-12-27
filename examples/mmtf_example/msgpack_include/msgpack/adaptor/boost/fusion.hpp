@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_BOOST_FUSION_HPP
 #define MSGPACK_TYPE_BOOST_FUSION_HPP
 
-#include "msgpack/v1/adaptor/boost/fusion.hpp"
+#include <msgpack/v1/adaptor/boost/fusion.hpp>
 
 #endif // MSGPACK_TYPE_BOOST_FUSION_HPP

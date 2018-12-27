@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V2_ADAPTOR_BASE_HPP
 #define MSGPACK_V2_ADAPTOR_BASE_HPP
 
-#include "msgpack/v2/adaptor/adaptor_base_decl.hpp"
+#include <msgpack/v2/adaptor/adaptor_base_decl.hpp>
 
 namespace msgpack {
 

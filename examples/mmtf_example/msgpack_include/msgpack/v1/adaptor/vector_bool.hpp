@@ -10,9 +10,9 @@
 #ifndef MSGPACK_V1_TYPE_VECTOR_BOOL_HPP
 #define MSGPACK_V1_TYPE_VECTOR_BOOL_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/object_fwd.hpp"
-#include "msgpack/adaptor/adaptor_base.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/object_fwd.hpp>
+#include <msgpack/adaptor/adaptor_base.hpp>
 
 #include <vector>
 

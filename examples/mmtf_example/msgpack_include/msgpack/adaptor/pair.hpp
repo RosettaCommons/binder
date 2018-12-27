@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_PAIR_HPP
 #define MSGPACK_TYPE_PAIR_HPP
 
-#include "msgpack/v1/adaptor/pair.hpp"
+#include <msgpack/v1/adaptor/pair.hpp>
 
 #endif // MSGPACK_TYPE_PAIR_HPP

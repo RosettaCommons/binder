@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_BOOST_STRING_VIEW_HPP
 #define MSGPACK_TYPE_BOOST_STRING_VIEW_HPP
 
-#include "msgpack/v1/adaptor/boost/string_view.hpp"
+#include <msgpack/v1/adaptor/boost/string_view.hpp>
 
 #endif // MSGPACK_TYPE_BOOST_STRING_VIEW_HPP

@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_BOOL_HPP
 #define MSGPACK_TYPE_BOOL_HPP
 
-#include "msgpack/v1/adaptor/bool.hpp"
+#include <msgpack/v1/adaptor/bool.hpp>
 
 #endif // MSGPACK_TYPE_BOOL_HPP

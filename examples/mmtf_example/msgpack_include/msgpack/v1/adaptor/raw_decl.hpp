@@ -10,8 +10,8 @@
 #ifndef MSGPACK_V1_TYPE_RAW_DECL_HPP
 #define MSGPACK_V1_TYPE_RAW_DECL_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/adaptor/adaptor_base.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/adaptor/adaptor_base.hpp>
 #include <cstring>
 #include <string>
 

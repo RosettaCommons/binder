@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_TYPE_MAP_DECL_HPP
 #define MSGPACK_V1_TYPE_MAP_DECL_HPP
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #include <algorithm>
 

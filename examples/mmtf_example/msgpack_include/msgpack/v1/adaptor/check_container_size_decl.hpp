@@ -10,9 +10,9 @@
 #ifndef MSGPACK_V1_CHECK_CONTAINER_SIZE_DECL_HPP
 #define MSGPACK_V1_CHECK_CONTAINER_SIZE_DECL_HPP
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 #include <cstdlib>
-#include "msgpack/sysdep.h"
+#include <msgpack/sysdep.h>
 
 namespace msgpack {
 

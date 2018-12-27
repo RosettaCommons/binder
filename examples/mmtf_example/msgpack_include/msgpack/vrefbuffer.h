@@ -10,7 +10,7 @@
 #ifndef MSGPACK_VREFBUFFER_H
 #define MSGPACK_VREFBUFFER_H
 
-#include "zone.h"
+#include <zone.h>
 #include <stdlib.h>
 
 #if defined(unix) || defined(__unix) || defined(__APPLE__) || defined(__OpenBSD__) || defined(__QNX__) || defined(__QNXTO__)

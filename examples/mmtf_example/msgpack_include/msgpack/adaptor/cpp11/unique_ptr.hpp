@@ -11,6 +11,6 @@
 #ifndef MSGPACK_TYPE_CPP11_UNIQUE_PTR_HPP
 #define MSGPACK_TYPE_CPP11_UNIQUE_PTR_HPP
 
-#include "msgpack/v1/adaptor/cpp11/unique_ptr.hpp"
+#include <msgpack/v1/adaptor/cpp11/unique_ptr.hpp>
 
 #endif // MSGPACK_TYPE_CPP11_UNIQUE_PTR_HPP

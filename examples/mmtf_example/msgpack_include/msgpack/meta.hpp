@@ -11,8 +11,8 @@
 #ifndef MSGPACK_META_HPP
 #define MSGPACK_META_HPP
 
-#include "msgpack/meta_decl.hpp"
+#include <msgpack/meta_decl.hpp>
 
-#include "msgpack/v1/meta.hpp"
+#include <msgpack/v1/meta.hpp>
 
 #endif // MSGPACK_META_HPP

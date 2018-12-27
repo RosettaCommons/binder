@@ -10,9 +10,9 @@
 #ifndef MSGPACK_ADAPTOR_BASE_HPP
 #define MSGPACK_ADAPTOR_BASE_HPP
 
-#include "msgpack/adaptor/adaptor_base_decl.hpp"
+#include <msgpack/adaptor/adaptor_base_decl.hpp>
 
-#include "msgpack/v1/adaptor/adaptor_base.hpp"
-#include "msgpack/v2/adaptor/adaptor_base.hpp"
+#include <msgpack/v1/adaptor/adaptor_base.hpp>
+#include <msgpack/v2/adaptor/adaptor_base.hpp>
 
 #endif // MSGPACK_ADAPTOR_BASE_HPP

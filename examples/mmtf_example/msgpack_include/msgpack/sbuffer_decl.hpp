@@ -10,8 +10,8 @@
 #ifndef MSGPACK_SBUFFER_DECL_HPP
 #define MSGPACK_SBUFFER_DECL_HPP
 
-#include "msgpack/v1/sbuffer_decl.hpp"
-#include "msgpack/v2/sbuffer_decl.hpp"
+#include <msgpack/v1/sbuffer_decl.hpp>
+#include <msgpack/v2/sbuffer_decl.hpp>
 
 
 #endif // MSGPACK_SBUFFER_DECL_HPP

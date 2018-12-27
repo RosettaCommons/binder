@@ -10,8 +10,8 @@
 #ifndef MSGPACK_ZONE_HPP
 #define MSGPACK_ZONE_HPP
 
-#include "msgpack/zone_decl.hpp"
+#include <msgpack/zone_decl.hpp>
 
-#include "msgpack/v1/zone.hpp"
+#include <msgpack/v1/zone.hpp>
 
 #endif // MSGPACK_ZONE_HPP

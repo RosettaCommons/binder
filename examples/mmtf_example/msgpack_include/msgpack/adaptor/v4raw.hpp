@@ -10,8 +10,8 @@
 #ifndef MSGPACK_TYPE_V4RAW_HPP
 #define MSGPACK_TYPE_V4RAW_HPP
 
-#include "msgpack/adaptor/v4raw_decl.hpp"
+#include <msgpack/adaptor/v4raw_decl.hpp>
 
-#include "msgpack/v1/adaptor/v4raw.hpp"
+#include <msgpack/v1/adaptor/v4raw.hpp>
 
 #endif // MSGPACK_TYPE_V4RAW_HPP

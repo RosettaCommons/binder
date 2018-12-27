@@ -12,7 +12,7 @@
 
 #if defined(MSGPACK_USE_BOOST)
 
-#include "msgpack/v1/adaptor/boost/msgpack_variant_decl.hpp"
+#include <msgpack/v1/adaptor/boost/msgpack_variant_decl.hpp>
 
 namespace msgpack {
 

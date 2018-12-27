@@ -10,8 +10,8 @@
 #ifndef MSGPACK_TYPE_EXT_HPP
 #define MSGPACK_TYPE_EXT_HPP
 
-#include "msgpack/adaptor/ext_decl.hpp"
+#include <msgpack/adaptor/ext_decl.hpp>
 
-#include "msgpack/v1/adaptor/ext.hpp"
+#include <msgpack/v1/adaptor/ext.hpp>
 
 #endif //  MSGPACK_TYPE_EXT_HPP

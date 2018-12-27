@@ -10,7 +10,7 @@
 #ifndef MSGPACK_ZBUFFER_H
 #define MSGPACK_ZBUFFER_H
 
-#include "sysdep.h"
+#include <sysdep.h>
 #include <stdlib.h>
 #include <string.h>
 #include <zlib.h>

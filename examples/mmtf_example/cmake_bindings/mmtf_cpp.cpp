@@ -20,17 +20,17 @@ void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &
 void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_msgpack_v1_detail_cpp11_zone(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_msgpack_object(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_msgpack_v1_object_fwd(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_msgpack_v2_object_fwd(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_5(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_6(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_7(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_8(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_9(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(mmtf_cpp, root_module) {
@@ -68,16 +68,16 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 	bind_std_stl_vector_4(M);
 	bind_std_stl_vector_5(M);
 	bind_std_sstream_tcc(M);
+	bind_msgpack_v1_detail_cpp11_zone(M);
+	bind_msgpack_object(M);
+	bind_msgpack_v1_object_fwd(M);
+	bind_msgpack_v2_object_fwd(M);
+	bind_std_stl_map(M);
 	bind_unknown_unknown(M);
 	bind_unknown_unknown_1(M);
 	bind_unknown_unknown_2(M);
 	bind_unknown_unknown_3(M);
-	bind_std_stl_map(M);
 	bind_unknown_unknown_4(M);
 	bind_unknown_unknown_5(M);
-	bind_unknown_unknown_6(M);
-	bind_unknown_unknown_7(M);
-	bind_unknown_unknown_8(M);
-	bind_unknown_unknown_9(M);
 
 }

@@ -10,6 +10,6 @@
 #ifndef MSGPACK_TYPE_VECTOR_HPP
 #define MSGPACK_TYPE_VECTOR_HPP
 
-#include "msgpack/v1/adaptor/vector.hpp"
+#include <msgpack/v1/adaptor/vector.hpp>
 
 #endif // MSGPACK_TYPE_VECTOR_HPP

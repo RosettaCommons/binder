@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_UNPACK_EXCEPTION_HPP
 #define MSGPACK_V1_UNPACK_EXCEPTION_HPP
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #include <string>
 #include <stdexcept>

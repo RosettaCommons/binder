@@ -16,7 +16,7 @@
 
 #if BOOST_VERSION >= 106100
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #if __GNUC__ >= 4
 #pragma GCC diagnostic push

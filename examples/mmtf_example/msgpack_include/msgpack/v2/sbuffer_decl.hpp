@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V2_SBUFFER_DECL_HPP
 #define MSGPACK_V2_SBUFFER_DECL_HPP
 
-#include "msgpack/versioning.hpp"
+#include <msgpack/versioning.hpp>
 
 #ifndef MSGPACK_SBUFFER_INIT_SIZE
 #define MSGPACK_SBUFFER_INIT_SIZE 8192

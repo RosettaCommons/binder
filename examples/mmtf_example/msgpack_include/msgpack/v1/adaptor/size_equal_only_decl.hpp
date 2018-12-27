@@ -10,9 +10,9 @@
 #ifndef MSGPACK_V1_TYPE_SIZE_EQUAL_ONLY_DECL_HPP
 #define MSGPACK_V1_TYPE_SIZE_EQUAL_ONLY_DECL_HPP
 
-#include "msgpack/versioning.hpp"
-#include "msgpack/adaptor/adaptor_base.hpp"
-#include "msgpack/adaptor/msgpack_tuple.hpp"
+#include <msgpack/versioning.hpp>
+#include <msgpack/adaptor/adaptor_base.hpp>
+#include <msgpack/adaptor/msgpack_tuple.hpp>
 
 namespace msgpack {
 

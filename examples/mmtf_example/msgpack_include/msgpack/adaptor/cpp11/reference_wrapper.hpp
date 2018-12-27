@@ -11,6 +11,6 @@
 #ifndef MSGPACK_TYPE_CPP11_REFERENCE_WRAPPER_HPP
 #define MSGPACK_TYPE_CPP11_REFERENCE_WRAPPER_HPP
 
-#include "msgpack/v1/adaptor/cpp11/reference_wrapper.hpp"
+#include <msgpack/v1/adaptor/cpp11/reference_wrapper.hpp>
 
 #endif // MSGPACK_TYPE_CPP11_REFERENCE_WRAPPER_HPP

@@ -10,7 +10,7 @@
 #ifndef MSGPACK_V1_TYPE_V4RAW_HPP
 #define MSGPACK_V1_TYPE_V4RAW_HPP
 
-#include "msgpack/v1/adaptor/v4raw_decl.hpp"
+#include <msgpack/v1/adaptor/v4raw_decl.hpp>
 #include <cstring>
 #include <string>
 
