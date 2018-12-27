@@ -321,7 +321,7 @@ inline bool is_hetatm(const char* type);
 // *************************************************************************
 
 // helpers in anonymous namespace (only visible in this file)
-namespace {
+/* namespace anon { */
 
 // check optional date string
 // -> either default or "YYYY-MM-DD" (only string format checked, not date)
@@ -364,7 +364,7 @@ bool hasValidIndices(const std::vector<T>& v, Tnum num) {
   else           return hasValidIndices(&v[0], v.size(), num);
 }
 
-} // anon ns
+/* } // anon ns */
 
 // VERSIONING
 

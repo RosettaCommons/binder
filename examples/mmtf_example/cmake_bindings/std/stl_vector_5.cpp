@@ -7,6 +7,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -17,7 +19,7 @@
 
 void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B199_[std::vector<mmtf::GroupType>] ";
+	std::cout << "B176_[std::vector<mmtf::GroupType>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::GroupType>, std::shared_ptr<std::vector<mmtf::GroupType>>> cl(M("std"), "vector_mmtf_GroupType_t", "");
 		pybind11::handle cl_type = cl;
@@ -62,7 +64,7 @@ void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::GroupType>::*)(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &)) &std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::swap, "C++: std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::swap(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::GroupType>::*)()) &std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::clear, "C++: std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::clear() --> void");
 	}
-	std::cout << "B200_[std::vector<short>] ";
+	std::cout << "B177_[std::vector<short>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<short>, std::shared_ptr<std::vector<short>>> cl(M("std"), "vector_short_t", "");
 		pybind11::handle cl_type = cl;

@@ -7,6 +7,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -17,7 +19,7 @@
 
 void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B196_[std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>] ";
+	std::cout << "B173_[std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>, std::shared_ptr<std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>>> cl(M("std"), "vector_std_vector_float_std_allocator_float_std_allocator_std_vector_float_std_allocator_float_t", "");
 		pybind11::handle cl_type = cl;

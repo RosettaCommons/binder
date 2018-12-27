@@ -10,11 +10,9 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_exception(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_locale_classes(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_system_error(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_basic_ios_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_istream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_ios_base(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_ostream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_fstream_tcc_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
@@ -33,9 +31,6 @@ void bind_unknown_unknown_6(std::function< pybind11::module &(std::string const 
 void bind_unknown_unknown_7(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_8(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_9(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_10(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_11(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_unknown_unknown_12(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(mmtf_cpp, root_module) {
@@ -52,7 +47,6 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 		{"", "mmtf"},
-		{"mmtf", "(anonymous namespace)"},
 		{"", "msgpack"},
 		{"msgpack", "v1"},
 		{"msgpack", "v2"},
@@ -64,11 +58,9 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 
 	bind_std_exception(M);
 	bind_std_locale_classes(M);
-	bind_std_system_error(M);
-	bind_std_basic_ios_tcc(M);
-	bind_std_istream_tcc(M);
+	bind_std_ios_base(M);
+	bind_std_ostream_tcc(M);
 	bind_std_fstream_tcc(M);
-	bind_std_fstream_tcc_1(M);
 	bind_std_stl_vector(M);
 	bind_std_stl_vector_1(M);
 	bind_std_stl_vector_2(M);
@@ -87,8 +79,5 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 	bind_unknown_unknown_7(M);
 	bind_unknown_unknown_8(M);
 	bind_unknown_unknown_9(M);
-	bind_unknown_unknown_10(M);
-	bind_unknown_unknown_11(M);
-	bind_unknown_unknown_12(M);
 
 }

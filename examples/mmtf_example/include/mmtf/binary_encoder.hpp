@@ -29,7 +29,7 @@ namespace mmtf {
 // PRIVATE FUNCTIONS (only visible in this header)
 // *************************************************************************
 
-namespace { // private helpers
+/* namespace anon { // private helpers */
 
 /**
  * @brief Convert floats to ints via multiplier.
@@ -96,7 +96,7 @@ inline void add_header(std::stringstream & ss, uint32_t array_size, uint32_t cod
  */
 inline std::vector<char> stringstreamToCharVector(std::stringstream & ss);
 
-} // anon ns
+/* } // anon ns */
 
 // *************************************************************************
 // PUBLIC FUNCTIONS
@@ -159,7 +159,7 @@ inline std::vector<char> encodeRunLengthInt8(std::vector<int8_t> int8_vec);
 // IMPLEMENTATION
 // *************************************************************************
 
-namespace { // private helpers
+/* namespace anon { // private helpers */
 
 inline std::vector<int32_t> convertFloatsToInts(std::vector<float> const & vec_in,
                                             int multiplier) {
@@ -271,7 +271,7 @@ inline std::vector<char> stringstreamToCharVector(std::stringstream & ss) {
   return ret;
 }
 
-} // anon ns
+/* } // anon ns */
 
 
 inline std::vector<char> encodeInt8ToByte(std::vector<int8_t> vec_in) {

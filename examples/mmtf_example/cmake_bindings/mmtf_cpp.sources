@@ -1,11 +1,9 @@
 mmtf_cpp.cpp
 std/exception.cpp
 std/locale_classes.cpp
-std/system_error.cpp
-std/basic_ios_tcc.cpp
-std/istream_tcc.cpp
+std/ios_base.cpp
+std/ostream_tcc.cpp
 std/fstream_tcc.cpp
-std/fstream_tcc_1.cpp
 std/stl_vector.cpp
 std/stl_vector_1.cpp
 std/stl_vector_2.cpp
@@ -24,6 +22,3 @@ unknown/unknown_6.cpp
 unknown/unknown_7.cpp
 unknown/unknown_8.cpp
 unknown/unknown_9.cpp
-unknown/unknown_10.cpp
-unknown/unknown_11.cpp
-unknown/unknown_12.cpp

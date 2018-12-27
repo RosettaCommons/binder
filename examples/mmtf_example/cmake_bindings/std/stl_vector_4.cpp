@@ -12,6 +12,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -22,7 +24,7 @@
 
 void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B197_[std::vector<mmtf::BioAssembly>] ";
+	std::cout << "B174_[std::vector<mmtf::BioAssembly>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::BioAssembly>, std::shared_ptr<std::vector<mmtf::BioAssembly>>> cl(M("std"), "vector_mmtf_BioAssembly_t", "");
 		pybind11::handle cl_type = cl;
@@ -67,7 +69,7 @@ void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::BioAssembly>::*)(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)) &std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::swap, "C++: std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::swap(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::BioAssembly>::*)()) &std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::clear, "C++: std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::clear() --> void");
 	}
-	std::cout << "B198_[std::vector<mmtf::Entity>] ";
+	std::cout << "B175_[std::vector<mmtf::Entity>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::Entity>, std::shared_ptr<std::vector<mmtf::Entity>>> cl(M("std"), "vector_mmtf_Entity_t", "");
 		pybind11::handle cl_type = cl;
