@@ -110,7 +110,7 @@ private:
 // *************************************************************************
 
 // helpers in anonymous namespace (only visible in this file)
-namespace {
+/* namespace anon { */
 
 // byteorder functions ("ntohl" etc.)
 #ifdef WIN32
@@ -158,7 +158,7 @@ void arrayCopyBigendian2(void* dst, const char* src, size_t n) {
     }
 }
 
-} // anon ns
+/* } // anon ns */
 
 inline BinaryDecoder::BinaryDecoder(const msgpack::object& obj,
                                     const std::string& key)

@@ -9,6 +9,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -19,7 +21,7 @@
 
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B190_[std::vector<char>] ";
+	std::cout << "B167_[std::vector<char>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<char>, std::shared_ptr<std::vector<char>>> cl(M("std"), "vector_char_t", "");
 		pybind11::handle cl_type = cl;
@@ -66,7 +68,7 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 		cl.def("swap", (void (std::vector<char>::*)(class std::vector<char, class std::allocator<char> > &)) &std::vector<char, std::allocator<char> >::swap, "C++: std::vector<char, std::allocator<char> >::swap(class std::vector<char, class std::allocator<char> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<char>::*)()) &std::vector<char, std::allocator<char> >::clear, "C++: std::vector<char, std::allocator<char> >::clear() --> void");
 	}
-	std::cout << "B191_[std::vector<int>] ";
+	std::cout << "B168_[std::vector<int>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<int>, std::shared_ptr<std::vector<int>>> cl(M("std"), "vector_int_t", "");
 		pybind11::handle cl_type = cl;

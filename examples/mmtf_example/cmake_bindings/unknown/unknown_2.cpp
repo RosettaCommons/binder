@@ -14,6 +14,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -24,9 +26,9 @@
 
 void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B211_[msgpack::v1::object] ";
+	std::cout << "B192_[msgpack::v1::object] ";
 	{ // msgpack::v1::object file: line:75
-		pybind11::class_<msgpack::v1::object, std::shared_ptr<msgpack::v1::object>> cl(M("msgpack::v1"), "object", "");
+		pybind11::class_<msgpack::v1::object, std::shared_ptr<msgpack::v1::object>> cl(M("msgpack::v1"), "object", "Object class that corresponding to MessagePack format object\n\n See https://github.com/msgpack/msgpack-c/wiki/v1_1_cpp_object");
 		pybind11::handle cl_type = cl;
 
 		{ // msgpack::v1::object::union_type file: line:76
@@ -79,8 +81,8 @@ void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const 
 		cl.def("convert", (struct mmtf::StructureData & (msgpack::v1::object::*)(struct mmtf::StructureData &) const) &msgpack::v1::object::convert<mmtf::StructureData>, "C++: msgpack::v1::object::convert(struct mmtf::StructureData &) const --> struct mmtf::StructureData &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
 		cl.def("convert", (float * (msgpack::v1::object::*)(float *) const) &msgpack::v1::object::convert<float *>, "C++: msgpack::v1::object::convert(float *) const --> float *", pybind11::return_value_policy::automatic, pybind11::arg("v"));
 		cl.def("assign", (struct msgpack::v1::object & (msgpack::v1::object::*)(const struct msgpack::v1::object &)) &msgpack::v1::object::operator=<msgpack::v1::object>, "C++: msgpack::v1::object::operator=(const struct msgpack::v1::object &) --> struct msgpack::v1::object &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
-		cl.def("is_nil", (bool (msgpack::v1::object::*)() const) &msgpack::v1::object::is_nil, "C++: msgpack::v1::object::is_nil() const --> bool");
+		cl.def("is_nil", (bool (msgpack::v1::object::*)() const) &msgpack::v1::object::is_nil, "Cheking nil\n\n \n If the object is nil, then return true, else return false.\n\nC++: msgpack::v1::object::is_nil() const --> bool");
 		cl.def("assign", (struct msgpack::v1::object & (msgpack::v1::object::*)(const struct msgpack::v1::object &)) &msgpack::v1::object::operator=, "C++: msgpack::v1::object::operator=(const struct msgpack::v1::object &) --> struct msgpack::v1::object &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B212_[msgpack::v1::type_error] ";
+	std::cout << "B193_[msgpack::v1::type_error] ";
 }

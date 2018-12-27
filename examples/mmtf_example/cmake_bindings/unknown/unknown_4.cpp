@@ -12,6 +12,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -22,15 +24,15 @@
 
 void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B216_[class std::__cxx11::basic_string<char> mmtf::getVersionString()] ";
+	std::cout << "B197_[class std::__cxx11::basic_string<char> mmtf::getVersionString()] ";
 	// mmtf::getVersionString() file: line:38
 	M("mmtf").def("getVersionString", (std::string (*)()) &mmtf::getVersionString, "Get string representation of MMTF spec version implemented here\n\nC++: mmtf::getVersionString() --> std::string");
 
-	std::cout << "B217_[bool mmtf::isVersionSupported(const std::string &)] ";
+	std::cout << "B198_[bool mmtf::isVersionSupported(const std::string &)] ";
 	// mmtf::isVersionSupported(const std::string &) file: line:44
 	M("mmtf").def("isVersionSupported", (bool (*)(const std::string &)) &mmtf::isVersionSupported, "Check if version is supported (minor revisions ok, major ones not)\n \n\n true if supported, false if not\n\nC++: mmtf::isVersionSupported(const std::string &) --> bool", pybind11::arg("version_string"));
 
-	std::cout << "B218_[mmtf::GroupType] ";
+	std::cout << "B199_[mmtf::GroupType] ";
 	{ // mmtf::GroupType file: line:51
 		pybind11::class_<mmtf::GroupType, std::shared_ptr<mmtf::GroupType>> cl(M("mmtf"), "GroupType", "Group (residue) level data store\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#group-data");
 		pybind11::handle cl_type = cl;
@@ -49,7 +51,7 @@ void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const 
 		cl.def("__eq__", (bool (mmtf::GroupType::*)(const struct mmtf::GroupType &) const) &mmtf::GroupType::operator==, "C++: mmtf::GroupType::operator==(const struct mmtf::GroupType &) const --> bool", pybind11::arg("c"));
 		cl.def("assign", (struct mmtf::GroupType & (mmtf::GroupType::*)(const struct mmtf::GroupType &)) &mmtf::GroupType::operator=, "C++: mmtf::GroupType::operator=(const struct mmtf::GroupType &) --> struct mmtf::GroupType &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B219_[mmtf::Entity] ";
+	std::cout << "B200_[mmtf::Entity] ";
 	{ // mmtf::Entity file: line:81
 		pybind11::class_<mmtf::Entity, std::shared_ptr<mmtf::Entity>> cl(M("mmtf"), "Entity", "Entity type.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#entitylist");
 		pybind11::handle cl_type = cl;
@@ -65,7 +67,7 @@ void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const 
 		cl.def("msgpack_unpack", (void (mmtf::Entity::*)(const struct msgpack::v2::object &)) &mmtf::Entity::msgpack_unpack, "C++: mmtf::Entity::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::Entity & (mmtf::Entity::*)(const struct mmtf::Entity &)) &mmtf::Entity::operator=, "C++: mmtf::Entity::operator=(const struct mmtf::Entity &) --> struct mmtf::Entity &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B220_[mmtf::Transform] ";
+	std::cout << "B201_[mmtf::Transform] ";
 	{ // mmtf::Transform file: line:107
 		pybind11::class_<mmtf::Transform, std::shared_ptr<mmtf::Transform>> cl(M("mmtf"), "Transform", "Transformation definition for a set of chains.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#bioassemblylist");
 		pybind11::handle cl_type = cl;
@@ -78,7 +80,7 @@ void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const 
 		cl.def("msgpack_unpack", (void (mmtf::Transform::*)(const struct msgpack::v2::object &)) &mmtf::Transform::msgpack_unpack, "C++: mmtf::Transform::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::Transform & (mmtf::Transform::*)(const struct mmtf::Transform &)) &mmtf::Transform::operator=, "C++: mmtf::Transform::operator=(const struct mmtf::Transform &) --> struct mmtf::Transform &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B221_[mmtf::BioAssembly] ";
+	std::cout << "B202_[mmtf::BioAssembly] ";
 	{ // mmtf::BioAssembly file: line:130
 		pybind11::class_<mmtf::BioAssembly, std::shared_ptr<mmtf::BioAssembly>> cl(M("mmtf"), "BioAssembly", "Data store for the biological assembly annotation.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#bioassemblylist");
 		pybind11::handle cl_type = cl;
@@ -92,7 +94,7 @@ void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const 
 		cl.def("msgpack_unpack", (void (mmtf::BioAssembly::*)(const struct msgpack::v2::object &)) &mmtf::BioAssembly::msgpack_unpack, "C++: mmtf::BioAssembly::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::BioAssembly & (mmtf::BioAssembly::*)(const struct mmtf::BioAssembly &)) &mmtf::BioAssembly::operator=, "C++: mmtf::BioAssembly::operator=(const struct mmtf::BioAssembly &) --> struct mmtf::BioAssembly &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B222_[mmtf::StructureData] ";
+	std::cout << "B203_[mmtf::StructureData] ";
 	{ // mmtf::StructureData file: line:155
 		pybind11::class_<mmtf::StructureData, std::shared_ptr<mmtf::StructureData>> cl(M("mmtf"), "StructureData", "Top level MMTF data container.\n\n Default values (mmtf::isDefaultValue, mmtf::setDefaultValue) are set in\n constructor and can be used to check if value was never set (only relevant\n for optional values):\n - default for vectors and strings: empty\n - default for numeric types (incl. char): max. value of that type\n - default for numXX = 0\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#fields");
 		pybind11::handle cl_type = cl;
@@ -152,31 +154,31 @@ void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const 
 		cl.def("print", (std::string (mmtf::StructureData::*)(std::string)) &mmtf::StructureData::print, "Read out the contents of mmtf::StructureData in a PDB-like fashion\n Columns are in order:\n ATOM/HETATM AtomId Element AtomName AltLoc GroupId GroupType\n InsCode ChainName x y z B-factor Occupancy Charge\n \n\n what to split columns with\n\nC++: mmtf::StructureData::print(std::string) --> std::string", pybind11::arg("delim"));
 		cl.def("__eq__", (bool (mmtf::StructureData::*)(const struct mmtf::StructureData &) const) &mmtf::StructureData::operator==, "compare two StructureData classes\n \n\n what to compare to\n\nC++: mmtf::StructureData::operator==(const struct mmtf::StructureData &) const --> bool", pybind11::arg("c"));
 	}
-	std::cout << "B223_[float mmtf::getDefaultValue<float>()] ";
+	std::cout << "B204_[float mmtf::getDefaultValue<float>()] ";
 	// mmtf::getDefaultValue() file: line:386
 	M("mmtf").def("getDefaultValue", (float (*)()) &mmtf::getDefaultValue<float>, "C++: mmtf::getDefaultValue() --> float");
 
-	std::cout << "B224_[bool mmtf::isDefaultValue<std::vector<signed char, std::allocator<signed char> >>(const class std::vector<signed char, class std::allocator<signed char> > &)] ";
+	std::cout << "B205_[bool mmtf::isDefaultValue<std::vector<signed char, std::allocator<signed char> >>(const class std::vector<signed char, class std::allocator<signed char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<signed char, class std::allocator<signed char> > &)) &mmtf::isDefaultValue<std::vector<signed char, std::allocator<signed char> >>, "C++: mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B225_[bool mmtf::isDefaultValue<std::vector<int, std::allocator<int> >>(const class std::vector<int, class std::allocator<int> > &)] ";
+	std::cout << "B206_[bool mmtf::isDefaultValue<std::vector<int, std::allocator<int> >>(const class std::vector<int, class std::allocator<int> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<int, class std::allocator<int> > &)) &mmtf::isDefaultValue<std::vector<int, std::allocator<int> >>, "C++: mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B226_[bool mmtf::isDefaultValue<std::vector<std::string, std::allocator<std::string > >>(const class std::vector<std::string, class std::allocator<std::string > > &)] ";
+	std::cout << "B207_[bool mmtf::isDefaultValue<std::vector<std::string, std::allocator<std::string > >>(const class std::vector<std::string, class std::allocator<std::string > > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<std::string, class std::allocator<std::string > > &)) &mmtf::isDefaultValue<std::vector<std::string, std::allocator<std::string > >>, "C++: mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B227_[bool mmtf::isDefaultValue<std::vector<char, std::allocator<char> >>(const class std::vector<char, class std::allocator<char> > &)] ";
+	std::cout << "B208_[bool mmtf::isDefaultValue<std::vector<char, std::allocator<char> >>(const class std::vector<char, class std::allocator<char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<char, class std::allocator<char> > &)) &mmtf::isDefaultValue<std::vector<char, std::allocator<char> >>, "C++: mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B228_[bool mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>(const class std::vector<float, class std::allocator<float> > &)] ";
+	std::cout << "B209_[bool mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>(const class std::vector<float, class std::allocator<float> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<float, class std::allocator<float> > &)) &mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>, "C++: mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B229_[bool mmtf::isDefaultValue<float>(const float &)] ";
+	std::cout << "B210_[bool mmtf::isDefaultValue<float>(const float &)] ";
 	// mmtf::isDefaultValue(const float &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const float &)) &mmtf::isDefaultValue<float>, "C++: mmtf::isDefaultValue(const float &) --> bool", pybind11::arg("value"));
 

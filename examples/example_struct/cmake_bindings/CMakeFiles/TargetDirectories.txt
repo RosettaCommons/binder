@@ -1,0 +1,3 @@
+/home/danpf/git/binder/examples/example_struct/cmake_bindings/CMakeFiles/rebuild_cache.dir
+/home/danpf/git/binder/examples/example_struct/cmake_bindings/CMakeFiles/test_struct.dir
+/home/danpf/git/binder/examples/example_struct/cmake_bindings/CMakeFiles/edit_cache.dir

@@ -14,6 +14,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -24,7 +26,7 @@
 
 void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B214_[std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>] ";
+	std::cout << "B195_[std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>] ";
 	{ // std::map file:bits/stl_map.h line:99
 		pybind11::class_<std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>, std::shared_ptr<std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>>> cl(M("std"), "map_std_string_msgpack_v2_object_std_less_std_string_std_allocator_std_pair_const_std_string_msgpack_v2_object_t", "");
 		pybind11::handle cl_type = cl;
@@ -53,5 +55,5 @@ void bind_std_stl_map(std::function< pybind11::module &(std::string const &names
 		cl.def("count", (unsigned long (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &) const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::count, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::count(const std::string &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> > > (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::equal_range, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::equal_range(const std::string &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> > >", pybind11::arg("__x"));
 	}
-	std::cout << "B215_[std::map<std::string,msgpack::v2::object *,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object *> >>] ";
+	std::cout << "B196_[std::map<std::string,msgpack::v2::object *,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object *> >>] ";
 }

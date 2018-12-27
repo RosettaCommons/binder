@@ -12,6 +12,8 @@
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
+#include <mmtf.hpp>
+
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -22,7 +24,7 @@
 
 void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B194_[std::vector<mmtf::Transform>] ";
+	std::cout << "B171_[std::vector<mmtf::Transform>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::Transform>, std::shared_ptr<std::vector<mmtf::Transform>>> cl(M("std"), "vector_mmtf_Transform_t", "");
 		pybind11::handle cl_type = cl;
@@ -67,7 +69,7 @@ void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::Transform>::*)(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &)) &std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::swap, "C++: std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::swap(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::Transform>::*)()) &std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::clear, "C++: std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::clear() --> void");
 	}
-	std::cout << "B195_[std::vector<float>] ";
+	std::cout << "B172_[std::vector<float>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<float>, std::shared_ptr<std::vector<float>>> cl(M("std"), "vector_float_t", "");
 		pybind11::handle cl_type = cl;

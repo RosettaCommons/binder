@@ -20,6 +20,8 @@ this_project_include = this_project_source
 this_project_namespace_to_bind = 'mmtf'
 python_module_name = 'mmtf_cpp'
 
+msgpack_includes = glob.glob("msgpack_include/**", recursive=True)
+msgpack_includes = [os.path.abspath(x) for x in msgpack_includes if os.path.isdir(x)] + [os.path.abspath("msgpack_include")]
 
 def make_all_includes():
     all_includes = []
@@ -51,12 +53,13 @@ def make_all_includes():
 def make_bindings_code(all_includes_fn):
     shutil.rmtree(bindings_dir, ignore_errors=True)
     os.mkdir(bindings_dir)
+    msgpack_i_strings = " ".join([f"-I{x}" for x in msgpack_includes])
     command = (f'{binder_executable} --root-module {python_module_name} '
                f'--prefix {os.getcwd()}/{bindings_dir}/ --annotate-includes --trace '
                f' --bind="mmtf" '
                + ('--config config.cfg ' if use_pybind_stl else '') +
                f' {all_includes_fn} -- -std=c++11 '
-               f'-I{this_project_include} -DNDEBUG -v').split()
+               f'-I{this_project_include} -I{this_project_include}/mmtf  {msgpack_i_strings} -DNDEBUG -v').split()
                # f'-I{this_project_include}/mmtf  -DNDEBUG -v').split()
                # f'--bind "" '
                # f'--bind "{this_project_namespace_to_bind}" '
@@ -75,8 +78,8 @@ def compile_sources(sources_to_compile):
     lines_to_write = []
     lines_to_write.append(f'project({python_module_name})')
 
-    for include_dir in [binder_source, this_project_source, this_project_include, f"{os.getcwd()}/msgpack_include",
-                        pybind_source, get_python_inc()]:
+    for include_dir in [binder_source, this_project_source, this_project_include, f"{this_project_include}/mmtf",
+                        pybind_source, get_python_inc()] + msgpack_includes:
         lines_to_write.append(f'include_directories({include_dir})')
     lines_to_write.append('set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON)')  # -fPIC
     lines_to_write.append('add_definitions(-DNDEBUG)')
@@ -95,14 +98,11 @@ def compile_sources(sources_to_compile):
     subprocess.call('cmake -G Ninja'.split())
     subprocess.call('ninja')
     sys.path.append('.')
-    if python_module_name == 'test_struct':
+    if python_module_name == 'mmtf_cpp':
         sys.stdout.flush()
         print('Testing Python lib...')
-        import test_struct
-        test_obj = test_struct.testers.test_my_struct()
-        print(test_obj.an_int)
-        if use_pybind_stl:
-            print(test_obj.a_vector)
+        import mmtf_cpp
+        print(mmtf_cpp.__dir__())
 
 
 def main():

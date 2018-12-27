@@ -5,8 +5,19 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace testers {
+
+
+namespace {
+	void
+	print_an_int( int const & myint ) {
+		std::cout << "myint is: " << myint << std::endl;
+	}
+}
+
+
 struct test_my_struct {
 	int an_int;
 	std::string a_string;
@@ -33,6 +44,11 @@ struct test_my_struct {
 	void
 	append_vec() {
 		a_vector.push_back(a_vector.back()+1);
+	}
+
+	void
+	p_int() {
+		print_an_int(an_int);
 	}
 
 };
