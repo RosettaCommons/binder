@@ -648,169 +648,7 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
-[4/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/ostream_tcc.o
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-         internals_ptr->tstate = PyThread_create_key();
-                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-         PyThread_set_key_value(internals_ptr->tstate, tstate);
-                                                             ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/ostream_tcc.cpp:12:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
-                                                                           ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
- PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
-                    ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/ostream_tcc.cpp:12:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(internals.tstate, tstate);
-                                                            ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/ostream_tcc.cpp:12:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_delete_key_value(detail::get_internals().tstate);
-                                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
- PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from std/ostream_tcc.cpp:12:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-                 PyThread_set_key_value(key, nullptr);
-                                                    ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/ostream_tcc.cpp:12:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(key, tstate);
-                                               ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/ostream_tcc.cpp:12:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-[5/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_3.o
+[4/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_3.o
 In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
@@ -969,6 +807,168 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
                  from std/stl_vector_3.cpp:7:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+[5/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/ostream_tcc.o
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/ostream_tcc.cpp:12:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/ostream_tcc.cpp:12:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/ostream_tcc.cpp:12:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from std/ostream_tcc.cpp:12:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/ostream_tcc.cpp:12:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/ostream_tcc.cpp:12:
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
@@ -1458,169 +1458,7 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
-[9/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_1.o
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-         internals_ptr->tstate = PyThread_create_key();
-                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-         PyThread_set_key_value(internals_ptr->tstate, tstate);
-                                                             ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_vector_1.cpp:9:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
-                                                                           ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
- PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
-                    ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_vector_1.cpp:9:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(internals.tstate, tstate);
-                                                            ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_vector_1.cpp:9:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_delete_key_value(detail::get_internals().tstate);
-                                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
- PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_vector_1.cpp:9:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-                 PyThread_set_key_value(key, nullptr);
-                                                    ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_vector_1.cpp:9:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(key, tstate);
-                                               ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_vector_1.cpp:9:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-[10/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/fstream_tcc.o
+[9/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/fstream_tcc.o
 In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
@@ -1779,6 +1617,168 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
                  from std/fstream_tcc.cpp:14:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+[10/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_1.o
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_vector_1.cpp:9:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_vector_1.cpp:9:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_vector_1.cpp:9:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_vector_1.cpp:9:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_vector_1.cpp:9:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_vector_1.cpp:9:
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
@@ -2498,331 +2498,7 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
-[15/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/sstream_tcc.o
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-         internals_ptr->tstate = PyThread_create_key();
-                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-         PyThread_set_key_value(internals_ptr->tstate, tstate);
-                                                             ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/sstream_tcc.cpp:15:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
-                                                                           ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
- PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
-                    ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/sstream_tcc.cpp:15:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(internals.tstate, tstate);
-                                                            ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/sstream_tcc.cpp:15:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_delete_key_value(detail::get_internals().tstate);
-                                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
- PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from std/sstream_tcc.cpp:15:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-                 PyThread_set_key_value(key, nullptr);
-                                                    ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/sstream_tcc.cpp:15:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(key, tstate);
-                                               ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/sstream_tcc.cpp:15:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-[16/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_map.o
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
-                                  ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
-         internals_ptr->tstate = PyThread_create_key();
-                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
- PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~
-In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-         PyThread_set_key_value(internals_ptr->tstate, tstate);
-                                                             ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_map.cpp:18:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
-                                                                           ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
- PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
-                    ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_map.cpp:18:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(internals.tstate, tstate);
-                                                            ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_map.cpp:18:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_delete_key_value(detail::get_internals().tstate);
-                                                                     ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
- PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_map.cpp:18:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-                 PyThread_set_key_value(key, nullptr);
-                                                    ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-In file included from std/stl_map.cpp:18:0:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
-/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
-             PyThread_set_key_value(key, tstate);
-                                               ^
-In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
-                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
-                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
-                 from std/stl_map.cpp:18:
-/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
- PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
-                 ^~~~~~~~~~~~~~~~~~~~~~
-[17/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_5.o
+[15/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_vector_5.o
 In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
@@ -2984,7 +2660,7 @@ In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/pyth
 /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
  PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
                  ^~~~~~~~~~~~~~~~~~~~~~
-[18/25] Building CXX object CMakeFiles/mmtf_cpp.dir/unknown/unknown.o
+[16/25] Building CXX object CMakeFiles/mmtf_cpp.dir/unknown/unknown.o
 FAILED: CMakeFiles/mmtf_cpp.dir/unknown/unknown.o 
 /usr/bin/c++  -DNDEBUG -Dmmtf_cpp_EXPORTS -I/home/danpf/git/binder/examples/mmtf_example/../../source -I/home/danpf/git/binder/examples/mmtf_example/include -I/home/danpf/git/binder/examples/mmtf_example/include/mmtf -I/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include -I/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware/simd -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware/simd/x86 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware/simd/ppc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware/simd/x86_amd -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/hardware/simd/arm -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/library -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/library/std -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/library/c -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/os -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/os/bsd -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/other -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/platform -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/compiler -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/language -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/architecture -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/predef/architecture/x86 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/adaptor -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/adaptor/cpp11 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/adaptor/cpp17 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/adaptor/tr1 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/adaptor/boost -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v2 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v2/adaptor -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v2/adaptor/boost -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v2/adaptor/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v2/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor/cpp11 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor/cpp17 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor/tr1 -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor/boost -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/adaptor/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/v1/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/selection -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/comparison -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/tuple -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/tuple/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/variadic -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/variadic/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/array -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/array/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/repetition -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/repetition/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/repetition/detail/edg -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/repetition/detail/dmc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/repetition/detail/msvc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/logical -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/config -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/facilities -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/facilities/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/seq -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/seq/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/slot -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/slot/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/list -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/list/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/list/detail/edg -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/list/detail/dmc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/iteration -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/iteration/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/iteration/detail/iter -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/iteration/detail/bounds -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/arithmetic -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/arithmetic/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/punctuation -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/punctuation/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/detail/dmc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/debug -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/control -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/control/detail -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/control/detail/edg -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/control/detail/dmc -I/home/danpf/git/binder/examples/mmtf_example/msgpack_include/msgpack/preprocessor/control/detail/msvc -fPIC -MD -MT CMakeFiles/mmtf_cpp.dir/unknown/unknown.o -MF CMakeFiles/mmtf_cpp.dir/unknown/unknown.o.d -o CMakeFiles/mmtf_cpp.dir/unknown/unknown.o -c unknown/unknown.cpp
 In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
@@ -3165,6 +2841,330 @@ In file included from unknown/unknown.cpp:16:0:
 /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:65:5: error: ‘pybind11::cpp_function::cpp_function(Func&&, const Extra& ...) [with Func = pybind11::class_<type_, options>::def_readwrite(const char*, D C::*, const Extra& ...) [with C = mmtf::StructureData; D = msgpack::v1::zone; Extra = {}; type_ = mmtf::StructureData; options = {std::shared_ptr<mmtf::StructureData>}]::<lambda(pybind11::class_<mmtf::StructureData, std::shared_ptr<mmtf::StructureData> >::type&, const msgpack::v1::zone&)>; Extra = {pybind11::is_method}; <template-parameter-1-3> = void]’, declared using local type ‘pybind11::class_<type_, options>::def_readwrite(const char*, D C::*, const Extra& ...) [with C = mmtf::StructureData; D = msgpack::v1::zone; Extra = {}; type_ = mmtf::StructureData; options = {std::shared_ptr<mmtf::StructureData>}]::<lambda(pybind11::class_<mmtf::StructureData, std::shared_ptr<mmtf::StructureData> >::type&, const msgpack::v1::zone&)>’, is used but never defined [-fpermissive]
      cpp_function(Func &&f, const Extra&... extra) {
      ^~~~~~~~~~~~
+[17/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/sstream_tcc.o
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/sstream_tcc.cpp:15:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/sstream_tcc.cpp:15:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/sstream_tcc.cpp:15:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from std/sstream_tcc.cpp:15:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/sstream_tcc.cpp:15:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/sstream_tcc.cpp:15:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+[18/25] Building CXX object CMakeFiles/mmtf_cpp.dir/std/stl_map.o
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:82:34: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
+                                  ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h: In function ‘pybind11::detail::internals& pybind11::detail::get_internals()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:169:53: warning: ‘int PyThread_create_key()’ is deprecated [-Wdeprecated-declarations]
+         internals_ptr->tstate = PyThread_create_key();
+                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:95:17: note: declared here
+ PyAPI_FUNC(int) PyThread_create_key(void) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/internals.h:170:61: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+         PyThread_set_key_value(internals_ptr->tstate, tstate);
+                                                             ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_map.cpp:18:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_acquire::gil_scoped_acquire()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1758:75: warning: ‘void* PyThread_get_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+         tstate = (PyThreadState *) PyThread_get_key_value(internals.tstate);
+                                                                           ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:98:20: note: declared here
+ PyAPI_FUNC(void *) PyThread_get_key_value(int key) Py_DEPRECATED(3.7);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_map.cpp:18:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1770:60: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(internals.tstate, tstate);
+                                                            ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_map.cpp:18:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In member function ‘void pybind11::gil_scoped_acquire::dec_ref()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1809:69: warning: ‘void PyThread_delete_key_value(int)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_delete_key_value(detail::get_internals().tstate);
+                                                                     ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:99:18: note: declared here
+ PyAPI_FUNC(void) PyThread_delete_key_value(int key) Py_DEPRECATED(3.7);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_map.cpp:18:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In constructor ‘pybind11::gil_scoped_release::gil_scoped_release(bool)’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1837:52: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+                 PyThread_set_key_value(key, nullptr);
+                                                    ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+In file included from std/stl_map.cpp:18:0:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h: In destructor ‘pybind11::gil_scoped_release::~gil_scoped_release()’:
+/home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:1850:47: warning: ‘int PyThread_set_key_value(int, void*)’ is deprecated [-Wdeprecated-declarations]
+             PyThread_set_key_value(key, tstate);
+                                               ^
+In file included from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pystate.h:11:0,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/traceback.h:8,
+                 from /home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/Python.h:100,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/detail/common.h:111,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pytypes.h:12,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
+                 from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/pybind11.h:43,
+                 from std/stl_map.cpp:18:
+/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m/pythread.h:97:17: note: declared here
+ PyAPI_FUNC(int) PyThread_set_key_value(int key, void *value) Py_DEPRECATED(3.7);
+                 ^~~~~~~~~~~~~~~~~~~~~~
 [19/25] Building CXX object CMakeFiles/mmtf_cpp.dir/unknown/unknown_1.o
 In file included from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/cast.h:16:0,
                  from /home/danpf/git/binder/examples/mmtf_example/../../build/pybind11/include/pybind11/attr.h:13,
