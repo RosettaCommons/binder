@@ -419,7 +419,14 @@ bool is_bindable(FunctionDecl const *F)
 	// 	F->dump();
 	// }
 
-	if( F->getQualifiedNameAsString().rfind(')') != std::string::npos ) return false; // check for functions in anonymous namespaces
+	// check for functions in anonymous namespaces
+	//if( F->getQualifiedNameAsString().rfind(')') != std::string::npos ) return false;
+	auto qualified_name = F->getQualifiedNameAsString();
+	auto closing_bracket = qualified_name.rfind(')');
+	if( closing_bracket != std::string::npos ) {
+		if( closing_bracket > 0  and  qualified_name[closing_bracket-1] == '(' ) {} // operator()
+		else return false;
+	}
 
 	//bool r = true;
 	bool r = !F->isDeleted(); //  and  !F->isVariadic(); disabled, instead we force bindings with lambda for variadic

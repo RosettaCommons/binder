@@ -240,8 +240,9 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 	// }
 
-	//if( qualified_name == "(anonymous)" ) return false;
 	//if( C->getNameAsString() == "" ) return false;
+
+	//if( qualified_name == "(anonymous)" ) return false;
 	if( qualified_name.rfind(')') != std::string::npos ) return false; // check for anonymous structs and types in anonymous namespaces
 
 	if( C->isDependentType() ) return false;
