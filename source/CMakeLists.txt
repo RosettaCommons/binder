@@ -3,6 +3,7 @@
 #set(CMAKE_CXX_FLAGS "-fexceptions ${CMAKE_CXX_FLAGS}")
 
 set(LLVM_LINK_COMPONENTS support)
+set(LLVM_USED_LIBS clangTooling clangBasic clangAST)
 
 add_clang_executable(binder
   binder.cpp
@@ -33,9 +34,17 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 
-target_link_libraries(binder
-  PRIVATE
-  clangTooling
-  clangBasic
-  clangASTMatchers
-  )
+if(LLVM_VERSION_MAJOR GREATER 5)
+  target_link_libraries(binder
+    PRIVATE
+    clangTooling
+    clangBasic
+    clangASTMatchers
+    )
+else()
+  target_link_libraries(binder
+    clangTooling
+    clangBasic
+    clangASTMatchers
+    )
+endif()
