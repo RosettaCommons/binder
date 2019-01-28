@@ -35,7 +35,6 @@ using std::unordered_map;
 using std::make_pair;
 
 using namespace fmt::literals;
-using fmt::format;
 
 namespace binder {
 
@@ -422,7 +421,7 @@ void Context::generate(Config const &config)
 			}
 			if( i < binders.size() ) --i;
 
-			code = generate_include_directives(includes) + format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);
@@ -446,7 +445,7 @@ void Context::generate(Config const &config)
 	}
 
 	std::stringstream s;
-	s << format(main_module_header, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);
+	s << fmt::format(main_module_header, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);
 
 	root_module_file_handle << s.str();
 
