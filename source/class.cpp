@@ -181,26 +181,27 @@ bool is_const_overload(CXXMethodDecl *mc)
 // check if given CXXRecordDecl (which known to be template specialization of std::function) is bindable
 bool is_std_function_bindable(CXXRecordDecl const *C)
 {
-	//outs() << "is_std_function_bindable( " << class_qualified_name(C) << "\n";
-	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+        //outs() << "is_std_function_bindable( " << class_qualified_name(C) << "\n";
+        if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
 
-		for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
+                for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
 
+                        if (t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration) {
+                                //outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
+                                //t->getTemplateArgs()[i].dump();
+                                QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
+                                //qt.dump();
 
-			//outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
-			//t->getTemplateArgs()[i].dump();
-			QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
-			//qt.dump();
-
-			if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
-				if( not is_bindable( ft->getReturnType() ) ) return false;
-				for(uint i=0; i < ft->getNumParams(); ++i) {
-					if( not is_bindable( ft->getParamType(i) ) ) return false;
-				}
-			}
-		}
-	}
-	return true;
+                                if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
+                                        if( not is_bindable( ft->getReturnType() ) ) return false;
+                                        for(uint i=0; i < ft->getNumParams(); ++i) {
+                                                if( not is_bindable( ft->getParamType(i) ) ) return false;
+                                        }
+                                }
+                        }
+                }
+        }
+        return true;
 }
 
 bool is_bindable_raw(clang::CXXRecordDecl const *C);
