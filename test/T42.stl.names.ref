@@ -42,6 +42,7 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 		pybind11::handle cl_type = cl;
 
 		cl.def( pybind11::init( [](){ return new std::equal_to<float>(); } ) );
+		cl.def("__call__", (bool (std::equal_to<float>::*)(const float &, const float &) const) &std::equal_to<float>::operator(), "C++: std::equal_to<float>::operator()(const float &, const float &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
 		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::set file:bits/stl_set.h line:90
@@ -138,6 +139,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 
 		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def( pybind11::init( [](std::hash<float> const &o){ return new std::hash<float>(o); } ) );
+		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
 		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::map file:bits/stl_map.h line:96

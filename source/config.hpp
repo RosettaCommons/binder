@@ -18,6 +18,11 @@
 #include <vector>
 #include <map>
 
+#ifdef _MSC_VER
+#include <ciso646>
+using uint = unsigned int;
+#endif
+
 namespace binder {
 
 class Config
