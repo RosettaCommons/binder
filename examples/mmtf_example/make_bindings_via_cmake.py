@@ -20,8 +20,9 @@ this_project_include = this_project_source
 this_project_namespace_to_bind = 'mmtf'
 python_module_name = 'mmtf_cpp'
 
-msgpack_includes = glob.glob("msgpack_include/**", recursive=True)
-msgpack_includes = [os.path.abspath(x) for x in msgpack_includes if os.path.isdir(x)] + [os.path.abspath("msgpack_include")]
+# msgpack_includes = glob.glob("msgpack_include/**", recursive=True)
+# msgpack_includes = [os.path.abspath(x) for x in msgpack_includes if os.path.isdir(x)] + [os.path.abspath("msgpack_include")]
+
 
 def make_all_includes():
     all_includes = []
@@ -53,16 +54,16 @@ def make_all_includes():
 def make_bindings_code(all_includes_fn):
     shutil.rmtree(bindings_dir, ignore_errors=True)
     os.mkdir(bindings_dir)
-    msgpack_i_strings = " ".join([f"-I{x}" for x in msgpack_includes])
     command = (f'{binder_executable} --root-module {python_module_name} '
                f'--prefix {os.getcwd()}/{bindings_dir}/ --annotate-includes --trace '
-               f' --bind="mmtf" '
+               f' --bind="mmtf" -single-file '
                + ('--config config.cfg ' if use_pybind_stl else '') +
                f' {all_includes_fn} -- -std=c++11 '
-               f'-I{this_project_include} -I{this_project_include}/mmtf  {msgpack_i_strings} -DNDEBUG -v').split()
-               # f'-I{this_project_include}/mmtf  -DNDEBUG -v').split()
-               # f'--bind "" '
-               # f'--bind "{this_project_namespace_to_bind}" '
+               f' -I{this_project_include} -I{this_project_include}/mmtf'
+               f'-I{this_project_include}/../msgpack-c/include -DNDEBUG -v').split()
+    # f'-I{this_project_include}/mmtf  -DNDEBUG -v').split()
+    # f'--bind "" '
+    # f'--bind "{this_project_namespace_to_bind}" '
     # -I{os.getcwd()}/msgpack_include
     print('BINDER COMMAND: ' + ' '.join(command))
     subprocess.call(command)
@@ -79,7 +80,7 @@ def compile_sources(sources_to_compile):
     lines_to_write.append(f'project({python_module_name})')
 
     for include_dir in [binder_source, this_project_source, this_project_include, f"{this_project_include}/mmtf",
-                        pybind_source, get_python_inc()] + msgpack_includes:
+                        pybind_source, get_python_inc()]:
         lines_to_write.append(f'include_directories({include_dir})')
     lines_to_write.append('set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON)')  # -fPIC
     lines_to_write.append('add_definitions(-DNDEBUG)')
@@ -107,8 +108,8 @@ def compile_sources(sources_to_compile):
 
 def main():
     all_includes_fn = make_all_includes()
-    sources_to_compile = make_bindings_code(all_includes_fn)
-    compile_sources(sources_to_compile)
+    # sources_to_compile = make_bindings_code(all_includes_fn)
+    compile_sources([])
 
 
 if __name__ == '__main__':

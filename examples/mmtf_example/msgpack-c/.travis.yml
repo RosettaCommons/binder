@@ -1,0 +1,206 @@
+language: cpp
+sudo: false
+
+install:
+ - export BASE=`pwd`
+ - mkdir ${BASE}/usr
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget --no-check-certificate https://cmake.org/files/v3.7/cmake-3.7.1-Linux-x86_64.sh -O cmake-3.7.1-Linux-x86_64.sh; fi
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then chmod a+x cmake-3.7.1-Linux-x86_64.sh; fi
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./cmake-3.7.1-Linux-x86_64.sh --prefix=${BASE}/usr --skip-license; fi
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export PATH="${BASE}/usr/bin:$PATH"; fi
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export LD_LIBRARY_PATH="${BASE}/usr/lib:$LD_LIBRARY_PATH"; fi
+ - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
+ - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" == "linux" ]; then export CXX="clang++-3.9" CC="clang-3.9"; fi
+#gtest
+ - wget https://github.com/google/googletest/archive/release-1.7.0.zip -O googletest-release-1.7.0.zip
+ - unzip -q googletest-release-1.7.0.zip
+ - cd googletest-release-1.7.0
+ - $CXX -m${ARCH} src/gtest-all.cc -I. -Iinclude -c
+ - $CXX -m${ARCH} src/gtest_main.cc -I. -Iinclude -c
+ - ar -rv libgtest.a gtest-all.o
+ - ar -rv libgtest_main.a gtest_main.o
+ - mkdir -p ${BASE}/usr/include
+ - cp -r include/gtest ${BASE}/usr/include
+ - mkdir -p ${BASE}/usr/lib
+ - mv *.a ${BASE}/usr/lib
+ - cd ..
+# valgrind
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget http://valgrind.org/downloads/valgrind-3.12.0.tar.bz2 && tar xjf valgrind-3.12.0.tar.bz2 && cd valgrind-3.12.0 && ./configure --prefix=${BASE}/usr > /dev/null && make -j3 > /dev/null && make install > /dev/null && cd ..; fi
+# boost
+ - if [ "$BOOST" == "ON" ]; then wget http://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.zip && unzip -q boost_1_63_0.zip && cd boost_1_63_0 && ./bootstrap.sh && ./b2 -j3 --prefix=${BASE}/usr --with-chrono --with-context --with-system --with-timer address-model=${ARCH} install > /dev/null && cd ..; fi
+
+matrix:
+  include:
+    - os: osx
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="64"   BOOST="ON" SHARED="ON"  CHAR_SIGN="unsigned" API_VERSION="1"
+    - os: osx
+      compiler: clang
+      env:  ACTION="ci/build_cmake.sh" CXX11="ON" ARCH="64"   BOOST="ON" SHARED="ON"  CHAR_SIGN="signed"   API_VERSION="2"
+    - os: osx
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="64"              SHARED="ON"  CHAR_SIGN="signed"   API_VERSION="2"
+    - os: osx
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"             ARCH="64"              SHARED="ON"  CHAR_SIGN="unsigned" API_VERSION="2"
+    - os: linux
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"             ARCH="64"   BOOST="ON" SHARED="ON"  CHAR_SIGN="unsigned" API_VERSION="1"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-precise
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-5-multilib
+            - g++-5-multilib
+            - bzip2
+            - clang-3.9
+            - libc6-dbg
+    - os: linux
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"             ARCH="32"              SHARED="ON"  CHAR_SIGN="signed"   API_VERSION="2"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-precise
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-5-multilib
+            - g++-5-multilib
+            - lib32stdc++6-6-dbg
+            - lib32gcc1
+            - libc6-i386
+            - lib32z1-dev
+            - bzip2
+            - clang-3.9
+            - libc6-dbg
+    - os: linux
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="64"   BOOST="ON" SHARED="ON"  CHAR_SIGN="signed"   API_VERSION="2" X3_PARSE="ON"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-precise
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-5-multilib
+            - g++-5-multilib
+            - bzip2
+            - clang-3.9
+            - libc6-dbg
+    - os: linux
+      compiler: clang
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="32"              SHARED="OFF" CHAR_SIGN="unsigned" API_VERSION="2"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-precise
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-5-multilib
+            - g++-5-multilib
+            - lib32stdc++6-6-dbg
+            - lib32gcc1
+            - libc6-i386
+            - lib32z1-dev
+            - bzip2
+            - clang-3.9
+            - libc6-dbg
+    - os: linux
+      compiler: gcc
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="64"              SHARED="ON"  CHAR_SIGN="signed"   API_VERSION="2"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-6-multilib
+            - g++-6-multilib
+            - bzip2
+            - libc6-dbg
+    - os: linux
+      compiler: gcc
+      env: ACTION="ci/build_cmake.sh"  CXX11="ON" ARCH="32"   BOOST="ON" SHARED="ON"  CHAR_SIGN="unsigned" API_VERSION="2" X3_PARSE="ON"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-6-multilib
+            - g++-6-multilib
+            - lib32stdc++6-6-dbg
+            - lib32gcc1
+            - libc6-i386
+            - lib32z1-dev
+            - bzip2
+            - libc6-dbg
+    - os: linux
+      compiler: gcc
+      env: ACTION="ci/build_cmake.sh"             ARCH="64"              SHARED="ON"  CHAR_SIGN="unsigned" API_VERSION="2"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-6-multilib
+            - g++-6-multilib
+            - bzip2
+            - libc6-dbg
+    - os: linux
+      compiler: gcc
+      env: ACTION="ci/build_cmake.sh"             ARCH="32"   BOOST="ON" SHARED="OFF" CHAR_SIGN="signed"   API_VERSION="1"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-6-multilib
+            - g++-6-multilib
+            - lib32stdc++6-6-dbg
+            - lib32gcc1
+            - libc6-i386
+            - lib32z1-dev
+            - bzip2
+            - libc6-dbg
+    - os: linux
+      compiler: gcc
+      env: ACTION="ci/build_cmake.sh"             ARCH="32"   BOOST="ON" SHARED="OFF" CHAR_SIGN="signed"   API_VERSION="2"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-multilib
+            - gcc-multilib
+            - gcc-6-multilib
+            - g++-6-multilib
+            - lib32stdc++6-6-dbg
+            - lib32gcc1
+            - libc6-i386
+            - lib32z1-dev
+            - bzip2
+            - libc6-dbg
+
+script:
+  - CMAKE_CXX_COMPILER="${CXX}" CMAKE_C_COMPILER="${CC}" CMAKE_LIBRARY_PATH="${BASE}/usr/lib:${BASE}/build" GTEST_ROOT="${BASE}/usr" BOOST_ROOT="${BASE}/usr" ${ACTION}

@@ -1,0 +1,71 @@
+language: cpp
+
+notifications:
+  email:
+    recipients:
+      - grafikrobot@gmail.com
+  irc:
+    channels:
+      - "chat.freenode.net#boost"
+    template:
+      - "%{repository}/%{branch} (%{commit} - %{author}): %{build_url}: %{message}"
+
+sudo: required
+
+env:
+  matrix:
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+matrix:
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+  include:
+    - env: TOOLSET=clang-3.4
+      os: linux
+      dist: precise
+    - env: TOOLSET=clang-3.5
+      os: linux
+      dist: precise
+    - env: TOOLSET=clang-3.6
+      os: linux
+      dist: precise
+    - env: TOOLSET=gcc-4.7
+      os: linux
+      dist: precise
+    - env: TOOLSET=gcc-4.8
+      os: linux
+      dist: precise
+    - env: TOOLSET=gcc-4.9
+      os: linux
+      dist: precise
+    - env: TOOLSET=gcc-5.1
+      os: linux
+      dist: precise
+    - env: TOOLSET=xcode-6.1
+      os: osx
+    - env: TOOLSET=xcode-6.2
+      os: osx
+      osx_image: beta-xcode6.2
+    - env: TOOLSET=xcode-6.3
+      os: osx
+      osx_image: beta-xcode6.3
+    - env: TOOLSET=xcode-6.4
+      os: osx
+      osx_image: xcode6.4
+    - env: TOOLSET=xcode-7.0
+      os: osx
+      osx_image: xcode7
+    - env: TOOLSET=xcode-7.1
+      os: osx
+      osx_image: xcode7.1
+    - env: TOOLSET=xcode-7.2
+      os: osx
+      osx_image: xcode7.2
+
+before_install: wget "https://raw.githubusercontent.com/boostorg/regression/develop/ci/src/script.py"
+install: python script.py install
+before_script: python script.py before_script
+script: python script.py script
+after_success: python script.py after_success
+after_failure: python script.py after_failure
+after_script: python script.py after_script
