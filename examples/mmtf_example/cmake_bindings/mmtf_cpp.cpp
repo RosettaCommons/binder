@@ -1,10 +1,5 @@
 // File: std/exception.cpp
-#include <exception> // std::bad_exception
-#include <exception> // std::exception
-#include <exception> // std::terminate
-#include <exception> // std::uncaught_exception
-#include <exception> // std::unexpected
-#include <iostream> // --trace
+#include <exception>
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -41,7 +36,6 @@ struct PyCallBack_std_exception : public std::exception {
 
 void bind_std_exception(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B0_[std::exception] ";
 	{ // std::exception file:bits/exception.h line:60
 		pybind11::class_<std::exception, std::shared_ptr<std::exception>, PyCallBack_std_exception> cl(M("std"), "exception", "");
 		pybind11::handle cl_type = cl;
@@ -52,52 +46,27 @@ void bind_std_exception(std::function< pybind11::module &(std::string const &nam
 		cl.def("what", (const char * (std::exception::*)() const) &std::exception::what, "C++: std::exception::what() const --> const char *", pybind11::return_value_policy::automatic);
 		cl.def("assign", (class std::exception & (std::exception::*)(const class std::exception &)) &std::exception::operator=, "C++: std::exception::operator=(const class std::exception &) --> class std::exception &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B1_[std::bad_exception] ";
-	std::cout << "B2_[void std::terminate()] ";
-	std::cout << "B3_[void std::unexpected()] ";
-	std::cout << "B4_[bool std::uncaught_exception()] ";
 }
 
 
 // File: std/locale_classes.cpp
-#include <atomic> // std::atomic
-#include <fstream> // std::basic_filebuf
-#include <iomanip> // std::_Setfill
-#include <iomanip> // std::_Setprecision
-#include <iomanip> // std::_Setw
-#include <ios> // std::_Ios_Openmode
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <iterator> // std::move_iterator
-#include <locale> // std::__cxx11::collate
-#include <locale> // std::__cxx11::collate_byname
-#include <locale> // std::locale
-#include <map> // std::_Rb_tree_const_iterator
-#include <map> // std::_Rb_tree_iterator
-#include <memory> // std::allocator
+#include <atomic>
+#include <fstream>
+#include <functional>
+#include <iomanip>
+#include <ios>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
 #include <sstream> // __str__
-#include <stdexcept> // std::domain_error
-#include <stdexcept> // std::invalid_argument
-#include <stdexcept> // std::length_error
-#include <stdexcept> // std::logic_error
-#include <stdexcept> // std::out_of_range
-#include <stdexcept> // std::overflow_error
-#include <stdexcept> // std::range_error
-#include <stdexcept> // std::runtime_error
-#include <stdexcept> // std::underflow_error
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <system_error> // std::_V2::error_category
-#include <system_error> // std::errc
-#include <system_error> // std::error_code
-#include <system_error> // std::error_condition
-#include <system_error> // std::is_error_code_enum
-#include <system_error> // std::is_error_condition_enum
-#include <typeinfo> // std::type_info
-#include <utility> // std::pair
-#include <vector> // std::_Bit_iterator
-#include <vector> // std::_Bit_iterator_base
-#include <vector> // std::vector
+#include <stdexcept>
+#include <streambuf>
+#include <string>
+#include <system_error>
+#include <typeinfo>
+#include <utility>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -130,224 +99,6 @@ struct PyCallBack_std_runtime_error : public std::runtime_error {
 		return runtime_error::what();
 	}
 };
-
-void bind_std_locale_classes(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B5_[std::locale] ";
-	{ // std::locale file:bits/locale_classes.h line:62
-		pybind11::class_<std::locale, std::shared_ptr<std::locale>> cl(M("std"), "locale", "");
-		pybind11::handle cl_type = cl;
-
-		cl.def( pybind11::init( [](){ return new std::locale(); } ) );
-		cl.def( pybind11::init( [](std::locale const &o){ return new std::locale(o); } ) );
-		cl.def( pybind11::init<const char *>(), pybind11::arg("__s") );
-
-		cl.def( pybind11::init<const class std::locale &, const char *, int>(), pybind11::arg("__base"), pybind11::arg("__s"), pybind11::arg("__cat") );
-
-		cl.def( pybind11::init<const std::string &>(), pybind11::arg("__s") );
-
-		cl.def( pybind11::init<const class std::locale &, const std::string &, int>(), pybind11::arg("__base"), pybind11::arg("__s"), pybind11::arg("__cat") );
-
-		cl.def( pybind11::init<const class std::locale &, const class std::locale &, int>(), pybind11::arg("__base"), pybind11::arg("__add"), pybind11::arg("__cat") );
-
-		cl.def("assign", (const class std::locale & (std::locale::*)(const class std::locale &)) &std::locale::operator=, "C++: std::locale::operator=(const class std::locale &) --> const class std::locale &", pybind11::return_value_policy::automatic, pybind11::arg("__other"));
-		cl.def("name", (std::string (std::locale::*)() const) &std::locale::name, "C++: std::locale::name() const --> std::string");
-		cl.def("__eq__", (bool (std::locale::*)(const class std::locale &) const) &std::locale::operator==, "C++: std::locale::operator==(const class std::locale &) const --> bool", pybind11::arg("__other"));
-		cl.def("__ne__", (bool (std::locale::*)(const class std::locale &) const) &std::locale::operator!=, "C++: std::locale::operator!=(const class std::locale &) const --> bool", pybind11::arg("__other"));
-		cl.def_static("global", (class std::locale (*)(const class std::locale &)) &std::locale::global, "C++: std::locale::global(const class std::locale &) --> class std::locale", pybind11::arg("__loc"));
-		cl.def_static("classic", (const class std::locale & (*)()) &std::locale::classic, "C++: std::locale::classic() --> const class std::locale &", pybind11::return_value_policy::automatic);
-	}
-	std::cout << "B6_[std::collate<char>] ";
-	std::cout << "B7_[std::collate_byname<char>] ";
-	std::cout << "B8_[std::collate<wchar_t>] ";
-	std::cout << "B9_[std::collate_byname<wchar_t>] ";
-	std::cout << "B10_[std::errc] ";
-	std::cout << "B11_[std::logic_error] ";
-	std::cout << "B12_[std::domain_error] ";
-	std::cout << "B13_[std::invalid_argument] ";
-	std::cout << "B14_[std::length_error] ";
-	std::cout << "B15_[std::out_of_range] ";
-	std::cout << "B16_[std::runtime_error] ";
-	{ // std::runtime_error file:stdexcept line:197
-		pybind11::class_<std::runtime_error, std::shared_ptr<std::runtime_error>, PyCallBack_std_runtime_error, std::exception> cl(M("std"), "runtime_error", "");
-		pybind11::handle cl_type = cl;
-
-		cl.def( pybind11::init<const std::string &>(), pybind11::arg("__arg") );
-
-		cl.def( pybind11::init<const char *>(), pybind11::arg("") );
-
-		cl.def( pybind11::init( [](PyCallBack_std_runtime_error const &o){ return new PyCallBack_std_runtime_error(o); } ) );
-		cl.def( pybind11::init( [](std::runtime_error const &o){ return new std::runtime_error(o); } ) );
-		cl.def("assign", (class std::runtime_error & (std::runtime_error::*)(const class std::runtime_error &)) &std::runtime_error::operator=, "C++: std::runtime_error::operator=(const class std::runtime_error &) --> class std::runtime_error &", pybind11::return_value_policy::automatic, pybind11::arg(""));
-		cl.def("what", (const char * (std::runtime_error::*)() const) &std::runtime_error::what, "C++: std::runtime_error::what() const --> const char *", pybind11::return_value_policy::automatic);
-	}
-	std::cout << "B17_[std::range_error] ";
-	std::cout << "B18_[std::overflow_error] ";
-	std::cout << "B19_[std::underflow_error] ";
-	std::cout << "B20_[std::is_error_code_enum<std::error_code>] ";
-	std::cout << "B21_[std::is_error_code_enum<std::_V2::error_category>] ";
-	std::cout << "B22_[std::is_error_code_enum<int>] ";
-	std::cout << "B23_[std::is_error_code_enum<std::error_condition>] ";
-	std::cout << "B24_[std::is_error_code_enum<std::_Bit_iterator_base>] ";
-	std::cout << "B25_[std::is_error_code_enum<std::_Bit_iterator>] ";
-	std::cout << "B26_[std::is_error_code_enum<std::type_info>] ";
-	std::cout << "B27_[std::is_error_code_enum<const char *>] ";
-	std::cout << "B28_[std::is_error_code_enum<unsigned long>] ";
-	std::cout << "B29_[std::is_error_code_enum<long>] ";
-	std::cout << "B30_[std::is_error_code_enum<double>] ";
-	std::cout << "B31_[std::is_error_code_enum<char>] ";
-	std::cout << "B32_[std::is_error_code_enum<std::ios_base &(*)(std::ios_base &)>] ";
-	std::cout << "B33_[std::is_error_code_enum<std::_Setw>] ";
-	std::cout << "B34_[std::is_error_code_enum<std::_Setfill<char>>] ";
-	std::cout << "B35_[std::is_error_code_enum<unsigned int>] ";
-	std::cout << "B36_[std::is_error_code_enum<msgpack::v2::object>] ";
-	std::cout << "B37_[std::is_error_code_enum<unsigned short>] ";
-	std::cout << "B38_[std::is_error_code_enum<std::atomic<unsigned int>>] ";
-	std::cout << "B39_[std::is_error_code_enum<std::vector<char, std::allocator<char> >>] ";
-	std::cout << "B40_[std::is_error_code_enum<std::vector<int, std::allocator<int> >>] ";
-	std::cout << "B41_[std::is_error_code_enum<std::vector<std::string, std::allocator<std::string > >>] ";
-	std::cout << "B42_[std::is_error_code_enum<std::vector<signed char, std::allocator<signed char> >>] ";
-	std::cout << "B43_[std::is_error_code_enum<std::string>] ";
-	std::cout << "B44_[std::is_error_code_enum<std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >>] ";
-	std::cout << "B45_[std::is_error_code_enum<std::vector<float, std::allocator<float> >>] ";
-	std::cout << "B46_[std::is_error_code_enum<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>] ";
-	std::cout << "B47_[std::is_error_code_enum<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>] ";
-	std::cout << "B48_[std::is_error_code_enum<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>] ";
-	std::cout << "B49_[std::is_error_code_enum<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>] ";
-	std::cout << "B50_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<signed char *, std::vector<signed char, std::allocator<signed char> > >>] ";
-	std::cout << "B51_[std::is_error_code_enum<signed char>] ";
-	std::cout << "B52_[std::is_error_code_enum<std::_Setprecision>] ";
-	std::cout << "B53_[std::is_error_code_enum<float>] ";
-	std::cout << "B54_[std::is_error_code_enum<msgpack::v1::type::object_type>] ";
-	std::cout << "B55_[std::is_error_code_enum<std::_Rb_tree_iterator<std::pair<const std::string, msgpack::v2::object> >>] ";
-	std::cout << "B56_[std::is_error_code_enum<std::_Rb_tree_iterator<std::pair<const std::string, msgpack::v2::object *> >>] ";
-	std::cout << "B57_[std::is_error_code_enum<std::_Rb_tree_const_iterator<std::string >>] ";
-	std::cout << "B58_[std::is_error_code_enum<std::move_iterator<msgpack::v1::detail::unpack_stack *>>] ";
-	std::cout << "B59_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const msgpack::v1::detail::unpack_stack *, std::vector<msgpack::v1::detail::unpack_stack, std::allocator<msgpack::v1::detail::unpack_stack> > >>] ";
-	std::cout << "B60_[std::is_error_code_enum<std::move_iterator<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem *>>] ";
-	std::cout << "B61_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem *, std::vector<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem, std::allocator<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem> > >>] ";
-	std::cout << "B62_[std::is_error_code_enum<std::move_iterator<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem *>>] ";
-	std::cout << "B63_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem *, std::vector<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem, std::allocator<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem> > >>] ";
-	std::cout << "B64_[std::is_error_code_enum<std::_Rb_tree_iterator<std::pair<const std::string, const msgpack::v2::object *> >>] ";
-	std::cout << "B65_[std::is_error_code_enum<std::_Rb_tree_const_iterator<std::pair<const std::string, const msgpack::v2::object *> >>] ";
-	std::cout << "B66_[std::is_error_code_enum<std::move_iterator<mmtf::Transform *>>] ";
-	std::cout << "B67_[std::is_error_code_enum<std::allocator<char>>] ";
-	std::cout << "B68_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const std::string *, std::vector<std::string, std::allocator<std::string > > >>] ";
-	std::cout << "B69_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const char *, std::vector<char, std::allocator<char> > >>] ";
-	std::cout << "B70_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const float *, std::vector<float, std::allocator<float> > >>] ";
-	std::cout << "B71_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const signed char *, std::vector<signed char, std::allocator<signed char> > >>] ";
-	std::cout << "B72_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const short *, std::vector<short, std::allocator<short> > >>] ";
-	std::cout << "B73_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const int *, std::vector<int, std::allocator<int> > >>] ";
-	std::cout << "B74_[std::is_error_code_enum<std::move_iterator<std::string *>>] ";
-	std::cout << "B75_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<char *, std::string >>] ";
-	std::cout << "B76_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const char *, std::string >>] ";
-	std::cout << "B77_[std::is_error_code_enum<std::_Rb_tree_iterator<std::string >>] ";
-	std::cout << "B78_[std::is_error_code_enum<std::ostream &(*)(std::ostream &)>] ";
-	std::cout << "B79_[std::is_error_code_enum<std::move_iterator<std::vector<float, std::allocator<float> > *>>] ";
-	std::cout << "B80_[std::is_error_code_enum<std::move_iterator<mmtf::BioAssembly *>>] ";
-	std::cout << "B81_[std::is_error_code_enum<std::move_iterator<mmtf::Entity *>>] ";
-	std::cout << "B82_[std::is_error_code_enum<std::move_iterator<mmtf::GroupType *>>] ";
-	std::cout << "B83_[std::is_error_code_enum<std::basic_filebuf<char> *>] ";
-	std::cout << "B84_[std::is_error_code_enum<std::_Rb_tree_const_iterator<std::pair<const std::string, msgpack::v2::object> >>] ";
-	std::cout << "B85_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const mmtf::GroupType *, std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> > >>] ";
-	std::cout << "B86_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const mmtf::BioAssembly *, std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> > >>] ";
-	std::cout << "B87_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const mmtf::Transform *, std::vector<mmtf::Transform, std::allocator<mmtf::Transform> > >>] ";
-	std::cout << "B88_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const mmtf::Entity *, std::vector<mmtf::Entity, std::allocator<mmtf::Entity> > >>] ";
-	std::cout << "B89_[std::is_error_code_enum<__gnu_cxx::__normal_iterator<const std::vector<float, std::allocator<float> > *, std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > > >>] ";
-	std::cout << "B90_[std::is_error_condition_enum<std::error_condition>] ";
-	std::cout << "B91_[std::is_error_condition_enum<std::_V2::error_category>] ";
-	std::cout << "B92_[std::is_error_condition_enum<std::error_code>] ";
-	std::cout << "B93_[std::is_error_condition_enum<std::_Bit_iterator_base>] ";
-	std::cout << "B94_[std::is_error_condition_enum<std::_Bit_iterator>] ";
-	std::cout << "B95_[std::is_error_condition_enum<std::type_info>] ";
-	std::cout << "B96_[std::is_error_condition_enum<std::atomic<unsigned int>>] ";
-	std::cout << "B97_[std::is_error_condition_enum<std::vector<char, std::allocator<char> >>] ";
-	std::cout << "B98_[std::is_error_condition_enum<std::vector<int, std::allocator<int> >>] ";
-	std::cout << "B99_[std::is_error_condition_enum<std::vector<std::string, std::allocator<std::string > >>] ";
-	std::cout << "B100_[std::is_error_condition_enum<std::vector<signed char, std::allocator<signed char> >>] ";
-	std::cout << "B101_[std::is_error_condition_enum<std::string>] ";
-	std::cout << "B102_[std::is_error_condition_enum<std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >>] ";
-	std::cout << "B103_[std::is_error_condition_enum<std::vector<float, std::allocator<float> >>] ";
-	std::cout << "B104_[std::is_error_condition_enum<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>] ";
-	std::cout << "B105_[std::is_error_condition_enum<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>] ";
-	std::cout << "B106_[std::is_error_condition_enum<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>] ";
-	std::cout << "B107_[std::is_error_condition_enum<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>] ";
-	std::cout << "B108_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<signed char *, std::vector<signed char, std::allocator<signed char> > >>] ";
-	std::cout << "B109_[std::is_error_condition_enum<std::_Rb_tree_iterator<std::pair<const std::string, msgpack::v2::object> >>] ";
-	std::cout << "B110_[std::is_error_condition_enum<std::_Rb_tree_iterator<std::pair<const std::string, msgpack::v2::object *> >>] ";
-	std::cout << "B111_[std::is_error_condition_enum<std::_Rb_tree_const_iterator<std::string >>] ";
-	std::cout << "B112_[std::is_error_condition_enum<std::move_iterator<msgpack::v1::detail::unpack_stack *>>] ";
-	std::cout << "B113_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<const msgpack::v1::detail::unpack_stack *, std::vector<msgpack::v1::detail::unpack_stack, std::allocator<msgpack::v1::detail::unpack_stack> > >>] ";
-	std::cout << "B114_[std::is_error_condition_enum<std::move_iterator<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem *>>] ";
-	std::cout << "B115_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<const msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem *, std::vector<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem, std::allocator<msgpack::v2::detail::context<msgpack::v2::unpacker>::unpack_stack::stack_elem> > >>] ";
-	std::cout << "B116_[std::is_error_condition_enum<std::move_iterator<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem *>>] ";
-	std::cout << "B117_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<const msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem *, std::vector<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem, std::allocator<msgpack::v2::detail::context<msgpack::v2::detail::parse_helper<msgpack::v2::detail::create_object_visitor> >::unpack_stack::stack_elem> > >>] ";
-	std::cout << "B118_[std::is_error_condition_enum<std::_Rb_tree_iterator<std::pair<const std::string, const msgpack::v2::object *> >>] ";
-	std::cout << "B119_[std::is_error_condition_enum<std::_Rb_tree_const_iterator<std::pair<const std::string, const msgpack::v2::object *> >>] ";
-	std::cout << "B120_[std::is_error_condition_enum<std::move_iterator<mmtf::Transform *>>] ";
-	std::cout << "B121_[std::is_error_condition_enum<std::allocator<char>>] ";
-	std::cout << "B122_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<const std::string *, std::vector<std::string, std::allocator<std::string > > >>] ";
-	std::cout << "B123_[std::is_error_condition_enum<__gnu_cxx::__normal_iterator<const char *, std::vector<char, std::allocator<char> > >>] ";
-}
-
-
-// File: std/ios_base.cpp
-#include <ios> // std::_Ios_Fmtflags
-#include <ios> // std::_Ios_Iostate
-#include <ios> // std::_Ios_Openmode
-#include <ios> // std::_Ios_Seekdir
-#include <ios> // std::boolalpha
-#include <ios> // std::dec
-#include <ios> // std::defaultfloat
-#include <ios> // std::fixed
-#include <ios> // std::hex
-#include <ios> // std::hexfloat
-#include <ios> // std::internal
-#include <ios> // std::io_errc
-#include <ios> // std::ios_base
-#include <ios> // std::is_error_code_enum
-#include <ios> // std::left
-#include <ios> // std::make_error_code
-#include <ios> // std::make_error_condition
-#include <ios> // std::noboolalpha
-#include <ios> // std::noshowbase
-#include <ios> // std::noshowpoint
-#include <ios> // std::noshowpos
-#include <ios> // std::noskipws
-#include <ios> // std::nounitbuf
-#include <ios> // std::nouppercase
-#include <ios> // std::oct
-#include <ios> // std::right
-#include <ios> // std::scientific
-#include <ios> // std::showbase
-#include <ios> // std::showpoint
-#include <ios> // std::showpos
-#include <ios> // std::skipws
-#include <ios> // std::unitbuf
-#include <ios> // std::uppercase
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <locale> // std::locale
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <streambuf> // std::basic_streambuf
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <system_error> // std::error_code
-#include <system_error> // std::error_condition
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
 
 // std::basic_streambuf file:bits/streambuf.tcc line:149
 struct PyCallBack_std_streambuf : public std::streambuf {
@@ -485,9 +236,44 @@ struct PyCallBack_std_streambuf : public std::streambuf {
 	}
 };
 
-void bind_std_ios_base(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_std_locale_classes(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B124_[std::_Ios_Openmode] ";
+	{ // std::locale file:bits/locale_classes.h line:62
+		pybind11::class_<std::locale, std::shared_ptr<std::locale>> cl(M("std"), "locale", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new std::locale(); } ) );
+		cl.def( pybind11::init( [](std::locale const &o){ return new std::locale(o); } ) );
+		cl.def( pybind11::init<const char *>(), pybind11::arg("__s") );
+
+		cl.def( pybind11::init<const class std::locale &, const char *, int>(), pybind11::arg("__base"), pybind11::arg("__s"), pybind11::arg("__cat") );
+
+		cl.def( pybind11::init<const std::string &>(), pybind11::arg("__s") );
+
+		cl.def( pybind11::init<const class std::locale &, const std::string &, int>(), pybind11::arg("__base"), pybind11::arg("__s"), pybind11::arg("__cat") );
+
+		cl.def( pybind11::init<const class std::locale &, const class std::locale &, int>(), pybind11::arg("__base"), pybind11::arg("__add"), pybind11::arg("__cat") );
+
+		cl.def("assign", (const class std::locale & (std::locale::*)(const class std::locale &)) &std::locale::operator=, "C++: std::locale::operator=(const class std::locale &) --> const class std::locale &", pybind11::return_value_policy::automatic, pybind11::arg("__other"));
+		cl.def("name", (std::string (std::locale::*)() const) &std::locale::name, "C++: std::locale::name() const --> std::string");
+		cl.def("__eq__", (bool (std::locale::*)(const class std::locale &) const) &std::locale::operator==, "C++: std::locale::operator==(const class std::locale &) const --> bool", pybind11::arg("__other"));
+		cl.def("__ne__", (bool (std::locale::*)(const class std::locale &) const) &std::locale::operator!=, "C++: std::locale::operator!=(const class std::locale &) const --> bool", pybind11::arg("__other"));
+		cl.def_static("global", (class std::locale (*)(const class std::locale &)) &std::locale::global, "C++: std::locale::global(const class std::locale &) --> class std::locale", pybind11::arg("__loc"));
+		cl.def_static("classic", (const class std::locale & (*)()) &std::locale::classic, "C++: std::locale::classic() --> const class std::locale &", pybind11::return_value_policy::automatic);
+	}
+	{ // std::runtime_error file:stdexcept line:197
+		pybind11::class_<std::runtime_error, std::shared_ptr<std::runtime_error>, PyCallBack_std_runtime_error, std::exception> cl(M("std"), "runtime_error", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init<const std::string &>(), pybind11::arg("__arg") );
+
+		cl.def( pybind11::init<const char *>(), pybind11::arg("") );
+
+		cl.def( pybind11::init( [](PyCallBack_std_runtime_error const &o){ return new PyCallBack_std_runtime_error(o); } ) );
+		cl.def( pybind11::init( [](std::runtime_error const &o){ return new std::runtime_error(o); } ) );
+		cl.def("assign", (class std::runtime_error & (std::runtime_error::*)(const class std::runtime_error &)) &std::runtime_error::operator=, "C++: std::runtime_error::operator=(const class std::runtime_error &) --> class std::runtime_error &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("what", (const char * (std::runtime_error::*)() const) &std::runtime_error::what, "C++: std::runtime_error::what() const --> const char *", pybind11::return_value_policy::automatic);
+	}
 	// std::_Ios_Openmode file:bits/ios_base.h line:111
 	pybind11::enum_<std::_Ios_Openmode>(M("std"), "_Ios_Openmode", pybind11::arithmetic(), "")
 		.value("_S_app", std::_Ios_Openmode::_S_app)
@@ -503,8 +289,6 @@ void bind_std_ios_base(std::function< pybind11::module &(std::string const &name
 
 ;
 
-	std::cout << "B125_[std::_Ios_Iostate] ";
-	std::cout << "B126_[std::_Ios_Seekdir] ";
 	// std::_Ios_Seekdir file:bits/ios_base.h line:193
 	pybind11::enum_<std::_Ios_Seekdir>(M("std"), "_Ios_Seekdir", pybind11::arithmetic(), "")
 		.value("_S_beg", std::_Ios_Seekdir::_S_beg)
@@ -515,36 +299,6 @@ void bind_std_ios_base(std::function< pybind11::module &(std::string const &name
 
 ;
 
-	std::cout << "B127_[std::io_errc] ";
-	std::cout << "B128_[std::is_error_code_enum<std::io_errc>] ";
-	std::cout << "B129_[struct std::error_code std::make_error_code(enum std::io_errc)] ";
-	std::cout << "B130_[struct std::error_condition std::make_error_condition(enum std::io_errc)] ";
-	std::cout << "B131_[std::ios_base] ";
-	std::cout << "B132_[class std::ios_base & std::boolalpha(class std::ios_base &)] ";
-	std::cout << "B133_[class std::ios_base & std::noboolalpha(class std::ios_base &)] ";
-	std::cout << "B134_[class std::ios_base & std::showbase(class std::ios_base &)] ";
-	std::cout << "B135_[class std::ios_base & std::noshowbase(class std::ios_base &)] ";
-	std::cout << "B136_[class std::ios_base & std::showpoint(class std::ios_base &)] ";
-	std::cout << "B137_[class std::ios_base & std::noshowpoint(class std::ios_base &)] ";
-	std::cout << "B138_[class std::ios_base & std::showpos(class std::ios_base &)] ";
-	std::cout << "B139_[class std::ios_base & std::noshowpos(class std::ios_base &)] ";
-	std::cout << "B140_[class std::ios_base & std::skipws(class std::ios_base &)] ";
-	std::cout << "B141_[class std::ios_base & std::noskipws(class std::ios_base &)] ";
-	std::cout << "B142_[class std::ios_base & std::uppercase(class std::ios_base &)] ";
-	std::cout << "B143_[class std::ios_base & std::nouppercase(class std::ios_base &)] ";
-	std::cout << "B144_[class std::ios_base & std::unitbuf(class std::ios_base &)] ";
-	std::cout << "B145_[class std::ios_base & std::nounitbuf(class std::ios_base &)] ";
-	std::cout << "B146_[class std::ios_base & std::internal(class std::ios_base &)] ";
-	std::cout << "B147_[class std::ios_base & std::left(class std::ios_base &)] ";
-	std::cout << "B148_[class std::ios_base & std::right(class std::ios_base &)] ";
-	std::cout << "B149_[class std::ios_base & std::dec(class std::ios_base &)] ";
-	std::cout << "B150_[class std::ios_base & std::hex(class std::ios_base &)] ";
-	std::cout << "B151_[class std::ios_base & std::oct(class std::ios_base &)] ";
-	std::cout << "B152_[class std::ios_base & std::fixed(class std::ios_base &)] ";
-	std::cout << "B153_[class std::ios_base & std::scientific(class std::ios_base &)] ";
-	std::cout << "B154_[class std::ios_base & std::hexfloat(class std::ios_base &)] ";
-	std::cout << "B155_[class std::ios_base & std::defaultfloat(class std::ios_base &)] ";
-	std::cout << "B156_[std::streambuf] ";
 	{ // std::basic_streambuf file:bits/streambuf.tcc line:149
 		pybind11::class_<std::streambuf, std::shared_ptr<std::streambuf>, PyCallBack_std_streambuf> cl(M("std"), "streambuf", "");
 		pybind11::handle cl_type = cl;
@@ -566,147 +320,21 @@ void bind_std_ios_base(std::function< pybind11::module &(std::string const &name
 		cl.def("__safe_gbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump(long) --> void", pybind11::arg("__n"));
 		cl.def("__safe_pbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump(long) --> void", pybind11::arg("__n"));
 	}
-	std::cout << "B157_[std::wstreambuf] ";
 }
 
 
 // File: std/ostream_tcc.cpp
-#include <ios> // std::_Ios_Seekdir
-#include <ios> // std::basic_iostream
-#include <iostream> // --trace
-#include <istream> // std::basic_istream
-#include <istream> // std::ws
-#include <locale> // std::locale
-#include <ostream> // std::basic_ostream
+#include <bits/types/__mbstate_t.h>
+#include <fstream>
+#include <ios>
+#include <istream>
+#include <iterator>
+#include <locale>
+#include <memory>
+#include <ostream>
 #include <sstream> // __str__
-#include <streambuf> // std::basic_streambuf
-#include <string> // std::char_traits
-
-#include <pybind11/pybind11.h>
-#include <functional>
+#include <streambuf>
 #include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_ostream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B158_[std::ostream] ";
-	{ // std::basic_ostream file:bits/ostream.tcc line:359
-		pybind11::class_<std::ostream, std::shared_ptr<std::ostream>> cl(M("std"), "ostream", "");
-		pybind11::handle cl_type = cl;
-
-		{ // std::basic_ostream<char, std::char_traits<char> >::sentry file:ostream line:96
-			auto & enclosing_class = cl;
-			pybind11::class_<std::basic_ostream<char, std::char_traits<char> >::sentry, std::shared_ptr<std::basic_ostream<char, std::char_traits<char> >::sentry>> cl(enclosing_class, "sentry", "");
-			pybind11::handle cl_type = cl;
-
-			cl.def( pybind11::init<std::ostream &>(), pybind11::arg("__os") );
-
-		}
-
-		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
-
-		cl.def("put", (std::ostream & (std::ostream::*)(char)) &std::basic_ostream<char, std::char_traits<char> >::put, "C++: std::basic_ostream<char, std::char_traits<char> >::put(char) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("_M_write", (void (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::_M_write, "C++: std::basic_ostream<char, std::char_traits<char> >::_M_write(const char *, long) --> void", pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("write", (std::ostream & (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::write, "C++: std::basic_ostream<char, std::char_traits<char> >::write(const char *, long) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
-		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
-	}
-	std::cout << "B159_[std::wostream] ";
-	std::cout << "B160_[class std::basic_istream<char> & std::ws<char,std::char_traits<char>>(class std::basic_istream<char> &)] ";
-	std::cout << "B161_[class std::basic_istream<wchar_t> & std::ws<wchar_t,std::char_traits<wchar_t>>(class std::basic_istream<wchar_t> &)] ";
-	std::cout << "B162_[std::istream] ";
-	{ // std::basic_istream file:bits/istream.tcc line:1048
-		pybind11::class_<std::istream, std::shared_ptr<std::istream>> cl(M("std"), "istream", "");
-		pybind11::handle cl_type = cl;
-
-		{ // std::basic_istream<char, std::char_traits<char> >::sentry file:istream line:107
-			auto & enclosing_class = cl;
-			pybind11::class_<std::basic_istream<char, std::char_traits<char> >::sentry, std::shared_ptr<std::basic_istream<char, std::char_traits<char> >::sentry>> cl(enclosing_class, "sentry", "");
-			pybind11::handle cl_type = cl;
-
-			cl.def( pybind11::init( [](class std::basic_istream<char> & a0){ return new std::basic_istream<char, std::char_traits<char> >::sentry(a0); } ), "doc");
-			cl.def( pybind11::init<class std::basic_istream<char> &, bool>(), pybind11::arg("__is"), pybind11::arg("__noskipws") );
-
-		}
-
-		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
-
-		cl.def("gcount", (long (std::istream::*)() const) &std::basic_istream<char, std::char_traits<char> >::gcount, "C++: std::basic_istream<char, std::char_traits<char> >::gcount() const --> long");
-		cl.def("get", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get() --> int");
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"), pybind11::arg("__delim"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"));
-		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long, int)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long, int) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
-		cl.def("peek", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::peek, "C++: std::basic_istream<char, std::char_traits<char> >::peek() --> int");
-		cl.def("read", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::read, "C++: std::basic_istream<char, std::char_traits<char> >::read(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("readsome", (long (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::readsome, "C++: std::basic_istream<char, std::char_traits<char> >::readsome(char *, long) --> long", pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("putback", (class std::basic_istream<char> & (std::istream::*)(char)) &std::basic_istream<char, std::char_traits<char> >::putback, "C++: std::basic_istream<char, std::char_traits<char> >::putback(char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("unget", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::unget, "C++: std::basic_istream<char, std::char_traits<char> >::unget() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
-		cl.def("sync", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::sync, "C++: std::basic_istream<char, std::char_traits<char> >::sync() --> int");
-		cl.def("seekg", (class std::basic_istream<char> & (std::istream::*)(long, enum std::_Ios_Seekdir)) &std::basic_istream<char, std::char_traits<char> >::seekg, "C++: std::basic_istream<char, std::char_traits<char> >::seekg(long, enum std::_Ios_Seekdir) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
-	}
-	std::cout << "B163_[std::iostream] ";
-	{ // std::basic_iostream file:bits/istream.tcc line:1071
-		pybind11::class_<std::iostream, std::shared_ptr<std::iostream>, std::istream, std::ostream> cl(M("std"), "iostream", "");
-		pybind11::handle cl_type = cl;
-
-		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
-
-		cl.def("gcount", (long (std::istream::*)() const) &std::basic_istream<char, std::char_traits<char> >::gcount, "C++: std::basic_istream<char, std::char_traits<char> >::gcount() const --> long");
-		cl.def("get", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get() --> int");
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"), pybind11::arg("__delim"));
-		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"));
-		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long, int)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long, int) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"), pybind11::arg("__delim"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
-		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
-		cl.def("peek", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::peek, "C++: std::basic_istream<char, std::char_traits<char> >::peek() --> int");
-		cl.def("read", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::read, "C++: std::basic_istream<char, std::char_traits<char> >::read(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("readsome", (long (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::readsome, "C++: std::basic_istream<char, std::char_traits<char> >::readsome(char *, long) --> long", pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("putback", (class std::basic_istream<char> & (std::istream::*)(char)) &std::basic_istream<char, std::char_traits<char> >::putback, "C++: std::basic_istream<char, std::char_traits<char> >::putback(char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("unget", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::unget, "C++: std::basic_istream<char, std::char_traits<char> >::unget() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
-		cl.def("sync", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::sync, "C++: std::basic_istream<char, std::char_traits<char> >::sync() --> int");
-		cl.def("seekg", (class std::basic_istream<char> & (std::istream::*)(long, enum std::_Ios_Seekdir)) &std::basic_istream<char, std::char_traits<char> >::seekg, "C++: std::basic_istream<char, std::char_traits<char> >::seekg(long, enum std::_Ios_Seekdir) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
-		cl.def("put", (std::ostream & (std::ostream::*)(char)) &std::basic_ostream<char, std::char_traits<char> >::put, "C++: std::basic_ostream<char, std::char_traits<char> >::put(char) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
-		cl.def("_M_write", (void (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::_M_write, "C++: std::basic_ostream<char, std::char_traits<char> >::_M_write(const char *, long) --> void", pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("write", (std::ostream & (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::write, "C++: std::basic_ostream<char, std::char_traits<char> >::write(const char *, long) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
-		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
-		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
-	}
-}
-
-
-// File: std/fstream_tcc.cpp
-#include <fstream> // std::basic_filebuf
-#include <fstream> // std::basic_ifstream
-#include <fstream> // std::basic_ofstream
-#include <ios> // std::_Ios_Openmode
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <locale> // std::locale
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <streambuf> // std::basic_streambuf
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -857,9 +485,96 @@ struct PyCallBack_std_filebuf : public std::filebuf {
 	}
 };
 
-void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_std_ostream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B164_[std::filebuf] ";
+	{ // std::basic_ostream file:bits/ostream.tcc line:359
+		pybind11::class_<std::ostream, std::shared_ptr<std::ostream>> cl(M("std"), "ostream", "");
+		pybind11::handle cl_type = cl;
+
+		{ // std::basic_ostream<char, std::char_traits<char> >::sentry file:ostream line:96
+			auto & enclosing_class = cl;
+			pybind11::class_<std::basic_ostream<char, std::char_traits<char> >::sentry, std::shared_ptr<std::basic_ostream<char, std::char_traits<char> >::sentry>> cl(enclosing_class, "sentry", "");
+			pybind11::handle cl_type = cl;
+
+			cl.def( pybind11::init<std::ostream &>(), pybind11::arg("__os") );
+
+		}
+
+		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
+
+		cl.def("put", (std::ostream & (std::ostream::*)(char)) &std::basic_ostream<char, std::char_traits<char> >::put, "C++: std::basic_ostream<char, std::char_traits<char> >::put(char) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("_M_write", (void (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::_M_write, "C++: std::basic_ostream<char, std::char_traits<char> >::_M_write(const char *, long) --> void", pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("write", (std::ostream & (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::write, "C++: std::basic_ostream<char, std::char_traits<char> >::write(const char *, long) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
+		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
+	}
+	{ // std::basic_istream file:bits/istream.tcc line:1048
+		pybind11::class_<std::istream, std::shared_ptr<std::istream>> cl(M("std"), "istream", "");
+		pybind11::handle cl_type = cl;
+
+		{ // std::basic_istream<char, std::char_traits<char> >::sentry file:istream line:107
+			auto & enclosing_class = cl;
+			pybind11::class_<std::basic_istream<char, std::char_traits<char> >::sentry, std::shared_ptr<std::basic_istream<char, std::char_traits<char> >::sentry>> cl(enclosing_class, "sentry", "");
+			pybind11::handle cl_type = cl;
+
+			cl.def( pybind11::init( [](class std::basic_istream<char> & a0){ return new std::basic_istream<char, std::char_traits<char> >::sentry(a0); } ), "doc");
+			cl.def( pybind11::init<class std::basic_istream<char> &, bool>(), pybind11::arg("__is"), pybind11::arg("__noskipws") );
+
+		}
+
+		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
+
+		cl.def("gcount", (long (std::istream::*)() const) &std::basic_istream<char, std::char_traits<char> >::gcount, "C++: std::basic_istream<char, std::char_traits<char> >::gcount() const --> long");
+		cl.def("get", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get() --> int");
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"), pybind11::arg("__delim"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"));
+		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long, int)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long, int) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
+		cl.def("peek", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::peek, "C++: std::basic_istream<char, std::char_traits<char> >::peek() --> int");
+		cl.def("read", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::read, "C++: std::basic_istream<char, std::char_traits<char> >::read(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("readsome", (long (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::readsome, "C++: std::basic_istream<char, std::char_traits<char> >::readsome(char *, long) --> long", pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("putback", (class std::basic_istream<char> & (std::istream::*)(char)) &std::basic_istream<char, std::char_traits<char> >::putback, "C++: std::basic_istream<char, std::char_traits<char> >::putback(char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("unget", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::unget, "C++: std::basic_istream<char, std::char_traits<char> >::unget() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
+		cl.def("sync", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::sync, "C++: std::basic_istream<char, std::char_traits<char> >::sync() --> int");
+		cl.def("seekg", (class std::basic_istream<char> & (std::istream::*)(long, enum std::_Ios_Seekdir)) &std::basic_istream<char, std::char_traits<char> >::seekg, "C++: std::basic_istream<char, std::char_traits<char> >::seekg(long, enum std::_Ios_Seekdir) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
+	}
+	{ // std::basic_iostream file:bits/istream.tcc line:1071
+		pybind11::class_<std::iostream, std::shared_ptr<std::iostream>, std::istream, std::ostream> cl(M("std"), "iostream", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
+
+		cl.def("gcount", (long (std::istream::*)() const) &std::basic_istream<char, std::char_traits<char> >::gcount, "C++: std::basic_istream<char, std::char_traits<char> >::gcount() const --> long");
+		cl.def("get", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get() --> int");
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &, char)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"), pybind11::arg("__delim"));
+		cl.def("get", (class std::basic_istream<char> & (std::istream::*)(class std::basic_streambuf<char> &)) &std::basic_istream<char, std::char_traits<char> >::get, "C++: std::basic_istream<char, std::char_traits<char> >::get(class std::basic_streambuf<char> &) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__sb"));
+		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long, char)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long, char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("getline", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::getline, "C++: std::basic_istream<char, std::char_traits<char> >::getline(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long, int)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long, int) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"), pybind11::arg("__delim"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)(long)) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore(long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("ignore", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::ignore, "C++: std::basic_istream<char, std::char_traits<char> >::ignore() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
+		cl.def("peek", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::peek, "C++: std::basic_istream<char, std::char_traits<char> >::peek() --> int");
+		cl.def("read", (class std::basic_istream<char> & (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::read, "C++: std::basic_istream<char, std::char_traits<char> >::read(char *, long) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("readsome", (long (std::istream::*)(char *, long)) &std::basic_istream<char, std::char_traits<char> >::readsome, "C++: std::basic_istream<char, std::char_traits<char> >::readsome(char *, long) --> long", pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("putback", (class std::basic_istream<char> & (std::istream::*)(char)) &std::basic_istream<char, std::char_traits<char> >::putback, "C++: std::basic_istream<char, std::char_traits<char> >::putback(char) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("unget", (class std::basic_istream<char> & (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::unget, "C++: std::basic_istream<char, std::char_traits<char> >::unget() --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic);
+		cl.def("sync", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::sync, "C++: std::basic_istream<char, std::char_traits<char> >::sync() --> int");
+		cl.def("seekg", (class std::basic_istream<char> & (std::istream::*)(long, enum std::_Ios_Seekdir)) &std::basic_istream<char, std::char_traits<char> >::seekg, "C++: std::basic_istream<char, std::char_traits<char> >::seekg(long, enum std::_Ios_Seekdir) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
+		cl.def("put", (std::ostream & (std::ostream::*)(char)) &std::basic_ostream<char, std::char_traits<char> >::put, "C++: std::basic_ostream<char, std::char_traits<char> >::put(char) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__c"));
+		cl.def("_M_write", (void (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::_M_write, "C++: std::basic_ostream<char, std::char_traits<char> >::_M_write(const char *, long) --> void", pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("write", (std::ostream & (std::ostream::*)(const char *, long)) &std::basic_ostream<char, std::char_traits<char> >::write, "C++: std::basic_ostream<char, std::char_traits<char> >::write(const char *, long) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg("__s"), pybind11::arg("__n"));
+		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
+		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
+	}
 	{ // std::basic_filebuf file:bits/fstream.tcc line:1053
 		pybind11::class_<std::filebuf, std::shared_ptr<std::filebuf>, PyCallBack_std_filebuf, std::streambuf> cl(M("std"), "filebuf", "");
 		pybind11::handle cl_type = cl;
@@ -887,7 +602,37 @@ void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &n
 		cl.def("__safe_gbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump(long) --> void", pybind11::arg("__n"));
 		cl.def("__safe_pbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump(long) --> void", pybind11::arg("__n"));
 	}
-	std::cout << "B165_[std::ifstream] ";
+}
+
+
+// File: std/fstream_tcc.cpp
+#include <bits/stl_uninitialized.h>
+#include <fstream>
+#include <functional>
+#include <ios>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	{ // std::basic_ifstream file:bits/fstream.tcc line:1054
 		pybind11::class_<std::ifstream, std::shared_ptr<std::ifstream>, std::istream> cl(M("std"), "ifstream", "");
 		pybind11::handle cl_type = cl;
@@ -927,7 +672,6 @@ void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &n
 		cl.def("sync", (int (std::istream::*)()) &std::basic_istream<char, std::char_traits<char> >::sync, "C++: std::basic_istream<char, std::char_traits<char> >::sync() --> int");
 		cl.def("seekg", (class std::basic_istream<char> & (std::istream::*)(long, enum std::_Ios_Seekdir)) &std::basic_istream<char, std::char_traits<char> >::seekg, "C++: std::basic_istream<char, std::char_traits<char> >::seekg(long, enum std::_Ios_Seekdir) --> class std::basic_istream<char> &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
 	}
-	std::cout << "B166_[std::ofstream] ";
 	{ // std::basic_ofstream file:bits/fstream.tcc line:1055
 		pybind11::class_<std::ofstream, std::shared_ptr<std::ofstream>, std::ostream> cl(M("std"), "ofstream", "");
 		pybind11::handle cl_type = cl;
@@ -953,34 +697,6 @@ void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &n
 		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
 		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
 	}
-}
-
-
-// File: std/stl_vector.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <vector> // std::vector
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B167_[std::vector<char>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<char>, std::shared_ptr<std::vector<char>>> cl(M("std"), "vector_char_t", "");
 		pybind11::handle cl_type = cl;
@@ -1027,7 +743,31 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 		cl.def("swap", (void (std::vector<char>::*)(class std::vector<char, class std::allocator<char> > &)) &std::vector<char, std::allocator<char> >::swap, "C++: std::vector<char, std::allocator<char> >::swap(class std::vector<char, class std::allocator<char> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<char>::*)()) &std::vector<char, std::allocator<char> >::clear, "C++: std::vector<char, std::allocator<char> >::clear() --> void");
 	}
-	std::cout << "B168_[std::vector<int>] ";
+}
+
+
+// File: std/stl_vector.cpp
+#include <iterator>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<int>, std::shared_ptr<std::vector<int>>> cl(M("std"), "vector_int_t", "");
 		pybind11::handle cl_type = cl;
@@ -1072,34 +812,6 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 		cl.def("swap", (void (std::vector<int>::*)(class std::vector<int, class std::allocator<int> > &)) &std::vector<int, std::allocator<int> >::swap, "C++: std::vector<int, std::allocator<int> >::swap(class std::vector<int, class std::allocator<int> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<int>::*)()) &std::vector<int, std::allocator<int> >::clear, "C++: std::vector<int, std::allocator<int> >::clear() --> void");
 	}
-}
-
-
-// File: std/stl_vector_1.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <vector> // std::vector
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B169_[std::vector<std::string,std::allocator<std::string >>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<std::string,std::allocator<std::string >>, std::shared_ptr<std::vector<std::string,std::allocator<std::string >>>> cl(M("std"), "vector_std_string_std_allocator_std_string_t", "");
 		pybind11::handle cl_type = cl;
@@ -1144,7 +856,34 @@ void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<std::string,std::allocator<std::string >>::*)(class std::vector<std::string, class std::allocator<std::string > > &)) &std::vector<std::string, std::allocator<std::string > >::swap, "C++: std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::swap(class std::vector<std::string, class std::allocator<std::string > > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<std::string,std::allocator<std::string >>::*)()) &std::vector<std::string, std::allocator<std::string > >::clear, "C++: std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::clear() --> void");
 	}
-	std::cout << "B170_[std::vector<signed char>] ";
+}
+
+
+// File: std/stl_vector_1.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<signed char>, std::shared_ptr<std::vector<signed char>>> cl(M("std"), "vector_signed_char_t", "");
 		pybind11::handle cl_type = cl;
@@ -1189,32 +928,6 @@ void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<signed char>::*)(class std::vector<signed char, class std::allocator<signed char> > &)) &std::vector<signed char, std::allocator<signed char> >::swap, "C++: std::vector<signed char, std::allocator<signed char> >::swap(class std::vector<signed char, class std::allocator<signed char> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<signed char>::*)()) &std::vector<signed char, std::allocator<signed char> >::clear, "C++: std::vector<signed char, std::allocator<signed char> >::clear() --> void");
 	}
-}
-
-
-// File: std/stl_vector_2.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <vector> // std::vector
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B171_[std::vector<mmtf::Transform>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::Transform>, std::shared_ptr<std::vector<mmtf::Transform>>> cl(M("std"), "vector_mmtf_Transform_t", "");
 		pybind11::handle cl_type = cl;
@@ -1259,7 +972,30 @@ void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::Transform>::*)(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &)) &std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::swap, "C++: std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::swap(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::Transform>::*)()) &std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::clear, "C++: std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >::clear() --> void");
 	}
-	std::cout << "B172_[std::vector<float>] ";
+}
+
+
+// File: std/stl_vector_2.cpp
+#include <iterator>
+#include <memory>
+#include <sstream> // __str__
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<float>, std::shared_ptr<std::vector<float>>> cl(M("std"), "vector_float_t", "");
 		pybind11::handle cl_type = cl;
@@ -1304,32 +1040,6 @@ void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<float>::*)(class std::vector<float, class std::allocator<float> > &)) &std::vector<float, std::allocator<float> >::swap, "C++: std::vector<float, std::allocator<float> >::swap(class std::vector<float, class std::allocator<float> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<float>::*)()) &std::vector<float, std::allocator<float> >::clear, "C++: std::vector<float, std::allocator<float> >::clear() --> void");
 	}
-}
-
-
-// File: std/stl_vector_3.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <vector> // std::vector
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-#include <mmtf.hpp>
-
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	std::cout << "B173_[std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>, std::shared_ptr<std::vector<std::vector<float, std::allocator<float> >,std::allocator<std::vector<float, std::allocator<float> > >>>> cl(M("std"), "vector_std_vector_float_std_allocator_float_std_allocator_std_vector_float_std_allocator_float_t", "");
 		pybind11::handle cl_type = cl;
@@ -1377,12 +1087,15 @@ void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &
 }
 
 
-// File: std/stl_vector_4.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
+// File: std/stl_vector_3.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
 #include <sstream> // __str__
-#include <vector> // std::vector
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1397,9 +1110,8 @@ void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B174_[std::vector<mmtf::BioAssembly>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::BioAssembly>, std::shared_ptr<std::vector<mmtf::BioAssembly>>> cl(M("std"), "vector_mmtf_BioAssembly_t", "");
 		pybind11::handle cl_type = cl;
@@ -1444,7 +1156,6 @@ void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::BioAssembly>::*)(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)) &std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::swap, "C++: std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::swap(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::BioAssembly>::*)()) &std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::clear, "C++: std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >::clear() --> void");
 	}
-	std::cout << "B175_[std::vector<mmtf::Entity>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::Entity>, std::shared_ptr<std::vector<mmtf::Entity>>> cl(M("std"), "vector_mmtf_Entity_t", "");
 		pybind11::handle cl_type = cl;
@@ -1492,12 +1203,11 @@ void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &
 }
 
 
-// File: std/stl_vector_5.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
+// File: std/stl_vector_4.cpp
+#include <iterator>
+#include <memory>
 #include <sstream> // __str__
-#include <vector> // std::vector
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1512,9 +1222,8 @@ void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B176_[std::vector<mmtf::GroupType>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<mmtf::GroupType>, std::shared_ptr<std::vector<mmtf::GroupType>>> cl(M("std"), "vector_mmtf_GroupType_t", "");
 		pybind11::handle cl_type = cl;
@@ -1559,7 +1268,6 @@ void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &
 		cl.def("swap", (void (std::vector<mmtf::GroupType>::*)(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &)) &std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::swap, "C++: std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::swap(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<mmtf::GroupType>::*)()) &std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::clear, "C++: std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >::clear() --> void");
 	}
-	std::cout << "B177_[std::vector<short>] ";
 	{ // std::vector file:bits/stl_vector.h line:216
 		pybind11::class_<std::vector<short>, std::shared_ptr<std::vector<short>>> cl(M("std"), "vector_short_t", "");
 		pybind11::handle cl_type = cl;
@@ -1608,19 +1316,14 @@ void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &
 
 
 // File: std/sstream_tcc.cpp
-#include <ios> // std::_Ios_Openmode
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <locale> // std::locale
-#include <memory> // std::allocator
+#include <ios>
+#include <iterator>
+#include <locale>
+#include <memory>
+#include <sstream>
 #include <sstream> // __str__
-#include <sstream> // std::__cxx11::basic_istringstream
-#include <sstream> // std::__cxx11::basic_ostringstream
-#include <sstream> // std::__cxx11::basic_stringbuf
-#include <sstream> // std::__cxx11::basic_stringstream
-#include <streambuf> // std::basic_streambuf
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
+#include <streambuf>
+#include <string>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1773,7 +1476,6 @@ struct PyCallBack_std_stringbuf : public std::stringbuf {
 
 void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B178_[std::stringbuf] ";
 	{ // std::basic_stringbuf file:bits/sstream.tcc line:291
 		pybind11::class_<std::stringbuf, std::shared_ptr<std::stringbuf>, PyCallBack_std_stringbuf, std::streambuf> cl(M("std"), "stringbuf", "");
 		pybind11::handle cl_type = cl;
@@ -1804,9 +1506,6 @@ void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &n
 		cl.def("__safe_gbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_gbump(long) --> void", pybind11::arg("__n"));
 		cl.def("__safe_pbump", (void (std::streambuf::*)(long)) &std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump, "C++: std::basic_streambuf<char, std::char_traits<char> >::__safe_pbump(long) --> void", pybind11::arg("__n"));
 	}
-	std::cout << "B179_[std::istringstream] ";
-	std::cout << "B180_[std::ostringstream] ";
-	std::cout << "B181_[std::stringstream] ";
 	{ // std::basic_stringstream file:bits/sstream.tcc line:294
 		pybind11::class_<std::stringstream, std::shared_ptr<std::stringstream>, std::iostream> cl(M("std"), "stringstream", "");
 		pybind11::handle cl_type = cl;
@@ -1846,21 +1545,11 @@ void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &n
 		cl.def("flush", (std::ostream & (std::ostream::*)()) &std::basic_ostream<char, std::char_traits<char> >::flush, "C++: std::basic_ostream<char, std::char_traits<char> >::flush() --> std::ostream &", pybind11::return_value_policy::automatic);
 		cl.def("seekp", (std::ostream & (std::ostream::*)(long, enum std::_Ios_Seekdir)) &std::basic_ostream<char, std::char_traits<char> >::seekp, "C++: std::basic_ostream<char, std::char_traits<char> >::seekp(long, enum std::_Ios_Seekdir) --> std::ostream &", pybind11::return_value_policy::automatic, pybind11::arg(""), pybind11::arg(""));
 	}
-	std::cout << "B182_[std::basic_stringbuf<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>] ";
-	std::cout << "B183_[std::basic_istringstream<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>] ";
-	std::cout << "B184_[std::basic_ostringstream<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>] ";
-	std::cout << "B185_[std::basic_stringstream<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>] ";
 }
 
 
 // File: unknown/unknown.cpp
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
 #include <sstream> // __str__
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <vector> // std::vector
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -1877,15 +1566,291 @@ void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &n
 
 void bind_unknown_unknown(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B186_[class std::__cxx11::basic_string<char> mmtf::getVersionString()] ";
+	{ // msgpack::v1::zone file: line:27
+		pybind11::class_<msgpack::v1::zone, std::shared_ptr<msgpack::v1::zone>> cl(M("msgpack::v1"), "zone", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new msgpack::v1::zone(); } ), "doc");
+		cl.def( pybind11::init<unsigned long>(), pybind11::arg("chunk_size") );
+
+		cl.def("allocate_align", [](msgpack::v1::zone &o, unsigned long const & a0) -> void * { return o.allocate_align(a0); }, "", pybind11::return_value_policy::automatic, pybind11::arg("size"));
+		cl.def("allocate_align", (void * (msgpack::v1::zone::*)(unsigned long, unsigned long)) &msgpack::v1::zone::allocate_align, "C++: msgpack::v1::zone::allocate_align(unsigned long, unsigned long) --> void *", pybind11::return_value_policy::automatic, pybind11::arg("size"), pybind11::arg("align"));
+		cl.def("allocate_no_align", (void * (msgpack::v1::zone::*)(unsigned long)) &msgpack::v1::zone::allocate_no_align, "C++: msgpack::v1::zone::allocate_no_align(unsigned long) --> void *", pybind11::return_value_policy::automatic, pybind11::arg("size"));
+		cl.def("clear", (void (msgpack::v1::zone::*)()) &msgpack::v1::zone::clear, "C++: msgpack::v1::zone::clear() --> void");
+		cl.def("swap", (void (msgpack::v1::zone::*)(class msgpack::v1::zone &)) &msgpack::v1::zone::swap, "C++: msgpack::v1::zone::swap(class msgpack::v1::zone &) --> void", pybind11::arg("o"));
+	}
+}
+
+
+// File: unknown/unknown_1.cpp
+#include <sstream> // __str__
+#include <stdio.h>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // msgpack_object file: line:90
+		pybind11::class_<msgpack_object, std::shared_ptr<msgpack_object>> cl(M(""), "msgpack_object", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new msgpack_object(); } ) );
+		cl.def( pybind11::init( [](msgpack_object const &o){ return new msgpack_object(o); } ) );
+		cl.def_readwrite("type", &msgpack_object::type);
+		cl.def_readwrite("via", &msgpack_object::via);
+	}
+}
+
+
+// File: unknown/unknown_2.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // msgpack::v1::object file: line:75
+		pybind11::class_<msgpack::v1::object, std::shared_ptr<msgpack::v1::object>> cl(M("msgpack::v1"), "object", "");
+		pybind11::handle cl_type = cl;
+
+		/* { // msgpack::v1::object::union_type file: line:76 */
+		/* 	auto & enclosing_class = cl; */
+		/* 	pybind11::class_<msgpack::v1::object::union_type, std::shared_ptr<msgpack::v1::object::union_type>> cl(enclosing_class, "union_type", ""); */
+		/* 	pybind11::handle cl_type = cl; */
+
+		/* 	cl.def( pybind11::init( [](msgpack::v1::object::union_type const &o){ return new msgpack::v1::object::union_type(o); } ) ); */
+		/* 	cl.def( pybind11::init( [](){ return new msgpack::v1::object::union_type(); } ) ); */
+		/* /1* 	/2* cl.def_readwrite("boolean", &msgpack::v1::object::union_type::boolean); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("u64", &msgpack::v1::object::union_type::u64); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("i64", &msgpack::v1::object::union_type::i64); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("f64", &msgpack::v1::object::union_type::f64); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("array", &msgpack::v1::object::union_type::array); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("map", &msgpack::v1::object::union_type::map); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("str", &msgpack::v1::object::union_type::str); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("bin", &msgpack::v1::object::union_type::bin); *2/ *1/ */
+		/* /1* 	/2* cl.def_readwrite("ext", &msgpack::v1::object::union_type::ext); *2/ *1/ */
+		/* 	cl.def("assign", (union msgpack::v1::object::union_type & (msgpack::v1::object::union_type::*)(const union msgpack::v1::object::union_type &)) &msgpack::v1::object::union_type::operator=, "C++: msgpack::v1::object::union_type::operator=(const union msgpack::v1::object::union_type &) --> union msgpack::v1::object::union_type &", pybind11::return_value_policy::automatic, pybind11::arg("")); */
+		/* } */
+
+		cl.def( pybind11::init( [](){ return new msgpack::v1::object(); } ) );
+		cl.def( pybind11::init<const struct msgpack_object &>(), pybind11::arg("o") );
+
+		cl.def( pybind11::init( [](msgpack::v1::object const &o){ return new msgpack::v1::object(o); } ) );
+		cl.def_readwrite("type", &msgpack::v1::object::type);
+		cl.def_readwrite("via", &msgpack::v1::object::via);
+		cl.def("as", (bool (msgpack::v1::object::*)() const) &msgpack::v1::object::as<bool>, "C++: msgpack::v1::object::as() const --> bool");
+		cl.def("convert", (class std::vector<int, class std::allocator<int> > & (msgpack::v1::object::*)(class std::vector<int, class std::allocator<int> > &) const) &msgpack::v1::object::convert<std::vector<int, std::allocator<int> >>, "C++: msgpack::v1::object::convert(class std::vector<int, class std::allocator<int> > &) const --> class std::vector<int, class std::allocator<int> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (int & (msgpack::v1::object::*)(int &) const) &msgpack::v1::object::convert<int>, "C++: msgpack::v1::object::convert(int &) const --> int &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (float & (msgpack::v1::object::*)(float &) const) &msgpack::v1::object::convert<float>, "C++: msgpack::v1::object::convert(float &) const --> float &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > & (msgpack::v1::object::*)(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) const) &msgpack::v1::object::convert<std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >>, "C++: msgpack::v1::object::convert(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) const --> class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::Transform & (msgpack::v1::object::*)(struct mmtf::Transform &) const) &msgpack::v1::object::convert<mmtf::Transform>, "C++: msgpack::v1::object::convert(struct mmtf::Transform &) const --> struct mmtf::Transform &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (std::string & (msgpack::v1::object::*)(std::string &) const) &msgpack::v1::object::convert<std::string>, "C++: msgpack::v1::object::convert(std::string &) const --> std::string &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<std::string, class std::allocator<std::string > > & (msgpack::v1::object::*)(class std::vector<std::string, class std::allocator<std::string > > &) const) &msgpack::v1::object::convert<std::vector<std::string, std::allocator<std::string > >>, "C++: msgpack::v1::object::convert(class std::vector<std::string, class std::allocator<std::string > > &) const --> class std::vector<std::string, class std::allocator<std::string > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<signed char, class std::allocator<signed char> > & (msgpack::v1::object::*)(class std::vector<signed char, class std::allocator<signed char> > &) const) &msgpack::v1::object::convert<std::vector<signed char, std::allocator<signed char> >>, "C++: msgpack::v1::object::convert(class std::vector<signed char, class std::allocator<signed char> > &) const --> class std::vector<signed char, class std::allocator<signed char> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (signed char & (msgpack::v1::object::*)(signed char &) const) &msgpack::v1::object::convert<signed char>, "C++: msgpack::v1::object::convert(signed char &) const --> signed char &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (char & (msgpack::v1::object::*)(char &) const) &msgpack::v1::object::convert<char>, "C++: msgpack::v1::object::convert(char &) const --> char &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<float, class std::allocator<float> > & (msgpack::v1::object::*)(class std::vector<float, class std::allocator<float> > &) const) &msgpack::v1::object::convert<std::vector<float, std::allocator<float> >>, "C++: msgpack::v1::object::convert(class std::vector<float, class std::allocator<float> > &) const --> class std::vector<float, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > & (msgpack::v1::object::*)(class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) const) &msgpack::v1::object::convert<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>, "C++: msgpack::v1::object::convert(class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) const --> class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > & (msgpack::v1::object::*)(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) const) &msgpack::v1::object::convert<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>, "C++: msgpack::v1::object::convert(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) const --> class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::BioAssembly & (msgpack::v1::object::*)(struct mmtf::BioAssembly &) const) &msgpack::v1::object::convert<mmtf::BioAssembly>, "C++: msgpack::v1::object::convert(struct mmtf::BioAssembly &) const --> struct mmtf::BioAssembly &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > & (msgpack::v1::object::*)(class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) const) &msgpack::v1::object::convert<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>, "C++: msgpack::v1::object::convert(class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) const --> class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::Entity & (msgpack::v1::object::*)(struct mmtf::Entity &) const) &msgpack::v1::object::convert<mmtf::Entity>, "C++: msgpack::v1::object::convert(struct mmtf::Entity &) const --> struct mmtf::Entity &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > & (msgpack::v1::object::*)(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) const) &msgpack::v1::object::convert<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>, "C++: msgpack::v1::object::convert(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) const --> class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::GroupType & (msgpack::v1::object::*)(struct mmtf::GroupType &) const) &msgpack::v1::object::convert<mmtf::GroupType>, "C++: msgpack::v1::object::convert(struct mmtf::GroupType &) const --> struct mmtf::GroupType &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<char, class std::allocator<char> > & (msgpack::v1::object::*)(class std::vector<char, class std::allocator<char> > &) const) &msgpack::v1::object::convert<std::vector<char, std::allocator<char> >>, "C++: msgpack::v1::object::convert(class std::vector<char, class std::allocator<char> > &) const --> class std::vector<char, class std::allocator<char> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > & (msgpack::v1::object::*)(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) const) &msgpack::v1::object::convert<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>, "C++: msgpack::v1::object::convert(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) const --> class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct msgpack::v2::object & (msgpack::v1::object::*)(struct msgpack::v2::object &) const) &msgpack::v1::object::convert<msgpack::v2::object>, "C++: msgpack::v1::object::convert(struct msgpack::v2::object &) const --> struct msgpack::v2::object &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::StructureData & (msgpack::v1::object::*)(struct mmtf::StructureData &) const) &msgpack::v1::object::convert<mmtf::StructureData>, "C++: msgpack::v1::object::convert(struct mmtf::StructureData &) const --> struct mmtf::StructureData &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (float * (msgpack::v1::object::*)(float *) const) &msgpack::v1::object::convert<float *>, "C++: msgpack::v1::object::convert(float *) const --> float *", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("assign", (struct msgpack::v1::object & (msgpack::v1::object::*)(const struct msgpack::v1::object &)) &msgpack::v1::object::operator=<msgpack::v1::object>, "C++: msgpack::v1::object::operator=(const struct msgpack::v1::object &) --> struct msgpack::v1::object &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("is_nil", (bool (msgpack::v1::object::*)() const) &msgpack::v1::object::is_nil, "C++: msgpack::v1::object::is_nil() const --> bool");
+		cl.def("assign", (struct msgpack::v1::object & (msgpack::v1::object::*)(const struct msgpack::v1::object &)) &msgpack::v1::object::operator=, "C++: msgpack::v1::object::operator=(const struct msgpack::v1::object &) --> struct msgpack::v1::object &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+	}
+}
+
+
+// File: unknown/unknown_3.cpp
+#include <functional>
+#include <ios>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <sstream> // __str__
+#include <streambuf>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // msgpack::v2::object file: line:23
+		pybind11::class_<msgpack::v2::object, std::shared_ptr<msgpack::v2::object>, msgpack::v1::object> cl(M("msgpack::v2"), "object", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new msgpack::v2::object(); } ) );
+		cl.def( pybind11::init<const struct msgpack::v1::object &>(), pybind11::arg("o") );
+
+		cl.def( pybind11::init( [](msgpack::v2::object const &o){ return new msgpack::v2::object(o); } ) );
+		cl.def("convert", (std::string & (msgpack::v2::object::*)(std::string &) const) &msgpack::v2::object::convert<std::string>, "C++: msgpack::v2::object::convert(std::string &) const --> std::string &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::StructureData & (msgpack::v2::object::*)(struct mmtf::StructureData &) const) &msgpack::v2::object::convert<mmtf::StructureData>, "C++: msgpack::v2::object::convert(struct mmtf::StructureData &) const --> struct mmtf::StructureData &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<int, class std::allocator<int> > & (msgpack::v2::object::*)(class std::vector<int, class std::allocator<int> > &) const) &msgpack::v2::object::convert<std::vector<int, std::allocator<int> >>, "C++: msgpack::v2::object::convert(class std::vector<int, class std::allocator<int> > &) const --> class std::vector<int, class std::allocator<int> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (int & (msgpack::v2::object::*)(int &) const) &msgpack::v2::object::convert<int>, "C++: msgpack::v2::object::convert(int &) const --> int &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (float & (msgpack::v2::object::*)(float &) const) &msgpack::v2::object::convert<float>, "C++: msgpack::v2::object::convert(float &) const --> float &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > & (msgpack::v2::object::*)(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) const) &msgpack::v2::object::convert<std::vector<mmtf::Transform, std::allocator<mmtf::Transform> >>, "C++: msgpack::v2::object::convert(class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &) const --> class std::vector<struct mmtf::Transform, class std::allocator<struct mmtf::Transform> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::Transform & (msgpack::v2::object::*)(struct mmtf::Transform &) const) &msgpack::v2::object::convert<mmtf::Transform>, "C++: msgpack::v2::object::convert(struct mmtf::Transform &) const --> struct mmtf::Transform &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<std::string, class std::allocator<std::string > > & (msgpack::v2::object::*)(class std::vector<std::string, class std::allocator<std::string > > &) const) &msgpack::v2::object::convert<std::vector<std::string, std::allocator<std::string > >>, "C++: msgpack::v2::object::convert(class std::vector<std::string, class std::allocator<std::string > > &) const --> class std::vector<std::string, class std::allocator<std::string > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<signed char, class std::allocator<signed char> > & (msgpack::v2::object::*)(class std::vector<signed char, class std::allocator<signed char> > &) const) &msgpack::v2::object::convert<std::vector<signed char, std::allocator<signed char> >>, "C++: msgpack::v2::object::convert(class std::vector<signed char, class std::allocator<signed char> > &) const --> class std::vector<signed char, class std::allocator<signed char> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (signed char & (msgpack::v2::object::*)(signed char &) const) &msgpack::v2::object::convert<signed char>, "C++: msgpack::v2::object::convert(signed char &) const --> signed char &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (char & (msgpack::v2::object::*)(char &) const) &msgpack::v2::object::convert<char>, "C++: msgpack::v2::object::convert(char &) const --> char &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<float, class std::allocator<float> > & (msgpack::v2::object::*)(class std::vector<float, class std::allocator<float> > &) const) &msgpack::v2::object::convert<std::vector<float, std::allocator<float> >>, "C++: msgpack::v2::object::convert(class std::vector<float, class std::allocator<float> > &) const --> class std::vector<float, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > & (msgpack::v2::object::*)(class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) const) &msgpack::v2::object::convert<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>, "C++: msgpack::v2::object::convert(class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) const --> class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > & (msgpack::v2::object::*)(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) const) &msgpack::v2::object::convert<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>, "C++: msgpack::v2::object::convert(class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) const --> class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::BioAssembly & (msgpack::v2::object::*)(struct mmtf::BioAssembly &) const) &msgpack::v2::object::convert<mmtf::BioAssembly>, "C++: msgpack::v2::object::convert(struct mmtf::BioAssembly &) const --> struct mmtf::BioAssembly &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > & (msgpack::v2::object::*)(class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) const) &msgpack::v2::object::convert<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>, "C++: msgpack::v2::object::convert(class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) const --> class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::Entity & (msgpack::v2::object::*)(struct mmtf::Entity &) const) &msgpack::v2::object::convert<mmtf::Entity>, "C++: msgpack::v2::object::convert(struct mmtf::Entity &) const --> struct mmtf::Entity &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > & (msgpack::v2::object::*)(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) const) &msgpack::v2::object::convert<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>, "C++: msgpack::v2::object::convert(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) const --> class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct mmtf::GroupType & (msgpack::v2::object::*)(struct mmtf::GroupType &) const) &msgpack::v2::object::convert<mmtf::GroupType>, "C++: msgpack::v2::object::convert(struct mmtf::GroupType &) const --> struct mmtf::GroupType &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::vector<char, class std::allocator<char> > & (msgpack::v2::object::*)(class std::vector<char, class std::allocator<char> > &) const) &msgpack::v2::object::convert<std::vector<char, std::allocator<char> >>, "C++: msgpack::v2::object::convert(class std::vector<char, class std::allocator<char> > &) const --> class std::vector<char, class std::allocator<char> > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > & (msgpack::v2::object::*)(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) const) &msgpack::v2::object::convert<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>, "C++: msgpack::v2::object::convert(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) const --> class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("convert", (struct msgpack::v2::object & (msgpack::v2::object::*)(struct msgpack::v2::object &) const) &msgpack::v2::object::convert<msgpack::v2::object>, "C++: msgpack::v2::object::convert(struct msgpack::v2::object &) const --> struct msgpack::v2::object &", pybind11::return_value_policy::automatic, pybind11::arg("v"));
+		cl.def("assign", (struct msgpack::v2::object & (msgpack::v2::object::*)(const struct msgpack::v2::object &)) &msgpack::v2::object::operator=, "C++: msgpack::v2::object::operator=(const struct msgpack::v2::object &) --> struct msgpack::v2::object &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+
+		cl.def("__str__", [](msgpack::v2::object const &o) -> std::string { std::ostringstream s; s << o; return s.str(); } );
+	}
+}
+
+
+// File: std/stl_map.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::map file:bits/stl_map.h line:99
+		pybind11::class_<std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>, std::shared_ptr<std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>>> cl(M("std"), "map_std_string_msgpack_v2_object_std_less_std_string_std_allocator_std_pair_const_std_string_msgpack_v2_object_t", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>(); } ) );
+		cl.def( pybind11::init( [](const struct std::less<class std::__cxx11::basic_string<char> > & a0){ return new std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>(a0); } ), "doc");
+		cl.def( pybind11::init<const struct std::less<std::string > &, const class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > &>(), pybind11::arg("__comp"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >> const &o){ return new std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>(o); } ) );
+		cl.def( pybind11::init<const class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &, const class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > &>(), pybind11::arg("__m"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > & (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::operator=, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::operator=(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) --> class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("get_allocator", (class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)() const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::get_allocator, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::get_allocator() const --> class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> >");
+		cl.def("empty", (bool (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)() const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::empty, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::empty() const --> bool");
+		cl.def("size", (unsigned long (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)() const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::size, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)() const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::max_size, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::max_size() const --> unsigned long");
+		cl.def("__getitem__", (struct msgpack::v2::object & (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::operator[], "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::operator[](const std::string &) --> struct msgpack::v2::object &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("at", (struct msgpack::v2::object & (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::at, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::at(const std::string &) --> struct msgpack::v2::object &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("insert", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, bool> (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const struct std::pair<const std::string, struct msgpack::v2::object> &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::insert, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::insert(const struct std::pair<const std::string, struct msgpack::v2::object> &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, bool>", pybind11::arg("__x"));
+		cl.def("erase", (unsigned long (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::erase, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::erase(const std::string &) --> unsigned long", pybind11::arg("__x"));
+		cl.def("swap", (void (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::swap, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::swap(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) --> void", pybind11::arg("__x"));
+		cl.def("clear", (void (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)()) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::clear, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::clear() --> void");
+		cl.def("key_comp", (struct std::less<std::string > (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)() const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::key_comp, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::key_comp() const --> struct std::less<std::string >");
+		cl.def("count", (unsigned long (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &) const) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::count, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::count(const std::string &) const --> unsigned long", pybind11::arg("__x"));
+		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> > > (std::map<std::string,msgpack::v2::object,std::less<std::string >,std::allocator<std::pair<const std::string, msgpack::v2::object> >>::*)(const std::string &)) &std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >::equal_range, "C++: std::map<std::__cxx11::basic_string<char>, msgpack::v2::object, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, msgpack::v2::object> > >::equal_range(const std::string &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> >, struct std::_Rb_tree_iterator<struct std::pair<const std::string, struct msgpack::v2::object> > >", pybind11::arg("__x"));
+	}
+}
+
+
+// File: unknown/unknown_4.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream> // __str__
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+#include <mmtf.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	// mmtf::getVersionString() file: line:38
 	M("mmtf").def("getVersionString", (std::string (*)()) &mmtf::getVersionString, "Get string representation of MMTF spec version implemented here\n\nC++: mmtf::getVersionString() --> std::string");
 
-	std::cout << "B187_[bool mmtf::isVersionSupported(const std::string &)] ";
 	// mmtf::isVersionSupported(const std::string &) file: line:44
 	M("mmtf").def("isVersionSupported", (bool (*)(const std::string &)) &mmtf::isVersionSupported, "Check if version is supported (minor revisions ok, major ones not)\n \n\n true if supported, false if not\n\nC++: mmtf::isVersionSupported(const std::string &) --> bool", pybind11::arg("version_string"));
 
-	std::cout << "B188_[mmtf::GroupType] ";
 	{ // mmtf::GroupType file: line:51
 		pybind11::class_<mmtf::GroupType, std::shared_ptr<mmtf::GroupType>> cl(M("mmtf"), "GroupType", "Group (residue) level data store\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#group-data");
 		pybind11::handle cl_type = cl;
@@ -1904,7 +1869,6 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def("__eq__", (bool (mmtf::GroupType::*)(const struct mmtf::GroupType &) const) &mmtf::GroupType::operator==, "C++: mmtf::GroupType::operator==(const struct mmtf::GroupType &) const --> bool", pybind11::arg("c"));
 		cl.def("assign", (struct mmtf::GroupType & (mmtf::GroupType::*)(const struct mmtf::GroupType &)) &mmtf::GroupType::operator=, "C++: mmtf::GroupType::operator=(const struct mmtf::GroupType &) --> struct mmtf::GroupType &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B189_[mmtf::Entity] ";
 	{ // mmtf::Entity file: line:81
 		pybind11::class_<mmtf::Entity, std::shared_ptr<mmtf::Entity>> cl(M("mmtf"), "Entity", "Entity type.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#entitylist");
 		pybind11::handle cl_type = cl;
@@ -1915,10 +1879,11 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def_readwrite("description", &mmtf::Entity::description);
 		cl.def_readwrite("type", &mmtf::Entity::type);
 		cl.def_readwrite("sequence", &mmtf::Entity::sequence);
+		cl.def("msgpack_object", (void (mmtf::Entity::*)(struct msgpack::v2::object *, class msgpack::v1::zone &) const) &mmtf::Entity::msgpack_object<msgpack::v2::object>, "C++: mmtf::Entity::msgpack_object(struct msgpack::v2::object *, class msgpack::v1::zone &) const --> void", pybind11::arg("o"), pybind11::arg("z"));
 		cl.def("__eq__", (bool (mmtf::Entity::*)(const struct mmtf::Entity &) const) &mmtf::Entity::operator==, "C++: mmtf::Entity::operator==(const struct mmtf::Entity &) const --> bool", pybind11::arg("c"));
+		cl.def("msgpack_unpack", (void (mmtf::Entity::*)(const struct msgpack::v2::object &)) &mmtf::Entity::msgpack_unpack, "C++: mmtf::Entity::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::Entity & (mmtf::Entity::*)(const struct mmtf::Entity &)) &mmtf::Entity::operator=, "C++: mmtf::Entity::operator=(const struct mmtf::Entity &) --> struct mmtf::Entity &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B190_[mmtf::Transform] ";
 	{ // mmtf::Transform file: line:107
 		pybind11::class_<mmtf::Transform, std::shared_ptr<mmtf::Transform>> cl(M("mmtf"), "Transform", "Transformation definition for a set of chains.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#bioassemblylist");
 		pybind11::handle cl_type = cl;
@@ -1926,10 +1891,11 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def( pybind11::init( [](){ return new mmtf::Transform(); } ) );
 		cl.def( pybind11::init( [](mmtf::Transform const &o){ return new mmtf::Transform(o); } ) );
 		cl.def_readwrite("chainIndexList", &mmtf::Transform::chainIndexList);
+		cl.def("msgpack_object", (void (mmtf::Transform::*)(struct msgpack::v2::object *, class msgpack::v1::zone &) const) &mmtf::Transform::msgpack_object<msgpack::v2::object>, "C++: mmtf::Transform::msgpack_object(struct msgpack::v2::object *, class msgpack::v1::zone &) const --> void", pybind11::arg("o"), pybind11::arg("z"));
 		cl.def("__eq__", (bool (mmtf::Transform::*)(const struct mmtf::Transform &) const) &mmtf::Transform::operator==, "C++: mmtf::Transform::operator==(const struct mmtf::Transform &) const --> bool", pybind11::arg("c"));
+		cl.def("msgpack_unpack", (void (mmtf::Transform::*)(const struct msgpack::v2::object &)) &mmtf::Transform::msgpack_unpack, "C++: mmtf::Transform::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::Transform & (mmtf::Transform::*)(const struct mmtf::Transform &)) &mmtf::Transform::operator=, "C++: mmtf::Transform::operator=(const struct mmtf::Transform &) --> struct mmtf::Transform &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B191_[mmtf::BioAssembly] ";
 	{ // mmtf::BioAssembly file: line:130
 		pybind11::class_<mmtf::BioAssembly, std::shared_ptr<mmtf::BioAssembly>> cl(M("mmtf"), "BioAssembly", "Data store for the biological assembly annotation.\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#bioassemblylist");
 		pybind11::handle cl_type = cl;
@@ -1938,10 +1904,11 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def( pybind11::init( [](mmtf::BioAssembly const &o){ return new mmtf::BioAssembly(o); } ) );
 		cl.def_readwrite("transformList", &mmtf::BioAssembly::transformList);
 		cl.def_readwrite("name", &mmtf::BioAssembly::name);
+		cl.def("msgpack_object", (void (mmtf::BioAssembly::*)(struct msgpack::v2::object *, class msgpack::v1::zone &) const) &mmtf::BioAssembly::msgpack_object<msgpack::v2::object>, "C++: mmtf::BioAssembly::msgpack_object(struct msgpack::v2::object *, class msgpack::v1::zone &) const --> void", pybind11::arg("o"), pybind11::arg("z"));
 		cl.def("__eq__", (bool (mmtf::BioAssembly::*)(const struct mmtf::BioAssembly &) const) &mmtf::BioAssembly::operator==, "C++: mmtf::BioAssembly::operator==(const struct mmtf::BioAssembly &) const --> bool", pybind11::arg("c"));
+		cl.def("msgpack_unpack", (void (mmtf::BioAssembly::*)(const struct msgpack::v2::object &)) &mmtf::BioAssembly::msgpack_unpack, "C++: mmtf::BioAssembly::msgpack_unpack(const struct msgpack::v2::object &) --> void", pybind11::arg("o"));
 		cl.def("assign", (struct mmtf::BioAssembly & (mmtf::BioAssembly::*)(const struct mmtf::BioAssembly &)) &mmtf::BioAssembly::operator=, "C++: mmtf::BioAssembly::operator=(const struct mmtf::BioAssembly &) --> struct mmtf::BioAssembly &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B192_[mmtf::StructureData] ";
 	{ // mmtf::StructureData file: line:155
 		pybind11::class_<mmtf::StructureData, std::shared_ptr<mmtf::StructureData>> cl(M("mmtf"), "StructureData", "Top level MMTF data container.\n\n Default values (mmtf::isDefaultValue, mmtf::setDefaultValue) are set in\n constructor and can be used to check if value was never set (only relevant\n for optional values):\n - default for vectors and strings: empty\n - default for numeric types (incl. char): max. value of that type\n - default for numXX = 0\n\n https://github.com/rcsb/mmtf/blob/HEAD/spec.md#fields");
 		pybind11::handle cl_type = cl;
@@ -1987,7 +1954,7 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def_readwrite("chainNameList", &mmtf::StructureData::chainNameList);
 		cl.def_readwrite("groupsPerChain", &mmtf::StructureData::groupsPerChain);
 		cl.def_readwrite("chainsPerModel", &mmtf::StructureData::chainsPerModel);
-		// cl.def_readwrite("msgpack_zone", &mmtf::StructureData::msgpack_zone);
+		cl.def_readonly("msgpack_zone", &mmtf::StructureData::msgpack_zone);
 		cl.def_readwrite("bondProperties", &mmtf::StructureData::bondProperties);
 		cl.def_readwrite("atomProperties", &mmtf::StructureData::atomProperties);
 		cl.def_readwrite("groupProperties", &mmtf::StructureData::groupProperties);
@@ -2001,63 +1968,49 @@ void bind_unknown_unknown(std::function< pybind11::module &(std::string const &n
 		cl.def("print", (std::string (mmtf::StructureData::*)(std::string)) &mmtf::StructureData::print, "Read out the contents of mmtf::StructureData in a PDB-like fashion\n Columns are in order:\n ATOM/HETATM AtomId Element AtomName AltLoc GroupId GroupType\n InsCode ChainName x y z B-factor Occupancy Charge\n \n\n what to split columns with\n\nC++: mmtf::StructureData::print(std::string) --> std::string", pybind11::arg("delim"));
 		cl.def("__eq__", (bool (mmtf::StructureData::*)(const struct mmtf::StructureData &) const) &mmtf::StructureData::operator==, "compare two StructureData classes\n \n\n what to compare to\n\nC++: mmtf::StructureData::operator==(const struct mmtf::StructureData &) const --> bool", pybind11::arg("c"));
 	}
-	std::cout << "B193_[float mmtf::getDefaultValue<float>()] ";
 	// mmtf::getDefaultValue() file: line:386
 	M("mmtf").def("getDefaultValue", (float (*)()) &mmtf::getDefaultValue<float>, "C++: mmtf::getDefaultValue() --> float");
 
-	std::cout << "B194_[bool mmtf::isDefaultValue<std::vector<signed char, std::allocator<signed char> >>(const class std::vector<signed char, class std::allocator<signed char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<signed char, class std::allocator<signed char> > &)) &mmtf::isDefaultValue<std::vector<signed char, std::allocator<signed char> >>, "C++: mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B195_[bool mmtf::isDefaultValue<std::vector<int, std::allocator<int> >>(const class std::vector<int, class std::allocator<int> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<int, class std::allocator<int> > &)) &mmtf::isDefaultValue<std::vector<int, std::allocator<int> >>, "C++: mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B196_[bool mmtf::isDefaultValue<std::vector<std::string, std::allocator<std::string > >>(const class std::vector<std::string, class std::allocator<std::string > > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<std::string, class std::allocator<std::string > > &)) &mmtf::isDefaultValue<std::vector<std::string, std::allocator<std::string > >>, "C++: mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B197_[bool mmtf::isDefaultValue<std::vector<char, std::allocator<char> >>(const class std::vector<char, class std::allocator<char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<char, class std::allocator<char> > &)) &mmtf::isDefaultValue<std::vector<char, std::allocator<char> >>, "C++: mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B198_[bool mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>(const class std::vector<float, class std::allocator<float> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<float, class std::allocator<float> > &)) &mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>, "C++: mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B199_[bool mmtf::isDefaultValue<float>(const float &)] ";
 	// mmtf::isDefaultValue(const float &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const float &)) &mmtf::isDefaultValue<float>, "C++: mmtf::isDefaultValue(const float &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B200_[bool mmtf::isDefaultValue<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)) &mmtf::isDefaultValue<std::vector<mmtf::BioAssembly, std::allocator<mmtf::BioAssembly> >>, "C++: mmtf::isDefaultValue(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B201_[bool mmtf::isDefaultValue<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &)) &mmtf::isDefaultValue<std::vector<mmtf::Entity, std::allocator<mmtf::Entity> >>, "C++: mmtf::isDefaultValue(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B202_[bool mmtf::isDefaultValue<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) file: line:389
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &)) &mmtf::isDefaultValue<std::vector<std::vector<float, std::allocator<float> >, std::allocator<std::vector<float, std::allocator<float> > > >>, "C++: mmtf::isDefaultValue(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) --> bool", pybind11::arg("value"));
 
 }
 
 
-// File: unknown/unknown_1.cpp
-#include <functional> // std::less
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <map> // std::_Rb_tree_const_iterator
-#include <map> // std::_Rb_tree_iterator
-#include <map> // std::map
-#include <memory> // std::allocator
+// File: unknown/unknown_5.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
 #include <sstream> // __str__
-#include <stdexcept> // std::runtime_error
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <utility> // std::pair
-#include <vector> // std::vector
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -2110,95 +2063,77 @@ struct PyCallBack_mmtf_EncodeError : public mmtf::EncodeError {
 	}
 };
 
-void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_unknown_unknown_5(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B203_[bool mmtf::isDefaultValue<signed char>(const class std::vector<signed char, class std::allocator<signed char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<signed char, class std::allocator<signed char> > &)) &mmtf::isDefaultValue<signed char>, "C++: mmtf::isDefaultValue(const class std::vector<signed char, class std::allocator<signed char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B204_[bool mmtf::isDefaultValue<int>(const class std::vector<int, class std::allocator<int> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<int, class std::allocator<int> > &)) &mmtf::isDefaultValue<int>, "C++: mmtf::isDefaultValue(const class std::vector<int, class std::allocator<int> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B205_[bool mmtf::isDefaultValue<std::string>(const class std::vector<std::string, class std::allocator<std::string > > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<std::string, class std::allocator<std::string > > &)) &mmtf::isDefaultValue<std::string>, "C++: mmtf::isDefaultValue(const class std::vector<std::string, class std::allocator<std::string > > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B206_[bool mmtf::isDefaultValue<char>(const class std::vector<char, class std::allocator<char> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<char, class std::allocator<char> > &)) &mmtf::isDefaultValue<char>, "C++: mmtf::isDefaultValue(const class std::vector<char, class std::allocator<char> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B207_[bool mmtf::isDefaultValue<float>(const class std::vector<float, class std::allocator<float> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<float, class std::allocator<float> > &)) &mmtf::isDefaultValue<float>, "C++: mmtf::isDefaultValue(const class std::vector<float, class std::allocator<float> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B208_[bool mmtf::isDefaultValue<mmtf::BioAssembly>(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &)) &mmtf::isDefaultValue<mmtf::BioAssembly>, "C++: mmtf::isDefaultValue(const class std::vector<struct mmtf::BioAssembly, class std::allocator<struct mmtf::BioAssembly> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B209_[bool mmtf::isDefaultValue<mmtf::Entity>(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &)) &mmtf::isDefaultValue<mmtf::Entity>, "C++: mmtf::isDefaultValue(const class std::vector<struct mmtf::Entity, class std::allocator<struct mmtf::Entity> > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B210_[bool mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &)] ";
 	// mmtf::isDefaultValue(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) file: line:393
 	M("mmtf").def("isDefaultValue", (bool (*)(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &)) &mmtf::isDefaultValue<std::vector<float, std::allocator<float> >>, "C++: mmtf::isDefaultValue(const class std::vector<class std::vector<float, class std::allocator<float> >, class std::allocator<class std::vector<float, class std::allocator<float> > > > &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B211_[bool mmtf::isDefaultValue<std::string>(const std::string &)] ";
 	// mmtf::isDefaultValue(const std::string &) file: line:294
 	M("mmtf").def("isDefaultValue", (bool (*)(const std::string &)) &mmtf::isDefaultValue<std::string>, "C++: mmtf::isDefaultValue(const std::string &) --> bool", pybind11::arg("value"));
 
-	std::cout << "B212_[bool mmtf::isDefaultValue<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)] ";
-	std::cout << "B213_[bool mmtf::isDefaultValue(const struct msgpack::v2::object &)] ";
-	std::cout << "B214_[void mmtf::setDefaultValue<float>(float &)] ";
+	// mmtf::isDefaultValue(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) file: line:296
+	M("mmtf").def("isDefaultValue", (bool (*)(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)) &mmtf::isDefaultValue<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>, "C++: mmtf::isDefaultValue(const class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) --> bool", pybind11::arg("value"));
+
+	// mmtf::isDefaultValue(const struct msgpack::v2::object &) file: line:297
+	M("mmtf").def("isDefaultValue", (bool (*)(const struct msgpack::v2::object &)) &mmtf::isDefaultValue, "C++: mmtf::isDefaultValue(const struct msgpack::v2::object &) --> bool", pybind11::arg("value"));
+
 	// mmtf::setDefaultValue(float &) file: line:409
 	M("mmtf").def("setDefaultValue", (void (*)(float &)) &mmtf::setDefaultValue<float>, "C++: mmtf::setDefaultValue(float &) --> void", pybind11::arg("value"));
 
-	std::cout << "B215_[bool mmtf::is_hetatm(const char *)] ";
 	// mmtf::is_hetatm(const char *) file: line:317
 	M("mmtf").def("is_hetatm", (bool (*)(const char *)) &mmtf::is_hetatm, "Check if type is hetatm\n \n\n   cstring of group.chemCompType\n \n\n True if is a HETATM \n Used when printing this struct, also all chemCompTypes are listed, but\n the non-HETATM ones are commented out for reference\n Relevant threads:\n https://github.com/rcsb/mmtf/issues/28\n http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Items/_chem_comp.type.html\n\nC++: mmtf::is_hetatm(const char *) --> bool", pybind11::arg("type"));
 
-	std::cout << "B216_[bool mmtf::isValidDateFormatOptional(const std::string &)] ";
 	// mmtf::isValidDateFormatOptional(const std::string &) file: line:328
 	M("mmtf").def("isValidDateFormatOptional", (bool (*)(const std::string &)) &mmtf::isValidDateFormatOptional, "C++: mmtf::isValidDateFormatOptional(const std::string &) --> bool", pybind11::arg("s"));
 
-	std::cout << "B217_[bool mmtf::hasRightSizeOptional<float>(const class std::vector<float, class std::allocator<float> > &, int)] ";
 	// mmtf::hasRightSizeOptional(const class std::vector<float, class std::allocator<float> > &, int) file: line:348
 	M("mmtf").def("hasRightSizeOptional", (bool (*)(const class std::vector<float, class std::allocator<float> > &, int)) &mmtf::hasRightSizeOptional<float>, "C++: mmtf::hasRightSizeOptional(const class std::vector<float, class std::allocator<float> > &, int) --> bool", pybind11::arg("v"), pybind11::arg("exp_size"));
 
-	std::cout << "B218_[bool mmtf::hasRightSizeOptional<int>(const class std::vector<int, class std::allocator<int> > &, int)] ";
 	// mmtf::hasRightSizeOptional(const class std::vector<int, class std::allocator<int> > &, int) file: line:348
 	M("mmtf").def("hasRightSizeOptional", (bool (*)(const class std::vector<int, class std::allocator<int> > &, int)) &mmtf::hasRightSizeOptional<int>, "C++: mmtf::hasRightSizeOptional(const class std::vector<int, class std::allocator<int> > &, int) --> bool", pybind11::arg("v"), pybind11::arg("exp_size"));
 
-	std::cout << "B219_[bool mmtf::hasRightSizeOptional<char>(const class std::vector<char, class std::allocator<char> > &, int)] ";
 	// mmtf::hasRightSizeOptional(const class std::vector<char, class std::allocator<char> > &, int) file: line:348
 	M("mmtf").def("hasRightSizeOptional", (bool (*)(const class std::vector<char, class std::allocator<char> > &, int)) &mmtf::hasRightSizeOptional<char>, "C++: mmtf::hasRightSizeOptional(const class std::vector<char, class std::allocator<char> > &, int) --> bool", pybind11::arg("v"), pybind11::arg("exp_size"));
 
-	std::cout << "B220_[bool mmtf::hasRightSizeOptional<signed char>(const class std::vector<signed char, class std::allocator<signed char> > &, int)] ";
 	// mmtf::hasRightSizeOptional(const class std::vector<signed char, class std::allocator<signed char> > &, int) file: line:348
 	M("mmtf").def("hasRightSizeOptional", (bool (*)(const class std::vector<signed char, class std::allocator<signed char> > &, int)) &mmtf::hasRightSizeOptional<signed char>, "C++: mmtf::hasRightSizeOptional(const class std::vector<signed char, class std::allocator<signed char> > &, int) --> bool", pybind11::arg("v"), pybind11::arg("exp_size"));
 
-	std::cout << "B221_[bool mmtf::hasRightSizeOptional<std::string>(const class std::vector<std::string, class std::allocator<std::string > > &, int)] ";
 	// mmtf::hasRightSizeOptional(const class std::vector<std::string, class std::allocator<std::string > > &, int) file: line:348
 	M("mmtf").def("hasRightSizeOptional", (bool (*)(const class std::vector<std::string, class std::allocator<std::string > > &, int)) &mmtf::hasRightSizeOptional<std::string>, "C++: mmtf::hasRightSizeOptional(const class std::vector<std::string, class std::allocator<std::string > > &, int) --> bool", pybind11::arg("v"), pybind11::arg("exp_size"));
 
-	std::cout << "B222_[bool mmtf::hasValidIndices<int,int>(const int *, unsigned long, int)] ";
 	// mmtf::hasValidIndices(const int *, unsigned long, int) file: line:354
 	M("mmtf").def("hasValidIndices", (bool (*)(const int *, unsigned long, int)) &mmtf::hasValidIndices<int,int>, "C++: mmtf::hasValidIndices(const int *, unsigned long, int) --> bool", pybind11::arg("v"), pybind11::arg("size"), pybind11::arg("num"));
 
-	std::cout << "B223_[bool mmtf::hasValidIndices<int,unsigned long>(const int *, unsigned long, unsigned long)] ";
 	// mmtf::hasValidIndices(const int *, unsigned long, unsigned long) file: line:354
 	M("mmtf").def("hasValidIndices", (bool (*)(const int *, unsigned long, unsigned long)) &mmtf::hasValidIndices<int,unsigned long>, "C++: mmtf::hasValidIndices(const int *, unsigned long, unsigned long) --> bool", pybind11::arg("v"), pybind11::arg("size"), pybind11::arg("num"));
 
-	std::cout << "B224_[bool mmtf::hasValidIndices<int,int>(const class std::vector<int, class std::allocator<int> > &, int)] ";
 	// mmtf::hasValidIndices(const class std::vector<int, class std::allocator<int> > &, int) file: line:362
 	M("mmtf").def("hasValidIndices", (bool (*)(const class std::vector<int, class std::allocator<int> > &, int)) &mmtf::hasValidIndices<int,int>, "C++: mmtf::hasValidIndices(const class std::vector<int, class std::allocator<int> > &, int) --> bool", pybind11::arg("v"), pybind11::arg("num"));
 
-	std::cout << "B225_[bool mmtf::hasValidIndices<int,unsigned long>(const class std::vector<int, class std::allocator<int> > &, unsigned long)] ";
 	// mmtf::hasValidIndices(const class std::vector<int, class std::allocator<int> > &, unsigned long) file: line:362
 	M("mmtf").def("hasValidIndices", (bool (*)(const class std::vector<int, class std::allocator<int> > &, unsigned long)) &mmtf::hasValidIndices<int,unsigned long>, "C++: mmtf::hasValidIndices(const class std::vector<int, class std::allocator<int> > &, unsigned long) --> bool", pybind11::arg("v"), pybind11::arg("num"));
 
-	std::cout << "B226_[mmtf::DecodeError] ";
 	{ // mmtf::DecodeError file: line:23
 		pybind11::class_<mmtf::DecodeError, std::shared_ptr<mmtf::DecodeError>, PyCallBack_mmtf_DecodeError, std::runtime_error> cl(M("mmtf"), "DecodeError", "Exception thrown when failing during decoding.");
 		pybind11::handle cl_type = cl;
@@ -2209,7 +2144,6 @@ void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const 
 		cl.def( pybind11::init( [](mmtf::DecodeError const &o){ return new mmtf::DecodeError(o); } ) );
 		cl.def("assign", (class mmtf::DecodeError & (mmtf::DecodeError::*)(const class mmtf::DecodeError &)) &mmtf::DecodeError::operator=, "C++: mmtf::DecodeError::operator=(const class mmtf::DecodeError &) --> class mmtf::DecodeError &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B227_[mmtf::EncodeError] ";
 	{ // mmtf::EncodeError file: line:31
 		pybind11::class_<mmtf::EncodeError, std::shared_ptr<mmtf::EncodeError>, PyCallBack_mmtf_EncodeError, std::runtime_error> cl(M("mmtf"), "EncodeError", "Exception thrown when failing during encoding.");
 		pybind11::handle cl_type = cl;
@@ -2220,10 +2154,12 @@ void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const 
 		cl.def( pybind11::init( [](mmtf::EncodeError const &o){ return new mmtf::EncodeError(o); } ) );
 		cl.def("assign", (class mmtf::EncodeError & (mmtf::EncodeError::*)(const class mmtf::EncodeError &)) &mmtf::EncodeError::operator=, "C++: mmtf::EncodeError::operator=(const class mmtf::EncodeError &) --> class mmtf::EncodeError &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	std::cout << "B228_[mmtf::BinaryDecoder] ";
 	{ // mmtf::BinaryDecoder file: line:30
 		pybind11::class_<mmtf::BinaryDecoder, std::shared_ptr<mmtf::BinaryDecoder>> cl(M("mmtf"), "BinaryDecoder", "Helper class to decode msgpack binary into a vector.");
 		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](const struct msgpack::v2::object & a0){ return new mmtf::BinaryDecoder(a0); } ), "doc");
+		cl.def( pybind11::init<const struct msgpack::v2::object &, const std::string &>(), pybind11::arg("obj"), pybind11::arg("key") );
 
 		cl.def( pybind11::init( [](mmtf::BinaryDecoder const &o){ return new mmtf::BinaryDecoder(o); } ) );
 		cl.def("decode", (void (mmtf::BinaryDecoder::*)(class std::vector<float, class std::allocator<float> > &)) &mmtf::BinaryDecoder::decode<std::vector<float, std::allocator<float> >>, "C++: mmtf::BinaryDecoder::decode(class std::vector<float, class std::allocator<float> > &) --> void", pybind11::arg("output"));
@@ -2241,23 +2177,20 @@ void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const 
 		cl.def("decode", (void (mmtf::BinaryDecoder::*)(float &)) &mmtf::BinaryDecoder::decode<float>, "C++: mmtf::BinaryDecoder::decode(float &) --> void", pybind11::arg("target"));
 		cl.def("decode", (void (mmtf::BinaryDecoder::*)(int &)) &mmtf::BinaryDecoder::decode<int>, "C++: mmtf::BinaryDecoder::decode(int &) --> void", pybind11::arg("target"));
 		cl.def("decode", (void (mmtf::BinaryDecoder::*)(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &)) &mmtf::BinaryDecoder::decode<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>, "C++: mmtf::BinaryDecoder::decode(class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) --> void", pybind11::arg("target"));
+		cl.def("decode", (void (mmtf::BinaryDecoder::*)(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)) &mmtf::BinaryDecoder::decode<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>, "C++: mmtf::BinaryDecoder::decode(class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) --> void", pybind11::arg("target"));
 	}
 }
 
 
-// File: unknown/unknown_2.cpp
-#include <functional> // std::less
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <map> // std::_Rb_tree_const_iterator
-#include <map> // std::_Rb_tree_iterator
-#include <map> // std::map
-#include <memory> // std::allocator
+// File: unknown/unknown_6.cpp
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
 #include <sstream> // __str__
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <utility> // std::pair
-#include <vector> // std::vector
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -2272,28 +2205,27 @@ void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const 
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_unknown_unknown_6(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B229_[void mmtf::assignBigendian4(void *, const char *)] ";
-	// mmtf::assignBigendian4(void *, const char *) file: line:122
+	// mmtf::assignBigendian4(void *, const char *) file: line:123
 	M("mmtf").def("assignBigendian4", (void (*)(void *, const char *)) &mmtf::assignBigendian4, "C++: mmtf::assignBigendian4(void *, const char *) --> void", pybind11::arg("dst"), pybind11::arg("src"));
 
-	std::cout << "B230_[void mmtf::assignBigendian2(void *, const char *)] ";
-	// mmtf::assignBigendian2(void *, const char *) file: line:126
+	// mmtf::assignBigendian2(void *, const char *) file: line:127
 	M("mmtf").def("assignBigendian2", (void (*)(void *, const char *)) &mmtf::assignBigendian2, "C++: mmtf::assignBigendian2(void *, const char *) --> void", pybind11::arg("dst"), pybind11::arg("src"));
 
-	std::cout << "B231_[void mmtf::arrayCopyBigendian4(void *, const char *, unsigned long)] ";
-	// mmtf::arrayCopyBigendian4(void *, const char *, unsigned long) file: line:130
+	// mmtf::arrayCopyBigendian4(void *, const char *, unsigned long) file: line:149
 	M("mmtf").def("arrayCopyBigendian4", (void (*)(void *, const char *, unsigned long)) &mmtf::arrayCopyBigendian4, "C++: mmtf::arrayCopyBigendian4(void *, const char *, unsigned long) --> void", pybind11::arg("dst"), pybind11::arg("src"), pybind11::arg("n"));
 
-	std::cout << "B232_[void mmtf::arrayCopyBigendian2(void *, const char *, unsigned long)] ";
-	// mmtf::arrayCopyBigendian2(void *, const char *, unsigned long) file: line:136
+	// mmtf::arrayCopyBigendian2(void *, const char *, unsigned long) file: line:155
 	M("mmtf").def("arrayCopyBigendian2", (void (*)(void *, const char *, unsigned long)) &mmtf::arrayCopyBigendian2, "C++: mmtf::arrayCopyBigendian2(void *, const char *, unsigned long) --> void", pybind11::arg("dst"), pybind11::arg("src"), pybind11::arg("n"));
 
-	std::cout << "B233_[mmtf::MapDecoder] ";
 	{ // mmtf::MapDecoder file: line:30
 		pybind11::class_<mmtf::MapDecoder, std::shared_ptr<mmtf::MapDecoder>> cl(M("mmtf"), "MapDecoder", "Helper class to decode msgpack maps into object fields.");
 		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init<const struct msgpack::v2::object &>(), pybind11::arg("obj") );
+
+		cl.def( pybind11::init<class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &>(), pybind11::arg("map_in") );
 
 		cl.def( pybind11::init( [](mmtf::MapDecoder const &o){ return new mmtf::MapDecoder(o); } ) );
 		cl.def("decode", (void (mmtf::MapDecoder::*)(const std::string &, bool, class std::vector<int, class std::allocator<int> > &)) &mmtf::MapDecoder::decode<std::vector<int, std::allocator<int> >>, "C++: mmtf::MapDecoder::decode(const std::string &, bool, class std::vector<int, class std::allocator<int> > &) --> void", pybind11::arg("key"), pybind11::arg("required"), pybind11::arg("target"));
@@ -2310,20 +2242,18 @@ void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const 
 		cl.def("decode", (void (mmtf::MapDecoder::*)(const std::string &, bool, int &)) &mmtf::MapDecoder::decode<int>, "C++: mmtf::MapDecoder::decode(const std::string &, bool, int &) --> void", pybind11::arg("key"), pybind11::arg("required"), pybind11::arg("target"));
 		cl.def("decode", (void (mmtf::MapDecoder::*)(const std::string &, bool, class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &)) &mmtf::MapDecoder::decode<std::vector<mmtf::GroupType, std::allocator<mmtf::GroupType> >>, "C++: mmtf::MapDecoder::decode(const std::string &, bool, class std::vector<struct mmtf::GroupType, class std::allocator<struct mmtf::GroupType> > &) --> void", pybind11::arg("key"), pybind11::arg("required"), pybind11::arg("target"));
 		cl.def("decode", (void (mmtf::MapDecoder::*)(const std::string &, bool, class std::vector<char, class std::allocator<char> > &)) &mmtf::MapDecoder::decode<std::vector<char, std::allocator<char> >>, "C++: mmtf::MapDecoder::decode(const std::string &, bool, class std::vector<char, class std::allocator<char> > &) --> void", pybind11::arg("key"), pybind11::arg("required"), pybind11::arg("target"));
+		cl.def("decode", (void (mmtf::MapDecoder::*)(const std::string &, bool, class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &)) &mmtf::MapDecoder::decode<std::map<std::string, msgpack::v2::object, std::less<std::string >, std::allocator<std::pair<const std::string, msgpack::v2::object> > >>, "C++: mmtf::MapDecoder::decode(const std::string &, bool, class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > &) --> void", pybind11::arg("key"), pybind11::arg("required"), pybind11::arg("target"));
 		cl.def("checkExtraKeys", (void (mmtf::MapDecoder::*)()) &mmtf::MapDecoder::checkExtraKeys, "Check if there are any keys, that were not decoded.\n This is to be called after all expected fields have been decoded.\n A warning is written to stderr for each non-decoded key.\n\nC++: mmtf::MapDecoder::checkExtraKeys() --> void");
 	}
 }
 
 
-// File: unknown/unknown_3.cpp
-#include <fstream> // std::basic_filebuf
-#include <fstream> // std::basic_ifstream
-#include <ios> // std::_Ios_Openmode
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
+// File: unknown/unknown_7.cpp
+#include <fstream>
+#include <ios>
+#include <iterator>
+#include <memory>
+#include <string>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -2338,35 +2268,31 @@ void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const 
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_unknown_unknown_7(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B234_[void mmtf::decodeFromBuffer(struct mmtf::StructureData &, const char *, unsigned long)] ";
 	// mmtf::decodeFromBuffer(struct mmtf::StructureData &, const char *, unsigned long) file: line:34
 	M("mmtf").def("decodeFromBuffer", (void (*)(struct mmtf::StructureData &, const char *, unsigned long)) &mmtf::decodeFromBuffer, "Decode an MMTF data structure from a byte buffer.\n \n\n   MMTF data structure to be filled\n \n\n File contents\n \n\n   Size of buffer\n \n\n mmtf::DecodeError if an error occured\n\nC++: mmtf::decodeFromBuffer(struct mmtf::StructureData &, const char *, unsigned long) --> void", pybind11::arg("data"), pybind11::arg("buffer"), pybind11::arg("size"));
 
-	std::cout << "B235_[void mmtf::decodeFromStream<std::basic_ifstream<char>>(struct mmtf::StructureData &, class std::basic_ifstream<char> &)] ";
 	// mmtf::decodeFromStream(struct mmtf::StructureData &, class std::basic_ifstream<char> &) file: line:71
 	M("mmtf").def("decodeFromStream", (void (*)(struct mmtf::StructureData &, class std::basic_ifstream<char> &)) &mmtf::decodeFromStream<std::basic_ifstream<char>>, "C++: mmtf::decodeFromStream(struct mmtf::StructureData &, class std::basic_ifstream<char> &) --> void", pybind11::arg("data"), pybind11::arg("stream"));
 
-	std::cout << "B236_[void mmtf::decodeFromFile(struct mmtf::StructureData &, const std::string &)] ";
 	// mmtf::decodeFromFile(struct mmtf::StructureData &, const std::string &) file: line:55
 	M("mmtf").def("decodeFromFile", (void (*)(struct mmtf::StructureData &, const std::string &)) &mmtf::decodeFromFile, "Decode an MMTF data structure from an existing file.\n \n\n     MMTF data structure to be filled\n \n\n Path to file to load\n \n\n mmtf::DecodeError if an error occured\n\nC++: mmtf::decodeFromFile(struct mmtf::StructureData &, const std::string &) --> void", pybind11::arg("data"), pybind11::arg("filename"));
 
 }
 
 
-// File: unknown/unknown_4.cpp
-#include <fstream> // std::basic_filebuf
-#include <fstream> // std::basic_ofstream
-#include <ios> // std::_Ios_Openmode
-#include <iostream> // --trace
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // std::__cxx11::basic_stringbuf
-#include <sstream> // std::__cxx11::basic_stringstream
-#include <string> // std::__cxx11::basic_string
-#include <string> // std::char_traits
-#include <vector> // std::vector
+// File: unknown/unknown_8.cpp
+#include <fstream>
+#include <functional>
+#include <ios>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -2381,88 +2307,76 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_unknown_unknown_8(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	std::cout << "B237_[class std::vector<int, class std::allocator<int> > mmtf::convertFloatsToInts(const class std::vector<float, class std::allocator<float> > &, int)] ";
 	// mmtf::convertFloatsToInts(const class std::vector<float, class std::allocator<float> > &, int) file: line:40
 	M("mmtf").def("convertFloatsToInts", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<float, class std::allocator<float> > &, int)) &mmtf::convertFloatsToInts, "Convert floats to ints via multiplier.\n \n\n        vector of floats\n \n\n    multiply float vector by this\n \n\n vec_out          vec_in * multiplier and rounded\n\nC++: mmtf::convertFloatsToInts(const class std::vector<float, class std::allocator<float> > &, int) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"), pybind11::arg("multiplier"));
 
-	std::cout << "B238_[class std::vector<int, class std::allocator<int> > mmtf::deltaEncode(const class std::vector<int, class std::allocator<int> > &)] ";
 	// mmtf::deltaEncode(const class std::vector<int, class std::allocator<int> > &) file: line:48
 	M("mmtf").def("deltaEncode", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<int, class std::allocator<int> > &)) &mmtf::deltaEncode, "mmtf delta encode a vector of ints.\n \n\n        vector of ints\n \n\n vec_out          delta encoded int vector\n\nC++: mmtf::deltaEncode(const class std::vector<int, class std::allocator<int> > &) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"));
 
-	std::cout << "B239_[class std::vector<int, class std::allocator<int> > mmtf::runLengthEncode(const class std::vector<int, class std::allocator<int> > &)] ";
 	// mmtf::runLengthEncode(const class std::vector<int, class std::allocator<int> > &) file: line:56
 	M("mmtf").def("runLengthEncode", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<int, class std::allocator<int> > &)) &mmtf::runLengthEncode, "mmtf run length encode a vector of ints.\n \n\n        vector of ints\n \n\n vec_out          run length encoded int vector\n\nC++: mmtf::runLengthEncode(const class std::vector<int, class std::allocator<int> > &) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"));
 
-	std::cout << "B240_[class std::vector<int, class std::allocator<int> > mmtf::runLengthEncode(const class std::vector<signed char, class std::allocator<signed char> > &)] ";
 	// mmtf::runLengthEncode(const class std::vector<signed char, class std::allocator<signed char> > &) file: line:63
 	M("mmtf").def("runLengthEncode", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<signed char, class std::allocator<signed char> > &)) &mmtf::runLengthEncode, "mmtf run length encode a vector of ints.\n \n\n        vector of ints\n \n\n vec_out          run length encoded int vector\n\nC++: mmtf::runLengthEncode(const class std::vector<signed char, class std::allocator<signed char> > &) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"));
 
-	std::cout << "B241_[class std::vector<int, class std::allocator<int> > mmtf::recursiveIndexEncode(const class std::vector<int, class std::allocator<int> > &, int, int)] ";
 	// mmtf::recursiveIndexEncode(const class std::vector<int, class std::allocator<int> > &, int, int) file: line:72
 	M("mmtf").def("recursiveIndexEncode", [](const class std::vector<int, class std::allocator<int> > & a0) -> std::vector<int, class std::allocator<int> > { return mmtf::recursiveIndexEncode(a0); }, "", pybind11::arg("vec_in"));
 	M("mmtf").def("recursiveIndexEncode", [](const class std::vector<int, class std::allocator<int> > & a0, int const & a1) -> std::vector<int, class std::allocator<int> > { return mmtf::recursiveIndexEncode(a0, a1); }, "", pybind11::arg("vec_in"), pybind11::arg("max"));
 	M("mmtf").def("recursiveIndexEncode", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<int, class std::allocator<int> > &, int, int)) &mmtf::recursiveIndexEncode, "mmtf recursive index encode a vector of ints.\n \n\n        vector of ints\n \n\n           maximum value of signed 16bit int\n \n\n           minimum value of signed 16bit int\n \n\n vec_out          recursive index encoded vector\n\nC++: mmtf::recursiveIndexEncode(const class std::vector<int, class std::allocator<int> > &, int, int) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"), pybind11::arg("max"), pybind11::arg("min"));
 
-	std::cout << "B242_[class std::vector<int, class std::allocator<int> > mmtf::convertCharsToInts(const class std::vector<char, class std::allocator<char> > &)] ";
 	// mmtf::convertCharsToInts(const class std::vector<char, class std::allocator<char> > &) file: line:80
 	M("mmtf").def("convertCharsToInts", (class std::vector<int, class std::allocator<int> > (*)(const class std::vector<char, class std::allocator<char> > &)) &mmtf::convertCharsToInts, "mmtf convert char to int\n \n\n        vector of chars\n \n\n vec_out          vector of ints\n\nC++: mmtf::convertCharsToInts(const class std::vector<char, class std::allocator<char> > &) --> class std::vector<int, class std::allocator<int> >", pybind11::arg("vec_in"));
 
-	std::cout << "B243_[void mmtf::add_header(class std::basic_stringstream<char> &, unsigned int, unsigned int, unsigned int)] ";
 	// mmtf::add_header(class std::basic_stringstream<char> &, unsigned int, unsigned int, unsigned int) file: line:90
 	M("mmtf").def("add_header", [](class std::__cxx11::basic_stringstream<char> & a0, unsigned int const & a1, unsigned int const & a2) -> void { return mmtf::add_header(a0, a1, a2); }, "", pybind11::arg("ss"), pybind11::arg("array_size"), pybind11::arg("codec"));
 	M("mmtf").def("add_header", (void (*)(class std::basic_stringstream<char> &, unsigned int, unsigned int, unsigned int)) &mmtf::add_header, "Add mmtf header to a stream\n \n\n            stringstream to add a header to\n \n\n    size of array you're adding\n \n\n         the codec type number you're using to encode\n \n\n         the param for the codec you're using (default 0)\n\nC++: mmtf::add_header(class std::basic_stringstream<char> &, unsigned int, unsigned int, unsigned int) --> void", pybind11::arg("ss"), pybind11::arg("array_size"), pybind11::arg("codec"), pybind11::arg("param"));
 
-	std::cout << "B244_[class std::vector<char, class std::allocator<char> > mmtf::stringstreamToCharVector(class std::basic_stringstream<char> &)] ";
 	// mmtf::stringstreamToCharVector(class std::basic_stringstream<char> &) file: line:97
 	M("mmtf").def("stringstreamToCharVector", (class std::vector<char, class std::allocator<char> > (*)(class std::basic_stringstream<char> &)) &mmtf::stringstreamToCharVector, "Convert stringstream to CharVector\n \n\n            ss to convert\n \n\n                  converted ss\n\nC++: mmtf::stringstreamToCharVector(class std::basic_stringstream<char> &) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("ss"));
 
-	std::cout << "B245_[class std::vector<char, class std::allocator<char> > mmtf::encodeInt8ToByte(class std::vector<signed char, class std::allocator<signed char> >)] ";
 	// mmtf::encodeInt8ToByte(class std::vector<signed char, class std::allocator<signed char> >) file: line:109
 	M("mmtf").def("encodeInt8ToByte", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<signed char, class std::allocator<signed char> >)) &mmtf::encodeInt8ToByte, "encode 8 bit int to bytes encoding (type 2)\n \n\n        vector of ints to encode\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeInt8ToByte(class std::vector<signed char, class std::allocator<signed char> >) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("vec_in"));
 
-	std::cout << "B246_[class std::vector<char, class std::allocator<char> > mmtf::encodeFourByteInt(class std::vector<int, class std::allocator<int> >)] ";
 	// mmtf::encodeFourByteInt(class std::vector<int, class std::allocator<int> >) file: line:115
 	M("mmtf").def("encodeFourByteInt", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<int, class std::allocator<int> >)) &mmtf::encodeFourByteInt, "encode 4 bytes to int encoding (type 4)\n \n\n        vector of ints to encode\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeFourByteInt(class std::vector<int, class std::allocator<int> >) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("vec_in"));
 
-	std::cout << "B247_[class std::vector<char, class std::allocator<char> > mmtf::encodeStringVector(class std::vector<std::string, class std::allocator<std::string > >, int)] ";
 	// mmtf::encodeStringVector(class std::vector<std::string, class std::allocator<std::string > >, int) file: line:122
 	M("mmtf").def("encodeStringVector", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<std::string, class std::allocator<std::string > >, int)) &mmtf::encodeStringVector, "encode string vector encoding (type 5)\n \n\n         vector of strings\n \n\n     maximum length of string\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeStringVector(class std::vector<std::string, class std::allocator<std::string > >, int) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("in_sv"), pybind11::arg("CHAIN_LEN"));
 
-	std::cout << "B248_[class std::vector<char, class std::allocator<char> > mmtf::encodeRunLengthChar(class std::vector<char, class std::allocator<char> >)] ";
 	// mmtf::encodeRunLengthChar(class std::vector<char, class std::allocator<char> >) file: line:129
 	M("mmtf").def("encodeRunLengthChar", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<char, class std::allocator<char> >)) &mmtf::encodeRunLengthChar, "encode Run Length Char encoding (type 6)\n \n\n         vector for chars\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeRunLengthChar(class std::vector<char, class std::allocator<char> >) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("in_cv"));
 
-	std::cout << "B249_[class std::vector<char, class std::allocator<char> > mmtf::encodeRunLengthDeltaInt(class std::vector<int, class std::allocator<int> >)] ";
 	// mmtf::encodeRunLengthDeltaInt(class std::vector<int, class std::allocator<int> >) file: line:136
 	M("mmtf").def("encodeRunLengthDeltaInt", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<int, class std::allocator<int> >)) &mmtf::encodeRunLengthDeltaInt, "encode Run Length Delta Int encoding (type 8)\n \n\n       vector of ints\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeRunLengthDeltaInt(class std::vector<int, class std::allocator<int> >) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("int_vec"));
 
-	std::cout << "B250_[class std::vector<char, class std::allocator<char> > mmtf::encodeRunLengthFloat(class std::vector<float, class std::allocator<float> >, int)] ";
 	// mmtf::encodeRunLengthFloat(class std::vector<float, class std::allocator<float> >, int) file: line:143
 	M("mmtf").def("encodeRunLengthFloat", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<float, class std::allocator<float> >, int)) &mmtf::encodeRunLengthFloat, "encode Run Length Float encoding (type 9)\n \n\n     vector of ints\n \n\n    float multiplier\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeRunLengthFloat(class std::vector<float, class std::allocator<float> >, int) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("floats_in"), pybind11::arg("multiplier"));
 
-	std::cout << "B251_[class std::vector<char, class std::allocator<char> > mmtf::encodeDeltaRecursiveFloat(class std::vector<float, class std::allocator<float> >, int)] ";
 	// mmtf::encodeDeltaRecursiveFloat(class std::vector<float, class std::allocator<float> >, int) file: line:150
 	M("mmtf").def("encodeDeltaRecursiveFloat", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<float, class std::allocator<float> >, int)) &mmtf::encodeDeltaRecursiveFloat, "encode Delta Recursive Float encoding (type 10)\n \n\n     vector of ints\n \n\n    float multiplier\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeDeltaRecursiveFloat(class std::vector<float, class std::allocator<float> >, int) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("floats_in"), pybind11::arg("multiplier"));
 
-	std::cout << "B252_[class std::vector<char, class std::allocator<char> > mmtf::encodeRunLengthInt8(class std::vector<signed char, class std::allocator<signed char> >)] ";
 	// mmtf::encodeRunLengthInt8(class std::vector<signed char, class std::allocator<signed char> >) file: line:156
 	M("mmtf").def("encodeRunLengthInt8", (class std::vector<char, class std::allocator<char> > (*)(class std::vector<signed char, class std::allocator<signed char> >)) &mmtf::encodeRunLengthInt8, "encode Run-Length 8bit int encoding (type 16)\n \n\n     vector of ints\n \n\n cv               char vector of encoded bytes\n\nC++: mmtf::encodeRunLengthInt8(class std::vector<signed char, class std::allocator<signed char> >) --> class std::vector<char, class std::allocator<char> >", pybind11::arg("int8_vec"));
 
-	std::cout << "B253_[void mmtf::encodeToFile(const struct mmtf::StructureData &, const std::string &, int, int, int)] ";
 	// mmtf::encodeToFile(const struct mmtf::StructureData &, const std::string &, int, int, int) file: line:36
 	M("mmtf").def("encodeToFile", [](const struct mmtf::StructureData & a0, const class std::__cxx11::basic_string<char> & a1) -> void { return mmtf::encodeToFile(a0, a1); }, "", pybind11::arg("data"), pybind11::arg("filename"));
 	M("mmtf").def("encodeToFile", [](const struct mmtf::StructureData & a0, const class std::__cxx11::basic_string<char> & a1, int const & a2) -> void { return mmtf::encodeToFile(a0, a1, a2); }, "", pybind11::arg("data"), pybind11::arg("filename"), pybind11::arg("coord_divider"));
 	M("mmtf").def("encodeToFile", [](const struct mmtf::StructureData & a0, const class std::__cxx11::basic_string<char> & a1, int const & a2, int const & a3) -> void { return mmtf::encodeToFile(a0, a1, a2, a3); }, "", pybind11::arg("data"), pybind11::arg("filename"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"));
 	M("mmtf").def("encodeToFile", (void (*)(const struct mmtf::StructureData &, const std::string &, int, int, int)) &mmtf::encodeToFile, "Encode an MMTF data structure into a file.\n \n\n          MMTF data structure to be stored\n \n\n      Path to file to load\n \n\n               Divisor for coordinates\n \n\n  Divisor for occupancy and b-factor\n \n\n       Max. length for chain name strings\n \n\n mmtf::EncodeError if an error occurred\n\n Common settings for the divisors are the default values for a loss-less\n encoding and both set to 10 for a lossy variant.\n\nC++: mmtf::encodeToFile(const struct mmtf::StructureData &, const std::string &, int, int, int) --> void", pybind11::arg("data"), pybind11::arg("filename"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"), pybind11::arg("chain_name_max_length"));
 
-	std::cout << "B254_[void mmtf::encodeToStream<std::basic_ofstream<char>>(const struct mmtf::StructureData &, class std::basic_ofstream<char> &, int, int, int)] ";
 	// mmtf::encodeToStream(const struct mmtf::StructureData &, class std::basic_ofstream<char> &, int, int, int) file: line:50
 	M("mmtf").def("encodeToStream", [](const struct mmtf::StructureData & a0, class std::basic_ofstream<char> & a1) -> void { return mmtf::encodeToStream(a0, a1); }, "", pybind11::arg("data"), pybind11::arg("stream"));
 	M("mmtf").def("encodeToStream", [](const struct mmtf::StructureData & a0, class std::basic_ofstream<char> & a1, int const & a2) -> void { return mmtf::encodeToStream(a0, a1, a2); }, "", pybind11::arg("data"), pybind11::arg("stream"), pybind11::arg("coord_divider"));
 	M("mmtf").def("encodeToStream", [](const struct mmtf::StructureData & a0, class std::basic_ofstream<char> & a1, int const & a2, int const & a3) -> void { return mmtf::encodeToStream(a0, a1, a2, a3); }, "", pybind11::arg("data"), pybind11::arg("stream"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"));
 	M("mmtf").def("encodeToStream", (void (*)(const struct mmtf::StructureData &, class std::basic_ofstream<char> &, int, int, int)) &mmtf::encodeToStream<std::basic_ofstream<char>>, "C++: mmtf::encodeToStream(const struct mmtf::StructureData &, class std::basic_ofstream<char> &, int, int, int) --> void", pybind11::arg("data"), pybind11::arg("stream"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"), pybind11::arg("chain_name_max_length"));
+
+	// mmtf::encodeToMap(const struct mmtf::StructureData &, class msgpack::v1::zone &, int, int, int) file: line:64
+	M("mmtf").def("encodeToMap", [](const struct mmtf::StructureData & a0, class msgpack::v1::zone & a1) -> std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > { return mmtf::encodeToMap(a0, a1); }, "", pybind11::arg("data"), pybind11::arg("m_zone"));
+	M("mmtf").def("encodeToMap", [](const struct mmtf::StructureData & a0, class msgpack::v1::zone & a1, int const & a2) -> std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > { return mmtf::encodeToMap(a0, a1, a2); }, "", pybind11::arg("data"), pybind11::arg("m_zone"), pybind11::arg("coord_divider"));
+	M("mmtf").def("encodeToMap", [](const struct mmtf::StructureData & a0, class msgpack::v1::zone & a1, int const & a2, int const & a3) -> std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > { return mmtf::encodeToMap(a0, a1, a2, a3); }, "", pybind11::arg("data"), pybind11::arg("m_zone"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"));
+	M("mmtf").def("encodeToMap", (class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > > (*)(const struct mmtf::StructureData &, class msgpack::v1::zone &, int, int, int)) &mmtf::encodeToMap, "Encode an MMTF data structure into a map of msgpack objects.\n \n\n     MMTF data structure to be stored\n \n\n   msgpack::zone object to use\n \n\n             Object which can be modified and passed to msgpack::pack\n\n Other parameters and behavior are as in ::encodeToFile, but this enables you\n to add additional fields before packing.\n\nC++: mmtf::encodeToMap(const struct mmtf::StructureData &, class msgpack::v1::zone &, int, int, int) --> class std::map<std::string, struct msgpack::v2::object, struct std::less<std::string >, class std::allocator<struct std::pair<const std::string, struct msgpack::v2::object> > >", pybind11::arg("data"), pybind11::arg("m_zone"), pybind11::arg("coord_divider"), pybind11::arg("occupancy_b_factor_divider"), pybind11::arg("chain_name_max_length"));
 
 }
 
@@ -2479,7 +2393,6 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_exception(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_locale_classes(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_ios_base(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_ostream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_fstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M);
@@ -2487,13 +2400,17 @@ void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &
 void bind_std_stl_vector_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector_3(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_stl_vector_4(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stl_vector_5(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_sstream_tcc(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_4(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_unknown_unknown_5(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_unknown_unknown_6(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_unknown_unknown_7(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_unknown_unknown_8(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(mmtf_cpp, root_module) {
@@ -2510,6 +2427,9 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 		{"", "mmtf"},
+		{"", "msgpack"},
+		{"msgpack", "v1"},
+		{"msgpack", "v2"},
 		{"", "std"},
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
@@ -2518,7 +2438,6 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 
 	bind_std_exception(M);
 	bind_std_locale_classes(M);
-	bind_std_ios_base(M);
 	bind_std_ostream_tcc(M);
 	bind_std_fstream_tcc(M);
 	bind_std_stl_vector(M);
@@ -2526,13 +2445,17 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 	bind_std_stl_vector_2(M);
 	bind_std_stl_vector_3(M);
 	bind_std_stl_vector_4(M);
-	bind_std_stl_vector_5(M);
 	bind_std_sstream_tcc(M);
 	bind_unknown_unknown(M);
 	bind_unknown_unknown_1(M);
 	bind_unknown_unknown_2(M);
 	bind_unknown_unknown_3(M);
+	bind_std_stl_map(M);
 	bind_unknown_unknown_4(M);
+	bind_unknown_unknown_5(M);
+	bind_unknown_unknown_6(M);
+	bind_unknown_unknown_7(M);
+	bind_unknown_unknown_8(M);
 
 }
 
@@ -2540,7 +2463,6 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 // mmtf_cpp.cpp
 // std/exception.cpp
 // std/locale_classes.cpp
-// std/ios_base.cpp
 // std/ostream_tcc.cpp
 // std/fstream_tcc.cpp
 // std/stl_vector.cpp
@@ -2548,13 +2470,17 @@ PYBIND11_MODULE(mmtf_cpp, root_module) {
 // std/stl_vector_2.cpp
 // std/stl_vector_3.cpp
 // std/stl_vector_4.cpp
-// std/stl_vector_5.cpp
 // std/sstream_tcc.cpp
 // unknown/unknown.cpp
 // unknown/unknown_1.cpp
 // unknown/unknown_2.cpp
 // unknown/unknown_3.cpp
+// std/stl_map.cpp
 // unknown/unknown_4.cpp
+// unknown/unknown_5.cpp
+// unknown/unknown_6.cpp
+// unknown/unknown_7.cpp
+// unknown/unknown_8.cpp
 
 // Modules list file: /home/danpf/git/binder/examples/mmtf_example/cmake_bindings/mmtf_cpp.modules
-// mmtf std 
+// mmtf msgpack msgpack.v1 msgpack.v2 std 
