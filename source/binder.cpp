@@ -21,18 +21,15 @@
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/AST/Comment.h>
+#include <clang/Basic/Diagnostic.h>
 
-// Declares llvm::cl::extrahelp.
-#include "llvm/Support/CommandLine.h"
+#include <llvm/Support/CommandLine.h> // Declares llvm::cl::extrahelp
 
 #include <context.hpp>
 #include <enum.hpp>
 #include <function.hpp>
 #include <class.hpp>
 #include <util.hpp>
-
-#include <clang/Basic/Diagnostic.h>
-
 
 using namespace clang::tooling;
 using namespace llvm;
