@@ -121,8 +121,7 @@ public:
 		config.namespaces_to_skip = O_skip;
 
 		if( O_config.size() ) config.read(O_config);
-		if(O_suppress_errors)
-		{
+		if( O_suppress_errors )	{
 			clang::DiagnosticsEngine& di = ci->getDiagnostics();
 			di.setSuppressAllDiagnostics();
 		}
