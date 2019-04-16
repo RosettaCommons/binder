@@ -21,16 +21,15 @@
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/AST/Comment.h>
+#include <clang/Basic/Diagnostic.h>
 
-// Declares llvm::cl::extrahelp.
-#include "llvm/Support/CommandLine.h"
+#include <llvm/Support/CommandLine.h> // Declares llvm::cl::extrahelp
 
 #include <context.hpp>
 #include <enum.hpp>
 #include <function.hpp>
 #include <class.hpp>
 #include <util.hpp>
-
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -75,6 +74,8 @@ cl::opt<bool> O_trace("trace", cl::desc("Add tracer output for each binded objec
 
 cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(false), cl::cat(BinderToolCategory));
 
+cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the compilers errors. This option could be useful when you want to tell Binder to ignore non-critical errors (for example due to missing includes) and generate binding for part of code that Binder was able to parse"), cl::init(false), cl::cat(BinderToolCategory));
+
 
 class ClassVisitor : public RecursiveASTVisitor<ClassVisitor>
 {
@@ -117,6 +118,10 @@ public:
 		config.namespaces_to_skip = O_skip;
 
 		if( O_config.size() ) config.read(O_config);
+		if( O_suppress_errors )	{
+			clang::DiagnosticsEngine& di = ci->getDiagnostics();
+			di.setSuppressAllDiagnostics();
+		}
 	}
 
 	virtual ~BinderVisitor() {}
@@ -239,7 +244,6 @@ int main(int argc, const char **argv)
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
-
 	//outs() << "Root module: " << O_root_module << "\n";
 	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
