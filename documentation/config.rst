@@ -31,6 +31,9 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 `--single-file` if specified instruct Binder to put generated sources into single large file. This might be useful for small projects.
 
 
+`--suppress-errors=true` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with `-I` to the command.
+
+
 `--annotate-includes` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
 
 
