@@ -77,7 +77,7 @@ cl::opt<bool> O_trace("trace", cl::desc("Add tracer output for each binded objec
 
 cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(false), cl::cat(BinderToolCategory));
 
-cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the compilers errors when you are sure about your code and the errors are in private parts of your class."), cl::init(false), cl::cat(BinderToolCategory));
+cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the compilers errors. This option could be useful when you want to tell Binder to ignore non-critical errors (for example due to missing includes) and generate binding for part of code that Binder was able to parse"), cl::init(false), cl::cat(BinderToolCategory));
 
 
 class ClassVisitor : public RecursiveASTVisitor<ClassVisitor>
