@@ -86,8 +86,8 @@ pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *re
 		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
 		r += qt.getAsString() + ' ';
 		if( !qt->isReferenceType()  and  !qt->isPointerType() ) r += !qt.isConstQualified() ? "const & " : "& ";
-		r += string( record->getParamDecl(i)->getName() );
-		a += string( record->getParamDecl(i)->getName() );
+		r += "a" + std::to_string(i);
+		a += "a" + std::to_string(i);
 		if( i+1 != record->getNumParams()  and  i+1 != n ) { r += ", ";  a += ", "; }
 	}
 
