@@ -912,10 +912,10 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 		//string params = args_to_bind ? ", " + args.first : "";
 		string params = args_to_bind ? args.first : "";
 		
-		string argsHelper;
+		string args_helper;
 		
 		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
-			argsHelper += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
+			args_helper += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
 		}
 
 		// if( CBI.T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
@@ -925,7 +925,7 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
 		else if( CBI.trampoline ) c = fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
-		else c = fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, argsHelper);
+		else c = fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, args_helper);
 	}
 
 	return c;
