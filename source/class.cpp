@@ -882,6 +882,7 @@ struct ConstructorBindingInfo
 //char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
 
 char const * constructor_template =                 "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\");";
+char const * constructor_template_with_py_arg =      "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\" {3});";
 char const * constructor_with_trampoline_template = "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 //char const * constructor_lambda_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 
@@ -910,6 +911,12 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		//string params = args_to_bind ? ", " + args.first : "";
 		string params = args_to_bind ? args.first : "";
+		
+		string args_helper;
+		
+		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
+			args_helper += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
+		}
 
 		// if( CBI.T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
 		// else if( constructor_types.first.size()  and  constructor_types.second.size() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
@@ -918,7 +925,7 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
 		else if( CBI.trampoline ) c = fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
-		else c = fmt::format(constructor_template, params, args.second, CBI.class_qualified_name);
+		else c = fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, args_helper);
 	}
 
 	return c;
