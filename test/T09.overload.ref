@@ -79,7 +79,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		pybind11::handle cl_type = cl;
 
-		cl.def( pybind11::init( [](){ return new A1(); } ), "doc");
+		cl.def( pybind11::init( [](){ return new A1(); } ), "doc" );
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
 	}

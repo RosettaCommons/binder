@@ -3,7 +3,9 @@
 #include <T02.function.hpp> // foo
 #include <T02.function.hpp> // foo_cr
 #include <T02.function.hpp> // foo_cr2
-#include <T02.function.hpp> // foo_f
+#include <T02.function.hpp> // foo_f1
+#include <T02.function.hpp> // foo_f2
+#include <T02.function.hpp> // foo_f3
 #include <T02.function.hpp> // foo_p
 #include <T02.function.hpp> // foo_r
 #include <functional> // std::function
@@ -120,8 +122,14 @@ void bind_T02_function(std::function< pybind11::module &(std::string const &name
 	// foo_p(class std::shared_ptr<class A> *) file:T02.function.hpp line:54
 	M("").def("foo_p", (void (*)(class std::shared_ptr<class A> *)) &foo_p, "C++: foo_p(class std::shared_ptr<class A> *) --> void", pybind11::arg(""));
 
-	// foo_f(const class std::function<bool (const std::string &)> &) file:T02.function.hpp line:57
-	M("").def("foo_f", (void (*)(const class std::function<bool (const std::string &)> &)) &foo_f, "C++: foo_f(const class std::function<bool (const std::string &)> &) --> void", pybind11::arg("f"));
+	// foo_f1(const class std::function<bool (const std::string &)> &) file:T02.function.hpp line:59
+	M("").def("foo_f1", (void (*)(const class std::function<bool (const std::string &)> &)) &foo_f1, "C++: foo_f1(const class std::function<bool (const std::string &)> &) --> void", pybind11::arg("f"));
+
+	// foo_f2(const class std::function<void (*(void))(void)> &) file:T02.function.hpp line:60
+	M("").def("foo_f2", (void (*)(const class std::function<void (*(void))(void)> &)) &foo_f2, "C++: foo_f2(const class std::function<void (*(void))(void)> &) --> void", pybind11::arg("f"));
+
+	// foo_f3(const class std::function<bool (void (**)(void), int (&)[1])> &) file:T02.function.hpp line:61
+	M("").def("foo_f3", (void (*)(const class std::function<bool (void (**)(void), int (&)[1])> &)) &foo_f3, "C++: foo_f3(const class std::function<bool (void (**)(void), int (&)[1])> &) --> void", pybind11::arg("f"));
 
 }
 
