@@ -65,15 +65,6 @@ build CMakeFiles/test_struct.dir/test_struct/test_struct.o: CXX_COMPILER__test_s
   OBJECT_FILE_DIR = CMakeFiles/test_struct.dir/test_struct
   TARGET_COMPILE_PDB = CMakeFiles/test_struct.dir/
   TARGET_PDB = test_struct.pdb
-build CMakeFiles/test_struct.dir/test_struct/test_struct_1.o: CXX_COMPILER__test_struct test_struct/test_struct_1.cpp || cmake_object_order_depends_target_test_struct
-  DEFINES = -DNDEBUG -Dtest_struct_EXPORTS
-  DEP_FILE = CMakeFiles/test_struct.dir/test_struct/test_struct_1.o.d
-  FLAGS = -fPIC
-  INCLUDES = -I/home/danpf/git/binder/examples/example_struct/../../source -I/home/danpf/git/binder/examples/example_struct/include -I/home/danpf/git/binder/examples/example_struct/../../build/pybind11/include -I/home/danpf/.local/share/pyenv/versions/3.7.0/include/python3.7m
-  OBJECT_DIR = CMakeFiles/test_struct.dir
-  OBJECT_FILE_DIR = CMakeFiles/test_struct.dir/test_struct
-  TARGET_COMPILE_PDB = CMakeFiles/test_struct.dir/
-  TARGET_PDB = test_struct.pdb
 
 # =============================================================================
 # Link build statements for SHARED_LIBRARY target test_struct
@@ -82,7 +73,7 @@ build CMakeFiles/test_struct.dir/test_struct/test_struct_1.o: CXX_COMPILER__test
 #############################################
 # Link the shared library test_struct.so
 
-build test_struct.so: CXX_SHARED_LIBRARY_LINKER__test_struct CMakeFiles/test_struct.dir/test_struct.o CMakeFiles/test_struct.dir/test_struct/test_struct.o CMakeFiles/test_struct.dir/test_struct/test_struct_1.o
+build test_struct.so: CXX_SHARED_LIBRARY_LINKER__test_struct CMakeFiles/test_struct.dir/test_struct.o CMakeFiles/test_struct.dir/test_struct/test_struct.o
   OBJECT_DIR = CMakeFiles/test_struct.dir
   POST_BUILD = :
   PRE_LINK = :

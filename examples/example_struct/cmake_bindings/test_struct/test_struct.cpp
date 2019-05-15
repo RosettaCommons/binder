@@ -1,10 +1,10 @@
+#include <sstream> // __str__
+#include <test_struct/binders.hpp>
 #include <test_struct/test_struct.hpp>
 
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
-#include <pybind11/stl.h>
-
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
@@ -15,7 +15,21 @@
 
 void bind_test_struct_test_struct(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// testers::(anonymous namespace)::print_an_int(const int &) file:test_struct/test_struct.hpp line:15
-	M("testers::(anonymous namespace)").def("print_an_int", (void (*)(const int &)) &testers::(anonymous namespace)::print_an_int, "C++: testers::(anonymous namespace)::print_an_int(const int &) --> void", pybind11::arg("myint"));
+	// testers::fakeie file:test_struct/test_struct.hpp line:20
+	my_binders::fakeie_binder<pybind11::module>(M("testers"));
 
+	{ // testers::test_my_struct file:test_struct/test_struct.hpp line:31
+		pybind11::class_<testers::test_my_struct, std::shared_ptr<testers::test_my_struct>> cl(M("testers"), "test_my_struct", "");
+		pybind11::handle cl_type = cl;
+
+		cl.def( pybind11::init( [](){ return new testers::test_my_struct(); } ) );
+		cl.def_readwrite("an_int", &testers::test_my_struct::an_int);
+		cl.def_readwrite("a_string", &testers::test_my_struct::a_string);
+		cl.def_readwrite("a_vector", &testers::test_my_struct::a_vector);
+		cl.def_readwrite("a_float", &testers::test_my_struct::a_float);
+		cl.def("increment_int", (void (testers::test_my_struct::*)()) &testers::test_my_struct::increment_int, "C++: testers::test_my_struct::increment_int() --> void");
+		cl.def("add_float", (void (testers::test_my_struct::*)()) &testers::test_my_struct::add_float, "C++: testers::test_my_struct::add_float() --> void");
+		cl.def("append_vec", (void (testers::test_my_struct::*)()) &testers::test_my_struct::append_vec, "C++: testers::test_my_struct::append_vec() --> void");
+		cl.def("p_int", (void (testers::test_my_struct::*)()) &testers::test_my_struct::p_int, "C++: testers::test_my_struct::p_int() --> void");
+	}
 }

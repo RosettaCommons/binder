@@ -9,7 +9,6 @@ add_definitions(-DNDEBUG)
 add_library(test_struct SHARED
 	test_struct.cpp
 	test_struct/test_struct.cpp
-	test_struct/test_struct_1.cpp
 )
 set_target_properties(test_struct PROPERTIES PREFIX "")
 set_target_properties(test_struct PROPERTIES SUFFIX ".so")

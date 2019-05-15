@@ -33,6 +33,9 @@ def make_all_includes():
             for line in fh:
                 if line.startswith('#include'):
                     all_includes.append(line.strip())
+    # all_includes.append("#include <test_struct/binders.hpp>")
+
+    all_includes = [x for x in all_includes if 'pybind11.h' not in x]
     all_includes = list(set(all_includes))
     # This is to ensure that the list is always the same and doesn't
     # depend on the filesystem state.  Not technically necessary, but
@@ -49,10 +52,9 @@ def make_bindings_code(all_includes_fn):
     os.mkdir(bindings_dir)
     command = (f'{binder_executable} --root-module {python_module_name} '
                f'--prefix {os.getcwd()}/{bindings_dir}/ '
-               f'--bind {this_project_namespace_to_bind} '
-               + ('--config config.cfg ' if use_pybind_stl else '') +
+               f'  --config config.cfg'
                f' {all_includes_fn} -- -std=c++11 '
-               f'-I{this_project_include} -DNDEBUG -v').split()
+               f' -I{this_project_include} -I{pybind_source} -I{get_python_inc()} -DNDEBUG -v').split()
     print('BINDER COMMAND: ' + ' '.join(command))
     subprocess.call(command)
     sources_to_compile = []
@@ -91,7 +93,11 @@ def compile_sources(sources_to_compile):
         print('Testing Python lib...')
         import test_struct
         test_obj = test_struct.testers.test_my_struct()
+        test_obj2 = test_struct.testers.fakeie()
         print(test_obj.an_int)
+        print(test_obj)
+        print(test_obj2.an_int)
+        print(test_obj2.a_string)
         if use_pybind_stl:
             print(test_obj.a_vector)
 

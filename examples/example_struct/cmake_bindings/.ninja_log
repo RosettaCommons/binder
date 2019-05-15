@@ -1,3 +1,4 @@
 # ninja log v5
-0	1759	1545338411	CMakeFiles/test_struct.dir/test_struct.o	fda50463eeaf62fd
-1	2411	1545338412	CMakeFiles/test_struct.dir/test_struct/test_struct_1.o	b493f4ebe3cd8873
+0	1730	1553014925	CMakeFiles/test_struct.dir/test_struct.o	fda50463eeaf62fd
+0	2508	1553014926	CMakeFiles/test_struct.dir/test_struct/test_struct.o	8654932ddad857ee
+2508	2630	1553014926	test_struct.so	d60ec037dc7d3ac8

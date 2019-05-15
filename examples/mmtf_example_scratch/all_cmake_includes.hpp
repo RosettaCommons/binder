@@ -1,0 +1,25 @@
+#include <algorithm>
+#include <arpa/inet.h>
+#include <cstring> // low level mem
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <map>
+#include <math.h>
+#include <mmtf.hpp>
+#include <mmtf/binary_decoder.hpp>
+#include <mmtf/binary_encoder.hpp>
+#include <mmtf/decoder.hpp>
+#include <mmtf/encoder.hpp>
+#include <mmtf/errors.hpp>
+#include <mmtf/map_decoder.hpp>
+#include <mmtf/msgpack_decoder.hpp>
+#include <mmtf/object_encoders.hpp>
+#include <mmtf/structure_data.hpp>
+#include <msgpack.hpp>
+#include <sstream>
+#include <stdexcept>
+#include <stdint.h>
+#include <string>
+#include <vector>

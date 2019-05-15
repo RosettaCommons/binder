@@ -17,6 +17,16 @@ namespace {
 	}
 }
 
+struct fakeie {
+	int an_int;
+	std::string a_string;
+
+	fakeie() {
+		an_int = 11;
+		a_string = "fakie";
+	}
+};
+
 
 struct test_my_struct {
 	int an_int;

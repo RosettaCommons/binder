@@ -19,6 +19,7 @@ this_project_source = f'{os.getcwd()}/include'
 this_project_include = this_project_source
 this_project_namespace_to_bind = 'mmtf'
 python_module_name = 'mmtf_cpp'
+SINGLE_FILE = True
 
 # msgpack_includes = glob.glob("msgpack_include/**", recursive=True)
 # msgpack_includes = [os.path.abspath(x) for x in msgpack_includes if os.path.isdir(x)] + [os.path.abspath("msgpack_include")]
@@ -55,18 +56,17 @@ def make_bindings_code(all_includes_fn):
     shutil.rmtree(bindings_dir, ignore_errors=True)
     os.mkdir(bindings_dir)
     command = (f'{binder_executable} --root-module {python_module_name} '
-               f'--prefix {os.getcwd()}/{bindings_dir}/ --annotate-includes --trace '
-               f' --bind="mmtf" -single-file '
-               + ('--config config.cfg ' if use_pybind_stl else '') +
+               f'--prefix {os.getcwd()}/{bindings_dir}/ '
+               f'--single-file --annotate-includes --config config.cfg'
                f' {all_includes_fn} -- -std=c++11 '
                f' -I{this_project_include} -I{this_project_include}/mmtf'
                f'-I{this_project_include}/../msgpack-c/include -DNDEBUG -v').split()
-    # f'-I{this_project_include}/mmtf  -DNDEBUG -v').split()
-    # f'--bind "" '
-    # f'--bind "{this_project_namespace_to_bind}" '
-    # -I{os.getcwd()}/msgpack_include
     print('BINDER COMMAND: ' + ' '.join(command))
     subprocess.call(command)
+    if SINGLE_FILE:
+        sources_to_compile = [f"{python_module_name}.cpp"]
+        return sources_to_compile
+
     sources_to_compile = []
     with open(f'{bindings_dir}/{python_module_name}.sources', 'r') as fh:
         for line in fh:
@@ -108,8 +108,8 @@ def compile_sources(sources_to_compile):
 
 def main():
     all_includes_fn = make_all_includes()
-    # sources_to_compile = make_bindings_code(all_includes_fn)
-    compile_sources([])
+    sources_to_compile = make_bindings_code(all_includes_fn)
+    compile_sources(sources_to_compile)
 
 
 if __name__ == '__main__':
