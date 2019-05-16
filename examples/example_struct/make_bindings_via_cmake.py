@@ -14,25 +14,30 @@ bindings_dir = 'cmake_bindings'
 binder_source = f'{os.getcwd()}/../../source'
 pybind_source = f'{os.getcwd()}/../../build/pybind11/include'
 use_pybind_stl = True
-#use_pybind_stl = False
+# use_pybind_stl = False
 this_project_source = f'{os.getcwd()}/include'
 this_project_include = this_project_source
 this_project_namespace_to_bind = 'testers'
 python_module_name = 'test_struct'
 
+
 def make_all_includes():
     all_includes = []
     all_include_filename = 'all_cmake_includes.hpp'
-    for filename in (glob.glob(f'{this_project_source}/**/*.hpp', recursive=True)+
-                     glob.glob(f'{this_project_source}/**/*.cpp', recursive=True)+
-                     glob.glob(f'{this_project_source}/**/*.h', recursive=True)+
-                     glob.glob(f'{this_project_source}/**/*.cc', recursive=True)+
+    for filename in (glob.glob(f'{this_project_source}/**/*.hpp', recursive=True) +
+                     glob.glob(f'{this_project_source}/**/*.cpp', recursive=True) +
+                     glob.glob(f'{this_project_source}/**/*.h', recursive=True) +
+                     glob.glob(f'{this_project_source}/**/*.cc', recursive=True) +
                      glob.glob(f'{this_project_source}/**/*.c', recursive=True)):
         with open(filename, 'r') as fh:
             for line in fh:
                 if line.startswith('#include'):
                     all_includes.append(line.strip())
     all_includes = list(set(all_includes))
+    # This is to ensure that the list is always the same and doesn't
+    # depend on the filesystem state.  Not technically necessary, but
+    # will cause inconsistent errors without it.
+    all_includes.sort()
     with open(all_include_filename, 'w') as fh:
         for include in all_includes:
             fh.write(f'{include}\n')
@@ -48,8 +53,8 @@ def make_bindings_code(all_includes_fn):
                + ('--config config.cfg ' if use_pybind_stl else '') +
                f' {all_includes_fn} -- -std=c++11 '
                f'-I{this_project_include} -DNDEBUG -v').split()
-    print(' '.join(command))
-    ret = subprocess.call(command)
+    print('BINDER COMMAND:', ' '.join(command))
+    subprocess.check_call(command)
     sources_to_compile = []
     with open(f'{bindings_dir}/{python_module_name}.sources', 'r') as fh:
         for line in fh:
@@ -58,16 +63,13 @@ def make_bindings_code(all_includes_fn):
 
 
 def compile_sources(sources_to_compile):
-    og_dir = os.getcwd()
     os.chdir(bindings_dir)
     lines_to_write = []
     lines_to_write.append(f'project({python_module_name})')
 
-    compiled_sources = []
-    include_directories = []
     for include_dir in [binder_source, this_project_source, this_project_include, pybind_source, get_python_inc()]:
         lines_to_write.append(f'include_directories({include_dir})')
-    lines_to_write.append('set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON)') # -fPIC
+    lines_to_write.append('set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON)')  # -fPIC
     lines_to_write.append('add_definitions(-DNDEBUG)')
 
     lines_to_write.append(f'add_library({python_module_name} SHARED')
@@ -95,7 +97,7 @@ def compile_sources(sources_to_compile):
 
 
 def main():
-    all_includes_fn =  make_all_includes()
+    all_includes_fn = make_all_includes()
     sources_to_compile = make_bindings_code(all_includes_fn)
     compile_sources(sources_to_compile)
 
