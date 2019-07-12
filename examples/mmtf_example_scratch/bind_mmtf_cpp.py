@@ -75,13 +75,13 @@ def alter_msgpack_includes(all_MSGPACK_files):
         lines = open(filename).read().split('\n')
         for i, line in enumerate(lines):
             if line.startswith('#include "'):
-                if "msgpack" not in line:
+                if "msgpack/" not in line:
                     line = line.replace('include "', 'include <msgpack/')
                 else:
                     line = line.replace('include "', 'include <')
                 lines[i] = line.replace('"', '>')
             elif line.startswith('#include"'):
-                if "msgpack" not in line:
+                if "msgpack/" not in line:
                     line = line.replace('include"', 'include <msgpack/')
                 else:
                     line = line.replace('include"', 'include <')
@@ -98,9 +98,13 @@ def alter_mmtf_includes(all_MMTF_files):
     for filename in all_MMTF_files:
         lines = open(filename).read().split('\n')
         for i, line in enumerate(lines):
+            #if 'mmtf.hpp' not in filename and 'msgpack::object_kv' not in line and 'msgpack::object_handle' not in line:
+            #    line = line.replace('msgpack::object', 'mmtf::object')
+            #    line = line.replace('msgpack::zone', 'mmtf::zone')
+            lines[i] = line
             if line.startswith('#include "'):
                 if 'mmtf.hpp' not in filename:
-                    line = line.replace('include "', 'include <mmtf')
+                    line = line.replace('include "', 'include <mmtf/')
                 else:
                     line = line.replace('include "', 'include <')
                 lines[i] = line.replace('"', '>')
@@ -118,6 +122,8 @@ def make_all_includes(all_MMTF_files):
                     all_includes.append(line.strip())
     all_includes = [x for x in all_includes if 'winsock' not in x]
     all_includes = [x for x in all_includes if 'boost' not in x]
+    all_includes += ["namespace msgpack { using namespace v2; }"]
+
     all_includes.append("#include <mmtf.hpp>")
     all_includes = list(set(all_includes))
     # This is to ensure that the list is always the same and doesn't
@@ -131,17 +137,35 @@ def make_all_includes(all_MMTF_files):
 
 
 def make_config_file():
+         # "+binder mmtf::zone msgpack_zone_binder\n"
     s = ("+include <mmtf.hpp>\n"
+         "+include <msgpack.hpp>\n"
          "+namespace mmtf\n"
+         "-namespace pybind11\n"
+         "-namespace msgpack\n"
          "+class mmtf::Transform\n"
          "+class mmtf::StructureData\n"
          "+class mmtf::BioAssembly\n"
          "+class mmtf::Entity\n"
          "+class mmtf::GroupType\n"
          "-class std::basic_ios\n"
-         "+class msgpack::object\n"
-         "+class msgpack::zone\n"
-         "+binder mmtf::StructureData msgpack_sd_binder\n")
+         "-class msgpack::v1::zone\n"
+         "+binder mmtf::StructureData msgpack_sd_binder\n"
+         "-class msgpack::object\n")
+         # "-binder msgpack::object msgpack_object_binder\n"
+         # "+binder msgpack::v1::zone msgpack_zone_binder\n")
+         #"+class msgpack::v2::object\n"
+         #"-class msgpack_object\n"
+         #"-class msgpack::v1::object_handle\n"
+         #"+binder msgpack::v1::object msgpack_object_binder\n"
+         #"+binder msgpack::v2::object msgpack_object_binder\n"
+         # "+function mmtf::zone\n"
+         # "+function mmtf::object\n"
+         # "+function mmtf::stupid\n"
+         # "+binder msgpack::v1::zone msgpack_zone_binder\n"
+         # "+binder msgpack::zone msgpack_zone_binder\n"
+         # "+class mmtf::instant_notsure\n"
+         # "-namespace msgpack\n"
     with open("config.cfg", 'w') as fh:
         fh.write(s)
 
@@ -195,9 +219,10 @@ def compile_sources(sources_to_compile):
 def main():
     # setup_dir()
     all_MMTF_files = get_all_MMTF_files()
-    all_MSGPACK_files = get_all_MSGPACK_files()
-    alter_msgpack_includes(all_MSGPACK_files)
-    # alter_mmtf_includes(all_MMTF_files)
+    all_MSGPACK_files = []
+    # all_MSGPACK_files = get_all_MSGPACK_files()
+    # alter_msgpack_includes(all_MSGPACK_files)
+    alter_mmtf_includes(all_MMTF_files)
     all_include_filename = make_all_includes(all_MMTF_files+all_MSGPACK_files)
     sources_to_compile = [f"{PYTHON_MODULE_NAME}.cpp"]
     make_config_file()
