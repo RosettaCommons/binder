@@ -46,6 +46,50 @@ def get_all_MMTF_files():
     return fns
 
 
+def get_all_MSGPACK_files():
+    fns = []
+    for filename in (glob.glob(f'{MSGPACK_INCLUDE}/**/*.hpp', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/**/*.cpp', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/**/*.h', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/**/*.hh', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/**/*.cc', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/**/*.c', recursive=True) +
+                     glob.glob(f'{MSGPACK_INCLUDE}/msgpack.hpp', recursive=True)):
+        fns.append(filename)
+    fns = list(set(fns))
+    fns.sort()
+    f_fns = []
+    for fn in fns:
+        if 'gcc_atomic.' in fn:
+            continue
+        f_fns.append(fn)
+    return f_fns
+
+
+def alter_msgpack_includes(all_MSGPACK_files):
+    """
+        binder requires `#include <xx>`
+        we must switch all to this
+    """
+    for filename in all_MSGPACK_files:
+        lines = open(filename).read().split('\n')
+        for i, line in enumerate(lines):
+            if line.startswith('#include "'):
+                if "msgpack" not in line:
+                    line = line.replace('include "', 'include <msgpack/')
+                else:
+                    line = line.replace('include "', 'include <')
+                lines[i] = line.replace('"', '>')
+            elif line.startswith('#include"'):
+                if "msgpack" not in line:
+                    line = line.replace('include"', 'include <msgpack/')
+                else:
+                    line = line.replace('include"', 'include <')
+                lines[i] = line.replace('"', '>')
+        with open(filename, 'w') as fh:
+            fh.write('\n'.join(lines))
+
+
 def alter_mmtf_includes(all_MMTF_files):
     """
         binder requires `#include <xx>`
@@ -56,7 +100,7 @@ def alter_mmtf_includes(all_MMTF_files):
         for i, line in enumerate(lines):
             if line.startswith('#include "'):
                 if 'mmtf.hpp' not in filename:
-                    line = line.replace('include "', 'include <mmtf/')
+                    line = line.replace('include "', 'include <mmtf')
                 else:
                     line = line.replace('include "', 'include <')
                 lines[i] = line.replace('"', '>')
@@ -73,6 +117,7 @@ def make_all_includes(all_MMTF_files):
                 if line.startswith('#include'):
                     all_includes.append(line.strip())
     all_includes = [x for x in all_includes if 'winsock' not in x]
+    all_includes = [x for x in all_includes if 'boost' not in x]
     all_includes.append("#include <mmtf.hpp>")
     all_includes = list(set(all_includes))
     # This is to ensure that the list is always the same and doesn't
@@ -90,14 +135,13 @@ def make_config_file():
          "+namespace mmtf\n"
          "+class mmtf::Transform\n"
          "+class mmtf::StructureData\n"
-         "-class mmtf::StructureData::msgpack_zone\n"
          "+class mmtf::BioAssembly\n"
          "+class mmtf::Entity\n"
          "+class mmtf::GroupType\n"
          "-class std::basic_ios\n"
          "+class msgpack::object\n"
-         "-class msgpack::zone\n"
-         "+binder msgpack::object::union_type my_binders::msgpack_union_binder")
+         "+class msgpack::zone\n"
+         "+binder mmtf::StructureData msgpack_sd_binder\n")
     with open("config.cfg", 'w') as fh:
         fh.write(s)
 
@@ -110,8 +154,8 @@ def make_bindings_code(all_includes_fn):
                f' --bind="mmtf" --single-file --annotate-includes'
                ' --config config.cfg'
                f' {all_includes_fn} -- -std=c++11'
-               f' -I{MMTF_INCLUDE}'
-               f' -I{MSGPACK_INCLUDE} -DNDEBUG -v').split()
+               f' -I{MMTF_INCLUDE} -I{get_python_inc()}'
+               f' -I{MSGPACK_INCLUDE} -I{PYBIND_SOURCE} -DNDEBUG -v').split()
     print('BINDER COMMAND: ' + ' '.join(command))
     subprocess.call(command)
 
@@ -122,7 +166,7 @@ def compile_sources(sources_to_compile):
     lines_to_write.append(f'project({PYTHON_MODULE_NAME})')
 
     for include_dir in [BINDER_SOURCE, MMTF_INCLUDE, os.path.join(MMTF_INCLUDE, "mmtf"),
-                        PYBIND_SOURCE, get_python_inc()]:
+                        MSGPACK_INCLUDE, PYBIND_SOURCE, get_python_inc()]:
         lines_to_write.append(f'include_directories({include_dir})')
     lines_to_write.append('set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON)')  # -fPIC
     lines_to_write.append('add_definitions(-DNDEBUG)')
@@ -151,8 +195,10 @@ def compile_sources(sources_to_compile):
 def main():
     # setup_dir()
     all_MMTF_files = get_all_MMTF_files()
+    all_MSGPACK_files = get_all_MSGPACK_files()
+    alter_msgpack_includes(all_MSGPACK_files)
     # alter_mmtf_includes(all_MMTF_files)
-    all_include_filename = make_all_includes(all_MMTF_files)
+    all_include_filename = make_all_includes(all_MMTF_files+all_MSGPACK_files)
     sources_to_compile = [f"{PYTHON_MODULE_NAME}.cpp"]
     make_config_file()
     make_bindings_code(all_include_filename)
