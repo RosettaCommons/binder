@@ -99,6 +99,16 @@ Config file directives:
   +include_for_class example::class <example/class_binding.hpp>
 
 
+* ``include_for_namespace``, directive to control C++ include directives on a per-namespace basis. Force Binder to add particular include
+  into generated source files when generating bindings for specified namespace. This allows the inclusion of custom binding code, which may
+  then be referenced with either ``+binder``, ``+add_on_binder``,  ``binder_for_namespace`` or ``add_on_binder_for_namespace`` directives.
+
+.. code-block:: bash
+
+  +include_for_namespace aaaa::bbbb <aaaa/bbbb/namespace_binding.hpp>
+
+
+
 * ``binder``, specify custom binding function for particular concrete or template class. In the example below all
   specializations of template std::vector will be handled by ``binder::vector_binder`` function. For template classes binder
   function should be a template function taking the same number of types as original type and having the following type
@@ -121,6 +131,21 @@ Config file directives:
 
   +add_on_binder numeric::xyzVector rosetta_binders::xyzVector_add_on_binder
 
+
+* ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
+  _instead_ of generating bindings for namaspace.
+
+.. code-block:: bash
+
+  +add_on_binder_for_namespace aaaa add_on_binder_for_namespace_aaaa
+
+
+* ``+add_on_binder_for_namespace``, similar to ``add_on_binder``: specify custom binding function for namespace that will be called `before` Binder
+  generated code bound it. This allow developer to create extra bindings for particular namespace.
+
+.. code-block:: bash
+
+  +add_on_binder_for_namespace aaaa::bbbb binder_for_namespace_aaaa_bbbb
 
 
 

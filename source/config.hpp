@@ -36,7 +36,9 @@ class Config
 
 private:
 	std::map<string, string> binders_, add_on_binders_;
-	std::map<string, std::vector<string>> per_class_includes_;
+	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_;
+
+	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 
 	string default_static_pointer_return_value_policy_          = "pybind11::return_value_policy::automatic";
 	string default_static_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
@@ -61,7 +63,12 @@ public:
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
-	std::map<string, std::vector<string>> const &per_class_includes () const { return per_class_includes_; }
+
+	std::map<string, string> const &binder_for_namespaces() const { return binder_for_namespaces_; }
+	std::map<string, string> const &add_on_binder_for_namespaces() const { return add_on_binder_for_namespaces_; }
+
+	std::map<string, std::vector<string> > const &class_includes() const { return class_includes_; }
+	std::map<string, std::vector<string> > const &namespace_includes() const { return namespace_includes_; }
 
 	string const &default_static_pointer_return_value_policy()          { return default_static_pointer_return_value_policy_; }
 	string const &default_static_lvalue_reference_return_value_policy() { return default_static_lvalue_reference_return_value_policy_; }

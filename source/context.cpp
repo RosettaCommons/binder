@@ -356,6 +356,7 @@ void Context::generate(Config const &config)
 	vector<string> binding_function_names;
 
 	std::map<string, int> file_names;
+	std::map<string, int> namespace_entrance;
 
 	string root_module_file_name = config.root_module + ".cpp";
 	sources.push_back(root_module_file_name);
@@ -367,6 +368,7 @@ void Context::generate(Config const &config)
 	for(uint i=0; i<binders.size(); ++i) {
 		if( /*binders[i]->is_binded()  and*/  binders[i]->code().size() ) {
 			string np = file_name_prefix_for_binder(binders[i]);
+
 			string file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
 			++file_names[np];
 
@@ -383,6 +385,29 @@ void Context::generate(Config const &config)
 			//vector<string> includes;
 			//std::set<NamedDecl const *> stack;
 			IncludeSet includes;
+
+			bool skip = false;
+
+			//outs() << namespace_ << ' ' << namespace_entrance[namespace_] << "\n";
+
+			std::map<string, std::vector<string> > const & namespace_includes = Config::get().namespace_includes();
+			if( namespace_includes.count(namespace_) ) {
+				std::vector<string> const & n_includes = namespace_includes.at(namespace_);
+				for(auto const & i : n_includes) includes.add_include(i);
+			}
+
+			std::map<string, string> const &binder_for_namespaces = Config::get().binder_for_namespaces();
+			if( binder_for_namespaces.count(namespace_) ) {
+				if( namespace_entrance[namespace_] == 0 ) {
+					code += "\n\t{}(M(\"{}\"));\n"_format( binder_for_namespaces.at(namespace_), namespace_);
+				}
+				skip = true;
+			}
+
+			std::map<string, string> const &add_on_binder_for_namespaces = Config::get().add_on_binder_for_namespaces();
+			if( add_on_binder_for_namespaces.count(namespace_) and code.empty() ) {
+				if( namespace_entrance[namespace_] == 0 ) code += "\n\t{}(M(\"{}\"));\n"_format( add_on_binder_for_namespaces.at(namespace_), namespace_);
+			}
 
 			for(; code.size()<config.maximum_file_length  and  i<binders.size()  and  namespace_==namespace_from_named_decl( binders[i]->named_decl() ); ++i) {
 				//outs() << "Binding: " << string(*binders[i]) << "\n";
@@ -409,6 +434,7 @@ void Context::generate(Config const &config)
 				// 	}
 				// 	add_to_binded(C);
 				// }
+				if( skip ) continue;
 
 				prefix_code += binders[i]->prefix_code();
 
@@ -420,12 +446,15 @@ void Context::generate(Config const &config)
 				code += binders[i]->code();
 				binders[i]->add_relevant_includes(includes);
 			}
+
 			if( i < binders.size() ) --i;
 
 			code = generate_include_directives(includes) + format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);
+
+			++namespace_entrance[namespace_];
 		}
 	}
 	outs() << "Writing code... Done.\n";

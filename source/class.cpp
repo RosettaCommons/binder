@@ -471,10 +471,10 @@ void ClassBinder::request_bindings_and_skipping(Config const &config)
 void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 {
 	string const qualified_name_without_template = standard_name( C->getQualifiedNameAsString() );
-	std::map<string, std::vector<string>> const &per_class_includes= Config::get().per_class_includes();
+	std::map<string, std::vector<string>> const &class_includes= Config::get().class_includes();
 
-	auto pci = per_class_includes.find(qualified_name_without_template);
-	if(pci != per_class_includes.end()) {
+	auto pci = class_includes.find(qualified_name_without_template);
+	if(pci != class_includes.end()) {
 		for(auto const & i : pci->second) includes.add_include(O_annotate_includes ? i + " // +include_for_class" : i);
 	}
 
@@ -911,9 +911,9 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		//string params = args_to_bind ? ", " + args.first : "";
 		string params = args_to_bind ? args.first : "";
-		
+
 		string args_helper;
-		
+
 		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
 			args_helper += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
 		}

@@ -111,7 +111,7 @@ def main():
 
     parser.add_argument("--accept", action="store_true", help="Run tests and accept new tests results as reference")
 
-    parser.add_argument('args', nargs=argparse.REMAINDER)
+    parser.add_argument('args', nargs=argparse.REMAINDER, help='Optional: list of tests to run')
 
     global Options
     Options = parser.parse_args()
