@@ -61,6 +61,7 @@ Config file directives:
   +namespace utility
 
 
+
 * ``class``, specify if particular class/struct should be bound. Purpose of this directive is to allow developer to cherry-pick
   particular class from otherwise binded/skipped namespaces and mark it for binding/skipping.
 
@@ -68,6 +69,7 @@ Config file directives:
 
   -class utility::pointer::ReferenceCount
   -class std::__weak_ptr
+
 
 
 * ``function``, specify if particular function should be bound. This could be used for both template and normal function.
@@ -90,6 +92,8 @@ Config file directives:
   -include <boost/format/internals.hpp>
   +include <python/PyRosetta/binder/stl_binders.hpp>
 
+
+
 * ``include_for_class``, directive to control C++ include directives on a per-class basis. Force Binder to add particular include
   into generated source files when a given target class is present. This allows the inclusion of custom binding code, which may
   then be referenced with either ``+binder`` or ``+add_on_binder`` directives.
@@ -97,6 +101,7 @@ Config file directives:
 .. code-block:: bash
 
   +include_for_class example::class <example/class_binding.hpp>
+
 
 
 * ``include_for_namespace``, directive to control C++ include directives on a per-namespace basis. Force Binder to add particular include
@@ -120,6 +125,7 @@ Config file directives:
   vector_binder(pybind11::module &m, std::string const &name, std::string const & /*allocator name*/) {...}
 
 
+
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
   generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
   operators, etc.)
@@ -132,12 +138,14 @@ Config file directives:
   +add_on_binder numeric::xyzVector rosetta_binders::xyzVector_add_on_binder
 
 
+
 * ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
   _instead_ of generating bindings for namaspace.
 
 .. code-block:: bash
 
   +add_on_binder_for_namespace aaaa add_on_binder_for_namespace_aaaa
+
 
 
 * ``+add_on_binder_for_namespace``, similar to ``add_on_binder``: specify custom binding function for namespace that will be called `before` Binder
