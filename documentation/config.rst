@@ -144,7 +144,7 @@ Config file directives:
 
 .. code-block:: bash
 
-  +add_on_binder_for_namespace aaaa add_on_binder_for_namespace_aaaa
+  +binder_for_namespace aaaa binder_for_namespace_aaaa
 
 
 
