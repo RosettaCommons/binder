@@ -2,13 +2,12 @@
 #include <memory>
 #include <sstream> // __str__
 #include <string>
+#include <test_struct/binders.hpp>
 #include <test_struct/test_struct.hpp>
 
 #include <pybind11/pybind11.h>
 #include <functional>
 #include <string>
-#include <test_struct/binders.hpp>
-
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER

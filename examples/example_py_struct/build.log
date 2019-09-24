@@ -1,0 +1,398 @@
+clang version 4.0.0 (tags/RELEASE_400/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: 
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang version 4.0.0 (tags/RELEASE_400/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: 
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang Invocation:
+ "clang-tool" "-cc1" "-triple" "x86_64-unknown-linux-gnu" "-fsyntax-only" "-disable-free" "-disable-llvm-verifier" "-discard-value-names" "-main-file-name" "all_cmake_includes.hpp" "-mrelocation-model" "static" "-mthread-model" "posix" "-mdisable-fp-elim" "-fmath-errno" "-masm-verbose" "-mconstructor-aliases" "-munwind-tables" "-fuse-init-array" "-target-cpu" "x86-64" "-v" "-dwarf-column-info" "-debugger-tuning=gdb" "-resource-dir" "/home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.wise.release/bin/../lib/clang/4.0.0" "-I" "/home/danpf/git/binder/examples/example_py_struct/include" "-I" "/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include" "-I" "/home/danpf/.conda/envs/py3/include/python3.7m" "-D" "NDEBUG" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0" "-internal-isystem" "/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward" "-internal-isystem" "/usr/local/include" "-internal-isystem" "/home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.wise.release/bin/../lib/clang/4.0.0/include" "-internal-externc-isystem" "/usr/include/x86_64-linux-gnu" "-internal-externc-isystem" "/include" "-internal-externc-isystem" "/usr/include" "-std=c++11" "-fdeprecated-macro" "-fdebug-compilation-dir" "/home/danpf/git/binder/examples/example_py_struct" "-ferror-limit" "19" "-fmessage-length" "0" "-fobjc-runtime=gcc" "-fcxx-exceptions" "-fexceptions" "-fdiagnostics-show-option" "-x" "c++-header" "/home/danpf/git/binder/examples/example_py_struct/all_cmake_includes.hpp"
+
+clang -cc1 version 4.0.0 based upon LLVM 4.0.0 default target x86_64-unknown-linux-gnu
+ignoring nonexistent directory "/include"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/danpf/git/binder/examples/example_py_struct/include
+ /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include
+ /home/danpf/.conda/envs/py3/include/python3.7m
+ /usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0
+ /usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0
+ /usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward
+ /usr/local/include
+ /home/danpf/git/binder/build/llvm-4.0.0/build_4.0.0.linux.wise.release/bin/../lib/clang/4.0.0/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+Generate bindings, pass 1...
+Generate bindings, pass 2...
+Sorting Binders...
+Sorting Binders... Done.
+Writing code...
+Writing code... Done.
+-- The C compiler identification is GNU 7.4.0
+-- The CXX compiler identification is GNU 7.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.10)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/danpf/git/binder/examples/example_py_struct/cmake_bindings
+[1/3] Building CXX object CMakeFiles/test_struct.dir/test_struct/test_struct.o
+FAILED: CMakeFiles/test_struct.dir/test_struct/test_struct.o 
+/usr/bin/c++  -DNDEBUG -Dtest_struct_EXPORTS -I/home/danpf/git/binder/examples/example_py_struct/../../source -I/home/danpf/git/binder/examples/example_py_struct/include -I/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include -I/home/danpf/.conda/envs/py3/include/python3.7m -fPIC -MD -MT CMakeFiles/test_struct.dir/test_struct/test_struct.o -MF CMakeFiles/test_struct.dir/test_struct/test_struct.o.d -o CMakeFiles/test_struct.dir/test_struct/test_struct.o -c test_struct/test_struct.cpp
+test_struct/test_struct.cpp: In function ‘void bind_test_struct_test_struct(std::function<pybind11::module&(const std::__cxx11::basic_string<char>&)>&)’:
+test_struct/test_struct.cpp:35:61: error: no matching function for call to ‘pybind11::detail::type_caster<testers::thingy>::type_caster(pybind11::module&)’
+  pybind11::detail::type_caster<testers::thingy>(M("testers"));
+                                                             ^
+In file included from test_struct/test_struct.cpp:5:0:
+/home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:11:22: note: candidate: pybind11::detail::type_caster<testers::thingy>::type_caster(const pybind11::detail::type_caster<testers::thingy>&)
+   template <> struct type_caster<testers::thingy> {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:11:22: note:   no known conversion for argument 1 from ‘pybind11::module’ to ‘const pybind11::detail::type_caster<testers::thingy>&’
+/home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:11:22: note: candidate: pybind11::detail::type_caster<testers::thingy>::type_caster(pybind11::detail::type_caster<testers::thingy>&&)
+/home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:11:22: note:   no known conversion for argument 1 from ‘pybind11::module’ to ‘pybind11::detail::type_caster<testers::thingy>&&’
+In file included from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6:0,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h: In instantiation of ‘pybind11::cpp_function::initialize(Func&&, Return (*)(Args ...), const Extra& ...)::<lambda(pybind11::detail::function_call&)> [with Func = testers::thingy (*&)(testers::thingy&); Return = testers::thingy; Args = {testers::thingy&}; Extra = {pybind11::name, pybind11::scope, pybind11::sibling, char [77], pybind11::arg}]’:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:133:22:   required from ‘struct pybind11::cpp_function::initialize(Func&&, Return (*)(Args ...), const Extra& ...) [with Func = testers::thingy (*&)(testers::thingy&); Return = testers::thingy; Args = {testers::thingy&}; Extra = {pybind11::name, pybind11::scope, pybind11::sibling, char [77], pybind11::arg}]::<lambda(struct pybind11::detail::function_call&)>’
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:133:19:   required from ‘void pybind11::cpp_function::initialize(Func&&, Return (*)(Args ...), const Extra& ...) [with Func = testers::thingy (*&)(testers::thingy&); Return = testers::thingy; Args = {testers::thingy&}; Extra = {pybind11::name, pybind11::scope, pybind11::sibling, char [77], pybind11::arg}]’
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:60:9:   required from ‘pybind11::cpp_function::cpp_function(Return (*)(Args ...), const Extra& ...) [with Return = testers::thingy; Args = {testers::thingy&}; Extra = {pybind11::name, pybind11::scope, pybind11::sibling, char [77], pybind11::arg}]’
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:811:22:   required from ‘pybind11::module& pybind11::module::def(const char*, Func&&, const Extra& ...) [with Func = testers::thingy (*)(testers::thingy&); Extra = {char [77], pybind11::arg}]’
+test_struct/test_struct.cpp:38:206:   required from here
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:134:21: error: use of deleted function ‘pybind11::detail::argument_loader<testers::thingy&>::argument_loader()’
+             cast_in args_converter;
+                     ^~~~~~~~~~~~~~
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note: ‘pybind11::detail::argument_loader<testers::thingy&>::argument_loader()’ is implicitly deleted because the default definition would be ill-formed:
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: error: no matching function for call to ‘std::tuple<pybind11::detail::type_caster<testers::thingy, void> >::tuple()’
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:828:11: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Args2 ...>&&)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:828:11: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:813:2: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Args2 ...>&&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:813:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:798:11: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Args2 ...>&)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:798:11: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:783:2: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tail ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Args2 ...>&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:783:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:771:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Elements>&&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a, tuple&& __in)
+  ^~~~~
+/usr/include/c++/7/tuple:771:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:767:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Elements>&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a, const tuple& __in)
+  ^~~~~
+/usr/include/c++/7/tuple:767:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:761:11: note: candidate: template<class _Alloc, class ... _UElements, typename std::enable_if<(std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>())), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, _UElements&& ...)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:761:11: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects at least 2 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:750:2: note: candidate: template<class _Alloc, class ... _UElements, typename std::enable_if<(std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, _UElements&& ...)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:750:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects at least 2 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:740:11: note: candidate: template<class _Alloc, class _Dummy, typename std::enable_if<(std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<type_caster<testers::thingy, void> >() && (! std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<type_caster<testers::thingy, void> >())), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const _Elements& ...)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:740:11: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:729:2: note: candidate: template<class _Alloc, class _Dummy, typename std::enable_if<(std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<type_caster<testers::thingy, void> >() && std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<type_caster<testers::thingy, void> >()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const _Elements& ...)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:729:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 3 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:719:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a)
+  ^~~~~
+/usr/include/c++/7/tuple:719:2: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 2 arguments, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:713:28: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tps ...>&&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(std::tuple<_Args1 ...>&&)
+         explicit constexpr tuple(tuple<_UElements...>&& __in)
+                            ^~~~~
+/usr/include/c++/7/tuple:713:28: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:702:19: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<tuple<_Tps ...>&&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(std::tuple<_Args1 ...>&&)
+         constexpr tuple(tuple<_UElements...>&& __in)
+                   ^~~~~
+/usr/include/c++/7/tuple:702:19: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:690:28: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<const tuple<_Tps ...>&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const std::tuple<_Args1 ...>&)
+         explicit constexpr tuple(const tuple<_UElements...>& __in)
+                            ^~~~~
+/usr/include/c++/7/tuple:690:28: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:678:19: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && (! std::is_same<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >, std::tuple<_Tps ...> >::value)), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (1 == 1)), pybind11::detail::type_caster<testers::thingy, void> >::_NonNestedTuple<const tuple<_Tps ...>&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const std::tuple<_Args1 ...>&)
+         constexpr tuple(const tuple<_UElements...>& __in)
+                   ^~~~~
+/usr/include/c++/7/tuple:678:19: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:662:17: note: candidate: constexpr std::tuple<_Elements>::tuple(std::tuple<_Elements>&&) [with _Elements = {pybind11::detail::type_caster<testers::thingy, void>}]
+       constexpr tuple(tuple&&) = default;
+                 ^~~~~
+/usr/include/c++/7/tuple:662:17: note:   candidate expects 1 argument, 0 provided
+/usr/include/c++/7/tuple:660:17: note: candidate: std::tuple<_Elements>::tuple(const std::tuple<_Elements>&) [with _Elements = {pybind11::detail::type_caster<testers::thingy, void>}]
+       constexpr tuple(const tuple&) = default;
+                 ^~~~~
+/usr/include/c++/7/tuple:660:17: note:   candidate expects 1 argument, 0 provided
+/usr/include/c++/7/tuple:657:28: note: candidate: template<class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && (1 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(_UElements&& ...)
+         explicit constexpr tuple(_UElements&&... __elements)
+                            ^~~~~
+/usr/include/c++/7/tuple:657:28: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:656:21: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+         bool>::type=false>
+                     ^~~~~
+/usr/include/c++/7/tuple:656:21: note: invalid template non-type parameter
+/usr/include/c++/7/tuple:646:19: note: candidate: template<class ... _UElements, typename std::enable_if<((std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((1 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), pybind11::detail::type_caster<testers::thingy, void> >::_NotSameTuple<_UElements ...>()), pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && (1 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(_UElements&& ...)
+         constexpr tuple(_UElements&&... __elements)
+                   ^~~~~
+/usr/include/c++/7/tuple:646:19: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:645:21: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+         bool>::type=true>
+                     ^~~~
+/usr/include/c++/7/tuple:645:21: note: invalid template non-type parameter
+/usr/include/c++/7/tuple:619:26: note: candidate: template<class _Dummy, typename std::enable_if<((std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<type_caster<testers::thingy, void> >() && (! std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<type_caster<testers::thingy, void> >())) && (1 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const _Elements& ...)
+       explicit constexpr tuple(const _Elements&... __elements)
+                          ^~~~~
+/usr/include/c++/7/tuple:619:26: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:608:19: note: candidate: template<class _Dummy, typename std::enable_if<((std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ConstructibleTuple<type_caster<testers::thingy, void> >() && std::_TC<std::is_same<_Dummy, void>::value, pybind11::detail::type_caster<testers::thingy, void> >::_ImplicitlyConvertibleTuple<type_caster<testers::thingy, void> >()) && (1 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const _Elements& ...)
+         constexpr tuple(const _Elements&... __elements)
+                   ^~~~~
+/usr/include/c++/7/tuple:608:19: note:   template argument deduction/substitution failed:
+In file included from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/attr.h:13:0,
+                 from /home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/pybind11.h:44,
+                 from /home/danpf/git/binder/examples/example_py_struct/include/test_struct/binders.hpp:6,
+                 from test_struct/test_struct.cpp:5:
+/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include/pybind11/cast.h:1883:7: note:   candidate expects 1 argument, 0 provided
+ class argument_loader {
+       ^~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/memory:80,
+                 from test_struct/test_struct.cpp:2:
+/usr/include/c++/7/tuple:591:26: note: candidate: template<class _Dummy, typename std::enable_if<(std::tuple<pybind11::detail::type_caster<testers::thingy, void> >::_TC2<_Dummy>::_DefaultConstructibleTuple() && (! std::tuple<pybind11::detail::type_caster<testers::thingy, void> >::_TC2<_Dummy>::_ImplicitlyDefaultConstructibleTuple())), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple()
+       explicit constexpr tuple()
+                          ^~~~~
+/usr/include/c++/7/tuple:591:26: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:590:49: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                                   bool>::type = false>
+                                                 ^~~~~
+/usr/include/c++/7/tuple:590:49: note: invalid template non-type parameter
+/usr/include/c++/7/tuple:581:17: note: candidate: template<class _Dummy, typename std::enable_if<std::tuple<pybind11::detail::type_caster<testers::thingy, void> >::_TC2<_Dummy>::_ImplicitlyDefaultConstructibleTuple(), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple()
+       constexpr tuple()
+                 ^~~~~
+/usr/include/c++/7/tuple:581:17: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:580:49: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                                   bool>::type = true>
+                                                 ^~~~
+/usr/include/c++/7/tuple:580:49: note: invalid template non-type parameter
+[2/3] Building CXX object CMakeFiles/test_struct.dir/test_struct.o
+ninja: build stopped: subcommand failed.
+BINDER COMMAND: /home/danpf/git/binder/examples/example_py_struct/../../build/llvm-4.0.0/build_4.0.0.linux.wise.release/bin/binder --root-module test_struct --prefix /home/danpf/git/binder/examples/example_py_struct/cmake_bindings/ --bind testers --config config.cfg all_cmake_includes.hpp -- -std=c++11 -I/home/danpf/git/binder/examples/example_py_struct/include -I/home/danpf/git/binder/examples/example_py_struct/../../build/pybind11/include -I/home/danpf/.conda/envs/py3/include/python3.7m -DNDEBUG -v
+Testing Python lib...
+Traceback (most recent call last):
+  File "make_bindings_via_cmake.py", line 112, in <module>
+    main()
+  File "make_bindings_via_cmake.py", line 108, in main
+    compile_sources(sources_to_compile)
+  File "make_bindings_via_cmake.py", line 93, in compile_sources
+    test_obj = test_struct.testers.test_my_struct()
+AttributeError: module 'test_struct' has no attribute 'testers'
