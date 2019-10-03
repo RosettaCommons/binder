@@ -1078,7 +1078,7 @@ void ClassBinder::bind(Context &context)
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
 	c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
-	c += "\tpybind11::handle cl_type = cl;\n\n";
+	//c += "\tpybind11::handle cl_type = cl;\n\n";
 
 	c += bind_nested_classes(C, context);
 
