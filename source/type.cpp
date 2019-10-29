@@ -26,7 +26,9 @@
 #include <cstdlib>
 #include <fstream>
 
-using namespace llvm;
+//using namespace llvm;
+using llvm::outs;
+
 using namespace clang;
 
 using std::string;
@@ -40,7 +42,7 @@ namespace binder {
 /// check if user requested binding for the given QualType
 bool is_binding_requested(clang::QualType const &qt, Config const &config)
 {
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_binding_requested(rt->getPointeeType(), config);
 
@@ -53,7 +55,7 @@ bool is_binding_requested(clang::QualType const &qt, Config const &config)
 // check if user requested skipping for the given declaration
 bool is_skipping_requested(QualType const &qt, Config const &config)
 {
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_skipping_requested(rt->getPointeeType(), config);
 
@@ -307,7 +309,7 @@ void add_relevant_includes(QualType const &qt, /*const ASTContext &context,*/ In
 {
 	//QualType qt = qt.getDesugaredType(context);
 	//outs() << "add_relevant_includes(qt): " << qt.getAsString() << "\n";
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) add_relevant_includes(rt->getPointeeType(), includes, level);
 	if( CXXRecordDecl *r = qt->getAsCXXRecordDecl() ) add_relevant_includes(r, includes, level);
 	if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAsTagDecl() ) ) add_relevant_includes(e, includes, level);
@@ -321,7 +323,7 @@ bool is_bindable(QualType const &qt)
 
 	r &= !qt->isFunctionPointerType()  and  !qt->isRValueReferenceType()  and  !qt->isInstantiationDependentType()  and  !qt->isArrayType();  //and  !qt->isConstantArrayType()  and  !qt->isIncompleteArrayType()  and  !qt->isVariableArrayType()  and  !qt->isDependentSizedArrayType()
 
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
 		QualType pqt = pt->getPointeeType();
 
 		if( pqt->isPointerType() ) return false;  // refuse to bind 'value**...' types
@@ -373,7 +375,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 			if( td->isCompleteDefinition()  or  dyn_cast<ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
 		}
 
-		if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
+		if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
 			request_bindings( pt->getPointeeType()/*.getCanonicalType()*/, context );
 		}
 
