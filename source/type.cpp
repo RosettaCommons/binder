@@ -267,6 +267,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		name = decl->getQualifiedNameAsString();
 	}
 
+	name = standard_name(name);
 
 	auto it = type_map.find(name);
 	if( it != type_map.end() ) {
