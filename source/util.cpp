@@ -260,8 +260,8 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 		if( isa<comments::ParagraphComment>(C) ) r += '\n';
 
 		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
-			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getBeginLoc() ) ) {
-				previous = (*i)->getBeginLoc();
+			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getLocStart() ) ) {  // getBeginLoc
+				previous = (*i)->getLocStart(); // getBeginLoc();
 				r += '\n';
 			}
 			r += get_text(*i, SM, previous);
