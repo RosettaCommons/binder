@@ -283,11 +283,12 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	}
 	// }
 
-	if( C->hasDefinition()  and  C->isAbstract() ) {
-		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
-		}
-	}
+	// Actually just always bind _all_ abstarct classes (but do not create trampoline for them if they can not be derived-from in Python!) so we can access base interfaces from Python
+	// if( C->hasDefinition()  and  C->isAbstract() ) {
+	// 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+	// 		if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+	// 	}
+	// }
 
 	if( r && is_banned_symbol(C) ) return false;
 
@@ -523,6 +524,14 @@ inline string callback_structure_name(CXXRecordDecl const *C)
 bool is_callback_structure_needed(CXXRecordDecl const *C)
 {
 	//C->dump();
+
+	// check if all pure-virtual methods could be overridden in Python
+	if( C->isAbstract() ) {
+		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+		}
+	}
+
 	if( C->hasAttr<FinalAttr>() ) return false;
 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
