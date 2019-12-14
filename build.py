@@ -87,7 +87,7 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     '''
     if not os.path.isdir(prefix): os.makedirs(prefix)
 
-    llvm_version='4.0.0'
+    llvm_version='6.0.1'
     prefix += '/llvm-' + llvm_version
     clang_path = "{prefix}/tools/clang".format(**locals())
 
