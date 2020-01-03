@@ -39,4 +39,9 @@ target_link_libraries(binder
   clangTooling
   clangBasic
   clangASTMatchers
+  clangAST
+  clangFrontend
   )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
+PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
+DESTINATION ${CMAKE_INSTALL_BINDIR})
