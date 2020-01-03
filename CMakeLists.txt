@@ -1,4 +1,3 @@
-#Andrii Verbytskyi, Max-Planck-Institut fuer Physik, 2019
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4.3)
 PROJECT(binder CXX C)
 SET(VERSION 1.0.0)
