@@ -102,7 +102,13 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			{
 			 { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
 
-			 { "<iterator>", {"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag", "std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",} },
+			 { "<iterator>",
+			   {
+				"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag",
+				"std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",
+				"std::begin", "std::end",
+			   }
+			 },
 
 			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"} },
 
@@ -234,6 +240,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/stl_heap.h>", "<algorithm>"),
 
+		make_pair("<bits/types/__mbstate_t.h>", "<ios>"),
 
 		// C headers
 		make_pair("<bits/libio.h>", "<stdio.h>"),

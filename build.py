@@ -152,7 +152,7 @@ def main(args):
     parser.add_argument('-j', '--jobs', default=1, const=0, nargs="?", type=int, help="Number of processors to use on when building, use '-j' with no arguments to launch job-per-core. (default: 1) ")
     parser.add_argument("--type", default='Release', choices=['Release', 'Debug', 'MinSizeRel', 'RelWithDebInfo'], help="Specify build type")
     parser.add_argument('--compiler', default='clang', help='Compiler to use, defualt is clang')
-    parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into main/source/build. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
+    parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
