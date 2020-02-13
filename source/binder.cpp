@@ -135,7 +135,12 @@ public:
 		if( O_config.size() ) config.read(O_config);
 		if( O_suppress_errors )	{
 			clang::DiagnosticsEngine& di = ci->getDiagnostics();
+#if  (LLVM_VERSION_MAJOR < 10)
 			di.setSuppressAllDiagnostics();
+#endif
+#if  (LLVM_VERSION_MAJOR >= 10)
+			di.setSuppressAllDiagnostics(true);
+#endif
 		}
 	}
 

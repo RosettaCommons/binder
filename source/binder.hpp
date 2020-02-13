@@ -13,7 +13,7 @@
 
 #ifndef _INCLUDED_binder_hpp_
 #define _INCLUDED_binder_hpp_
-#include "llvm/Config/config.h"
+#include "llvm/Config/llvm-config.h"
 #if  (LLVM_VERSION_MAJOR < 4)
 #define __STDC_CONSTANT_MACROS
 #define __STDC_LIMIT_MACROS
