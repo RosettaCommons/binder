@@ -30,7 +30,7 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 
-if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 AND LLVM_VERSION_MAJOR LESS 10 )
+if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 AND LLVM_VERSION_MAJOR LESS 8 )
 target_link_libraries(binder
   PRIVATE
   LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
@@ -41,6 +41,19 @@ target_link_libraries(binder
   clangFrontend  
   )
 endif()
+if (LLVM_VERSION_MAJOR GREATER_EQUAL 8 AND LLVM_VERSION_MAJOR LESS 10 )
+target_link_libraries(binder
+  PRIVATE
+  LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+  clangTooling
+  clangBasic
+  clangASTMatchers
+  clangAST
+  clangFrontend
+  clangSerialization
+  )
+endif()
+
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 10 )
 target_link_libraries(binder
   PRIVATE

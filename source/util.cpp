@@ -260,13 +260,13 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 		if( isa<comments::ParagraphComment>(C) ) r += '\n';
 
 		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
-#if  (LLVM_VERSION_MAJOR < 10)
+#if  (LLVM_VERSION_MAJOR < 8)
 			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getLocStart() ) ) {  // getBeginLoc
 				previous = (*i)->getLocStart(); // getBeginLoc();
 				r += '\n';
 			}
 #endif
-#if  (LLVM_VERSION_MAJOR >= 10)
+#if  (LLVM_VERSION_MAJOR >= 8)
 			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getBeginLoc() ) ) {  // getBeginLoc
 				previous = (*i)->getBeginLoc(); // getBeginLoc();
 				r += '\n';
