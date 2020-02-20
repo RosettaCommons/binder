@@ -13,8 +13,11 @@
 
 #ifndef _INCLUDED_binder_hpp_
 #define _INCLUDED_binder_hpp_
-
-
+#include "llvm/Config/config.h"
+#if  (LLVM_VERSION_MAJOR < 4)
+#define __STDC_CONSTANT_MACROS
+#define __STDC_LIMIT_MACROS
+#endif
 #include "llvm/Support/CommandLine.h"
 
 extern llvm::cl::opt<bool> O_annotate_includes;

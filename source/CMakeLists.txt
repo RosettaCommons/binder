@@ -1,7 +1,3 @@
-
-#list(REMOVE_ITEM CMAKE_CXX_FLAGS "-fno-exceptions")
-#set(CMAKE_CXX_FLAGS "-fexceptions ${CMAKE_CXX_FLAGS}")
-
 set(LLVM_LINK_COMPONENTS support)
 set(LLVM_USED_LIBS clangTooling clangBasic clangAST)
 
@@ -34,13 +30,42 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 
+if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 )
 target_link_libraries(binder
+  PRIVATE
+  LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
   clangTooling
   clangBasic
   clangASTMatchers
   clangAST
-  clangFrontend
+  clangFrontend  
   )
+endif()
+if (LLVM_VERSION_MAJOR LESS 4  )
+target_link_libraries(binder PRIVATE
+-Wl,--start-group  
+clang 
+LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}    
+clangAnalysis   
+clangARCMigrate   
+clangAST   
+clangASTMatchers   
+clangBasic   
+clangCodeGen   
+clangDriver   
+clangDynamicASTMatchers   
+clangEdit   
+clangFormat   
+clangFrontend   
+clangFrontendTool     
+clangLex   
+clangParse     
+clangRewriteFrontend   
+clangSema   
+clangSerialization         
+clangTooling   
+-Wl,--end-group  )
+endif()
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
 DESTINATION ${CMAKE_INSTALL_BINDIR})

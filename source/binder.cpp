@@ -13,6 +13,18 @@
 #include <binder.hpp>
 
 // Declares clang::SyntaxOnlyAction.
+#if  (LLVM_VERSION_MAJOR < 4)
+#include "clang/AST/ASTConsumer.h"
+#include "clang/AST/ASTContext.h"
+typedef clang::ASTConsumer* ASTConsumerPtr;
+#endif
+#if (LLVM_VERSION_MAJOR >= 4)
+#include "clang/AST/ASTConsumer.h"
+#include "clang/AST/ASTContext.h"
+#include "clang/Frontend/FrontendActions.h"
+typedef std::unique_ptr<clang::ASTConsumer> ASTConsumerPtr;
+#endif
+
 #include "clang/Frontend/FrontendActions.h"
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
@@ -42,8 +54,9 @@ static llvm::cl::OptionCategory BinderToolCategory("Binder options");
 // CommonOptionsParser declares HelpMessage with a description of the common
 // command-line options related to the compilation database and input files.
 // It's nice to have this help message in all tools.
+#if  (LLVM_VERSION_MAJOR >= 4)
 static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
-
+#endif
 // A help message for this specific tool can be added afterwards.
 static cl::extrahelp MoreHelp("\nMore help text...\n");
 
@@ -55,7 +68,7 @@ using namespace clang;
 using std::string;
 
 
-cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"), /*cl::init("example"),*/ cl::cat(BinderToolCategory));
+cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"),  cl::cat(BinderToolCategory));
 
 cl::opt<int> O_max_file_size("max-file-size", cl::desc("Specify maximum length of generated source files"), cl::init(1024*16), cl::cat(BinderToolCategory));
 
@@ -85,7 +98,9 @@ public:
 	virtual ~ClassVisitor() {}
 
 	virtual bool VisitEnumDecl(EnumDecl *record) {
+#if  (LLVM_VERSION_MAJOR >= 4)
 		errs() << "ClassVisitor EnumDecl: " << record->getQualifiedNameAsString() << "\n";
+#endif
 		record->dump();
         return true;
 	}
@@ -233,14 +248,26 @@ public:
 
 class BinderFrontendAction : public ASTFrontendAction {
 public:
+#if  (LLVM_VERSION_MAJOR < 4)
+    virtual ASTConsumerPtr CreateASTConsumer(CompilerInstance &ci, StringRef file) {
+        return (ASTConsumerPtr)( new BinderASTConsumer(&ci) );
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)
     virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file) {
         return std::unique_ptr<ASTConsumer>( new BinderASTConsumer(&ci) );
+#endif
     }
 };
 
 
 int main(int argc, const char **argv)
 {
+#if  (LLVM_VERSION_MAJOR < 4)
+	CommonOptionsParser op(argc, argv);
+	ClangTool tool(op.getCompilations(), op.getSourcePathList());
+	return tool.run(newFrontendActionFactory<BinderFrontendAction>());
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
@@ -248,4 +275,5 @@ int main(int argc, const char **argv)
 	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
 	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+#endif
 }

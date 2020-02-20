@@ -22,6 +22,9 @@
 #include <clang/AST/DeclTemplate.h>
 //#include <clang/AST/TemplateBase.h>
 
+#if  (LLVM_VERSION_MAJOR < 4)
+#include <clang/AST/Attr.h>
+#endif
 
 using namespace llvm;
 using namespace clang;
@@ -189,13 +192,37 @@ bool is_std_function_bindable(CXXRecordDecl const *C)
                         if (t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration) {
                                 //outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
                                 //t->getTemplateArgs()[i].dump();
+ #if  (LLVM_VERSION_MAJOR < 4)
+                                QualType qt=t->getTemplateArgs()[i].getAsType();//FIXME! = QualType::getFromOpaquePtr(t->getTemplateArgs()[i].DeclArg.QT);
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)
                                 QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
+#endif
+                                
                                 //qt.dump();
 
                                 if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
+ #if  (LLVM_VERSION_MAJOR < 4)
+                                        if( not is_bindable( ft->getResultType() ) ) return false;
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)
                                         if( not is_bindable( ft->getReturnType() ) ) return false;
-                                        for(uint i=0; i < ft->getNumParams(); ++i) {
+#endif                                        
+                                        
+                                        uint NP=0;//unsigned getNumParams() const { return FunctionTypeBits.NumParams; }
+ #if  (LLVM_VERSION_MAJOR < 4)
+                                        NP=ft->getNumArgs();        //FIXME!??                     
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)                 
+                                        NP=ft->getNumParams();
+#endif                                        
+                                        for(uint i=0; i < NP; ++i) {
+ #if  (LLVM_VERSION_MAJOR < 4)
+                                                 if( not is_bindable( ft->getArgType(i) ) ) return false; //FIXME!
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)            
                                                 if( not is_bindable( ft->getParamType(i) ) ) return false;
+#endif                                        
                                         }
                                 }
                         }
@@ -625,8 +652,13 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			//if( m->hasAttr<NoExceptAttr>() ) {
 			// 	(*m)->dump();
 			// }
-
-			string return_type = m->getReturnType().getCanonicalType().getAsString();  fix_boolean_types(return_type);
+#if  (LLVM_VERSION_MAJOR < 4)
+			string return_type = m->getResultType().getCanonicalType().getAsString();  
+#endif
+#if  (LLVM_VERSION_MAJOR >= 4)
+			string return_type = m->getReturnType().getCanonicalType().getAsString();  
+#endif
+			fix_boolean_types(return_type);
 
 			// check if we need to fix return class to be 'derived-class &' or 'derived-class *'
 			// if( m->isVirtual() ) {
