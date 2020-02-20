@@ -35,6 +35,7 @@ add_clang_executable(binder
   )
 
 target_link_libraries(binder
+  PRIVATE
   clangTooling
   clangBasic
   clangASTMatchers
