@@ -72,9 +72,6 @@ The basic dependencies for this type of installanion are very similar to these d
 - clang  with development packages (headers)
 
 The installation process of the required packages varies from system to system.
-
-The installation process of the required packages varies from system to system.
-
 On the RHEL7/RHEL8/Fedora22+  systems binder can be compilled with the llvm, clang and dependent packages available 
 for these systems from their default repositories, i.e.
   
