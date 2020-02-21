@@ -147,3 +147,7 @@ Alternatively,the location of the llvm-config script could be set.
 ``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
 
 However, it is not a recommended option and should be used only for the old versions of LLVM without cmake support.
+Also, is is recommended to pay an attention to the locations of clang headers and set them explicitely via the
+`CLANG_INCLUDE_DIRS` cmake variable.
+
+
