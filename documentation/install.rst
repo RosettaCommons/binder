@@ -72,11 +72,35 @@ The basic dependencies for this type of installanion are very similar to these d
 - clang  with development packages (headers)
 
 The installation process of the required packages varies from system to system.
-Some examples are described in detail below.
 
+The installation process of the required packages varies from system to system.
 
-- For the CentOS7/RHEL7 and compatible systems the llvm-toolset-7.0 toolset from
-  https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ should be installed. Run as root
+On the RHEL7/RHEL8/Fedora22+  systems binder can be compilled with the llvm, clang and dependent packages available 
+for these systems from their default repositories, i.e.
+  
+``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
+
+Please note that binder requires cmake of version 3, therefore for some older systems
+package cmake3 should be installed and used instead of cmake.
+
+``yum install cmake3``
+
+If a newer or specific version of the llvm/clang is needed, it can be installed 
+as desribed in detail below.
+
+- Some versions of LLVM from the standard repositories of CentOS7/RHEL7/Fedora. Run as root 
+ 
+  ``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
+  
+   to obtain a standart  llvm version for your system and
+   
+   ``yum install clang8.0 clang8.0-devel llvm8.0-devel llvm8.0-static clang8.0-libs libcxx libcxx-devel``
+   
+    to obtain a specific version (8.0 in this case).
+    
+- If the option above is not sufficient, or the available packages are outdated, for the 
+  CentOS/RHEL/Fedora and compatible systems the llvm-toolset-7.0 toolset (or later) from
+  https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ provides . Run as root
 
  ``yum install llvm-toolset-7.0* libcxx libcxx-devel``
 
@@ -84,16 +108,8 @@ Some examples are described in detail below.
 
  ``scl enable llvm-toolset-7 bash``
 
-
-- For the Fedora 31+ the dependencies can be installed from the standard repositories. Run as root 
- 
-  ``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
-
-
-- For the CentOS8/RHEL8 the dependencies are the same, but the ``libcxx`` 
-  and ``libcxx-devel`` packages are not available yet from standard repositories
-  so one has to recompile them, i.e.
-
+Note that for the CentOS8/RHEL8 the standard version of llvm is 9.0 and is available from the repositories, 
+However, the ``libcxx`` and ``libcxx-devel`` packages are not available yet and  so one has to recompile them, i.e.
   ``rpm -i http://ftp.tu-chemnitz.de/pub/linux/fedora/linux/releases/31``
   ``/Everything/source/tree/Packages/l/libcxx-9.0.0-1.fc31.src.rpm``
 
@@ -121,5 +137,13 @@ To build ``binder`` run
 
 ``make install``
 
-The location of LLVM and CLANG can be set separately with ``-DClang_DIR`` and ``-DLLVM_DIR`` options passed to ``cmake``.
+To perform the build with a specific version of LLVM, the location of LLVM and CLANG directories 
+should be set simultaneously via the location of their cmake configurations, i.e.
 
+``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib64/llvm8.0/lib/cmake/llvm -DClang_DIR=/usr/lib64/llvm8.0/lib/cmake/clang
+
+Alternatively,the location of the llvm-config script could be set.
+
+``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
+
+However, it is not a recommended option and should be used only for the old versions of LLVM without cmake support.
