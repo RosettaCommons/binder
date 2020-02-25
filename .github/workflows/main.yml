@@ -3,7 +3,7 @@ on: [push]
 jobs:
   compilejobcentos7:
     runs-on: ubuntu-latest
-    name: Checkout and compile binder on centos8
+    name: Checkout and compile binder on centos7
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -22,6 +22,19 @@ jobs:
     - name: Compile
       id: hello
       uses: ./.github/workflows/centos8
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
+
+  compilejobfedora31:
+    runs-on: ubuntu-latest
+    name: Checkout and compile binder on fedora31
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora31
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
