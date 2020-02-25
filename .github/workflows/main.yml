@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: Checkout and compile evtgen
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
