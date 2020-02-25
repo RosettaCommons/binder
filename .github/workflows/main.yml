@@ -1,15 +1,27 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  compilejobcentos7:
     runs-on: ubuntu-latest
-    name: Checkout and compile binder
+    name: Checkout and compile binder on centos8
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Compile
       id: hello
-      uses: ./.github/workflows/
+      uses: ./.github/workflows/centos7
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
+  compilejobcentos8:
+    runs-on: ubuntu-latest
+    name: Checkout and compile binder on centos8
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/centos8
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
