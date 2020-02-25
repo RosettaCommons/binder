@@ -1,5 +1,5 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Compile binder'
+description: 'Binder'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'

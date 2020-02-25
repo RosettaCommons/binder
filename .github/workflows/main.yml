@@ -3,7 +3,7 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: Checkout and compile evtgen
+    name: Checkout and compile binder
     steps:
     - name: Checkout
       uses: actions/checkout@v2
