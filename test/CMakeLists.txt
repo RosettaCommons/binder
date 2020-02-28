@@ -3,12 +3,22 @@ macro( binder_test testname vers)
 
 message( STATUS "binder test: building ${testname} for ${testname}" )
 string(REPLACE "." "_" testnamenodot ${testname})
+if (BINDER_MOCK_TEST)
 ADD_CUSTOM_command(    
 #COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}  --single-file ${testname}.hpp  -- -std=c++11 -I${CMAKE_CURRENT_SOURCE_DIR} -isystem /usr/include/c++/4.8.2/x86_64-redhat-linux  -I/usr/lib/clang/3.4.2/include
 COMMAND  cp  ${testname}.ref ${testname}.cpp
 OUTPUT ${testname}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
+else()
+ADD_CUSTOM_command(    
+COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}  --single-file ${testname}.hpp  -- -std=c++11 -I${CMAKE_CURRENT_SOURCE_DIR} -isystem /usr/include/c++/4.8.2/x86_64-redhat-linux  -I/usr/lib/clang/3.4.2/include
+#COMMAND  cp  ${testname}.ref ${testname}.cpp
+OUTPUT ${testname}.cpp
+WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+VERBATIM)
+endif()
+
 if (${vers} STREQUAL 0 )
 add_test( NAME ${testname}_diff
 COMMAND diff ${testname}.cpp ${testname}.ref
