@@ -1,4 +1,6 @@
 macro( binder_test testname vers)
+
+
 message( STATUS "binder test: building ${testname} for ${testname}" )
 string(REPLACE "." "_" testnamenodot ${testname})
 ADD_CUSTOM_command(    
@@ -7,6 +9,11 @@ COMMAND  cp  ${testname}.ref ${testname}.cpp
 OUTPUT ${testname}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
+if (${vers} STREQUAL 0 )
+add_test( NAME ${testname}_diff
+COMMAND diff ${testname}.cpp ${testname}.ref
+WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+else()
 if (${vers} STREQUAL 2)
 Python_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testname}.cpp)
 endif()
@@ -22,6 +29,7 @@ add_test( NAME ${testname}_python${vers}
 COMMAND ${Python_EXECUTABLE} -c "import ${testnamenodot}"
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
 SET_TESTS_PROPERTIES(${testname}_python${vers} PROPERTIES DEPENDS ${testnamenodot}${vers})
+endif()
 endmacro( binder_test  vers)
 set( CMAKE_INCLUDE_DIRECTORIES_BEFORE ON )
 set( binder_tests
@@ -30,9 +38,9 @@ set( binder_tests
         T02.function
         T05.default
          )
-set (TEMPVERSIONS 2 3 )
-foreach( pver ${TEMPVERSIONS} )
-         
+#0 means only diff         
+set (TEMPVERSIONS 0 2 3 )
+foreach( pver ${TEMPVERSIONS} )         
 if (${pver} STREQUAL 2)
 find_package (Python ${pver} COMPONENTS  Development Interpreter REQUIRED)
 endif()
