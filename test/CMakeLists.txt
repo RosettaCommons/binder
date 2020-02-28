@@ -55,16 +55,27 @@ set( binder_tests
         T12.operator
         T15.copy
         T15.inner_class
-        T17.anonymous
          )
 #0 means only diff         
 set (TEMPVERSIONS 0 2 3 )
 foreach( pver ${TEMPVERSIONS} )         
+set(PYFOUND FALSE)
+if (${pver} STREQUAL 0)
+set(PYFOUND TRUE)
+endif()
 if (${pver} STREQUAL 2)
-find_package (Python ${pver} COMPONENTS  Development Interpreter REQUIRED)
+find_package (Python ${pver} COMPONENTS  Development Interpreter)
+if (Python_FOUND)
+set(PYFOUND TRUE)
+endif()
+
+
 endif()
 if (${pver} STREQUAL 3)
-find_package (Python3 ${pver} COMPONENTS  Development Interpreter  REQUIRED)
+find_package (Python3 ${pver} COMPONENTS  Development Interpreter)
+if (Python3_FOUND)
+set(PYFOUND TRUE)
+endif()
 if (Python3_VERSION AND Python3_LIBRARIES AND Python3_INCLUDE_DIRS AND Python3_EXECUTABLE  ) #something is set
 SET( Python_VERSION ${Python3_VERSION})
 SET( Python_VERSION_MAJOR ${Python3_VERSION_MAJOR})
@@ -74,8 +85,10 @@ SET( Python_SITEARCH ${Python3_SITEARCH})
 SET( Python_EXECUTABLE ${Python3_EXECUTABLE})
 SET( Python_INCLUDE_DIRS ${Python3_INCLUDE_DIRS})
 endif()
-endif()             
+endif()
+if (PYFOUND)             
 foreach ( test ${binder_tests} )
   binder_test( ${test} ${pver})
 endforeach ( test ${binder_tests} )
+endif()
 endforeach( pver ${TEMPVERSIONS} )
