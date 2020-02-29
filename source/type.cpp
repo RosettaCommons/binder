@@ -507,7 +507,6 @@ string simplify_std_class_name(string const &type)
 
 	string res = type;
 #if __GCC__< 5
-    printf("%s\n",res.c_str());
     if (res=="__throw_bad_exception") return res;
 #endif
 	static vector< std::pair<llvm::Regex, string> > regex_map;
