@@ -37,8 +37,6 @@ set_target_properties(${testnamenodot}${vers} PROPERTIES OUTPUT_NAME  ${testname
                                                ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:> 
                                                LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>
                                                RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
-#-DT15_inner_class3_EXPORTS
-#-DT15_inner_class3_EXPORTS
 target_compile_definitions(${testnamenodot}${vers} PRIVATE ${testnamenodot}_EXPORTS )
 target_include_directories( ${testnamenodot}${vers} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_test( NAME ${testname}_python${vers} 
@@ -60,7 +58,6 @@ set( binder_tests
          T11.override
          T12.operator
          T15.copy
-         T15.inner_class
          )
 #0 means only diff         
 set (TEMPVERSIONS  2 3 )

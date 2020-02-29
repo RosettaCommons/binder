@@ -83,9 +83,6 @@ add_subdirectory(source)
 if (BINDER_ENABLE_TEST)
 #find_package (pybind11 CONFIG REQUIRED)
 #message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}")
-#find_package (Python3 COMPONENTS  Development Interpreter REQUIRED)
-
-
 ENABLE_TESTING()
 add_subdirectory(test)
 endif()
