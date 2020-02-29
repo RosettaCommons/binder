@@ -14,9 +14,8 @@ else()
 ADD_CUSTOM_command(    
 COMMAND echo "#include <${testname}.hpp>" > ${testname}.hpp.include
 COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/  --single-file  --annotate-includes  ${testname}.hpp.include  -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
- -isystem /usr/include/c++/10/x86_64-redhat-linux 
-  -I/usr/lib/clang/3.4.2/include
--I/usr/lib64/clang/10.0.0/include
+-isystem /usr/include/c++/10/x86_64-redhat-linux
+-I ${LibClang_INCLUDE_DIRS}
 #COMMAND  cp  ${testname}.ref ${testname}.cpp
 OUTPUT ${testnamenodot}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"

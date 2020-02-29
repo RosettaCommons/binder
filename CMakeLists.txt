@@ -64,6 +64,8 @@ MESSAGE(STATUS  "binder: llvm version from ${LLVMCONFIGEXE} is ${LLVMVERSION}")
 MESSAGE(STATUS  "binder: llvm library dir from ${LLVMCONFIGEXE} is ${LLVMLIBDIR}")
 MESSAGE(STATUS  "binder: llvm includedir dir from ${LLVMCONFIGEXE} is ${LLVMINCLUDEDIR}")
 MESSAGE(STATUS  "binder: Consider setting CLANG_INCLUDE_DIRS. The current value is CLANG_INCLUDE_DIRS=${CLANG_INCLUDE_DIRS}")
+MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIRS=${LibClang_INCLUDE_DIRS}")
+
 else()
 MESSAGE(FATAL_ERROR  "binder: llvm-config not found")
 endif()
