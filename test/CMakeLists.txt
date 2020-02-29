@@ -11,8 +11,9 @@ WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
 else()
 ADD_CUSTOM_command(    
+COMMAND touch ${testname}.config
 COMMAND echo "#include <${testname}.hpp>" > ${testname}.hpp.include
-COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/  --single-file  --annotate-includes  ${testname}.hpp.include  
+COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/ --config ${testname}.config --single-file  --annotate-includes  ${testname}.hpp.include  
 -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
 -isystem /
 -I ${LibClang_INCLUDE_DIRS}
@@ -26,10 +27,13 @@ add_test( NAME ${testname}_diff
 COMMAND diff ${testnamenodot}.cpp ${testname}.ref
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 else()
-if (${vers} STREQUAL 2)
+string(REPLACE "." ";" MAJMIN "${vers}.X.Y")
+list(GET MAJMIN 0 MAJ)
+list(GET MAJMIN 1 MIN)
+if (${MAJ} STREQUAL 2)
 Python_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp)
 endif()
-if (${vers} STREQUAL 3)
+if (${MAJ} STREQUAL 3)
 Python3_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp )
 endif()
 target_link_libraries(${testnamenodot}${vers} PRIVATE pybind11::module)
@@ -60,16 +64,31 @@ set( binder_tests
          T11.override
          T12.operator
          T15.copy
+         T15.inner_class
+         #fail T17.anonymous
+         T20.template
+         #T30.include
+         T31.include_for_class
+         T32.call_guard
+         #T40.stl
+         #fails T42.stl.names
+         #T50.namespace_binder
          )
-#0 means only diff         
-set (TEMPVERSIONS  2 3 )
 
-foreach( pver ${TEMPVERSIONS} )         
+string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
+
+foreach( pver ${TESTVERSIONS} )         
+
+string(REPLACE "." ";" MAJMIN "${pver}.X.Y")
+list(GET MAJMIN 0 MAJ)
+list(GET MAJMIN 1 MIN)
+
 set(PYFOUND FALSE)
 if (${pver} STREQUAL 0)
 set(PYFOUND TRUE)
+SET( Python_VERSION 0)
 endif()
-if (${pver} STREQUAL 2)
+if (${MAJ} STREQUAL 2)
 find_package (Python ${pver} COMPONENTS  Development Interpreter)
 if (Python_FOUND)
 set(PYFOUND TRUE)
@@ -77,7 +96,7 @@ endif()
 
 
 endif()
-if (${pver} STREQUAL 3)
+if (${MAJ} STREQUAL 3)
 find_package (Python3 ${pver} COMPONENTS  Development Interpreter)
 if (Python3_FOUND)
 set(PYFOUND TRUE)
@@ -94,7 +113,7 @@ endif()
 endif()
 if (PYFOUND)             
 foreach ( test ${binder_tests} )
-  binder_test( ${test} ${pver})
+  binder_test( ${test} ${Python_VERSION})
 endforeach ( test ${binder_tests} )
 endif()
 endforeach( pver ${TEMPVERSIONS} )
