@@ -1,9 +1,6 @@
-
 find_package(pybind11 CONFIG REQUIRED)
 message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
 macro( binder_test testname vers)
-
-
 message( STATUS "binder test: building ${testname} for ${testname}" )
 string(REPLACE "." "_" testnamenodot ${testname})
 if (BINDER_MOCK_TEST)
@@ -15,8 +12,9 @@ VERBATIM)
 else()
 ADD_CUSTOM_command(    
 COMMAND echo "#include <${testname}.hpp>" > ${testname}.hpp.include
-COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/  --single-file  --annotate-includes  ${testname}.hpp.include  -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
--isystem /usr/include/c++/10/x86_64-redhat-linux
+COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/  --single-file  --annotate-includes  ${testname}.hpp.include  
+-- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
+-isystem /
 -I ${LibClang_INCLUDE_DIRS}
 OUTPUT ${testnamenodot}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"

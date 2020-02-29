@@ -506,8 +506,8 @@ string simplify_std_class_name(string const &type)
 	//r = R.sub("std::set<\\1>", r);
 
 	string res = type;
-#if __GCC__< 5
-    if (res=="__throw_bad_exception") return res;
+#if (LLVM_VERSION_MAJOR < 4)
+    return res;
 #endif
 	static vector< std::pair<llvm::Regex, string> > regex_map;
 
