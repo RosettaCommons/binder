@@ -1,5 +1,6 @@
 
-#find_package(pybind11 CONFIG REQUIRED)
+find_package(pybind11 CONFIG REQUIRED)
+message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
 macro( binder_test testname vers)
 
 
@@ -7,7 +8,6 @@ message( STATUS "binder test: building ${testname} for ${testname}" )
 string(REPLACE "." "_" testnamenodot ${testname})
 if (BINDER_MOCK_TEST)
 ADD_CUSTOM_command(    
-#COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}  --single-file ${testname}.hpp  -- -std=c++11 -I${CMAKE_CURRENT_SOURCE_DIR} -isystem /usr/include/c++/4.8.2/x86_64-redhat-linux  -I/usr/lib/clang/3.4.2/include
 COMMAND  cp  ${testname}.ref ${testnamenodot}.cpp
 OUTPUT ${testnamenodot}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -18,7 +18,6 @@ COMMAND echo "#include <${testname}.hpp>" > ${testname}.hpp.include
 COMMAND binder --bind ""  --root-module ${testnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/  --single-file  --annotate-includes  ${testname}.hpp.include  -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
 -isystem /usr/include/c++/10/x86_64-redhat-linux
 -I ${LibClang_INCLUDE_DIRS}
-#COMMAND  cp  ${testname}.ref ${testname}.cpp
 OUTPUT ${testnamenodot}.cpp
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
@@ -35,7 +34,7 @@ endif()
 if (${vers} STREQUAL 3)
 Python3_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp )
 endif()
-#target_link_libraries(${testnamenodot}${vers} PRIVATE pybind11::module)
+target_link_libraries(${testnamenodot}${vers} PRIVATE pybind11::module)
 
 set_target_properties(${testnamenodot}${vers} PROPERTIES OUTPUT_NAME  ${testnamenodot}
                                                NO_SYSTEM_FROM_IMPORTED ON
