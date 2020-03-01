@@ -22,14 +22,19 @@ WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
 endif()
 
-if (${vers} STREQUAL 0 )
-add_test( NAME ${testname}_diff
-COMMAND diff ${testnamenodot}.cpp ${testname}.ref
-WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-else()
 string(REPLACE "." ";" MAJMIN "${vers}.X.Y")
 list(GET MAJMIN 0 MAJ)
 list(GET MAJMIN 1 MIN)
+
+if (${MAJ} STREQUAL 0 )
+add_test( NAME ${testname}_diff
+COMMAND diffbinder ${testnamenodot}.cpp ${testname}.ref
+WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS diffbinder SOURCE ${testnamenodot}.cpp)
+SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  binder)
+SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  ${testnamenodot}.cpp)
+
+else()
 if (${MAJ} STREQUAL 2)
 Python_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp)
 endif()
@@ -55,13 +60,13 @@ set( CMAKE_INCLUDE_DIRECTORIES_BEFORE ON )
 set( binder_tests
         T00.basic
         T01.enum
-        T02.function
+      #  T02.function
         T05.default
         T07.class
          T08.constructor
          T09.overload
-         T10.inheritance
-         T11.override
+       #  T10.inheritance
+       #  T11.override
          T12.operator
          T15.copy
          T15.inner_class
@@ -74,6 +79,7 @@ set( binder_tests
          #fails T42.stl.names
          #T50.namespace_binder
          )
+add_executable(diffbinder diffbinder.cpp)
 
 string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
 
@@ -84,9 +90,9 @@ list(GET MAJMIN 0 MAJ)
 list(GET MAJMIN 1 MIN)
 
 set(PYFOUND FALSE)
-if (${pver} STREQUAL 0)
+if (${MAJ} STREQUAL 0)
 set(PYFOUND TRUE)
-SET( Python_VERSION 0)
+SET( Python_VERSION "0")
 endif()
 if (${MAJ} STREQUAL 2)
 find_package (Python ${pver} COMPONENTS  Development Interpreter)
