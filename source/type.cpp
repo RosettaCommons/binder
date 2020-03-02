@@ -324,7 +324,7 @@ void add_relevant_includes(QualType const &qt, /*const ASTContext &context,*/ In
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) add_relevant_includes(rt->getPointeeType(), includes, level);
 	if( CXXRecordDecl *r = qt->getAsCXXRecordDecl() ) add_relevant_includes(r, includes, level);
  #if  (LLVM_VERSION_MAJOR < 4)
-	if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAs<TagType>()->getDecl() ) ) add_relevant_includes(e, includes, level);
+	if( qt->getAs<TagType>()) if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAs<TagType>()->getDecl() ) ) add_relevant_includes(e, includes, level);
 #endif
  #if  (LLVM_VERSION_MAJOR >= 4)
 	if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAsTagDecl() ) ) add_relevant_includes(e, includes, level);
@@ -374,13 +374,18 @@ bool is_bindable(QualType const &qt)
 			r &= is_bindable(rd);
 		}
  #if  (LLVM_VERSION_MAJOR < 4)
+		if (tp)
+		if (tp->getAs<TagType>())
 		if( TagDecl *td = tp->getAs<TagType>()->getDecl() ) {
+			if( td->getAccess() == AS_protected  or  td->getAccess() == AS_private  ) return false;
+		}
 #endif
  #if  (LLVM_VERSION_MAJOR >= 4)
 		if( TagDecl *td = tp->getAsTagDecl() ) {
-#endif
+
 			if( td->getAccess() == AS_protected  or  td->getAccess() == AS_private  ) return false;
 		}
+#endif
 	}
 
 	return r;
@@ -394,6 +399,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 	if( /*is_bindable(qt)  and*/  !is_skipping_requested(qt, Config::get()) ) {
 		//outs() << "request_bindings(clang::QualType,...): " << qt.getAsString() << "\n";
  #if  (LLVM_VERSION_MAJOR < 4)
+		if (qt->getAs<TagType>())
 		if( TagDecl *td = qt->getAs<TagType>()->getDecl() ) {
 #endif
  #if  (LLVM_VERSION_MAJOR >= 4)
@@ -500,7 +506,9 @@ string simplify_std_class_name(string const &type)
 	//r = R.sub("std::set<\\1>", r);
 
 	string res = type;
-
+#if (LLVM_VERSION_MAJOR < 4)
+    return res;
+#endif
 	static vector< std::pair<llvm::Regex, string> > regex_map;
 
 	if( regex_map.empty() ) {
