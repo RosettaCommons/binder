@@ -30,10 +30,12 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 
+find_library(LLVMSO  NAMES LLVM LLVM-${LLVM_VERSION_MAJOR} LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH})
+message(STATUS "binder LLVMSO=${LLVMSO}")
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 AND LLVM_VERSION_MAJOR LESS 8 )
 target_link_libraries(binder
   PRIVATE
-  LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+  ${LLVMSO}
   clangTooling
   clangBasic
   clangASTMatchers
@@ -44,7 +46,7 @@ endif()
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 8 AND LLVM_VERSION_MAJOR LESS 10 )
 target_link_libraries(binder
   PRIVATE
-  LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+  ${LLVMSO}
   clangTooling
   clangBasic
   clangASTMatchers
@@ -57,7 +59,7 @@ endif()
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 10 )
 target_link_libraries(binder
   PRIVATE
-  LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+  ${LLVMSO}
   clang
   clang-cpp
   )
@@ -67,7 +69,7 @@ if (LLVM_VERSION_MAJOR LESS 4  )
 target_link_libraries(binder PRIVATE
 -Wl,--start-group  
 clang 
-LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}    
+${LLVMSO}
 clangAnalysis   
 clangARCMigrate   
 clangAST   
