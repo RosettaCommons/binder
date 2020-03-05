@@ -30,7 +30,12 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 
-find_library(LLVMSO  NAMES LLVM LLVM-${LLVM_VERSION_MAJOR} LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH})
+find_library(LLVMSO  NAMES LLVM 
+                           LLVM-${LLVM_VERSION_MAJOR} 
+                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
+                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+                           PATHS  ${LLVM_LIBRARY_DIR}
+                           )
 message(STATUS "binder LLVMSO=${LLVMSO}")
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 AND LLVM_VERSION_MAJOR LESS 8 )
 target_link_libraries(binder
