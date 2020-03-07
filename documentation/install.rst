@@ -82,7 +82,7 @@ Some examples are described in detail below.
 
  Then the compilation can be performed using the following shell
 
- ``scl enable llvm-toolset-7 bash``
+ ``scl enable llvm-toolset-7.0 bash``
 
 
 - For the Fedora 31+ the dependencies can be installed from the standard repositories. Run as root 
