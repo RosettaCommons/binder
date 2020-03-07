@@ -85,7 +85,8 @@ package cmake3 should be installed and used instead of cmake.
 If a newer or specific version of the llvm/clang is needed, it can be installed 
 as desribed in detail below.
 
-- Some versions of LLVM from the standard repositories of CentOS7/RHEL7/Fedora. Run as root 
+- Some versions of LLVM are available from the standard repositories of CentOS7/RHEL7/Fedora.  To install them run as root 
+
  
   ``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
   
