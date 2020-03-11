@@ -4,9 +4,9 @@ cat /etc/issue
 apt-get update
 apt-get -y install  clang llvm  clang-dev*
 apt-get -y install  cmake make gcc
-apt-get install pybind11-dev pybind11-doc python-dev python3-dev
-cmake CMakeLists.txt 
+#apt-get install  python-pybind11 python3-pybind11    pybind11-dev pybind11-doc python-dev python3-dev
+cmake CMakeLists.txt  -DBINDER_ENABLE_TEST=OFF
 make
-ctest . --output-on-failure 
+#ctest . --output-on-failure 
 out=$?
 echo ::set-output name=out::$out
