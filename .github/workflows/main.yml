@@ -51,3 +51,17 @@ jobs:
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
+      
+      
+  compilejobubuntu20:
+    runs-on: ubuntu-latest
+    name: Checkout and compile binder on ubuntu20
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/ubuntu20
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
