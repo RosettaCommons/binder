@@ -1,4 +1,4 @@
-FROM ubuntu:18
+FROM ubuntu:18.04
 
 # Container image that runs your code
 #FROM alpine:3.10
