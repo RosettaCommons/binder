@@ -70,7 +70,7 @@ set( binder_tests
          T09.overload
          T10.inheritance
          T11.override
-         T12.operator
+
 
          T15.inner_class
          #fail T17.anonymous
@@ -84,7 +84,8 @@ set( binder_tests
          )
 
 if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
-list(APPEND binder_tests  
+list(APPEND binder_tests 
+         T12.operator 
          T15.copy
          T32.call_guard
          )
