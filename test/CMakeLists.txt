@@ -1,4 +1,4 @@
-find_package(pybind11 CONFIG REQUIRED)
+find_package(pybind11 CONFIG)
 message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
 
 macro( binder_src stestname)
@@ -62,6 +62,11 @@ endif()
 endmacro( binder_test testname vers)
 set( binder_tests
          T00.basic
+
+         )
+
+if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
+list(APPEND binder_tests 
          T01.enum
          T02.function
          T05.default
@@ -70,24 +75,19 @@ set( binder_tests
          T09.overload
          T10.inheritance
          T11.override
-
-
+         T12.operator 
+         T15.copy
          T15.inner_class
          #fail T17.anonymous
          #T20.template
          #T30.include
          #T31.include_for_class
-        
+         T32.call_guard
          #T40.stl
          #fails T42.stl.names
          #T50.namespace_binder
-         )
 
-if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
-list(APPEND binder_tests 
-         T12.operator 
-         T15.copy
-         T32.call_guard
+
          )
 endif()
 
