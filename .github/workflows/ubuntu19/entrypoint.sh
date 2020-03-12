@@ -1,4 +1,5 @@
 #!/bin/sh -l
+set -x
 uname -a 
 cat /etc/issue
 apt-get update
