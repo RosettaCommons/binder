@@ -72,27 +72,19 @@ The basic dependencies for this type of installanion are very similar to these d
 - clang  with development packages (headers)
 
 The installation process of the required packages varies from system to system.
-On the RHEL7/RHEL8/Fedora22+  systems binder can be compilled with the llvm, clang and dependent packages available 
-for these systems from their default repositories, i.e.
-  
-``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
-
-Please note that binder requires cmake of version 3, therefore for some older systems
-package cmake3 should be installed and used instead of cmake.
-
-``yum install cmake3``
-
-If a newer or specific version of the llvm/clang is needed, it can be installed 
-as desribed in detail below.
-
-- Some versions of LLVM are available from the standard repositories of CentOS7/RHEL7/Fedora.  To install them run as root 
-
+On the RHEL7/RHEL8/Fedora22+/Ubuntu18+  systems binder can be compilled with the llvm, clang and dependent packages available 
+for these systems from their default repositories
  
-  ``yum install clang clang-devel llvm-devel llvm-static clang-libs libcxx libcxx-devel``
+ 
+For RHEL7/RHEL8/Fedora22+:
+
+- To install the needed packages   run as root 
+ 
+  ``yum install clang clang-devel llvm-devel llvm-static clang-libs``
   
-   to obtain a standart  llvm version for your system and
-   
-   ``yum install clang8.0 clang8.0-devel llvm8.0-devel llvm8.0-static clang8.0-libs libcxx libcxx-devel``
+- If a newer or specific version of the llvm/clang is needed, it can be installed  as root
+ 
+   ``yum install clang8.0 clang8.0-devel llvm8.0-devel llvm8.0-static clang8.0-libs``
    
     to obtain a specific version (8.0 in this case).
     
@@ -100,30 +92,23 @@ as desribed in detail below.
   CentOS/RHEL/Fedora and compatible systems the llvm-toolset-7.0 toolset (or later) from
   https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ provides . Run as root
 
- ``yum install llvm-toolset-7.0* libcxx libcxx-devel``
+ ``yum install llvm-toolset-7.0* ``
 
  Then the compilation can be performed using the following shell
 
  ``scl enable llvm-toolset-7 bash``
 
-Note that for the CentOS8/RHEL8 the standard version of llvm is 9.0 and is available from the repositories, 
-However, the ``libcxx`` and ``libcxx-devel`` packages are not available yet and  so one has to recompile them, i.e.
-  ``rpm -i http://ftp.tu-chemnitz.de/pub/linux/fedora/linux/releases/31``
-  ``/Everything/source/tree/Packages/l/libcxx-9.0.0-1.fc31.src.rpm``
+- Please note that binder requires cmake of version 3, therefore for some older systems
+package cmake3 should be installed and used instead of cmake.
 
-  ``wget https://src.fedoraproject.org/rpms/libcxx/raw/f31/f/libcxx.spec``
+``yum install cmake3``
 
-  edit ``libcxx.spec`` to set
+For Ubuntu18+ run:
 
-  ``%global bootstrap 1``
-  
-  Then run as user
+``sudo apt-get update``
+``sudo apt-get -y install  clang llvm  clang-dev*``
+``sudo apt-get -y install  cmake make gcc g++``
 
-  ``rpmbuild -bb libcxx.spec``
-  
-  And run as root
-
-  ``rpm -Uvh /home/user/rpmbuild/RPMS/x86_64/libcxx-devel-9.0.0-1.el8.x86_64.rpm /home/user/rpmbuild/RPMS/x86_64/libcxx-9.0.0-1.el8.x86_64.rpm``
 
 Building
 ********
@@ -144,8 +129,8 @@ Alternatively,the location of the llvm-config script could be set.
 
 ``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
 
-However, it is not a recommended option and should be used only for the old versions of LLVM without cmake support.
-Also, in this case  itis recommended to pay an attention to the locations of clang headers and set them explicitely via the
-`CLANG_INCLUDE_DIRS` cmake variable.
+By default cmake will build some tests and use python for some simple tests.
+To disable tests use  ``-DBINDER_ENABLE_TEST=OFF``. To suggest python versions to perform tests with use options like
+``-BINDER_TEST_PYTHON_VERSIONS=2,3.5``.  Note that version 0 can be used to check the generated sources agains the reference sources.
 
 
