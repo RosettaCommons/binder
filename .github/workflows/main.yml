@@ -3,7 +3,7 @@ on: [push]
 jobs:
   compilejobcentos7:
     runs-on: ubuntu-latest
-    name: Checkout and compile binder on centos7
+    name: Checkout_and_compile_binder_on_centos7
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       run: echo "The status was ${{ steps.hello.outputs.out }}"
   compilejobcentos8:
     runs-on: ubuntu-latest
-    name: Checkout and compile binder on centos8
+    name: Checkout_and_compile_binder_on_centos8
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -28,13 +28,53 @@ jobs:
 
   compilejobfedora31:
     runs-on: ubuntu-latest
-    name: Checkout and compile binder on fedora31
+    name: Checkout_and_compile_binder_on_fedora31
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Compile
       id: hello
       uses: ./.github/workflows/fedora31
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
+
+  compilejobubuntu18:
+    runs-on: ubuntu-latest
+    name: Checkout_and_compile_binder_on_ubuntu18
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/ubuntu18
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
+      
+  compilejobubuntu19:
+    runs-on: ubuntu-latest
+    name: Checkout_and_compile_binder_on_ubuntu19
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/ubuntu19
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"
+
+      
+  compilejobubuntu20:
+    runs-on: ubuntu-latest
+    name: Checkout_and_compile_binder_on_ubuntu20
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/ubuntu20
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"

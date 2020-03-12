@@ -37,7 +37,7 @@ find_library(LLVMSO  NAMES LLVM
                            PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
                            )
 message(STATUS "binder LLVMSO=${LLVMSO}")
-if (LLVM_VERSION_MAJOR GREATER_EQUAL 4 AND LLVM_VERSION_MAJOR LESS 8 )
+if (LLVM_VERSION_MAJOR GREATER_EQUAL 7 AND LLVM_VERSION_MAJOR LESS 8 )
 target_link_libraries(binder
   PRIVATE
   ${LLVMSO}
@@ -70,7 +70,7 @@ target_link_libraries(binder
   )
 endif()
 
-if (LLVM_VERSION_MAJOR LESS 4  )
+if (LLVM_VERSION_MAJOR LESS 7  )
 target_link_libraries(binder PRIVATE
 -Wl,--start-group  
 clang 
