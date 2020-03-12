@@ -83,7 +83,7 @@ set( binder_tests
          #T50.namespace_binder
          )
 
-if (pybind11_VERSION_MAJOR GREATER_EQUAL 2)
+if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
 list(APPEND binder_tests  T32.call_guard)
 endif()
 
