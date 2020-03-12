@@ -1,4 +1,4 @@
-find_package(pybind11 CONFIG)
+find_package(pybind11 CONFIG REQUIRED)
 message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
 
 macro( binder_src stestname)
@@ -62,11 +62,6 @@ endif()
 endmacro( binder_test testname vers)
 set( binder_tests
          T00.basic
-
-         )
-
-if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
-list(APPEND binder_tests 
          T01.enum
          T02.function
          T05.default
@@ -75,7 +70,7 @@ list(APPEND binder_tests
          T09.overload
          T10.inheritance
          T11.override
-         T12.operator 
+         T12.operator
          T15.copy
          T15.inner_class
          #fail T17.anonymous
@@ -86,10 +81,7 @@ list(APPEND binder_tests
          #T40.stl
          #fails T42.stl.names
          #T50.namespace_binder
-
-
          )
-endif()
 
 string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
 foreach ( tests ${binder_tests} )
@@ -108,14 +100,14 @@ SET( Python_VERSION "0")
 endif()
 if (${MAJ} STREQUAL 2)
 find_package (Python ${pver} COMPONENTS  Development Interpreter)
-if (Python_FOUND)
+if (Python_FOUND AND (pybind11_VERSION_MAJOR GREATER_EQUAL 2) AND (pybind11_VERSION_MINOR GREATER_EQUAL 2) )
 set(PYFOUND TRUE)
 endif()
 endif()
 
 if (${MAJ} STREQUAL 3)
 find_package (Python3 ${pver} COMPONENTS  Development Interpreter)
-if (Python3_FOUND)
+if (Python3_FOUND AND (pybind11_VERSION_MAJOR GREATER_EQUAL 2) AND (pybind11_VERSION_MINOR GREATER_EQUAL 2) )
 set(PYFOUND TRUE)
 endif()
 if (Python3_VERSION AND Python3_LIBRARIES AND Python3_INCLUDE_DIRS AND Python3_EXECUTABLE  ) #something is set
@@ -129,7 +121,7 @@ SET( Python_INCLUDE_DIRS ${Python3_INCLUDE_DIRS})
 endif()
 endif()
 
-if (PYFOUND)             
+if (PYFOUND )             
 foreach ( xtest ${binder_tests} )
   binder_test( ${xtest} ${Python_VERSION})
 endforeach ( xtest ${binder_tests} )
