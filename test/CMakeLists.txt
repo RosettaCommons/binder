@@ -71,7 +71,7 @@ set( binder_tests
          T10.inheritance
          T11.override
          T12.operator
-         T15.copy
+
          T15.inner_class
          #fail T17.anonymous
          #T20.template
@@ -84,7 +84,10 @@ set( binder_tests
          )
 
 if (pybind11_VERSION_MINOR GREATER_EQUAL 2)
-list(APPEND binder_tests  T32.call_guard)
+list(APPEND binder_tests  
+         T15.copy
+         T32.call_guard
+         )
 endif()
 
 string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
