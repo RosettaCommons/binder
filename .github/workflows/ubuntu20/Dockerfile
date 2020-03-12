@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:devel
 
 # Container image that runs your code
 #FROM alpine:3.10
