@@ -5,7 +5,7 @@ cat /etc/issue
 apt-get update
 apt-get -y install  clang llvm  clang-dev*
 apt-get -y install  cmake make gcc g++
-apt-get install   python3-pybind11    pybind11-dev pybind11-doc python2-dev python3-dev  python2 python3
+apt-get -y install   python3-pybind11    pybind11-dev pybind11-doc python2-dev python3-dev  python2 python3
 cmake CMakeLists.txt -Dpybind11_DIR=/usr/lib/cmake/pybind11/
 make
 ctest . --output-on-failure 
