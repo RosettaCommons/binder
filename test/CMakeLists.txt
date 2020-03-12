@@ -77,11 +77,15 @@ set( binder_tests
          #T20.template
          #T30.include
          #T31.include_for_class
-         T32.call_guard
+        
          #T40.stl
          #fails T42.stl.names
          #T50.namespace_binder
          )
+
+if (pybind11_VERSION_MAJOR GREATER_EQUAL 2)
+list(APPEND binder_tests  T32.call_guard)
+endif()
 
 string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
 foreach ( tests ${binder_tests} )
