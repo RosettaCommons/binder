@@ -1,9 +1,8 @@
 on:
-  push:
-  pull_request:
-
+  schedule:
+    - cron: '* 1 * * *'
 jobs:
-  compilejobcentos7:
+  compilejobcentos7night:
     runs-on: ubuntu-latest
     name: Checkout_and_compile_binder_on_centos7
     steps:
@@ -11,7 +10,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Compile
       id: hello
-      uses: ./.github/workflows/centos7
+      uses: ./.github/workflows/centos7night
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
