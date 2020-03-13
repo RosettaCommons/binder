@@ -17,6 +17,7 @@ COMMAND binder --bind ""  --root-module ${stestnamenodot} --prefix ${CMAKE_CURRE
 -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}
 -isystem /
 -I ${LibClang_INCLUDE_DIR}
+${BINDER_EXTRA_FLAGS_IN_TEST}
 #The last one is for the crazy old clang
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
@@ -53,9 +54,17 @@ set_target_properties(${testnamenodot}${vers} PROPERTIES OUTPUT_NAME  ${testname
                                                RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
 target_compile_definitions(${testnamenodot}${vers} PRIVATE ${testnamenodot}_EXPORTS )
 target_include_directories( ${testnamenodot}${vers} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}  ${pybind11_INCLUDE_DIR})
+
+if(BINDER_USE_PYTHON_IN_TEST)
 add_test( NAME ${testname}_python${vers} 
 COMMAND ${Python_EXECUTABLE} -c "import ${testnamenodot}"
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
+else()
+add_test( NAME ${testname}_python${vers} 
+COMMAND echo "Import for ${testnamenodot} is disabled"
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
+endif()
+
 SET_TESTS_PROPERTIES(${testname}_python${vers} PROPERTIES DEPENDS ${testnamenodot}${vers})
 endif()
 
