@@ -1,9 +1,8 @@
-name: nightly
 on:
+  push:
+  pull_request:
   schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '*/15 * * * *'
-
+    - cron: '*/15 * * * *'
 jobs:
   compilejobcentos7night:
     runs-on: ubuntu-latest
@@ -17,85 +16,3 @@ jobs:
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
-
-#name: onpush
-#on: [push]
-
-#jobs:
-  #compilejobcentos7:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_centos7
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/centos7
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
-  #compilejobcentos8:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_centos8
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/centos8
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
-
-  #compilejobfedora31:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_fedora31
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/fedora31
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
-
-  #compilejobubuntu18:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_ubuntu18
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/ubuntu18
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
-      
-  #compilejobubuntu19:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_ubuntu19
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/ubuntu19
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
-
-      
-  #compilejobubuntu20:
-    #runs-on: ubuntu-latest
-    #name: Checkout_and_compile_binder_on_ubuntu20
-    #steps:
-    #- name: Checkout
-      #uses: actions/checkout@v2
-    #- name: Compile
-      #id: hello
-      #uses: ./.github/workflows/ubuntu20
-    ## Use the output from the `hello` step
-    #- name: Get the output status
-      #run: echo "The status was ${{ steps.hello.outputs.out }}"
