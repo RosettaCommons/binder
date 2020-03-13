@@ -86,28 +86,32 @@ For RHEL7/RHEL8/Fedora22+:
  
    ``yum install clang8.0 clang8.0-devel llvm8.0-devel llvm8.0-static clang8.0-libs``
    
-    to obtain a specific version (8.0 in this case).
+  to obtain a specific version (8.0 in this case).
     
 - If the option above is not sufficient, or the available packages are outdated, for the 
   CentOS/RHEL/Fedora and compatible systems the llvm-toolset-7.0 toolset (or later) from
   https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ provides . Run as root
+  
 
- ``yum install llvm-toolset-7.0* ``
+  ``yum install llvm-toolset-7.0* ``
+ 
 
  Then the compilation can be performed using the following shell
 
- ``scl enable llvm-toolset-7 bash``
+  ``scl enable llvm-toolset-7 bash``
 
 - Please note that binder requires cmake of version 3, therefore for some older systems
 package cmake3 should be installed and used instead of cmake.
 
-``yum install cmake3``
+ ``yum install cmake3``
 
 For Ubuntu18+ run:
 
-``sudo apt-get update``
-``sudo apt-get -y install  clang llvm  clang-dev*``
-``sudo apt-get -y install  cmake make gcc g++``
+ ``sudo apt-get update``
+
+ ``sudo apt-get -y install  clang llvm  clang-dev*``
+
+ ``sudo apt-get -y install  cmake make gcc g++``
 
 
 Building
