@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '* 1 * * *'
+    - cron: '*/15 * * * *'
 jobs:
   compilejobcentos7night:
     runs-on: ubuntu-latest
