@@ -93,7 +93,7 @@ For RHEL7/RHEL8/Fedora22+:
   https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ provides . Run as root
   
   ``yum install llvm-toolset-7.0* ``
- 
+  
   Then the compilation can be performed using the following shell
  
   ``scl enable llvm-toolset-7 bash``
@@ -102,9 +102,10 @@ For RHEL7/RHEL8/Fedora22+:
   package cmake3 should be installed and used instead of cmake.
  
  ``yum install cmake3``
-
-For Ubuntu18+ run:
-
+ 
+ 
+ For Ubuntu18+ run:
+ 
  ``sudo apt-get update``
  
  ``sudo apt-get -y install  clang llvm  clang-dev*``
