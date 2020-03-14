@@ -99,8 +99,8 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
 
     if not os.path.isdir(clang_path): 
 		execute('Download clang source.', 'curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz --output cfe-{llvm_version}.src.tar.xz'.format(llvm_version=llvm_version) )
-		execute('Decompress clang source.', 'unxz  {llvm_version}/cfe-{llvm_version}.src.tar.xz '.format(llvm_version=llvm_version) )
-		execute('Decompress clang source.', 'tar -xf  http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar'.format(llvm_version=llvm_version) )
+		execute('Decompress clang source.', 'unxz  cfe-{llvm_version}.src.tar.xz '.format(llvm_version=llvm_version) )
+		execute('Decompress clang source.', 'tar -xf  cfe-{llvm_version}.src.tar'.format(llvm_version=llvm_version) )
 		execute('Download clang source.', 'mv cfe-{llvm_version}.src {clang_path}'.format(llvm_version=llvm_version, clang_path=clang_path) )
 
     if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
