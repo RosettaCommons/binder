@@ -15,3 +15,17 @@ jobs:
     # Use the output from the `hello` step
     - name: Get the output status
       run: echo "The status was ${{ steps.hello.outputs.out }}"
+
+
+  compilejobfedora31:
+    runs-on: ubuntu-latest
+    name: Checkout_and_compile_binder_on_fedora31
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora31
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: echo "The status was ${{ steps.hello.outputs.out }}"

@@ -9,9 +9,12 @@ yum -y install yum-plugin-copr
 yum -y copr enable averbyts/pybind11
 yum -y install pybind11-devel
 yum -y install  python3 python3-devel python python-devel 
-cmake3 CMakeLists.txt
-make
-ctest . --output-on-failure 
+mkdir TEMPHOME
+export HOME=$(pwd)/TEMPHOME
+python build.py
+#cmake3 CMakeLists.txt
+#make
+#ctest . --output-on-failure 
 
 out=$?
 echo ::set-output name=out::$out
