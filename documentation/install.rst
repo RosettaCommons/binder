@@ -19,7 +19,6 @@ Building
 The steps below is encoded in `binder/build.py` and `binder/build-and-run-tests.py` files so for default install you can just run `build-and-run-tests.py` script directly
 
 
-
 #. To build Binder exectute the following command sequence in shell (replace ``$HOME/prefix`` and ``$HOME/binder`` with your paths):
 
 .. code-block:: bash
