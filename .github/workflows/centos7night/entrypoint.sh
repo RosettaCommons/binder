@@ -9,9 +9,10 @@ yum -y install yum-plugin-copr
 yum -y copr enable averbyts/pybind11
 yum -y install pybind11-devel
 yum -y install  python3 python3-devel python python-devel 
-yum -y install xz
+yum -y install xz ninja-build
 mkdir TEMPHOME
 export HOME=$(pwd)/TEMPHOME
+sed -i 's/cmake /cmake3 /g'  build.py
 python build.py
 #cmake3 CMakeLists.txt
 #make
