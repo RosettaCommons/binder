@@ -91,7 +91,11 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     prefix += '/llvm-' + llvm_version
     clang_path = "{prefix}/tools/clang".format(**locals())
 
-    if not os.path.isfile(prefix + '/CMakeLists.txt'): execute('Download llvm source.', 'curl http://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo && mv llvm-{llvm_version}.src {prefix}'.format(llvm_version=llvm_version, prefix=prefix) )
+    if not os.path.isfile(prefix + '/CMakeLists.txt'): 
+		execute('Download llvm source.', 'curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz --output llvm-{llvm_version}.src.tar.xz'.format(llvm_version=llvm_version) )
+		execute('Decmpress llvm source.', 'unxz  llvm-{llvm_version}.src.tar.xz'.format(llvm_version=llvm_version) )
+		execute('Decmpress llvm source.', 'tar -xf  llvm-{llvm_version}.src.tar'.format(llvm_version=llvm_version) )
+		execute('Move llvm source.', 'mv llvm-{llvm_version}.src {prefix}'.format(llvm_version=llvm_version, prefix=prefix) )
 
     if not os.path.isdir(clang_path): execute('Download clang source.', 'curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo && mv cfe-{llvm_version}.src {clang_path}'.format(llvm_version=llvm_version, clang_path=clang_path) )
 

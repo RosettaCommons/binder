@@ -9,6 +9,7 @@ yum -y install yum-plugin-copr
 yum -y copr enable averbyts/pybind11
 yum -y install pybind11-devel
 yum -y install  python3 python3-devel python python-devel 
+yum -y install xz
 mkdir TEMPHOME
 export HOME=$(pwd)/TEMPHOME
 python build.py
