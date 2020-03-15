@@ -51,7 +51,10 @@ find_library(LLVMSO  NAMES LLVM
                            )
 
 message(STATUS "binder LLVMSO=${LLVMSO}")
-target_link_libraries(binder PRIVATE ${LLVMSO})
+target_link_libraries(binder PRIVATE 
+${LLVMSO}
+clangSerialization
+)
 endif()
 
 
