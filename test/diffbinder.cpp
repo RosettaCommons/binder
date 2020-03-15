@@ -37,7 +37,7 @@ int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
         //printf("%s %s\n", string1.c_str(),string2.c_str());
         if(string1.compare(string2) != 0)
         {
-            std::cout << j1<<"/"<<j2 << "-th strings are not equal" << f1<<f2<<"\n";
+            std::cout << j1<<"/"<<j2 << "-th strings are not equal" << f1<<"  vs. "<< f2<<"\n";
             std::cout << "   ->" << string1 << "<-\n";
             std::cout << "   ->" << string2 << "<-\n";
             return EXIT_FAILURE;
