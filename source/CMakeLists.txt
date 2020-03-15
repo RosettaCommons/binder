@@ -42,6 +42,19 @@ target_link_libraries(binder
   clangAST
   clangFrontend
   )
+if(USE_EXTERNAL_LLVM)
+find_library(LLVMSO  NAMES LLVM 
+                           LLVM-${LLVM_VERSION_MAJOR} 
+                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
+                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+                           PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
+                           )
+
+message(STATUS "binder LLVMSO=${LLVMSO}")
+target_link_libraries(binder PRIVATE ${LLVMSO})
+endif()
+
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
 DESTINATION ${CMAKE_INSTALL_BINDIR})
