@@ -33,7 +33,7 @@ add_clang_executable(binder
   fmt/format.cc
   fmt/posix.cc
   )
-
+if(NOT USE_EXTERNAL_LLVM)
 target_link_libraries(binder
   PRIVATE
   clangTooling
@@ -42,7 +42,7 @@ target_link_libraries(binder
   clangAST
   clangFrontend
   )
-if(USE_EXTERNAL_LLVM)
+else()
 find_library(LLVMSO  NAMES LLVM 
                            LLVM-${LLVM_VERSION_MAJOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
@@ -52,8 +52,28 @@ find_library(LLVMSO  NAMES LLVM
 
 message(STATUS "binder LLVMSO=${LLVMSO}")
 target_link_libraries(binder PRIVATE 
+-Wl,--start-group
 ${LLVMSO}
-clangSerialization
+clang
+clangAnalysis   
+clangARCMigrate   
+clangAST   
+clangASTMatchers   
+clangBasic   
+clangCodeGen   
+clangDriver   
+clangDynamicASTMatchers   
+clangEdit   
+clangFormat   
+clangFrontend   
+clangFrontendTool     
+clangLex   
+clangParse     
+clangRewriteFrontend   
+clangSema   
+clangSerialization         
+clangTooling
+-Wl,--end-group
 )
 endif()
 
