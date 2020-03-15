@@ -29,13 +29,23 @@ add_clang_executable(binder
   fmt/format.cc
   fmt/posix.cc
   )
-
+if(NOT USE_EXTERNAL_LLVM)
+target_link_libraries(binder
+  PRIVATE
+  clangTooling
+  clangBasic
+  clangASTMatchers
+  clangAST
+  clangFrontend
+  )
+else()
 find_library(LLVMSO  NAMES LLVM 
                            LLVM-${LLVM_VERSION_MAJOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
                            PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
                            )
+
 message(STATUS "binder LLVMSO=${LLVMSO}")
 if (LLVM_VERSION_MAJOR GREATER_EQUAL 7 AND LLVM_VERSION_MAJOR LESS 8 )
 target_link_libraries(binder
@@ -72,28 +82,30 @@ endif()
 
 if (LLVM_VERSION_MAJOR LESS 7  )
 target_link_libraries(binder PRIVATE
--Wl,--start-group  
-clang 
+-Wl,--start-group
 ${LLVMSO}
-clangAnalysis   
-clangARCMigrate   
-clangAST   
-clangASTMatchers   
-clangBasic   
-clangCodeGen   
-clangDriver   
-clangDynamicASTMatchers   
-clangEdit   
-clangFormat   
-clangFrontend   
-clangFrontendTool     
-clangLex   
-clangParse     
-clangRewriteFrontend   
-clangSema   
-clangSerialization         
-clangTooling   
--Wl,--end-group  )
+clang
+clangAnalysis 
+clangARCMigrate
+clangAST
+clangASTMatchers
+clangBasic 
+clangCodeGen
+clangDriver
+clangDynamicASTMatchers
+clangEdit 
+clangFormat 
+clangFrontend
+clangFrontendTool
+clangLex 
+clangParse
+clangRewriteFrontend
+clangSema
+clangSerialization
+clangTooling
+-Wl,--end-group
+)
+endif()
 endif()
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
