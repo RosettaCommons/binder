@@ -7,7 +7,7 @@ yum -y install clang clang-devel clang-libs  llvm-devel llvm-static
 yum -y install libcxx-devel cmake3 make cmake gcc gcc-c++ 
 yum -y install yum-plugin-copr
 yum -y install python3 python3-devel python python-devel 
-yum -y install xz ninja-build
+yum -y install xz ninja-build git
 #The two lines below use copr.
 #yum -y copr enable averbyts/pybind11
 #yum -y install pybind11-devel
