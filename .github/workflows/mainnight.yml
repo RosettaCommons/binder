@@ -2,7 +2,7 @@ on:
 #  push:
 #  pull_request:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '* */12 * * *'
 jobs:
   compilejobcentos7night:
     runs-on: ubuntu-latest

@@ -13,6 +13,7 @@ yum -y install xz ninja-build
 mkdir TEMPHOME
 export HOME=$(pwd)/TEMPHOME
 sed -i 's/cmake /cmake3 /g'  build.py
+sed -i 's/ninja /ninja-build /g'  build.py
 python build.py
 #cmake3 CMakeLists.txt
 #make
