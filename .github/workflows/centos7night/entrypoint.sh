@@ -18,7 +18,7 @@ export HOME=$(pwd)/TEMPHOME
 #CentOS7 has cmake3 executable for cmake
 sed -i 's/cmake /cmake3 /g'  build.py
 sed -i 's/ninja /ninja-build /g'  build.py
-python build.py
+#commented to save cpu. Uncomment me in production!   python build.py
 
 out=$?
 echo ::set-output name=out::$out
