@@ -1,8 +1,8 @@
 on:
-#  push:
+push:
 #  pull_request:
-  schedule:
-    - cron: '* */12 * * *'
+#  schedule:
+#    - cron: '* */12 * * *'
 jobs:
   compilejobcentos7night:
     runs-on: ubuntu-latest
