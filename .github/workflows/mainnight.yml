@@ -1,8 +1,8 @@
-on:
-push:
-#  pull_request:
-#  schedule:
-#    - cron: '* */12 * * *'
+#Uncommentme on:
+#Uncommentme push:
+#Uncommentme   pull_request:
+#Uncommentme   schedule:
+#Uncommentme     - cron: '* */12 * * *'
 jobs:
   compilejobcentos7night:
     runs-on: ubuntu-latest
