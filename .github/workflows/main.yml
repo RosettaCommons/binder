@@ -1,6 +1,6 @@
-on:
-  push:
-  pull_request:
+#Uncommentme on:
+#Uncommentme   push:
+#Uncommentme   pull_request:
 
 
 jobs:
