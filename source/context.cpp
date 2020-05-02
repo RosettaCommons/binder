@@ -458,9 +458,9 @@ void Context::generate(Config const &config)
 
 			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
-                        if( O_multiple_files>0 ) {
-                        outputs.push_back(std::pair<string,string>(file_name,code));
-			else {
+			if( O_multiple_files>0 ) {
+			outputs.push_back(std::pair<string,string>(file_name,code));                        
+			} else {
 			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);
                         }
@@ -501,23 +501,26 @@ void Context::generate(Config const &config)
 		}
 		int remlines=tot;
 		int j=0;
-		for (int i=0;i<O_single_file;i++)
+		for (int i=0;i<O_multiple_files;i++)
 		{
-		int maxput=remlines/(O_single_file-i);
-		std::ofstream t(config.prefix +config.root_module + "_"+std::to_string(i)+".cpp");
+		int written=0;
+		int maxput=remlines/(O_multiple_files-i);
+		std::ofstream t(config.prefix +config.root_module + "_"+std::to_string(i+1)+".cpp");
 		while (remlines>0&&maxput>0)
 		{
+		if (maxput*2<outputs_size.at(j)&&i!=O_multiple_files-1&&written>0) break; //This is actually an optimization.
 		t<<"// File: " << outputs.at(j).first << '\n';
 		t<<outputs.at(j).second<< '\n';
 		remlines-=outputs_size.at(j);
 		maxput-=outputs_size.at(j);
+		written+=outputs_size.at(j);
 		j++;
 		}
 		t.close();
 		}
 	
 		std::ofstream f(config.prefix + config.root_module + ".sources");
-		for (int i=0;i<O_single_file;i++) f << config.root_module + "_"+std::to_string(i)+".cpp" << "\n";
+		for (int i=0;i<O_multiple_files;i++) f << config.root_module + "_"+std::to_string(i+1)+".cpp" << "\n";
 
 		std::ofstream namespaces_file_handle(config.prefix + config.root_module + ".modules");
 		namespaces_file_handle << modules;
