@@ -70,6 +70,8 @@ cl::opt<bool> O_annotate_includes("annotate-includes", cl::desc("Annotate each i
 
 cl::opt<bool> O_single_file("single-file", cl::desc("Concatenate all binder output into single file with name: root-module-name + '.cpp'. Use this for a small projects and for testing."), cl::init(false), cl::cat(BinderToolCategory));
 
+cl::opt<int> O_single_file("multiple-files", cl::desc("Similar to the single-file option, but the output is split into n pieces and written into files with names: root-module-name + 'k.cpp', k=1..n."), cl::init(0), cl::cat(BinderToolCategory));
+
 cl::opt<bool> O_trace("trace", cl::desc("Add tracer output for each binded object (i.e. for debugging)"), cl::init(false), cl::cat(BinderToolCategory));
 
 cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(false), cl::cat(BinderToolCategory));

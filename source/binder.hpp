@@ -19,6 +19,7 @@
 
 extern llvm::cl::opt<bool> O_annotate_includes;
 extern llvm::cl::opt<bool> O_single_file;
+extern llvm::cl::opt<int>  O_multiple_files;
 extern llvm::cl::opt<bool> O_trace;
 extern llvm::cl::opt<bool> O_verbose;
 

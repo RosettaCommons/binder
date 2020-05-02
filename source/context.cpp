@@ -26,6 +26,7 @@
 #include <fstream>
 #include <set>
 #include <cstdlib>
+#include <iostream>
 
 // using namespace llvm;
 using llvm::outs;
@@ -359,6 +360,7 @@ void Context::generate(Config const &config)
 
 	vector<string> sources;
 	vector<string> binding_function_names;
+	std::vector<std::pair<string,string > > outputs;
 
 	std::map<string, int> file_names;
 	std::map<string, int> namespace_entrance;
@@ -456,8 +458,12 @@ void Context::generate(Config const &config)
 
 			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
+                        if( O_multiple_files>0 ) {
+                        outputs.push_back(std::pair<string,string>(file_name,code));
+			else {
 			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);
+                        }
 
 			++namespace_entrance[namespace_];
 		}
@@ -483,6 +489,39 @@ void Context::generate(Config const &config)
 	s << fmt::format(main_module_header, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);
 
 	root_module_file_handle << s.str();
+	if( O_multiple_files>0 )
+        {
+		std::vector<int> outputs_size;
+		int tot=0;
+		for (auto o:outputs) 
+		{ 
+		int sz=std::count(o.second.begin(), o.second.end(), '\n');
+		outputs_size.push_back(sz);
+		tot+=sz;
+		}
+		int remlines=tot;
+		int j=0;
+		for (int i=0;i<O_single_file;i++)
+		{
+		int maxput=remlines/(O_single_file-i);
+		std::ofstream t(config.prefix +config.root_module + "_"+std::to_string(i)+".cpp");
+		while (remlines>0&&maxput>0)
+		{
+		t<<"// File: " << outputs.at(j).first << '\n';
+		t<<outputs.at(j).second<< '\n';
+		remlines-=outputs_size.at(j);
+		maxput-=outputs_size.at(j);
+		j++;
+		}
+		t.close();
+		}
+	
+		std::ofstream f(config.prefix + config.root_module + ".sources");
+		for (int i=0;i<O_single_file;i++) f << config.root_module + "_"+std::to_string(i)+".cpp" << "\n";
+
+		std::ofstream namespaces_file_handle(config.prefix + config.root_module + ".modules");
+		namespaces_file_handle << modules;
+        } else {
 
 	if( O_single_file ) {
 		root_module_file_handle << "\n// Source list file: " << config.prefix + config.root_module + ".sources\n";
@@ -499,6 +538,7 @@ void Context::generate(Config const &config)
 		std::ofstream namespaces_file_handle(config.prefix + config.root_module + ".modules");
 		namespaces_file_handle << modules;
 	}
+        }
 }
 
 /// generate unique trace line containing `info` to insert into the code
