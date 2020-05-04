@@ -35,6 +35,9 @@ void replace(std::string &r, std::string const & from, std::string const &to);
 /// Replace all occurrences of string and return result as new string
 std::string replace_(std::string const &s, std::string const & from, std::string const &to);
 
+/// Move all occurances of non-alphanumerical characters to the end of the string and replace them with their ASCII codes.
+std::string to_alphanumerical(const std::string& input);
+
 /// check if string begins with given prefix
 bool begins_with(std::string const &source, std::string const &prefix);
 

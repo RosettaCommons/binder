@@ -377,7 +377,7 @@ void Context::generate(Config const &config)
 			string file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
 			++file_names[np];
 
-			string function_name = "bind_" + replace_(file_name, "/", "_");
+			string function_name = "bind_" + to_alphanumerical(replace_(file_name, "/", "_"));
 			file_name += ".cpp";
 
 			sources.push_back(file_name);
