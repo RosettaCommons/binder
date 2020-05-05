@@ -74,20 +74,19 @@ string replace_(string const &s, string const & from, string const &to)
 }
 
 /// Move all occurances of non-alphanumerical characters to the end of the string and replace them with their ASCII codes.
-std::string to_alphanumerical(const std::string& input)
+std::string to_alphanumerical(std::string const & input)
 {
-    std::string output;
-    std::string suffix;
-    size_t pos=0;
-    for (auto c: input) {
-    
-        if ( ( c>='0' && c<='9') ||  ( c>='a' && c<='z') || ( c>='A' && c<='Z') ||  c=='_' )
-            output+=c;
-        else
-            { suffix+='_'; suffix+=std::to_string(pos); suffix+='_'; suffix+=std::to_string(int(c)); }
-     pos++;
-     }
-    return suffix.size()?output+"fixed"+suffix:output;
+	std::string output;
+	std::string suffix;
+	size_t pos=0;
+	for (auto c: input) {
+		if ( ( c>='0' && c<='9') ||  ( c>='a' && c<='z') || ( c>='A' && c<='Z') ||  c=='_' )
+			output+=c;
+		else
+		{ suffix+='_'; suffix+=std::to_string(pos); suffix+='_'; suffix+=std::to_string(c); }
+		++pos;
+		}
+	return suffix.size()?output+"fixed"+suffix:output;
 }
 
 
