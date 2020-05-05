@@ -291,6 +291,14 @@ string file_name_prefix_for_binder(BinderOP &b)
 
 	string include = relevant_include(decl);
 
+	string exceptions = "_/<>.";
+	include.erase(
+		std::remove_if(
+			include.begin(),
+			include.end(),
+			[&](unsigned char c) { return not (std::isalnum(c) or  std::find(exceptions.begin(), exceptions.end(), c) != exceptions.end() ); } ),
+		include.end() );
+
 	if( include.size() <= 2 ) { include = "<unknown/unknown.hh>";  outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n"; } //throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
 	include = include.substr(1, include.size()-2);
 
