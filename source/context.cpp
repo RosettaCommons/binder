@@ -380,9 +380,17 @@ void Context::generate(Config const &config)
 	outs() << "Writing code...\n";
 	for(uint i=0; i<binders.size(); ++i) {
 		if( /*binders[i]->is_binded()  and*/  binders[i]->code().size() ) {
-			string np = file_name_prefix_for_binder(binders[i]);
 
-			string file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
+			string np, file_name;
+
+			if( O_flat ) {
+				np = config.root_module + "_";
+				file_name = np + std::to_string(file_names[np]);
+			}
+			else {
+				np = file_name_prefix_for_binder(binders[i]);
+				file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
+			}
 			++file_names[np];
 
 			string function_name = "bind_" + replace_(file_name, "/", "_");
