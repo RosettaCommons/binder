@@ -291,6 +291,14 @@ string file_name_prefix_for_binder(BinderOP &b)
 
 	string include = relevant_include(decl);
 
+	string exceptions = "_/<>.";
+	include.erase(
+		std::remove_if(
+			include.begin(),
+			include.end(),
+			[&](unsigned char c) { return not (std::isalnum(c) or  std::find(exceptions.begin(), exceptions.end(), c) != exceptions.end() ); } ),
+		include.end() );
+
 	if( include.size() <= 2 ) { include = "<unknown/unknown.hh>";  outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n"; } //throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
 	include = include.substr(1, include.size()-2);
 
@@ -372,9 +380,17 @@ void Context::generate(Config const &config)
 	outs() << "Writing code...\n";
 	for(uint i=0; i<binders.size(); ++i) {
 		if( /*binders[i]->is_binded()  and*/  binders[i]->code().size() ) {
-			string np = file_name_prefix_for_binder(binders[i]);
 
-			string file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
+			string np, file_name;
+
+			if( O_flat ) {
+				np = config.root_module + "_";
+				file_name = np + std::to_string(file_names[np]);
+			}
+			else {
+				np = file_name_prefix_for_binder(binders[i]);
+				file_name = np + ( file_names[np] ? "_"+std::to_string(file_names[np]) : "" );
+			}
 			++file_names[np];
 
 			string function_name = "bind_" + replace_(file_name, "/", "_");
