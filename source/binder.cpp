@@ -16,13 +16,13 @@
 #if  (LLVM_VERSION_MAJOR < 4)
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
-typedef clang::ASTConsumer* ASTConsumerPtr;
+using ASTConsumerPtr=clang::ASTConsumer*;
 #endif
 #if (LLVM_VERSION_MAJOR >= 4)
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/Frontend/FrontendActions.h"
-typedef std::unique_ptr<clang::ASTConsumer> ASTConsumerPtr;
+using ASTConsumerPtr=std::unique_ptr<clang::ASTConsumer>;
 #endif
 
 #include "clang/Frontend/FrontendActions.h"
@@ -139,8 +139,7 @@ public:
 			clang::DiagnosticsEngine& di = ci->getDiagnostics();
 #if  (LLVM_VERSION_MAJOR < 10)
 			di.setSuppressAllDiagnostics();
-#endif
-#if  (LLVM_VERSION_MAJOR >= 10)
+#else
 			di.setSuppressAllDiagnostics(true);
 #endif
 		}

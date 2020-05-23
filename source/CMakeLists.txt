@@ -33,16 +33,7 @@ add_clang_executable(binder
   fmt/format.cc
   fmt/posix.cc
   )
-if(NOT USE_EXTERNAL_LLVM)
-target_link_libraries(binder
-  PRIVATE
-  clangTooling
-  clangBasic
-  clangASTMatchers
-  clangAST
-  clangFrontend
-  )
-else()
+if(USE_EXTERNAL_LLVM)
 find_library(LLVMSO  NAMES LLVM 
                            LLVM-${LLVM_VERSION_MAJOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
@@ -113,6 +104,16 @@ target_link_libraries(binder
   clang-cpp
   )
 endif()
+else()
+
+target_link_libraries(binder
+  PRIVATE
+  clangTooling
+  clangBasic
+  clangASTMatchers
+  clangAST
+  clangFrontend
+  )
 endif()
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
