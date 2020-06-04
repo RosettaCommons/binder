@@ -10,6 +10,7 @@
 /// @brief  Various helper functions
 /// @author Sergey Lyskov
 
+#include <sys/stat.h>
 #include <util.hpp>
 
 #include <binder.hpp>
