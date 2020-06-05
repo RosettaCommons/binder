@@ -50,7 +50,6 @@ if ((LLVM_VERSION_MAJOR EQUAL 3) AND (LLVM_VERSION_MINOR LESS 8)  )
 target_link_libraries(binder PRIVATE
 -Wl,--start-group
 ${lib_llvm_so_path}
-clang
 clangAnalysis 
 clangARCMigrate
 clangAST
@@ -72,24 +71,14 @@ clangTooling
 -Wl,--end-group
 )
 endif()
-if ( ( (LLVM_VERSION_MAJOR EQUAL 3) AND (LLVM_VERSION_MINOR GREATER 7) ) OR ( (LLVM_VERSION_MAJOR GREATER 3)  AND (LLVM_VERSION_MAJOR LESS 7) ) )
+if ( ( (LLVM_VERSION_MAJOR EQUAL 3) AND (LLVM_VERSION_MINOR GREATER 7) ) OR ( (LLVM_VERSION_MAJOR GREATER 3)  AND (LLVM_VERSION_MAJOR LESS 8) ) )
 target_link_libraries(binder PRIVATE
   ${lib_llvm_so_path}
-  clang
+
   clangAST
   clangBasic 
   clangFrontend
   clangTooling
-  )
-endif()
-if (LLVM_VERSION_MAJOR EQUAL 7)
-target_link_libraries(binder
-  PRIVATE
-  ${lib_llvm_so_path}
-  clangTooling
-  clangBasic
-  clangAST
-  clangFrontend  
   )
 endif()
 if ( (LLVM_VERSION_MAJOR EQUAL 8) OR (LLVM_VERSION_MAJOR EQUAL 9) )
