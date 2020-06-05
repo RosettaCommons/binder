@@ -16,13 +16,11 @@
 #if  (LLVM_VERSION_MAJOR < 4)
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
-using ASTConsumerPtr=clang::ASTConsumer*;
 #endif
 #if (LLVM_VERSION_MAJOR >= 4)
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/Frontend/FrontendActions.h"
-using ASTConsumerPtr=std::unique_ptr<clang::ASTConsumer>;
 #endif
 
 #include "clang/Frontend/FrontendActions.h"
@@ -255,14 +253,19 @@ public:
 class BinderFrontendAction : public ASTFrontendAction {
 public:
 #if  (LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR < 6  )
-    virtual ASTConsumerPtr CreateASTConsumer(CompilerInstance &ci, StringRef file) {
-        return (ASTConsumerPtr)( new BinderASTConsumer(&ci) );
+/* In the early versions this function has exactly this signature */
+    virtual clang::ASTConsumer* CreateASTConsumer(CompilerInstance &ci, StringRef file) {
+        fConsumer.reset( new BinderASTConsumer(&ci) );
+        return fConsumer.get();
+     }
+private:
+  std::unique_ptr<ASTConsumer> fConsumer;
 #endif
 #if  (LLVM_VERSION_MAJOR >= 4 || ( LLVM_VERSION_MAJOR == 3 && LLVM_VERSION_MINOR >= 6 ) )
     virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file) {
         return std::unique_ptr<ASTConsumer>( new BinderASTConsumer(&ci) );
-#endif
     }
+#endif
 };
 
 

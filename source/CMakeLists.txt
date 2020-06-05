@@ -34,7 +34,7 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 if(USE_EXTERNAL_LLVM)
-find_library(LLVMSO  NAMES LLVM 
+find_library(lib_llvm_so_path  NAMES LLVM 
                            LLVM-${LLVM_VERSION_MAJOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
@@ -49,7 +49,7 @@ message(STATUS "binder: CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 if (LLVM_VERSION_MAJOR LESS 7  )
 target_link_libraries(binder PRIVATE
 -Wl,--start-group
-${LLVMSO}
+${lib_llvm_so_path}
 clang
 clangAnalysis 
 clangARCMigrate
@@ -75,7 +75,7 @@ endif()
 if (LLVM_VERSION_MAJOR EQUAL 7)
 target_link_libraries(binder
   PRIVATE
-  ${LLVMSO}
+  ${lib_llvm_so_path}
   clangTooling
   clangBasic
   clangASTMatchers
@@ -86,7 +86,7 @@ endif()
 if (LLVM_VERSION_MAJOR EQUAL 8 OR LLVM_VERSION_MAJOR EQUAL 9 )
 target_link_libraries(binder
   PRIVATE
-  ${LLVMSO}
+  ${lib_llvm_so_path}
   clangTooling
   clangBasic
   clangASTMatchers
@@ -99,7 +99,7 @@ endif()
 if (LLVM_VERSION_MAJOR EQUAL 10 OR LLVM_VERSION_MAJOR GREATER 10 )
 target_link_libraries(binder
   PRIVATE
-  ${LLVMSO}
+  ${lib_llvm_so_path}
   clang
   clang-cpp
   )
