@@ -78,7 +78,6 @@ target_link_libraries(binder
   ${lib_llvm_so_path}
   clangTooling
   clangBasic
-  clangASTMatchers
   clangAST
   clangFrontend  
   )
@@ -89,7 +88,6 @@ target_link_libraries(binder
   ${lib_llvm_so_path}
   clangTooling
   clangBasic
-  clangASTMatchers
   clangAST
   clangFrontend
   clangSerialization
