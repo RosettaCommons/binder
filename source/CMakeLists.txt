@@ -33,48 +33,57 @@ add_clang_executable(binder
   fmt/format.cc
   fmt/posix.cc
   )
-if(NOT USE_EXTERNAL_LLVM)
-target_link_libraries(binder
-  PRIVATE
-  clangTooling
-  clangBasic
-  clangASTMatchers
-  clangAST
-  clangFrontend
-  )
-else()
-find_library(LLVMSO  NAMES LLVM 
+if(USE_EXTERNAL_LLVM)
+  find_library(lib_llvm_so_path  NAMES LLVM 
                            LLVM-${LLVM_VERSION_MAJOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
                            LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
                            PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
                            )
-
-message(STATUS "binder LLVMSO=${LLVMSO}")
-target_link_libraries(binder PRIVATE
--Wl,--start-group
-${LLVMSO}
-clang
-clangAnalysis 
-clangARCMigrate
-clangAST
-clangASTMatchers
-clangBasic 
-clangCodeGen
-clangDriver
-clangDynamicASTMatchers
-clangEdit 
-clangFormat 
-clangFrontend
-clangFrontendTool
-clangLex 
-clangParse
-clangRewriteFrontend
-clangSema
-clangSerialization
-clangTooling
--Wl,--end-group
-)
+  add_definitions(${LLVM_DEFINITIONS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_COMPILE_FLAGS}")
+  list(REMOVE_ITEM CMAKE_CXX_FLAGS "-fno-exceptions")
+  string (REPLACE "-fno-exceptions" ""     CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  message(STATUS "binder: LLVMSO=${LLVMSO}")
+  message(STATUS "binder: CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+  if ( (LLVM_VERSION_MAJOR GREATER 3)  AND (LLVM_VERSION_MAJOR LESS 8) )
+    target_link_libraries(binder 
+      PRIVATE
+      ${lib_llvm_so_path}
+      clangAST
+      clangBasic 
+      clangFrontend
+      clangTooling
+      )
+  endif()
+  if ( (LLVM_VERSION_MAJOR EQUAL 8) OR (LLVM_VERSION_MAJOR EQUAL 9) )
+    target_link_libraries(binder
+      PRIVATE
+      ${lib_llvm_so_path}
+      clangTooling
+      clangBasic
+      clangAST
+      clangFrontend
+      clangSerialization
+      )
+  endif()
+  if ( (LLVM_VERSION_MAJOR EQUAL 10) OR (LLVM_VERSION_MAJOR GREATER 10) )
+    target_link_libraries(binder
+      PRIVATE
+      ${lib_llvm_so_path}
+      clang
+      clang-cpp
+      )
+  endif()
+else()
+  target_link_libraries(binder
+    PRIVATE
+    clangTooling
+    clangBasic
+    clangASTMatchers
+    clangAST
+    clangFrontend
+    )
 endif()
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 

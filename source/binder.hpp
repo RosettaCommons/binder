@@ -15,6 +15,7 @@
 #define _INCLUDED_binder_hpp_
 
 
+#include "llvm/Config/llvm-config.h"
 #include "llvm/Support/CommandLine.h"
 
 extern llvm::cl::opt<bool> O_annotate_includes;

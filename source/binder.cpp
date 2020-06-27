@@ -13,6 +13,8 @@
 #include <binder.hpp>
 
 // Declares clang::SyntaxOnlyAction.
+#include "clang/AST/ASTConsumer.h"
+#include "clang/AST/ASTContext.h"
 #include "clang/Frontend/FrontendActions.h"
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
@@ -121,7 +123,11 @@ public:
 		if( O_config.size() ) config.read(O_config);
 		if( O_suppress_errors )	{
 			clang::DiagnosticsEngine& di = ci->getDiagnostics();
+#if  (LLVM_VERSION_MAJOR < 10)
 			di.setSuppressAllDiagnostics();
+#else
+			di.setSuppressAllDiagnostics(true);
+#endif
 		}
 	}
 
