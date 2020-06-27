@@ -1,0 +1,112 @@
+on:
+ push:
+ pull_request:
+
+jobs:
+
+  compilejobfedora26:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora26
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora26
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+  compilejobfedora27:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora27
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora27
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+  compilejobfedora28:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora28
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora28
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+  compilejobfedora29:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora29
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora29
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+  compilejobfedora30:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora30
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+
+  compilejobfedora31:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora31
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora31
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+
+  compilejobfedora32:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora32
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora32
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
+
+
+  compilejobfedora33:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora33
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: hello
+      uses: ./.github/workflows/fedora33
+    # Use the output from the `hello` step
+    - name: Get the output status
+      run: exit ${{ steps.hello.outputs.out }}
