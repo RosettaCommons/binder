@@ -5,8 +5,7 @@ cat /etc/issue
 yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static
 yum -y install  libcxx-devel cmake make gcc gcc-c++
 yum -y install  pybind11-devel python3 python3-devel python2 python2-devel 
-git clone https://github.com/RosettaCommons/binder 
-cd binder 
+
 cmake CMakeLists.txt
 make
 out=$?
