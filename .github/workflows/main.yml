@@ -1,6 +1,9 @@
 on:
  push:
  pull_request:
+ schedule:
+#Every 5 days at midnight 
+    - cron:  "0 0 1/5 * *"
 
 jobs:
 
