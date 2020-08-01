@@ -8,39 +8,39 @@ Binder provides two ways to supply configuration options: command-line and confi
 Command line options
 ====================
 
-`--root-module` specify name of generated Python root module. This name is also used as prefix for various Binder output
+``--root-module`` specify name of generated Python root module. This name is also used as prefix for various Binder output
 files. Typically the following files will be generated: ``<root-module>.cpp``, ``<root-module>.sources``,
 ``<root-module>.modules``.
 
 
-`--max-file-size` specify maximum file size in bytes exceeding which Binder will split generated sources into multiple files.
+``--max-file-size`` specify maximum file size in bytes exceeding which Binder will split generated sources into multiple files.
 
 
-`--prefix` name/path prefix for generated files.
+``--prefix`` name/path prefix for generated files.
 
 
-`--bind` list of namespaces that need to binded. Works in conjunction with similar config file directives.
+``--bind`` list of namespaces that need to binded. Works in conjunction with similar config file directives.
 
 
-`--skip` list of namespaces that should be skipped. Works in conjunction with similar config file directives.
+``--skip`` list of namespaces that should be skipped. Works in conjunction with similar config file directives.
 
 
-`--config` specify config file to use.
+``--config`` specify config file to use.
 
 
-`--single-file` if specified instruct Binder to put generated sources into single large file. This might be useful for small projects.
+``--single-file`` if specified instruct Binder to put generated sources into single large file. This might be useful for small projects.
 
 
-`--flat` if specified instruct Binder to write generate code files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc.
+``--flat`` if specified instruct Binder to write generate code files into single directory. Generated files will be named as ``<root-module>.cpp``, ``<root-module>_1.cpp``, ``<root-module>_2.cpp``, ... etc.
 
 
-`--suppress-errors` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with `-I` to the command.
+``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
 
-`--annotate-includes` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
+``--annotate-includes`` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
 
 
-`--trace` [debug] if specified instruct Binder to add extra debug output before binding each type. This might be useful when debugging generated code that produce seg-faults during python import.
+``--trace`` [debug] if specified instruct Binder to add extra debug output before binding each type. This might be useful when debugging generated code that produce seg-faults during python import.
 
 
 
