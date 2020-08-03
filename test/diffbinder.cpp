@@ -20,6 +20,11 @@ int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
     int j1,j2;
     j1 = 0;
     j2 = 0;
+    if (!file1.is_open()|| !file2.is_open()) 
+    {
+            std::cout << "Cannot open one of files" << f1<<f2<<"\n";
+            return EXIT_FAILURE;
+    }
     std::cout <<"Run comparison"<< "\n";
     while((!file1.eof())&&(!file2.eof()))
     {
@@ -33,8 +38,6 @@ int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
             if (!std::getline(file2,string2)) break;
             if (skip(string2)==0) break;
         }
-
-        //printf("%s %s\n", string1.c_str(),string2.c_str());
         if(string1.compare(string2) != 0)
         {
             std::cout << j1<<"/"<<j2 << "-th strings are not equal" << f1<<f2<<"\n";
@@ -53,11 +56,3 @@ int main(int argc, char** argv)
     }
     return COMPARE_ASCII_FILES(argv[1],argv[2]);
 }
-
-
-
-
-
-
-
-
