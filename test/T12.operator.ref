@@ -17,8 +17,6 @@ void bind_T12_operator(std::function< pybind11::module &(std::string const &name
 {
 	{ // T file:T12.operator.hpp line:15
 		pybind11::class_<T, std::shared_ptr<T>> cl(M(""), "T", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new T(); } ) );
 		cl.def("__add__", (struct T & (T::*)(int)) &T::operator+, "C++: T::operator+(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__sub__", (struct T & (T::*)(int)) &T::operator-, "C++: T::operator-(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));

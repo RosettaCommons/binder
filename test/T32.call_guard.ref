@@ -21,8 +21,6 @@ void bind_T32_call_guard(std::function< pybind11::module &(std::string const &na
 
 	{ // Methods file:T32.call_guard.hpp line:18
 		pybind11::class_<Methods, std::shared_ptr<Methods>> cl(M(""), "Methods", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new Methods(); } ) );
 		cl.def("foo", (void (Methods::*)(int)) &Methods::foo, "C++: Methods::foo(int) --> void", pybind11::arg(""), pybind11::call_guard<pybind11::gil_scoped_release>());
 	}
