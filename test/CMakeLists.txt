@@ -13,9 +13,9 @@ else()
 ADD_CUSTOM_TARGET(${stestnamenodot}.cpp
 COMMAND touch ${stestname}.config
 COMMAND echo "#include <${stestname}.hpp>" > ${stestname}.hpp.include
-COMMAND ${CMAKE_BINARY_DIR}/source/binder --bind ""  --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/ --config ${stestname}.config --single-file  --annotate-includes  ${stestname}.hpp.include  
+#The first two expressions below are for older clang
+COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/ --config ${stestname}.config --single-file  --annotate-includes  ${stestname}.hpp.include  
 -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
-#The last one is for the crazy old clang
 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 VERBATIM)
 endif()

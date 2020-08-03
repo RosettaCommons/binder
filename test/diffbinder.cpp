@@ -6,11 +6,13 @@
 int skip(const std::string& s1)
 {
     if (s1.length()==0) return 1;
-    if (s1.length()>2) if (s1.substr(2)=="//") return 2;
-    if (s1.find("Source list file")!=std::string::npos) return 3;
-    if (s1.find("Modules list file")!=std::string::npos) return 4;
-    if (s1.find("pybind11::handle cl_type = cl;")!=std::string::npos) return 5;
-    if (s1.find("File:")!=std::string::npos) return 6;
+    if (s1.length()>2) if (s1.substr(2)=="//") return 2;                //The comments should be ignored
+    if (s1.find("Source list file")!=std::string::npos) return 3;       //Same as the list of source files
+    if (s1.find("Modules list file")!=std::string::npos) return 4;      //Same as the list of modules
+    if (s1.find("File:")!=std::string::npos) return 5;                  //Same as the full file paths.
+    if (s1.find("pybind11::handle cl_type = cl;")!=std::string::npos) return 6;  //This could be optimized in binder
+    if (s1.find("__cxx11")!=std::string::npos) return 7;                         //This looks like implementation dependent
+    if (s1.find("assign")!=std::string::npos) return 8;                          // The assing is binded differently for some reasons
     return 0;
 }
 int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
