@@ -57,16 +57,11 @@ int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
 }
 int main(int argc, char** argv)
 {
-    if (argc!=3) {
+    if (argc!=3&&argc!=4) {
         std::cout<<"Wrong number of arguments"<<std::endl;
         return EXIT_FAILURE;
     }
     int status=COMPARE_ASCII_FILES(argv[1],argv[2]);
-    std::vector<std::string> problematic_files={"T00.basic","T02.function","T01_enum","T07.class","T10.inheritance","T11.override"};//files with known ploblems
-    for (auto problem: problematic_files)
-    {
-    if (std::string(argv[1]).find(problem)!=std::string::npos) return EXIT_SUCCESS;
-    if (std::string(argv[2]).find(problem)!=std::string::npos) return EXIT_SUCCESS;
-    }
+    if (argc==4)  { if (strcmp(argv[3],"--always-success")==0)  return EXIT_SUCCESS; }
     return status;
 }
