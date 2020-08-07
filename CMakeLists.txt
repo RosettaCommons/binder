@@ -2,6 +2,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
 PROJECT(binder CXX C)
 SET(VERSION 1.0.0)
+option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
 #This actually will work even with C++11
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_VERBOSE_MAKEFILE ON)

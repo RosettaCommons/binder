@@ -9,14 +9,25 @@ Requirements
 The following tools need to be present in order to build and use **Binder**
 
 - CMake, https://cmake.org
+  - static compilation requires version 3.13 or above, see below
 - Pybind11, RosettaCommons fork: https://github.com/RosettaCommons/pybind11
 - [optional] Ninja (or you can use `make` by ommiting `-G Ninja` command below)
 
 
+Binder has experimental support for being *statically compiled* on CentOS 8,
+which additionally requires:
+
+- `libclang-static-build`: https://github.com/deech/libclang-static-build
+- CMake version 3.13 or above
+
+Go to :ref:`building-static` for the build process. Also note a caveat to
+static compilation: the version of `libclang` that Binder is compiled against
+may not be compatible with the header files on the system Binder where is run.
+
 
 Building
 ********
-The steps below is encoded in `binder/build.py` and `binder/build-and-run-tests.py` files so for default install you can just run `build-and-run-tests.py` script directly
+The steps below are encoded in `binder/build.py` and `binder/build-and-run-tests.py` files so for default install you can just run `build-and-run-tests.py` script directly. This section describes how to build a dynamically-linked ``binder`` executable. To *statically* compile binder, see :ref:`building-static`.
 
 
 #. To build Binder exectute the following command sequence in shell (replace ``$HOME/prefix`` and ``$HOME/binder`` with your paths):
@@ -162,3 +173,27 @@ If ``binder` was build withsome older versions of LLVM, one could also set the l
 ```
 export CPLUS_INCLUDE_PATH=/where/the/directory/with/includes/is/
 ```
+
+
+.. _building-static:
+
+Building Statically
+*******************
+
+First, install version CMake version 3.13 or above, which is required to build `libclang-static-build`. CentOS 8's version is too old, so install a binary distribution of CMake from https://cmake.org/.
+
+Then build `libclang-static-build` per the official instructions: https://github.com/deech/libclang-static-build
+
+Then install the following packages on CentOS 8:
+
+ ``sudo yum install libstdc++-static ncurses-compat-libs``
+
+
+Set the environment variable ``LIBCLANG_STATIC_BUILD_DIR`` to the path of
+`libclang-static-build`. Then build ``binder`` with the following procedure:
+
+ ``cmake CMakeLists.txt -DSTATIC=on -DLLVMCONFIG="${LIBCLANG_STATIC_BUILD_DIR}/build/_deps/libclang_prebuilt-src/bin/llvm-config" -DLLVM_LIBRARY_DIR="${LIBCLANG_STATIC_BUILD_DIR}/lib" -DCMAKE_INSTALL_PREFIX:PATH=/home/user/whereiwanttohaveit/``
+
+ ``make``
+
+ ``make install``
