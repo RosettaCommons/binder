@@ -126,11 +126,8 @@ To build ``binder`` run
 To perform the build with a specific version of LLVM, the location of LLVM and CLANG directories 
 should be set simultaneously via the location of their cmake configurations, i.e.
 
-``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib64/llvm8.0/lib/cmake/llvm -DClang_DIR=/usr/lib64/llvm8.0/lib/cmake/clang
+``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib64/llvm8.0/lib/cmake/llvm -DClang_DIR=/usr/lib64/llvm8.0/lib/cmake/clang``
 
 Alternatively,the location of the llvm-config script could be set.
 
 ``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
-
-
-
