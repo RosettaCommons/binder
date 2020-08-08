@@ -66,7 +66,7 @@ Requirements
 The basic dependencies for this type of installanion are very similar to these described above and include:
 
 - CMake, version 3.4.3 or higher from https://cmake.org 
-- C++ compiler with c++11 support, e.g. gcc frm  https://gcc.gnu.org/  
+- C++ compiler with c++11 support, e.g. gcc from  https://gcc.gnu.org/  
 - make or Ninja 
 - llvm with development packages (headers)
 - clang  with development packages (headers)
@@ -131,3 +131,33 @@ should be set simultaneously via the location of their cmake configurations, i.e
 Alternatively,the location of the llvm-config script could be set.
 
 ``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
+
+Using ``binder`` built with pre-installed LLVM
+**********************************************
+
+Under some circumstances (e.g. on system where the default compiller is not clang)
+``binder`` might emit error messages like 
+
+```
+/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/bits/cxxabi_init_exception.h:38:10: fatal error: 'stddef.h' file not found
+#include <stddef.h>
+         ^~~~~~~~~~
+1 error generated.
+```
+and similar, see https://clang.llvm.org/docs/FAQ.html. To fix this issue, ``binder`` should be pointed to the location of the
+appropriate clang includes. This can be archieved using the clang options that are passed to binder after ``--`` flag, e.g.\
+
+```
+binder ...binder...options...  -- -x c++  ...other...options...   -iwithsysroot/where/the/directory/with/includes/is/
+```
+
+See https://clang.llvm.org/docs/ClangCommandLineReference.html for details.
+If ``binder` was build withsome older versions of LLVM, one could also set the location of the headers with the
+``C_INCLUDE_PATH`` and  ``CPLUS_INCLUDE_PATH`` environment variables, e.g.
+```
+export CPLUS_INCLUDE_PATH=/where/the/directory/with/includes/is/
+```
+
+
+
+
