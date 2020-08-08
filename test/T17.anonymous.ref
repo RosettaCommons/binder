@@ -21,8 +21,6 @@ void bind_T17_anonymous(std::function< pybind11::module &(std::string const &nam
 
 	{ // S file:T17.anonymous.hpp line:24
 		pybind11::class_<S, std::shared_ptr<S>> cl(M(""), "S", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new S(); } ) );
 	}
 }
