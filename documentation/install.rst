@@ -104,11 +104,11 @@ For RHEL7/RHEL8/Fedora22+:
  ``yum install cmake3``
  
  
- For Ubuntu18+ run:
+ For Ubuntu18+ run, an example for LLVM/Clang 10:
  
  ``sudo apt-get update``
  
- ``sudo apt-get -y install  clang llvm  clang-dev*``
+ ``sudo apt-get -y install  clang-10 llvm-10 libclang-10-dev llvm-10-dev``
  
  ``sudo apt-get -y install  cmake make gcc g++``
 
@@ -131,6 +131,11 @@ should be set simultaneously via the location of their cmake configurations, i.e
 Alternatively,the location of the llvm-config script could be set.
 
 ``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
+
+As an example with Ubuntu 18.04 and llvm-10:
+
+``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib/llvm-10 -DClang_DIR=/usr/lib/llvm-10``
+
 
 Using ``binder`` built with pre-installed LLVM
 **********************************************
@@ -157,7 +162,3 @@ If ``binder` was build withsome older versions of LLVM, one could also set the l
 ```
 export CPLUS_INCLUDE_PATH=/where/the/directory/with/includes/is/
 ```
-
-
-
-
