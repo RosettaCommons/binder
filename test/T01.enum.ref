@@ -20,8 +20,8 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 {
 	// E1 file:T01.enum.hpp line:16
 	pybind11::enum_<E1>(M(""), "E1", pybind11::arithmetic(), "")
-		.value("E1_V0", E1::E1_V0)
-		.value("E1_V1", E1::E1_V1)
+		.value("E1_V0", E1_V0)
+		.value("E1_V1", E1_V1)
 		.export_values();
 
 ;
@@ -43,13 +43,11 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 
 	{ // A file:T01.enum.hpp line:22
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
 		pybind11::enum_<A::AE1>(cl, "AE1", pybind11::arithmetic(), "")
-			.value("AE1_V0", A::AE1::AE1_V0)
-			.value("AE1_V1", A::AE1::AE1_V1)
+			.value("AE1_V0", A::AE1_V0)
+			.value("AE1_V1", A::AE1_V1)
 			.export_values();
 
 
