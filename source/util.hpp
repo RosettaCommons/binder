@@ -48,7 +48,14 @@ std::string indent(std::string const &code, std::string const &indentation);
 /// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code);
 
+/// Joins the vector into a string using the given separator
+std::string join( std::vector<std::string>& splits, std::string const& sep );
 
+/// Returns only the directory part of the given filename full path
+std::string dirname( std::string const& fullpath );
+
+/// Create directories recursively if they don't exist
+void create_directories( std::string const &dirname );
 
 /// calculate namespace path from given NamedDecl, like: std, core::pose
 std::string namespace_from_named_decl(clang::NamedDecl const *decl);

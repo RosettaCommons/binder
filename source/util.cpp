@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <cctype>
+#include <sstream>
 
 using namespace llvm;
 using namespace clang;
@@ -99,20 +100,35 @@ string indent(string const &code, string const &indentation)
 	return r;
 }
 
+std::string join( std::vector<std::string>& splits, std::string const& sep ) {
+	if ( !splits.empty() ) {
+		std::ostringstream ss;
+		ss << splits[0];
+		for ( unsigned j=1; j<splits.size(); ++j ) {
+			ss << sep << splits[j];
+		}
+  	return ss.str();
+	}
+	return std::string();
+}
+
+std::string dirname( std::string const& fullpath ) {
+	vector<string> dirs = split(fullpath, "/");
+	dirs.pop_back();
+	return join( dirs, "/" );
+}
+
+void create_directories( std::string const& dirname ) {
+	string command_line = "mkdir -p " + dirname;
+  system( command_line.c_str() );
+}
 
 /// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code)
 {
-	string path = prefix;
-
-	vector<string> dirs = split(file_name, "/");  dirs.pop_back();
-	for(auto &d : dirs) path += "/" + d;
-
-	//std::experimental::filesystem::create_directories(path);
-	string command_line = "mkdir -p "+path;
-	system( command_line.c_str() );
-
 	string full_file_name = prefix + file_name;
+	create_directories( dirname( full_file_name ) );
+
 	std::ifstream f(full_file_name);
 	std::string old_code((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
 
@@ -271,7 +287,7 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 				previous = (*i)->getBeginLoc(); // getBeginLoc();
 				r += '\n';
 			}
-#endif		
+#endif
 			r += get_text(*i, SM, previous);
 		}
 

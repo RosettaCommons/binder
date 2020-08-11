@@ -371,6 +371,8 @@ void Context::generate(Config const &config)
 	std::map<string, int> file_names;
 	std::map<string, int> namespace_entrance;
 
+	create_directories( dirname( config.prefix ) );
+
 	string root_module_file_name = config.root_module + ".cpp";
 	sources.push_back(root_module_file_name);
 	std::ofstream root_module_file_handle(config.prefix + root_module_file_name);
