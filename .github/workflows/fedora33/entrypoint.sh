@@ -13,4 +13,6 @@ ldd -u -r source/binder
 ctest . --output-on-failure 
 out=$?
 cat Testing/Temporary/LastTest.log
+cat test/T42_stl_names.cpp
+cat test/T43_stl_names.cpp
 echo ::set-output name=out::$out
