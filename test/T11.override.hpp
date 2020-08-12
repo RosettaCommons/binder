@@ -13,7 +13,7 @@
 #ifndef _INCLUDED_T10_override_hpp_
 #define _INCLUDED_T10_override_hpp_
 
-#include <memory>
+#define _GLIBCXX_USE_CXX11_ABI 0 
 #include <string>
 
 class Base
