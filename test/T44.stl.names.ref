@@ -1,13 +1,13 @@
 // File: std/stl_function.cpp
+#include <exception> // std::bad_exception
+#include <exception> // std::exception
+#include <exception> // std::terminate
+#include <exception> // std::uncaught_exception
+#include <exception> // std::unexpected
 #include <functional> // std::binary_function
 #include <functional> // std::equal_to
 #include <functional> // std::less
-#include <list> // std::_List_node
-#include <memory> // std::allocator
-#include <memory> // std::allocator_traits
 #include <sstream> // __str__
-#include <unordered_map> // std::__detail::_Hash_node
-#include <utility> // std::pair
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -35,19 +35,59 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 }
 
 
+// File: std/functional_hash.cpp
+#include <bits/std_function.h> // std::_Manager_operation
+#include <bits/std_function.h> // std::bad_function_call
+#include <functional> // std::hash
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
+#include <memory> // std::allocator_arg_t
+#include <sstream> // __str__
+#include <stdexcept> // std::domain_error
+#include <stdexcept> // std::invalid_argument
+#include <stdexcept> // std::length_error
+#include <stdexcept> // std::logic_error
+#include <stdexcept> // std::out_of_range
+#include <stdexcept> // std::overflow_error
+#include <stdexcept> // std::range_error
+#include <stdexcept> // std::runtime_error
+#include <stdexcept> // std::underflow_error
+#include <string> // std::basic_string
+#include <string> // std::char_traits
+#include <string> // std::hash
+#include <tuple> // std::tuple
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::hash file:bits/functional_hash.h line:226
+		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
+		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
+		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
+	}
+}
+
+
 // File: std/stl_multiset.cpp
 #include <functional> // std::less
-#include <iterator> // __gnu_cxx::__normal_iterator
+#include <list> // std::list
 #include <map> // std::_Rb_tree_const_iterator
+#include <map> // std::_Rb_tree_iterator
+#include <map> // std::multimap
 #include <memory> // std::allocator
 #include <set> // std::multiset
 #include <sstream> // __str__
-#include <string> // std::basic_string
-#include <string> // std::char_traits
-#include <tuple> // std::tuple
-#include <tuple> // std::tuple_size
 #include <utility> // std::pair
-#include <utility> // std::tuple_element
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -85,54 +125,6 @@ void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &
 		cl.def("clear", (void (std::multiset<float>::*)()) &std::multiset<float, std::less<float>, std::allocator<float> >::clear, "C++: std::multiset<float, std::less<float>, std::allocator<float> >::clear() --> void");
 		cl.def("count", (unsigned long (std::multiset<float>::*)(const float &) const) &std::multiset<float, std::less<float>, std::allocator<float> >::count, "C++: std::multiset<float, std::less<float>, std::allocator<float> >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> > (std::multiset<float>::*)(const float &)) &std::multiset<float, std::less<float>, std::allocator<float> >::equal_range, "C++: std::multiset<float, std::less<float>, std::allocator<float> >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> >", pybind11::arg("__x"));
-	}
-}
-
-
-// File: std/functional_hash.cpp
-#include <deque> // std::deque
-#include <functional> // std::hash
-#include <functional> // std::less
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <list> // std::list
-#include <map> // std::_Rb_tree_const_iterator
-#include <map> // std::_Rb_tree_iterator
-#include <map> // std::multimap
-#include <memory> // std::allocator
-#include <memory> // std::allocator_arg_t
-#include <sstream> // __str__
-#include <stdexcept> // std::domain_error
-#include <stdexcept> // std::invalid_argument
-#include <stdexcept> // std::length_error
-#include <stdexcept> // std::logic_error
-#include <stdexcept> // std::out_of_range
-#include <stdexcept> // std::overflow_error
-#include <stdexcept> // std::range_error
-#include <stdexcept> // std::runtime_error
-#include <stdexcept> // std::underflow_error
-#include <string> // std::basic_string
-#include <string> // std::char_traits
-#include <string> // std::hash
-#include <tuple> // std::tuple
-#include <utility> // std::pair
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
-	{ // std::hash file:bits/functional_hash.h line:226
-		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
-		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
-		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
 	}
 	{ // std::multimap file:bits/stl_multimap.h line:99
 		pybind11::class_<std::multimap<float,int>, std::shared_ptr<std::multimap<float,int>>> cl(M("std"), "multimap_float_int_t", "");
@@ -193,6 +185,29 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def("reverse", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::reverse, "C++: std::__cxx11::list<double, std::allocator<double> >::reverse() --> void");
 		cl.def("sort", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::sort, "C++: std::__cxx11::list<double, std::allocator<double> >::sort() --> void");
 	}
+}
+
+
+// File: std/stl_deque.cpp
+#include <deque> // std::deque
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
+#include <sstream> // __str__
+#include <vector> // std::vector
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
 	{ // std::deque file:bits/stl_deque.h line:832
 		pybind11::class_<std::deque<int>, std::shared_ptr<std::deque<int>>> cl(M("std"), "deque_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::deque<int>(); } ) );
@@ -227,28 +242,6 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def("swap", (void (std::deque<int>::*)(class std::deque<int, class std::allocator<int> > &)) &std::deque<int, std::allocator<int> >::swap, "C++: std::deque<int, std::allocator<int> >::swap(class std::deque<int, class std::allocator<int> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::clear, "C++: std::deque<int, std::allocator<int> >::clear() --> void");
 	}
-}
-
-
-// File: std/stl_vector.cpp
-#include <iterator> // __gnu_cxx::__normal_iterator
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <vector> // std::vector
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
-#endif
-
-void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
 	{ // std::vector file:bits/stl_vector.h line:339
 		pybind11::class_<std::vector<double>, std::shared_ptr<std::vector<double>>> cl(M("std"), "vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<double>(); } ) );
@@ -466,28 +459,28 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 
 void bind_T44_stl_names(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo(class std::list<double, class std::allocator<double> >) file:T44.stl.names.hpp line:25
+	// foo(class std::list<double, class std::allocator<double> >) file:T44.stl.names.hpp line:26
 	M("").def("foo", (void (*)(class std::list<double, class std::allocator<double> >)) &foo, "C++: foo(class std::list<double, class std::allocator<double> >) --> void", pybind11::arg(""));
 
-	// foo(class std::forward_list<float, class std::allocator<float> >) file:T44.stl.names.hpp line:26
+	// foo(class std::forward_list<float, class std::allocator<float> >) file:T44.stl.names.hpp line:27
 	M("").def("foo", (void (*)(class std::forward_list<float, class std::allocator<float> >)) &foo, "C++: foo(class std::forward_list<float, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::vector<double, class std::allocator<double> >) file:T44.stl.names.hpp line:27
+	// foo(class std::vector<double, class std::allocator<double> >) file:T44.stl.names.hpp line:28
 	M("").def("foo", (void (*)(class std::vector<double, class std::allocator<double> >)) &foo, "C++: foo(class std::vector<double, class std::allocator<double> >) --> void", pybind11::arg(""));
 
-	// foo(class std::deque<int, class std::allocator<int> >) file:T44.stl.names.hpp line:28
+	// foo(class std::deque<int, class std::allocator<int> >) file:T44.stl.names.hpp line:29
 	M("").def("foo", (void (*)(class std::deque<int, class std::allocator<int> >)) &foo, "C++: foo(class std::deque<int, class std::allocator<int> >) --> void", pybind11::arg(""));
 
-	// foo(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) file:T44.stl.names.hpp line:30
+	// foo(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) file:T44.stl.names.hpp line:31
 	M("").def("foo", (void (*)(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
 
-	// foo(class std::multiset<float, struct std::less<float>, class std::allocator<float> >) file:T44.stl.names.hpp line:31
+	// foo(class std::multiset<float, struct std::less<float>, class std::allocator<float> >) file:T44.stl.names.hpp line:32
 	M("").def("foo", (void (*)(class std::multiset<float, struct std::less<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::multiset<float, struct std::less<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T44.stl.names.hpp line:33
+	// foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T44.stl.names.hpp line:34
 	M("").def("foo", (void (*)(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) file:T44.stl.names.hpp line:34
+	// foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) file:T44.stl.names.hpp line:35
 	M("").def("foo", (void (*)(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
 
 }
@@ -504,9 +497,9 @@ void bind_T44_stl_names(std::function< pybind11::module &(std::string const &nam
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T44_stl_names(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
@@ -531,9 +524,9 @@ PYBIND11_MODULE(T44_stl_names, root_module) {
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_std_stl_function(M);
-	bind_std_stl_multiset(M);
 	bind_std_functional_hash(M);
-	bind_std_stl_vector(M);
+	bind_std_stl_multiset(M);
+	bind_std_stl_deque(M);
 	bind_std_forward_list(M);
 	bind_T44_stl_names(M);
 
@@ -542,9 +535,9 @@ PYBIND11_MODULE(T44_stl_names, root_module) {
 // Source list file: /home/andriish/Projects/binder/test/T44_stl_names.sources
 // T44_stl_names.cpp
 // std/stl_function.cpp
-// std/stl_multiset.cpp
 // std/functional_hash.cpp
-// std/stl_vector.cpp
+// std/stl_multiset.cpp
+// std/stl_deque.cpp
 // std/forward_list.cpp
 // T44_stl_names.cpp
 

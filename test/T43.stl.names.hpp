@@ -13,6 +13,7 @@
 #ifndef _INCLUDED_T43_stl_names_hpp_
 #define _INCLUDED_T43_stl_names_hpp_
 
+#include <functional>
 #include <set>
 #include <map>
 #include <list>
