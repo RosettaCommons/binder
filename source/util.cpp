@@ -107,7 +107,7 @@ std::string join( const  std::vector<std::string>& parts, std::string const& sep
 		for ( unsigned j=1; j<parts.size(); ++j ) {
 			ss << sep << parts[j];
 		}
-  	return ss.str();
+		return ss.str();
 	}
 	return std::string();
 }
