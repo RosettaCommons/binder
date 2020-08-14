@@ -49,7 +49,7 @@ std::string indent(std::string const &code, std::string const &indentation);
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code);
 
 /// Joins the vector into a string using the given separator
-std::string join( std::vector<std::string>& splits, std::string const& sep );
+std::string join( const std::vector<std::string>& parts, std::string const& sep );
 
 /// Returns only the directory part of the given filename full path
 std::string dirname( std::string const& fullpath );

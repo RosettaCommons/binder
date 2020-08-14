@@ -100,12 +100,12 @@ string indent(string const &code, string const &indentation)
 	return r;
 }
 
-std::string join( std::vector<std::string>& splits, std::string const& sep ) {
-	if ( !splits.empty() ) {
+std::string join( const  std::vector<std::string>& parts, std::string const& sep ) {
+	if ( !parts.empty() ) {
 		std::ostringstream ss;
-		ss << splits[0];
-		for ( unsigned j=1; j<splits.size(); ++j ) {
-			ss << sep << splits[j];
+		ss << parts[0];
+		for ( unsigned j=1; j<parts.size(); ++j ) {
+			ss << sep << parts[j];
 		}
   	return ss.str();
 	}
@@ -120,7 +120,7 @@ std::string dirname( std::string const& fullpath ) {
 
 void create_directories( std::string const& dirname ) {
 	string command_line = "mkdir -p " + dirname;
-  system( command_line.c_str() );
+	system( command_line.c_str() );
 }
 
 /// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
