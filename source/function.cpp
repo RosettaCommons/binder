@@ -188,15 +188,15 @@ string python_function_name(FunctionDecl const *F)
 {
 	if( F->isOverloadedOperator() ) return cpp_python_operator_map.at( F->getNameAsString() );
 	else {
-		//return F->getNameAsString();
-
 		// if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
 		// }
 		// else{
 		// 	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  or   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) outs() << namespace_from_named_decl(F) << "::" << F->getNameAsString() << "\n";
 		// }
 
-		return mangle_type_name( F->getNameAsString() + template_specialization(F) );
+		// there is no point of generating different names for different template function since in most cases we can treat them as overload's
+		// return mangle_type_name( F->getNameAsString() + template_specialization(F) );
+		return F->getNameAsString();
 	}
 }
 
