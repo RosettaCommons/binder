@@ -32,7 +32,7 @@ int compare_text_files(const std::string& f1,const std::string& f2)
     int j1,j2;
     j1 = 0;
     j2 = 0;
-    if (!file1.is_open()|| !file2.is_open()) 
+    if (!file1 || !file2 ) 
     {
             std::cout << "Cannot open one of files" << f1<<f2<<"\n";
             return EXIT_FAILURE;
