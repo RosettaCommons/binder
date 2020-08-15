@@ -33,7 +33,7 @@ macro( binder_test testname vers)
     add_test( NAME ${testname}_diff
 #--always-success option forces the diffbinder to return success regardles of the results of comparison. 
       COMMAND diffbinder ${testnamenodot}.cpp ${testname}.ref  --always-success
-       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  binder)
     SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  ${testname}_foo )
   else()
