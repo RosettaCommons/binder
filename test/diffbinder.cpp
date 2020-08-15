@@ -27,7 +27,7 @@ int skip(const std::string& s1)
 }
 int compare_text_files(const std::string& f1,const std::string& f2)
 {
-    std::fstream file1(f1.c_str()), file2(f2.c_str());
+    std::fstream file1(f1), file2(f2);
     std::string string1, string2;
     int j1,j2;
     j1 = 0;
