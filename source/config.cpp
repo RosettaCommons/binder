@@ -76,6 +76,11 @@ void Config::read(string const &file_name)
 	string const _default_call_guard_ {"default_call_guard"};
 
 	std::ifstream f(file_name);
+
+	if( not f.good() ) {
+		throw std::runtime_error("can not open file " + file_name + " for reading...");
+	}
+
 	string line;
 
 	while( std::getline(f, line) ) {

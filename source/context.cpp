@@ -299,7 +299,10 @@ string file_name_prefix_for_binder(BinderOP &b)
 			[&](unsigned char c) { return not (std::isalnum(c) or  std::find(exceptions.begin(), exceptions.end(), c) != exceptions.end() ); } ),
 		include.end() );
 
-	if( include.size() <= 2 ) { include = "<unknown/unknown.hh>";  outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n"; } //throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
+	if( include.size() <= 2 ) {
+		include = "<unknown/unknown.hh>";
+		//outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n";
+	} //throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
 	include = include.substr(1, include.size()-2);
 
 	if( namespace_from_named_decl(decl) == "std"  or  begins_with(namespace_from_named_decl(decl), "std::" ) ) include = "std/" +  ( begins_with(include, "bits/") ? include.substr(5) : include );
