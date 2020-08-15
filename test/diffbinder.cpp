@@ -9,7 +9,7 @@
 #include <vector>
 #include <string.h>
 
-int skip(const std::string& s1)
+int skip(std::string const & s1)
 {
     if (s1.length()==0) return 1;
     if (s1.length()>1) 
@@ -25,7 +25,7 @@ int skip(const std::string& s1)
     if (s1.find("assign")!=std::string::npos) return 8;                          // The assing is binded differently for some reasons
     return 0;
 }
-int compare_text_files(const std::string& f1,const std::string& f2)
+int compare_text_files(std::string const & f1,const std::string & f2)
 {
     std::fstream file1(f1), file2(f2);
     std::string string1, string2;
