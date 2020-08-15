@@ -55,11 +55,11 @@ macro( binder_test testname vers)
 
     if(BINDER_USE_PYTHON_IN_TEST)
       add_test( NAME ${testname}_python${vers} 
-      COMMAND ${Python_EXECUTABLE} -c "import ${testnamenodot}"
+        COMMAND ${Python_EXECUTABLE} -c "import ${testnamenodot}"
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
     else()
       add_test( NAME ${testname}_python${vers} 
-      COMMAND echo "Import for ${testnamenodot} is disabled"
+        COMMAND echo "Import for ${testnamenodot} is disabled"
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
     endif()
     SET_TESTS_PROPERTIES(${testname}_python${vers} PROPERTIES DEPENDS ${testnamenodot}${vers})
