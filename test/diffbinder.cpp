@@ -1,3 +1,8 @@
+//
+// Copyright (c) 2020 Andrii Verbytskyi <andrii.verbytskyi@mpp.mpg.de> for the binder project
+//
+// All rights reserved. Use of this source code is governed by a
+// MIT license that can be found in the LICENSE file.
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -20,7 +25,7 @@ int skip(const std::string& s1)
     if (s1.find("assign")!=std::string::npos) return 8;                          // The assing is binded differently for some reasons
     return 0;
 }
-int COMPARE_ASCII_FILES(const std::string& f1,const std::string& f2)
+int compare_text_files(const std::string& f1,const std::string& f2)
 {
     std::fstream file1(f1.c_str()), file2(f2.c_str());
     std::string string1, string2;
@@ -61,7 +66,7 @@ int main(int argc, char** argv)
         std::cout<<"Wrong number of arguments"<<std::endl;
         return EXIT_FAILURE;
     }
-    int status=COMPARE_ASCII_FILES(argv[1],argv[2]);
+    int status=compare_text_files(argv[1],argv[2]);
     if (argc==4)  { if (strcmp(argv[3],"--always-success")==0)  return EXIT_SUCCESS; }
     return status;
 }
