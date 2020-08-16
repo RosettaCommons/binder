@@ -34,7 +34,7 @@ int compare_text_files(std::string const & f1,const std::string & f2)
     j2 = 0;
     if (!file1 || !file2 ) 
     {
-            std::cout << "Cannot open one of files" << f1<<f2<<"\n";
+            std::cout << "Cannot open one of files " << f1<<" or "<<f2<<"\n";
             return EXIT_FAILURE;
     }
     std::cout <<"Run comparison"<< "\n";
