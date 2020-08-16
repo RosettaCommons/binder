@@ -1,21 +1,25 @@
-find_package(pybind11 CONFIG REQUIRED)
-message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
+if("0" STREQUAL ${BINDER_TEST_PYTHON_VERSIONS})
+  message(STATUS "binder: Only comparisons of produced outputs to the reference outputs will be performed.")
+else()
+  find_package(pybind11 CONFIG REQUIRED)
+  message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
+endif()
 
 macro( binder_src stestname)
-message( STATUS "binder test: building ${stestname} for ${stestname}" )
 string(REPLACE "." "_" stestnamenodot ${stestname})
+message( STATUS "binder test: building ${stestnamenodot}.cpp for ${stestname}" )
 if (BINDER_MOCK_TEST)
-  file(GENERATE OUTPUT ${stestnamenodot}.cpp INPUT ${stestname}.ref )
+  file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${stestnamenodot}.cpp INPUT ${CMAKE_CURRENT_SOURCE_DIR}/${stestname}.ref )
 else()
   SET(${stestname}_config_flag "")
   if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${stestname}.config")
     SET(${stestname}_config_flag --config ${stestname}.config )
   endif()
-  file(WRITE ${stestname}.hpp.include "#include <${stestname}.hpp>" )
-  ADD_CUSTOM_TARGET(${stestnamenodot}.cpp
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include "#include <${stestname}.hpp>" )
+  ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
 #The first two expressions below are for older clang
   COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  
-    --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_SOURCE_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${stestname}.hpp.include  
+    --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${stestname}.hpp.include  
     -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
 endif()
@@ -32,19 +36,19 @@ macro( binder_test testname vers)
     endif()
     add_test( NAME ${testname}_diff
 #--always-success option forces the diffbinder to return success regardles of the results of comparison. 
-      COMMAND diffbinder ${testnamenodot}.cpp ${testname}.ref  --always-success
+      COMMAND diffbinder ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp ${CMAKE_CURRENT_SOURCE_DIR}/${testname}.ref  --always-success
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-    SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  binder)
-    SET_TESTS_PROPERTIES(${testname}_diff PROPERTIES DEPENDS  ${testname}_foo )
+    set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp PROPERTIES GENERATED TRUE)
+    add_dependencies( diffbinder target${testnamenodot}cpp)
   else()
     if (${MAJ} STREQUAL 2)
-      Python_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp)
+      Python_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp)
     endif()
     if (${MAJ} STREQUAL 3)
-      Python3_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${testnamenodot}.cpp)
+      Python3_add_library(${testnamenodot}${vers} MODULE  ${testname}.hpp  ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp)
     endif()
-    set_source_files_properties( ${testnamenodot}.cpp PROPERTIES GENERATED TRUE)
-    add_dependencies(${testnamenodot}${vers}  ${testnamenodot}.cpp)
+    set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp PROPERTIES GENERATED TRUE)
+    add_dependencies(${testnamenodot}${vers}  target${testnamenodot}cpp)
     set_target_properties(${testnamenodot}${vers} PROPERTIES OUTPUT_NAME  ${testnamenodot}
                                                NO_SYSTEM_FROM_IMPORTED ON
                                                ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:> 
@@ -62,7 +66,6 @@ macro( binder_test testname vers)
         COMMAND echo "Import for ${testnamenodot} is disabled"
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
     endif()
-    SET_TESTS_PROPERTIES(${testname}_python${vers} PROPERTIES DEPENDS ${testnamenodot}${vers})
   endif()
 endmacro( binder_test testname vers)
 set( binder_tests
@@ -93,7 +96,7 @@ foreach ( tests ${binder_tests} )
   binder_src( ${tests})
 endforeach ( tests ${binder_tests} )
 
-foreach( pver ${TESTVERSIONS} )         
+foreach( pver ${TESTVERSIONS} )
   string(REPLACE "." ";" MAJMIN "${pver}.X.Y")
   list(GET MAJMIN 0 MAJ)
   list(GET MAJMIN 1 MIN)
