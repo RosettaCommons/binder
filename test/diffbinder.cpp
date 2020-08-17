@@ -23,7 +23,7 @@ int skip(std::string const & s1)
     if (s1.find("pybind11::handle cl_type = cl;")!=std::string::npos) return 6;  //This could be optimized in binder
     if (s1.find("__cxx11")!=std::string::npos) return 7;                         //This looks like implementation dependent
     if (s1.find("assign")!=std::string::npos) return 8;                          // The assing is binded differently for some reasons
-    if (s1.find("#include")==std::string::npos) return 9;                        // Includes could differ
+    if (s1.find("#include")!=std::string::npos) return 9;                        // Includes could differ
     return 0;
 }
 int compare_text_files(std::string const & f1,const std::string & f2)
