@@ -26,6 +26,12 @@ int skip(std::string const & s1)
     if (s1.find("#include")!=std::string::npos) return 9;                        // Includes could differ
     return 0;
 }
+std::string strip(std::string const & s1)
+{
+    if (s1.length()==0) return s1;
+    size_t comment=s1.find_first_of("//");
+    return s1.substr(0,comment);
+}
 int compare_text_files(std::string const & f1,const std::string & f2)
 {
     std::fstream file1(f1), file2(f2);
@@ -51,7 +57,7 @@ int compare_text_files(std::string const & f1,const std::string & f2)
             if (!std::getline(file2,string2)) break;
             if (skip(string2)==0) break;
         }
-        if(string1.compare(string2) != 0)
+        if(strip(string1).compare(strip(string2)) != 0)
         {
             std::cout << j1<<"/"<<j2 << "-th strings are not equal" << f1<<" "<<f2<<"\n";
             std::cout << "   ->" << string1 << "<-\n";
