@@ -24,6 +24,7 @@ int skip(std::string const & s1)
     if (s1.find("__cxx11")!=std::string::npos) return 7;                         //This looks like implementation dependent
     if (s1.find("assign")!=std::string::npos) return 8;                          // The assing is binded differently for some reasons
     if (s1.find("#include")!=std::string::npos) return 9;                        // Includes could differ
+    if (s1.find("pybind11::gil_scoped_acquire gil;")!=std::string::npos) return 10; //This could be optimized in binder
     return 0;
 }
 std::string strip(std::string const & s1)
