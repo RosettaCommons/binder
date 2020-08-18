@@ -16,6 +16,7 @@ Contents:
     basics
     config
     examples
+    testing
 
 Indices and tables
 ==================
