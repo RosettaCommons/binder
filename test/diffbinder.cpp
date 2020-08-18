@@ -64,7 +64,7 @@ int compare_text_files(std::string const & f1,const std::string & f2)
             if (!std::getline(file2,string2)) break;
             if (skip(string2)==0) break;
         }
-        if(strip_comment(string1)!=strip_comment(string2)))
+        if(strip_comment(string1)!=strip_comment(string2))
         {
             std::cout << j1<<"/"<<j2 << "-th strings are not equal " << f1<<" "<<f2<<"\n";
             std::cout << "   ->" << string1 << "<-\n";
