@@ -109,7 +109,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 		path += "/" + d; 
 		int status=mkdir(path.c_str(),ACCESSPERMS);
 		if (status==0||status==EEXIST) continue;
-		fprintf(stderr,"Failed to create directory: %s\n",path.c_str());
+		std::cerr<<"Failed to create directory: "<<path<<std::endl;
 		exit(1);
 	} 
 
