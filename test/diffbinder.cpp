@@ -83,11 +83,12 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
     if (argc==4)  { 
-        if (strcmp(argv[3],"--always-success")!=0) 
-        std::cout<<"Wrong option: "<<argv[3]<<std::endl;
-        std::cout<<"Usage:        "<<argv[0]<<" <first file to compare> <second file to compare> [options]" <<std::endl;
-        std::cout<<"Options:      --always-success     Optional. Perform comparison, but return 0 exit code regardless of the comparison result." <<std::endl;
-        return EXIT_FAILURE; 
+        if (strcmp(argv[3],"--always-success")!=0) {
+          std::cout<<"Wrong option: "<<argv[3]<<std::endl;
+          std::cout<<"Usage:        "<<argv[0]<<" <first file to compare> <second file to compare> [options]" <<std::endl;
+          std::cout<<"Options:      --always-success     Optional. Perform comparison, but return 0 exit code regardless of the comparison result." <<std::endl;
+          return EXIT_FAILURE; 
+        }  
     }
     int status=compare_text_files(argv[1],argv[2]);
     if (argc==4)  { if (strcmp(argv[3],"--always-success")==0)  return EXIT_SUCCESS; }
