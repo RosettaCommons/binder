@@ -8,8 +8,9 @@ yum -y install  pybind11-devel python3 python3-devel python2 python2-devel
 
 cmake CMakeLists.txt
 make
-out=$?
 ldd source/binder
 ldd -u -r source/binder
 ctest . --output-on-failure 
+out=$?
+cat Testing/Temporary/LastTest.log
 echo ::set-output name=out::$out
