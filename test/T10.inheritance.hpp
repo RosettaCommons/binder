@@ -13,6 +13,7 @@
 #ifndef _INCLUDED_T10_inheritance_hpp_
 #define _INCLUDED_T10_inheritance_hpp_
 
+#define  _GLIBCXX_USE_CXX11 0
 #include <memory>
 #include <string>
 
