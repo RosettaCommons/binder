@@ -13,7 +13,6 @@
 #ifndef _INCLUDED_T10_inheritance_hpp_
 #define _INCLUDED_T10_inheritance_hpp_
 
-#define  _GLIBCXX_USE_CXX11 0
 #include <memory>
 #include <string>
 
@@ -52,7 +51,10 @@ class A : public std::enable_shared_from_this<A>
 {};
 
 class B : public std::string
-{};
+{
+public:
+	B(const B&) = default;
+};
 
 
 class X : public Base
