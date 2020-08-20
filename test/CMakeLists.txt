@@ -87,8 +87,8 @@ set( binder_tests
          T31.include_for_class
          T32.call_guard
          T40.stl
-         T43.stl.names
-         T44.stl.names
+         T42.stl.names
+         T42.stl.names.multi
          T50.namespace_binder
          )
 
