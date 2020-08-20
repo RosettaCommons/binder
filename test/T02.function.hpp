@@ -13,6 +13,7 @@
 #ifndef _INCLUDED_T02_function_hpp_
 #define _INCLUDED_T02_function_hpp_
 
+#include <string>
 #include <memory>
 #include <functional>
 
