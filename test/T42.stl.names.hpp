@@ -6,10 +6,13 @@
 // All rights reserved. Use of this source code is governed by a
 // MIT license that can be found in the LICENSE file.
 
-/// @file   binder/test/T43.stl.names.hpp
+/// @file   binder/test/T42.stl.names.hpp
 /// @brief  Binder self-test file. Tests for bindings of STL classes.
 /// @author Sergey Lyskov
 
+/// The multimap/multiset classes are tested in the binder/test/T43.stl.names.multi.hpp to avoid
+/// problems with different ordering of multiset/set and multimap/map bindings 
+/// in the generated files on different platforms.
 #ifndef _INCLUDED_T42_stl_names_hpp_
 #define _INCLUDED_T42_stl_names_hpp_
 
