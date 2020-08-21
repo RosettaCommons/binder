@@ -51,7 +51,10 @@ class A : public std::enable_shared_from_this<A>
 {};
 
 class B : public std::string
-{};
+{
+public:
+	B(B const &) = default;
+};
 
 
 class X : public Base
