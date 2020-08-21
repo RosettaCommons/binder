@@ -95,7 +95,7 @@ def run_test(test_path, build_dir):
     if not_binded: print('{}\n"not_binded" string found in results for test {}!!!\n'.format('\n'.join(not_binded), test)); sys.exit(1)
 
     if r  and  Options.accept:
-        a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
+        a = input( 'Accept new results from test {test} as reference? [y/n] '.format(test=test) )
         if a in ['y', 'yes']: shutil.copyfile(new, ref)
 
 
@@ -120,7 +120,7 @@ def main():
 
     tests = Options.args or sorted( get_test_files(test_source_dir) )
 
-    build_dir = test_source_dir + '/build/'
+    build_dir = test_source_dir + '/build'
     if os.path.isdir(build_dir): print('Removing old test dir {0} ...'.format(build_dir));  shutil.rmtree(build_dir)  # remove old dir if any
     os.makedirs(build_dir)
     #if not os.path.isdir(build_dir): os.makedirs(build_dir)
