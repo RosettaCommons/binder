@@ -16,6 +16,23 @@
 struct Base
 {
 	virtual void foo() {}
+
+	// anonymous
+	struct
+	{
+		int a;
+		float b;
+	};
+
+	struct InnerBase
+	{
+		int ia;
+		float ib;
+
+		void foo_i() {}
+	};
+
+
 };
 
 namespace n1 {

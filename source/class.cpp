@@ -142,13 +142,19 @@ bool is_bindable(FieldDecl *f)
 
 	if( !is_field_assignable(f) ) return false;
 
+	if( f->isAnonymousStructOrUnion() ) return false;
+
 	return true;
 }
 
 
 // Generate bindings for class data member
-string bind_data_member(FieldDecl const *d, string const &class_qualified_name)
+string bind_data_member(FieldDecl const *d, string const &class_qualified_name_)
 {
+	string class_qualified_name = class_qualified_name_;
+	string const anonymous = "::(anonymous)";
+	if( ends_with(class_qualified_name, anonymous) ) class_qualified_name.resize( class_qualified_name.size() - anonymous.size() );
+
 	if( d->getType().isConstQualified() ) return ".def_readonly(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 	else return ".def_readwrite(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 }
@@ -243,8 +249,9 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 
 	//if( C->getNameAsString() == "" ) return false;
 
+	// enabling binding of anonymous classes and handle it as special case in `bind_nested_classes`
 	//if( qualified_name == "(anonymous)" ) return false;
-	if( qualified_name.rfind(')') != std::string::npos ) return false; // check for anonymous structs and types in anonymous namespaces
+	//if( qualified_name.rfind(')') != std::string::npos ) return false; // check for anonymous structs and types in anonymous namespaces
 
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
@@ -1063,7 +1070,9 @@ void ClassBinder::bind(Context &context)
 	if(trampoline) generate_prefix_code();
 
 	string const qualified_name{ class_qualified_name(C) };
-	string const module_variable_name = C->isCXXClassMember() ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
+
+	bool named_class = not C->isAnonymousStructOrUnion();
+	string const module_variable_name = C->isCXXClassMember() and named_class ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
 	//string const decl_namespace = namespace_from_named_decl(C);
 
 	string c = "{ " + generate_comment_for_declaration(C);
@@ -1071,7 +1080,7 @@ void ClassBinder::bind(Context &context)
 	//c += " // qualified_name: {}\n"_format(qualified_name);
 	//c += " // getQualifiedNameAsString: {}{}\n"_format( C->getQualifiedNameAsString(), template_specialization(C) );
 
-	if( C->isCXXClassMember() ) c += "\tauto & enclosing_class = cl;\n";
+	if( C->isCXXClassMember() and named_class ) c += "\tauto & enclosing_class = cl;\n";
 
 	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";
 
@@ -1086,14 +1095,14 @@ void ClassBinder::bind(Context &context)
 
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
-	c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
+	if(named_class) c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
 	//c += "\tpybind11::handle cl_type = cl;\n\n";
 
 	c += bind_nested_classes(C, context);
 
 	//if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
 
-	if( !C->isAbstract()  or  callback_structure_constructible) {
+	if( (!C->isAbstract()  or  callback_structure_constructible) and named_class ) {
 		bool default_constructor_processed = false;
 		//bool copy_constructor_processed = false;
 
