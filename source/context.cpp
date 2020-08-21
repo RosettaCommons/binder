@@ -376,7 +376,10 @@ void Context::generate(Config const &config)
 
 	string root_module_file_name = config.root_module + ".cpp";
 	sources.push_back(root_module_file_name);
-	std::ofstream root_module_file_handle(config.prefix + root_module_file_name);
+
+	string root_module_full_file_name = config.prefix + '/' + root_module_file_name;
+	std::ofstream root_module_file_handle(root_module_full_file_name);
+	if( root_module_file_handle.fail() ) throw std::runtime_error("ERROR: Can not open file " + root_module_full_file_name + " for writing...");
 
 	sort_binders();
 
@@ -503,19 +506,21 @@ void Context::generate(Config const &config)
 
 	root_module_file_handle << s.str();
 
+	string root_module_prefix = config.prefix + '/' + config.root_module;
+
 	if( O_single_file ) {
-		root_module_file_handle << "\n// Source list file: " << config.prefix + config.root_module + ".sources\n";
+		root_module_file_handle << "\n// Source list file: " << root_module_prefix + ".sources\n";
 		for(auto &s : sources) root_module_file_handle << "// "<< s << "\n";
 
-		root_module_file_handle << "\n// Modules list file: " << config.prefix + config.root_module + ".modules\n// ";
+		root_module_file_handle << "\n// Modules list file: " << root_module_prefix + ".modules\n// ";
 		root_module_file_handle << modules;
 		root_module_file_handle << "\n";
 
 	} else {
-		std::ofstream f(config.prefix + config.root_module + ".sources");
+		std::ofstream f(root_module_prefix + ".sources");
 		for(auto &s : sources) f << s << "\n";
 
-		std::ofstream namespaces_file_handle(config.prefix + config.root_module + ".modules");
+		std::ofstream namespaces_file_handle(root_module_prefix + ".modules");
 		namespaces_file_handle << modules;
 	}
 }
