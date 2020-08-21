@@ -142,6 +142,8 @@ bool is_bindable(FieldDecl *f)
 
 	if( !is_field_assignable(f) ) return false;
 
+	if( f->isAnonymousStructOrUnion() ) return false;
+
 	return true;
 }
 
