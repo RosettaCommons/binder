@@ -10,8 +10,6 @@
 /// @brief  Various helper functions
 /// @author Sergey Lyskov
 
-#include <iostream>
-#include <sys/stat.h>
 #include <util.hpp>
 
 #include <binder.hpp>
@@ -106,13 +104,13 @@ string indent(string const &code, string const &indentation)
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code)
 {
 	string path = prefix;
-	for(auto &d: split(file_name, "/")) { 
-		path += "/" + d; 
-		int status=mkdir(path.c_str(),ACCESSPERMS);
-		if (status==0||status==EEXIST) continue;
-		std::cerr<<"Failed to create directory: "<<path<<std::endl;
-		exit(1);
-	} 
+
+	vector<string> dirs = split(file_name, "/");  dirs.pop_back();
+	for(auto &d : dirs) path += "/" + d;
+
+	//std::experimental::filesystem::create_directories(path);
+	string command_line = "mkdir -p "+path;
+	system( command_line.c_str() );
 
 	string full_file_name = prefix + file_name;
 	std::ifstream f(full_file_name);
