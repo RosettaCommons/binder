@@ -88,6 +88,7 @@ set( binder_tests
          T32.call_guard
          T40.stl
          T42.stl.names
+         T42.stl.names.multi
          T50.namespace_binder
          )
 

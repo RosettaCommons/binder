@@ -34,12 +34,20 @@ add_clang_executable(binder
   fmt/posix.cc
   )
 if(USE_EXTERNAL_LLVM)
-  find_library(lib_llvm_so_path  NAMES LLVM 
-                           LLVM-${LLVM_VERSION_MAJOR} 
-                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR} 
-                           LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
-                           PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
-                           )
+  if(STATIC)
+    find_library(lib_llvm_path NAMES libclang_static_bundled.a
+                               PATHS ${LLVM_LIBRARY_DIR}
+                               REQUIRED
+                               )
+  else()
+    find_library(lib_llvm_path NAMES LLVM
+                               LLVM-${LLVM_VERSION_MAJOR}
+                               LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
+                               LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
+                               PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
+                               REQUIRED
+                               )
+  endif()
   add_definitions(${LLVM_DEFINITIONS})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_COMPILE_FLAGS}")
   list(REMOVE_ITEM CMAKE_CXX_FLAGS "-fno-exceptions")
@@ -49,7 +57,7 @@ if(USE_EXTERNAL_LLVM)
   if ( (LLVM_VERSION_MAJOR GREATER 3)  AND (LLVM_VERSION_MAJOR LESS 8) )
     target_link_libraries(binder 
       PRIVATE
-      ${lib_llvm_so_path}
+      ${lib_llvm_path}
       clangAST
       clangBasic 
       clangFrontend
@@ -59,7 +67,7 @@ if(USE_EXTERNAL_LLVM)
   if ( (LLVM_VERSION_MAJOR EQUAL 8) OR (LLVM_VERSION_MAJOR EQUAL 9) )
     target_link_libraries(binder
       PRIVATE
-      ${lib_llvm_so_path}
+      ${lib_llvm_path}
       clangTooling
       clangBasic
       clangAST
@@ -68,12 +76,27 @@ if(USE_EXTERNAL_LLVM)
       )
   endif()
   if ( (LLVM_VERSION_MAJOR EQUAL 10) OR (LLVM_VERSION_MAJOR GREATER 10) )
-    target_link_libraries(binder
-      PRIVATE
-      ${lib_llvm_so_path}
-      clang
-      clang-cpp
-      )
+    if(STATIC)
+      # As of 11-08-2020, libclang-static-build [1] only supports LLVM version 10.
+      #
+      # [1]: https://github.com/deech/libclang-static-build
+      target_link_libraries(binder
+        PRIVATE
+        ${lib_llvm_path}
+        "-static"
+        # This causes the strong "__pthread_*" symbols from libpthread to be
+        # used instead of the *weak* "__pthread_*" symbols defined in libc.
+        # https://stackoverflow.com/a/45271521
+        "-Wl,--whole-archive -lpthread -Wl,--no-whole-archive"
+        )
+    else()
+      target_link_libraries(binder
+        PRIVATE
+        ${lib_llvm_path}
+        clang
+        clang-cpp
+        )
+    endif()
   endif()
 else()
   target_link_libraries(binder

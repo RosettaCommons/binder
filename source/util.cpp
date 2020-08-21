@@ -10,8 +10,6 @@
 /// @brief  Various helper functions
 /// @author Sergey Lyskov
 
-#include <iostream>
-#include <sys/stat.h>
 #include <util.hpp>
 
 #include <binder.hpp>
@@ -106,21 +104,23 @@ string indent(string const &code, string const &indentation)
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code)
 {
 	string path = prefix;
-	for(auto &d: split(file_name, "/")) { 
-		path += "/" + d; 
-		int status=mkdir(path.c_str(),ACCESSPERMS);
-		if (status==0||status==EEXIST) continue;
-		std::cerr<<"Failed to create directory: "<<path<<std::endl;
-		exit(1);
-	} 
 
-	string full_file_name = prefix + file_name;
+	vector<string> dirs = split(file_name, "/");  dirs.pop_back();
+	for(auto &d : dirs) path += "/" + d;
+
+	//std::experimental::filesystem::create_directories(path);
+	string command_line = "mkdir -p " + path;
+	system( command_line.c_str() );
+
+	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
 	std::string old_code((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
 
 	if( old_code != code ) {
 		if( O_verbose ) outs() << "Writing " << full_file_name << "\n";
-		std::ofstream(full_file_name) << code;
+		std::ofstream f(full_file_name);
+		if( f.fail() ) throw std::runtime_error("ERROR: Can not open file " + full_file_name + " for writing...");
+		f << code;
 	} else {
 		if( O_verbose ) outs() << "File " << full_file_name << " is up-to-date, skipping...\n";
 	}
@@ -273,7 +273,7 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 				previous = (*i)->getBeginLoc(); // getBeginLoc();
 				r += '\n';
 			}
-#endif		
+#endif
 			r += get_text(*i, SM, previous);
 		}
 
