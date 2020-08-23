@@ -17,7 +17,7 @@
 struct PyCallBack_Base : public Base {
 	using Base::Base;
 
-	void foo() override { 
+	void foo() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Base *>(this), "foo");
 		if (overload) {
@@ -77,7 +77,7 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 struct PyCallBack_n1_A : public n1::A {
 	using n1::A::A;
 
-	void foo() override { 
+	void foo() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const n1::A *>(this), "foo");
 		if (overload) {
@@ -122,7 +122,7 @@ void bind_T15_inner_class_1(std::function< pybind11::module &(std::string const 
 struct PyCallBack_n1_n2_A : public n1::n2::A {
 	using n1::n2::A::A;
 
-	void foo() override { 
+	void foo() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const n1::n2::A *>(this), "foo");
 		if (overload) {

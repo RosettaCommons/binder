@@ -23,7 +23,7 @@
 struct PyCallBack_Base : public Base {
 	using Base::Base;
 
-	void foo_protected() override { 
+	void foo_protected() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Base *>(this), "foo_protected");
 		if (overload) {
@@ -36,7 +36,7 @@ struct PyCallBack_Base : public Base {
 		}
 		return Base::foo_protected();
 	}
-	void f_v() override { 
+	void f_v() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Base *>(this), "f_v");
 		if (overload) {
@@ -49,7 +49,7 @@ struct PyCallBack_Base : public Base {
 		}
 		return Base::f_v();
 	}
-	void f_v_2() override { 
+	void f_v_2() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Base *>(this), "f_v_2");
 		if (overload) {
@@ -68,7 +68,7 @@ struct PyCallBack_Base : public Base {
 struct PyCallBack_Derived : public Derived {
 	using Derived::Derived;
 
-	void foo_protected() override { 
+	void foo_protected() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Derived *>(this), "foo_protected");
 		if (overload) {
@@ -81,7 +81,7 @@ struct PyCallBack_Derived : public Derived {
 		}
 		return Base::foo_protected();
 	}
-	void f_v() override { 
+	void f_v() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Derived *>(this), "f_v");
 		if (overload) {
@@ -94,7 +94,7 @@ struct PyCallBack_Derived : public Derived {
 		}
 		return Base::f_v();
 	}
-	void f_v_2() override { 
+	void f_v_2() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Derived *>(this), "f_v_2");
 		if (overload) {
@@ -113,7 +113,7 @@ struct PyCallBack_Derived : public Derived {
 struct PyCallBack_Delete : public Delete {
 	using Delete::Delete;
 
-	void foo_protected() override { 
+	void foo_protected() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Delete *>(this), "foo_protected");
 		if (overload) {
@@ -126,7 +126,7 @@ struct PyCallBack_Delete : public Delete {
 		}
 		return Base::foo_protected();
 	}
-	void f_v() override { 
+	void f_v() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Delete *>(this), "f_v");
 		if (overload) {
@@ -139,7 +139,7 @@ struct PyCallBack_Delete : public Delete {
 		}
 		return Base::f_v();
 	}
-	void f_v_2() override { 
+	void f_v_2() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Delete *>(this), "f_v_2");
 		if (overload) {
@@ -158,7 +158,7 @@ struct PyCallBack_Delete : public Delete {
 struct PyCallBack_X : public X {
 	using X::X;
 
-	void foo_protected() override { 
+	void foo_protected() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const X *>(this), "foo_protected");
 		if (overload) {
@@ -171,7 +171,7 @@ struct PyCallBack_X : public X {
 		}
 		return Base::foo_protected();
 	}
-	void f_v_2() override { 
+	void f_v_2() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const X *>(this), "f_v_2");
 		if (overload) {

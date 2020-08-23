@@ -20,7 +20,7 @@
 struct PyCallBack_A2 : public A2 {
 	using A2::A2;
 
-	void f() override { 
+	void f() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A2 *>(this), "f");
 		if (overload) {
@@ -39,7 +39,7 @@ struct PyCallBack_A2 : public A2 {
 struct PyCallBack_A3 : public A3 {
 	using A3::A3;
 
-	void f() override { 
+	void f() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A3 *>(this), "f");
 		if (overload) {
@@ -58,7 +58,7 @@ struct PyCallBack_A3 : public A3 {
 struct PyCallBack_A4 : public A4 {
 	using A4::A4;
 
-	int operator=(int a0) override { 
+	int operator=(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A4 *>(this), "assign");
 		if (overload) {
