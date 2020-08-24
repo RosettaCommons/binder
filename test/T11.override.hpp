@@ -15,7 +15,7 @@
 /// Please note that some systems provide dual C++ ABI, which might affect the  generated code.
 /// The line below forces the usage of the older implementation of std::string on the systems with GNU libc.
 /// See  https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html for details.
-/// #define _GLIBCXX_USE_CXX11_ABI 0 
+#define _GLIBCXX_USE_CXX11_ABI 0
 #include <string>
 
 class Base
