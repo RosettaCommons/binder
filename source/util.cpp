@@ -19,6 +19,7 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
+#include <clang/Basic/SourceManager.h>
 #include <clang/AST/Comment.h>
 
 //#include <experimental/filesystem>
