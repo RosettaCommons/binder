@@ -33,6 +33,8 @@ if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
   MESSAGE(STATUS  "binder: cmake configurations  llvm and clang were found.  LLVM_CMAKE_DIR=${LLVM_CMAKE_DIR}")
   include(AddLLVM)
   include(LLVMConfig)
+  MESSAGE(STATUS  "binder: LLVM_LIBRARY_DIR=${LLVM_LIBRARY_DIR}")
+  MESSAGE(STATUS  "binder: LLVM_VERSION=${LLVM_VERSION}")
   find_path(LibClang_INCLUDE_DIR stddef.h HINTS
     ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include
     ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include
