@@ -36,6 +36,9 @@ if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
   find_path(LibClang_INCLUDE_DIR stddef.h HINTS
     ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include
     ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION}/include
+    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION}/include
     ${CLANG_INCLUDE_DIRS}
     )
   include_directories( ${CLANG_INCLUDE_DIRS} )
@@ -80,6 +83,7 @@ else()
       ${LLVMINCLUDEDIR}/../clang/${LLVMVERSION}/include
       ${LLVMINCLUDEDIR}/../../lib/clang/${LLVMVERSION}/include
       ${LLVMINCLUDEDIR}/../../lib64/clang/${LLVMVERSION}/include
+      ${CLANG_INCLUDE_DIRS}/clang/${LLVMVERSION}/include
       ${CLANG_INCLUDE_DIRS}
       )
     MESSAGE(STATUS  "binder: llvm version from ${LLVMCONFIGEXE} is ${LLVMVERSION}")
@@ -93,7 +97,7 @@ IF( NOT LibClang_INCLUDE_DIR )
 #This will assure non-empty argument for binder in tests.
     set(LibClang_INCLUDE_DIR "/")
 endif()
-MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIR, the locatiuon of headers is ${LibClang_INCLUDE_DIR}")
+MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIR, the location of headers is ${LibClang_INCLUDE_DIR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MINOR=${LLVM_VERSION_MINOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_PATCH=${LLVM_VERSION_PATCH}")
