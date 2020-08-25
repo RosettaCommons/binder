@@ -99,7 +99,7 @@ endif()
 IF( NOT LibClang_INCLUDE_DIR )
   IF ( CLANG_INCLUDE_DIRS)
     set(LibClang_INCLUDE_DIR ${CLANG_INCLUDE_DIRS})
-  else
+  else()
     set(LibClang_INCLUDE_DIR "/")
   endif()
 endif()
