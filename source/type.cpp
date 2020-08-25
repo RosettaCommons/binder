@@ -20,7 +20,9 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
+#include <Basic/SourceManager.h>
 #include <llvm/Support/Regex.h>
+
 
 //#include <experimental/filesystem>
 #include <cstdlib>
