@@ -13,5 +13,4 @@ ldd -u -r source/binder
 ctest . --output-on-failure 
 out=$?
 cat Testing/Temporary/LastTest.log
-find /usr | grep stddef.h
 echo ::set-output name=out::$out
