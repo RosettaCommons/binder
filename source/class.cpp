@@ -490,6 +490,10 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 		for(auto const & i : pci->second) includes.add_include(O_annotate_includes ? i + " // +include_for_class" : i);
 	}
 
+	for_public_nested_classes([&includes](CXXRecordDecl *innerC) {
+		ClassBinder(innerC).add_relevant_includes(includes);
+	});
+
 	for(auto & m : prefix_includes ) binder::add_relevant_includes(m, includes, 0);
 	binder::add_relevant_includes(C, includes, 0);
 
