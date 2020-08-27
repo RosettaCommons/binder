@@ -62,7 +62,7 @@ public:
 	virtual string id() const = 0;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	virtual clang::NamedDecl * named_decl() const = 0;
+	virtual clang::NamedDecl const * named_decl() const = 0;
 
 	/// check if generator can create binding
 	virtual bool bindable() const = 0;

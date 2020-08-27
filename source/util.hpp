@@ -54,7 +54,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 std::string namespace_from_named_decl(clang::NamedDecl const *decl);
 
 
-std::string typename_from_type_decl(clang::TypeDecl *decl);
+std::string typename_from_type_decl(clang::TypeDecl const *decl);
 
 
 /// Calculate base (upper) namespace for given one: core::pose::motif --> core::pose

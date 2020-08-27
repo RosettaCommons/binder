@@ -490,7 +490,7 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 		for(auto const & i : pci->second) includes.add_include(O_annotate_includes ? i + " // +include_for_class" : i);
 	}
 
-	for_public_nested_classes([&includes](CXXRecordDecl *innerC) {
+	for_public_nested_classes([&includes](CXXRecordDecl const *innerC) {
 		ClassBinder(innerC).add_relevant_includes(includes);
 	});
 
@@ -1039,18 +1039,16 @@ std::string ClassBinder::bind_repr(Context &context)
 }
 
 
-void ClassBinder::for_public_nested_classes(const std::function<void(clang::CXXRecordDecl *C)>& f) const
+void ClassBinder::for_public_nested_classes(std::function<void(clang::CXXRecordDecl const *)> const &f) const
 {
 	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
 		if(CXXRecordDecl *innerC = dyn_cast<CXXRecordDecl>(*d)) {
-			if(innerC->getAccess() == AS_public)
-				f(innerC);
+			if(innerC->getAccess() == AS_public) f(innerC);
 		}
 		else if(ClassTemplateDecl *ct = dyn_cast<ClassTemplateDecl>(*d)) {
 			if(ct->getAccess() == AS_public) {
 				for(auto s = ct->spec_begin(); s != ct->spec_end(); ++s) {
-					if(CXXRecordDecl *innerC = dyn_cast<CXXRecordDecl>(*s))
-						f(innerC);
+					if(CXXRecordDecl *innerC = dyn_cast<CXXRecordDecl>(*s)) f(innerC);
 				}
 			}
 		}
@@ -1061,7 +1059,7 @@ void ClassBinder::for_public_nested_classes(const std::function<void(clang::CXXR
 string ClassBinder::bind_nested_classes(Context &context)
 {
 	string c;
-	for_public_nested_classes([&c, &context, this](CXXRecordDecl *innerC) {
+	for_public_nested_classes([&c, &context, this](CXXRecordDecl const *innerC) {
 		if(is_bindable(innerC)) {
 			//c += "\t// Binding " + C->getNameAsString() + ";\n";
 			ClassBinder b(innerC);

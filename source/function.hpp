@@ -77,13 +77,13 @@ bool is_overloadable(clang::CXXMethodDecl const *M);
 class FunctionBinder : public Binder
 {
 public:
-	FunctionBinder(clang::FunctionDecl *f) : F(f) {}
+	FunctionBinder(clang::FunctionDecl const *f) : F(f) {}
 
 	/// Generate string id that uniquly identify C++ binding object. For functions this is function prototype and for classes forward declaration.
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	clang::NamedDecl * named_decl() const override { return F; };
+	clang::NamedDecl const * named_decl() const override { return F; };
 
 	/// check if generator can create binding
 	bool bindable() const override;
@@ -98,7 +98,7 @@ public:
 	void bind(Context &) override;
 
 private:
-	clang::FunctionDecl *F;
+	clang::FunctionDecl const *F;
 };
 
 
