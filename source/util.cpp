@@ -145,7 +145,7 @@ string namespace_from_named_decl(NamedDecl const *decl)
 
 
 /// generate unique string representation of type represented by given declaration
-string typename_from_type_decl(TypeDecl *decl)
+string typename_from_type_decl(TypeDecl const *decl)
 {
 	return standard_name( decl->getTypeForDecl()->getCanonicalTypeInternal()/*getCanonicalType()*/.getAsString() );
 }

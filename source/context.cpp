@@ -69,7 +69,7 @@ void IncludeSet::clear()
 /// return true if object declared in system header
 bool Binder::is_in_system_header()
 {
-	NamedDecl * decl( named_decl() );
+	NamedDecl const * decl( named_decl() );
 	ASTContext & ast_context( decl->getASTContext() );
 	SourceManager & sm( ast_context.getSourceManager() );
 
@@ -86,7 +86,7 @@ bool Binder::is_binded() const
 
 llvm::raw_ostream & operator << (llvm::raw_ostream & os, Binder const &b)
 {
-	clang::NamedDecl *decl = b.named_decl();
+	clang::NamedDecl const *decl = b.named_decl();
 
 	string name  = decl->getNameAsString();
 	string qualified_name = decl->getQualifiedNameAsString();
@@ -105,7 +105,7 @@ void Context::add(BinderOP &b)
 	binders.push_back(b);
 	ids.insert( b->id() );
 
-	if( TypeDecl * type_decl = dyn_cast<TypeDecl>( b->named_decl() ) ) types[ typename_from_type_decl(type_decl) ] = b;
+	if( TypeDecl const * type_decl = dyn_cast<TypeDecl>( b->named_decl() ) ) types[ typename_from_type_decl(type_decl) ] = b;
 }
 
 void Context::add_insertion_operator(clang::FunctionDecl const *F)
@@ -287,7 +287,7 @@ void Context::sort_binders()
 /// Generate file name where binding for given generator should be stored
 string file_name_prefix_for_binder(BinderOP &b)
 {
-	clang::NamedDecl *decl = b->named_decl();
+	clang::NamedDecl const *decl = b->named_decl();
 
 	string include = relevant_include(decl);
 

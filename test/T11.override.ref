@@ -17,7 +17,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
 #endif
 
-// Base file:T11.override.hpp line:19
+// Base file:T11.override.hpp line:21
 struct PyCallBack_Base : public Base {
 	using Base::Base;
 
@@ -90,7 +90,7 @@ struct PyCallBack_Base : public Base {
 
 void bind_T11_override(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // Base file:T11.override.hpp line:19
+	{ // Base file:T11.override.hpp line:21
 		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Base(); } ) );
 		cl.def(pybind11::init<PyCallBack_Base const &>());
