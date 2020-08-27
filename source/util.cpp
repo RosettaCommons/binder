@@ -19,6 +19,7 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
+#include <clang/Basic/SourceManager.h>
 #include <clang/AST/Comment.h>
 
 //#include <experimental/filesystem>
@@ -255,7 +256,7 @@ string generate_comment_for_declaration(clang::NamedDecl const *decl)
 // extract text from hierarchy of comments
 string get_text(comments::Comment const *C, SourceManager const & SM, SourceLocation previous)
 {
-	if( auto tc = dyn_cast<comments::TextComment>(C) ) return tc->getText();
+	if( auto tc = dyn_cast<comments::TextComment>(C) ) return string(tc->getText());
 	else {
 		string r;
 

@@ -26,7 +26,6 @@ MESSAGE(STATUS  "binder: BINDER_USE_PYTHON_IN_TEST=${BINDER_USE_PYTHON_IN_TEST}"
 MESSAGE(STATUS  "binder: Using LLVM_DIR=${LLVM_DIR} to search for cmake configurations.")
 MESSAGE(STATUS  "binder: Using Clang_DIR=${Clang_DIR} to search for cmake configurations.")
 MESSAGE(STATUS  "binder: Using CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH} to search for cmake configurations.")
-add_custom_target(LLVMSupport)
 find_package(Clang CONFIG QUIET PATHS /usr/lib64/cmake/clang /usr/lib/cmake/clang /usr/share/clang/cmake )
 find_package(LLVM  CONFIG QUIET PATHS /usr/lib64/cmake/clang  /usr/lib/cmake/llvm  /usr/share/llvm/cmake )
 if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
@@ -34,13 +33,26 @@ if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
   MESSAGE(STATUS  "binder: cmake configurations  llvm and clang were found.  LLVM_CMAKE_DIR=${LLVM_CMAKE_DIR}")
   include(AddLLVM)
   include(LLVMConfig)
-  IF(EXISTS ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include)
-    set(LibClang_INCLUDE_DIR ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include)
-  else()
-    IF(EXISTS ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include)
-      set(LibClang_INCLUDE_DIR ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include)
-    endif()
-  endif()
+  MESSAGE(STATUS  "binder: LLVM_LIBRARY_DIR=${LLVM_LIBRARY_DIR}")
+  MESSAGE(STATUS  "binder: LLVM_VERSION=${LLVM_VERSION}")
+  find_path(LibClang_INCLUDE_DIR stddef.h HINTS
+    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION}/include
+    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
+    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
+    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
+    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
+    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
+    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
+    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
+    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
+    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
+    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
+    ${CLANG_INCLUDE_DIRS}
+    )
   include_directories( ${CLANG_INCLUDE_DIRS} )
   MESSAGE(STATUS  "binder: CLANG_INCLUDE_DIRS=${CLANG_INCLUDE_DIRS}")
 else()
@@ -78,6 +90,14 @@ else()
     list(GET VERSION_LIST 0 LLVM_VERSION_MAJOR)
     list(GET VERSION_LIST 1 LLVM_VERSION_MINOR)
     list(GET VERSION_LIST 2 LLVM_VERSION_PATCH)
+    find_path(LibClang_INCLUDE_DIR stddef.h HINTS
+      ${LLVMINCLUDEDIR}/clang/${LLVMVERSION}/include
+      ${LLVMINCLUDEDIR}/../clang/${LLVMVERSION}/include
+      ${LLVMINCLUDEDIR}/../../lib/clang/${LLVMVERSION}/include
+      ${LLVMINCLUDEDIR}/../../lib64/clang/${LLVMVERSION}/include
+      ${CLANG_INCLUDE_DIRS}/clang/${LLVMVERSION}/include
+      ${CLANG_INCLUDE_DIRS}
+      )
     MESSAGE(STATUS  "binder: llvm version from ${LLVMCONFIGEXE} is ${LLVMVERSION}")
     MESSAGE(STATUS  "binder: llvm library dir from ${LLVMCONFIGEXE} is ${LLVMLIBDIR}")
     MESSAGE(STATUS  "binder: llvm includedir dir from ${LLVMCONFIGEXE} is ${LLVMINCLUDEDIR}")
@@ -85,6 +105,11 @@ else()
     MESSAGE(FATAL_ERROR  "binder: llvm-config not found")
   endif()
 endif()
+IF( NOT LibClang_INCLUDE_DIR )
+#This will assure non-empty argument for binder in tests.
+    set(LibClang_INCLUDE_DIR "/")
+endif()
+MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIR, the location of headers is ${LibClang_INCLUDE_DIR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MINOR=${LLVM_VERSION_MINOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_PATCH=${LLVM_VERSION_PATCH}")
@@ -101,7 +126,7 @@ endmacro(add_clang_executable)
 include_directories(source)
 add_subdirectory(source)
 if (BINDER_ENABLE_TEST)
- if(${CMAKE_VERSION} VERSION_LESS "3.0.0.") 
+ if(${CMAKE_VERSION} VERSION_LESS "3.0.0") 
    message("You are running cmake version ${CMAKE_VERSION}.")
    message("The testing suite will be disabled as it requires cmake 3.0.0 or higher.")
  else()
