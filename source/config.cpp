@@ -87,6 +87,11 @@ void Config::read(string const &file_name)
 		if( line.size() ) {
 			if( line[0] == '#' ) continue;
 
+			if( line.back() == '\r' ) {
+				line.pop_back();
+				if( line.empty() ) continue;
+			}
+
 			if( line[0] == '+'  or  line[0] == '-' ) {
 				size_t space = line.find(' ');
 				if(  space == string::npos ) throw std::runtime_error("Invalid line in config file! Each line must have token separated with space from object name. For example: '+function aaa::bb::my_function'. Line: " + line);
