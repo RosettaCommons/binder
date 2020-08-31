@@ -6,6 +6,7 @@
 /// This is a simple and portable implementation of diff utility for the binder CI
 /// that should ignore certain patters. 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <stdio.h>
 #include <vector>
@@ -34,11 +35,13 @@ int skip(std::string const & s1)
     return 0;
 }
 /// This function strips the one-line C++ comments from the input and return the result.
-std::string strip_comment(std::string const & s1)
+std::string strip_comment_and_whitespace(std::string const & s1)
 {
     if (s1.empty()) return s1;
     size_t comment=s1.find_first_of("//");
-    return s1.substr(0,comment);
+    std::string temp=s1.substr(0,comment);
+    temp.erase(std::remove_if (temp.begin(), temp.end(),[](char c){return (c == ' ' || c == '\t');}),temp.end());
+    return temp;
 }
 /// This function compares the content of two files f1 and f2 using the 
 int compare_text_files(std::string const & f1,const std::string & f2)
@@ -64,7 +67,7 @@ int compare_text_files(std::string const & f1,const std::string & f2)
             if (!std::getline(file2,string2)) break;
             if (skip(string2)==0) break;
         }
-        if(strip_comment(string1)!=strip_comment(string2))
+        if(strip_comment_and_whitespace(string1)!=strip_comment_and_whitespace(string2))
         {
             std::cout << j1<<"/"<<j2 << "-th strings are not equal " << f1<<" "<<f2<<"\n";
             std::cout << "   ->" << string1 << "<-\n";
