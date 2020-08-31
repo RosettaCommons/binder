@@ -76,6 +76,8 @@ string relevant_include(NamedDecl const *decl)
 	FileID fid = sm.getFileID( decl->getLocation() );
 	SourceLocation include = sm.getIncludeLoc(fid);
 
+	//outs() << "SL: "; include.dump(sm); outs() << "\n";
+
 	string include_string;
 	if( include.isValid() ) {
 		char const *data = sm.getCharacterData(include);
@@ -126,7 +128,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<memory>", {"std::uninitialized_copy"} },
 
-			 { "<functional>", {"std::function"} },
+			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
 
 			};
 
