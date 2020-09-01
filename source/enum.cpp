@@ -56,6 +56,27 @@ bool is_bindable(EnumDecl const *E)
 	return true;
 }
 
+// This function takes care about the LLVM/Clang bug which was fixed in LLVM6/Clang6.
+// The body of the function is a backport from LLVM6.
+static std::string getQualifiedNameAsStringLLVM5Fix( NamedDecl const *E) {
+	std::string correct;
+	llvm::raw_string_ostream OS(correct);
+	const DeclContext *Ctx = E->getDeclContext();
+	SmallVector<const DeclContext *, 10> Contexts;
+	while (Ctx && isa<NamedDecl>(Ctx)) {
+		Contexts.push_back(Ctx);
+		Ctx = Ctx->getParent();
+	}
+	for (const DeclContext *DC : reverse(Contexts)) {
+		if (const auto *ED = dyn_cast<EnumDecl>(DC)) {
+			if ( ED->isScoped() ) {OS<<*ED; OS<<"::";} else continue;
+		} 
+		else 
+			{ OS << *cast<NamedDecl>(DC);  OS<<"::";}
+	}
+	if ((E->getDeclName() || isa<DecompositionDecl>(E))) OS<<*E; else  OS<<"(anonymous)";
+	return correct;
+}
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
 std::string bind_enum(std::string const & module, EnumDecl const *E)
@@ -70,7 +91,11 @@ std::string bind_enum(std::string const & module, EnumDecl const *E)
 	//r += "\t // is_bindable " + E->getNameAsString() + " -> " + std::to_string(is_bindable(E)) + "\n";
 
 	for(auto e = E->enumerator_begin(); e != E->enumerator_end(); ++e) {
+#if  (LLVM_VERSION_MAJOR > 5)
 		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), e->getQualifiedNameAsString());
+#else
+		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), getQualifiedNameAsStringLLVM5Fix(*e));
+#endif
 	}
 	r.pop_back();
 
