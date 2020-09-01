@@ -106,7 +106,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 
 void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::multiset file:bits/stl_multiset.h line:95
+	{ // std::multiset file:bits/stl_multiset.h line:96
 		pybind11::class_<std::multiset<float>, std::shared_ptr<std::multiset<float>>> cl(M("std"), "multiset_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::multiset<float>(); } ) );
 		cl.def( pybind11::init( [](const struct std::less<float> & a0){ return new std::multiset<float>(a0); } ), "doc" , pybind11::arg("__comp"));
@@ -130,7 +130,7 @@ void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &
 		cl.def("count", (unsigned long (std::multiset<float>::*)(const float &) const) &std::multiset<float, std::less<float>, std::allocator<float> >::count, "C++: std::multiset<float, std::less<float>, std::allocator<float> >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> > (std::multiset<float>::*)(const float &)) &std::multiset<float, std::less<float>, std::allocator<float> >::equal_range, "C++: std::multiset<float, std::less<float>, std::allocator<float> >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> >", pybind11::arg("__x"));
 	}
-	{ // std::multimap file:bits/stl_multimap.h line:98
+	{ // std::multimap file:bits/stl_multimap.h line:99
 		pybind11::class_<std::multimap<float,int>, std::shared_ptr<std::multimap<float,int>>> cl(M("std"), "multimap_float_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::multimap<float,int>(); } ) );
 		cl.def( pybind11::init( [](const struct std::less<float> & a0){ return new std::multimap<float,int>(a0); } ), "doc" , pybind11::arg("__comp"));
@@ -153,7 +153,7 @@ void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &
 		cl.def("count", (unsigned long (std::multimap<float,int>::*)(const float &) const) &std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count, "C++: std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > > (std::multimap<float,int>::*)(const float &)) &std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range, "C++: std::multimap<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > >", pybind11::arg("__x"));
 	}
-	{ // std::unordered_multiset file:bits/unordered_set.h line:830
+	{ // std::unordered_multiset file:bits/unordered_set.h line:895
 		pybind11::class_<std::unordered_multiset<float>, std::shared_ptr<std::unordered_multiset<float>>> cl(M("std"), "unordered_multiset_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::unordered_multiset<float>(); } ) );
 		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_multiset<float>(a0); } ), "doc" , pybind11::arg("__n"));
@@ -218,7 +218,7 @@ void bind_std_stl_multiset(std::function< pybind11::module &(std::string const &
 
 void bind_std_unordered_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::unordered_multimap file:bits/unordered_map.h line:1159
+	{ // std::unordered_multimap file:bits/unordered_map.h line:1233
 		pybind11::class_<std::unordered_multimap<float,int>, std::shared_ptr<std::unordered_multimap<float,int>>> cl(M("std"), "unordered_multimap_float_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::unordered_multimap<float,int>(); } ) );
 		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_multimap<float,int>(a0); } ), "doc" , pybind11::arg("__n"));
