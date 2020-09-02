@@ -58,21 +58,24 @@ bool is_bindable(EnumDecl const *E)
 
 // This function takes care about the LLVM/Clang bug which was fixed in LLVM6/Clang6.
 // The body of the function is a backport from LLVM6.
-static std::string getQualifiedNameAsStringLLVM5Fix( NamedDecl const *E) {
+std::string getQualifiedNameAsStringLLVM5Fix( NamedDecl const *E) {
 	std::string correct;
 	llvm::raw_string_ostream OS(correct);
-	const DeclContext *Ctx = E->getDeclContext();
-	SmallVector<const DeclContext *, 10> Contexts;
+	DeclContext const *Ctx = E->getDeclContext();
+	SmallVector<DeclContext const *, 10> Contexts;
 	while (Ctx && isa<NamedDecl>(Ctx)) {
 		Contexts.push_back(Ctx);
 		Ctx = Ctx->getParent();
 	}
 	for (const DeclContext *DC : reverse(Contexts)) {
 		if (const auto *ED = dyn_cast<EnumDecl>(DC)) {
-			if ( ED->isScoped() ) {OS<<*ED; OS<<"::";} else continue;
-		} 
-		else 
-			{ OS << *cast<NamedDecl>(DC);  OS<<"::";}
+			if ( ED->isScoped() ) {
+				OS<<*ED; OS<<"::";
+				} else continue;
+		} else { 
+			OS << *cast<NamedDecl>(DC);  
+			OS<<"::";
+		}
 	}
 	if ((E->getDeclName() || isa<DecompositionDecl>(E))) OS<<*E; else  OS<<"(anonymous)";
 	return correct;
