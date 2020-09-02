@@ -18,6 +18,10 @@ void foo_not_binded() {}
 struct S_not_binded {};
 }
 
+struct {
+	int a;
+} object;
+
 
 void foo() {}
 

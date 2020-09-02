@@ -16,10 +16,10 @@
 
 void bind_T17_anonymous(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo() file:T17.anonymous.hpp line:22
+	// foo() file:T17.anonymous.hpp line:26
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
-	{ // S file:T17.anonymous.hpp line:24
+	{ // S file:T17.anonymous.hpp line:28
 		pybind11::class_<S, std::shared_ptr<S>> cl(M(""), "S", "");
 		cl.def( pybind11::init( [](){ return new S(); } ) );
 	}

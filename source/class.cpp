@@ -256,6 +256,8 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// disabling bindings for anonymous namespace's
 	// if( qualified_name.rfind("(anonymous namespace)") != std::string::npos ) return false;
 	if( C->isInAnonymousNamespace() ) return false;
+	//if( C->isAnonymousStructOrUnion() ) return false;
+	if( !C->hasNameForLinkage() and  !C->isCXXClassMember() ) return false;
 
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
