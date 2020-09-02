@@ -114,7 +114,11 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			   }
 			 },
 
-			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"} },
+			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale",
+							"std::money_base", "std::money_base::pattern",
+							"std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname",
+							"std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"}
+			 },
 
 			 { "<regex>", {"std::basic_regex", "std::regex_traits"} },
 
