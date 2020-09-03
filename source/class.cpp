@@ -263,8 +263,11 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 
 	bool anonymous_name = qualified_name.rfind(')') != std::string::npos;  // check if type name is "(anonymous)"
 	if( anonymous_name and C->hasNameForLinkage() ) return false;
+	if( anonymous_name and !C->hasNameForLinkage() and !C->isAnonymousStructOrUnion() ) return false;
 
 	//if( C->isAnonymousStructOrUnion() and C->hasNameForLinkage() ) return false;
+
+	//outs() << qualified_name << ": anonymous_name:" << anonymous_name << " isAnonymousStructOrUnion: " << C->isAnonymousStructOrUnion() << " hasNameForLinkage:" << C->hasNameForLinkage() << "\n";
 
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
@@ -1106,7 +1109,6 @@ void ClassBinder::bind(Context &context)
 
 	bool named_class = not C->isAnonymousStructOrUnion();
 
-	//C->dump();
 	//if( named_class and (qualified_name.rfind(')') != std::string::npos) ) named_class = false; // check for anonymous structs and types in anonymous namespaces
 
 	string const module_variable_name = C->isCXXClassMember() and named_class ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
