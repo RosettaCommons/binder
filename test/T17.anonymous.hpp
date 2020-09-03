@@ -23,6 +23,17 @@ struct {
 } object;
 
 
+
+
 void foo() {}
 
-struct S {};
+struct S {
+	int a;
+
+	struct {
+		int b;
+	};
+
+	typedef struct { float c_not_binded; } FL_not_binded;
+	FL_not_binded fl;
+};
