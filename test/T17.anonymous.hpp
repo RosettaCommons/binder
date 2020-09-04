@@ -18,7 +18,37 @@ void foo_not_binded() {}
 struct S_not_binded {};
 }
 
+struct {
+	int a;
+} object;
+
+
 
 void foo() {}
 
-struct S {};
+struct S {
+	int a;
+
+	struct {
+		int b;
+	};
+
+	typedef struct { float c_not_binded; } FL_not_binded;
+	FL_not_binded fl;
+
+	struct {
+		float b4;
+	} B_not_binded[4];
+
+	struct {
+		int c;
+	} C_not_binded;
+
+	typedef struct _D {
+		int d;
+	} D;
+};
+
+typedef struct _S2 {
+	int a;
+} S2;

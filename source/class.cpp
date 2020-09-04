@@ -144,6 +144,8 @@ bool is_bindable(FieldDecl *f)
 
 	if( f->isAnonymousStructOrUnion() ) return false;
 
+	if( !is_bindable( f->getType() ) ) return false;
+
 	return true;
 }
 
@@ -256,6 +258,16 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// disabling bindings for anonymous namespace's
 	// if( qualified_name.rfind("(anonymous namespace)") != std::string::npos ) return false;
 	if( C->isInAnonymousNamespace() ) return false;
+	//if( C->isAnonymousStructOrUnion() ) return false;
+	if( !C->hasNameForLinkage() and  !C->isCXXClassMember() ) return false;
+
+	bool anonymous_name = qualified_name.rfind(')') != std::string::npos;  // check if type name is "(anonymous)"
+	if( anonymous_name and C->hasNameForLinkage() ) return false;
+	if( anonymous_name and !C->hasNameForLinkage() and !C->isAnonymousStructOrUnion() ) return false;
+
+	//if( C->isAnonymousStructOrUnion() and C->hasNameForLinkage() ) return false;
+
+	//outs() << qualified_name << ": anonymous_name:" << anonymous_name << " isAnonymousStructOrUnion: " << C->isAnonymousStructOrUnion() << " hasNameForLinkage:" << C->hasNameForLinkage() << "\n";
 
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
@@ -1068,7 +1080,8 @@ string ClassBinder::bind_nested_classes(Context &context)
 			prefix_code_ += b.prefix_code();
 		}
 	});
-	return c;
+
+	return  c.empty() ? c : "\n" + c;
 }
 
 
@@ -1095,6 +1108,9 @@ void ClassBinder::bind(Context &context)
 	string const qualified_name{ class_qualified_name(C) };
 
 	bool named_class = not C->isAnonymousStructOrUnion();
+
+	//if( named_class and (qualified_name.rfind(')') != std::string::npos) ) named_class = false; // check for anonymous structs and types in anonymous namespaces
+
 	string const module_variable_name = C->isCXXClassMember() and named_class ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
 	//string const decl_namespace = namespace_from_named_decl(C);
 
@@ -1120,8 +1136,6 @@ void ClassBinder::bind(Context &context)
 
 	if(named_class) c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
 	//c += "\tpybind11::handle cl_type = cl;\n\n";
-
-	c += bind_nested_classes(context);
 
 	//if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
 
@@ -1209,6 +1223,8 @@ void ClassBinder::bind(Context &context)
 
 	std::map<string, string> const &external_add_on_binders = Config::get().add_on_binders();
 	if( external_add_on_binders.count(qualified_name_without_template) ) c += "\n\t{}(cl);\n"_format(external_add_on_binders.at(qualified_name_without_template));
+
+	c += bind_nested_classes(context);
 
 	c += "}\n";
 
