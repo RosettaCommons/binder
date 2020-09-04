@@ -38,6 +38,10 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 {
 	{ // Base file:T15.inner_class.hpp line:16
 		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
+		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
+		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
+		cl.def("assign", (struct Base & (Base::*)(const struct Base &)) &Base::operator=, "C++: Base::operator=(const struct Base &) --> struct Base &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+
 		{ // Base::(anonymous) file:T15.inner_class.hpp line:21
 			cl.def_readwrite("a", &Base::a);
 			cl.def_readwrite("b", &Base::b);
@@ -66,9 +70,6 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 			cl.def_readwrite("value", &Base::InnerTemplate<float>::value);
 		}
 
-		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
-		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
-		cl.def("assign", (struct Base & (Base::*)(const struct Base &)) &Base::operator=, "C++: Base::operator=(const struct Base &) --> struct Base &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 }
 

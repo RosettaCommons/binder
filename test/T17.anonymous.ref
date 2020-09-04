@@ -1,5 +1,7 @@
 // File: T17_anonymous.cpp
 #include <T17.anonymous.hpp> // S
+#include <T17.anonymous.hpp> // S::_D
+#include <T17.anonymous.hpp> // _S2
 #include <T17.anonymous.hpp> // foo
 #include <sstream> // __str__
 
@@ -16,12 +18,30 @@
 
 void bind_T17_anonymous(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo() file:T17.anonymous.hpp line:22
+	// foo() file:T17.anonymous.hpp line:27
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
-	{ // S file:T17.anonymous.hpp line:24
+	{ // S file:T17.anonymous.hpp line:29
 		pybind11::class_<S, std::shared_ptr<S>> cl(M(""), "S", "");
 		cl.def( pybind11::init( [](){ return new S(); } ) );
+		cl.def_readwrite("a", &S::a);
+
+		{ // S::(anonymous) file:T17.anonymous.hpp line:32
+			cl.def_readwrite("b", &S::b);
+		}
+
+		{ // S::_D file:T17.anonymous.hpp line:47
+			auto & enclosing_class = cl;
+			pybind11::class_<S::_D, std::shared_ptr<S::_D>> cl(enclosing_class, "_D", "");
+			cl.def( pybind11::init( [](){ return new S::_D(); } ) );
+			cl.def_readwrite("d", &S::_D::d);
+		}
+
+	}
+	{ // _S2 file:T17.anonymous.hpp line:52
+		pybind11::class_<_S2, std::shared_ptr<_S2>> cl(M(""), "_S2", "");
+		cl.def( pybind11::init( [](){ return new _S2(); } ) );
+		cl.def_readwrite("a", &_S2::a);
 	}
 }
 
