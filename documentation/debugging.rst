@@ -1,38 +1,37 @@
-Debugging
+Debugging and troubleshooting 
 ##########
 
-This section is to talk about examples of how you would debug your config.
+This section is dedicaded to the description of problems that 
+might appear while creating the python bindings with binder and the ways to avoid them.
 
----------------
-Basic knowledge
----------------
-
-Sometimes, things aren't as point and click as you might expect it to be.  
-Here are some helpful tips that might help you on your way to making bindings.
+Below are some helpful tips that might help to make  the bindings.
 
 
 ---------------
-inconsistencies
+Inconsistencies
 ---------------
 
-Binder moves down your ``all_includes_file`` sequentially, sometimes you might end up with errors,
-and sometimes you might not.  This is almost always caused by your ``all_includes_file`` being
-different between runs.  The order shouldn't really matter, but nail it down to at least be
+Binder moves down the ``all_includes_file`` file sequentially, sometimes ending up with errors.  
+This is almost always caused by the ``all_includes_file`` being
+different between runs.  The order shouldn't be important, but nail it down to at least be
 consistent, and then move on to the next step.
 
 --------------
 Build failures
 --------------
 
-Sometimes you might get an error when building your compiled module.  binder has trouble  
-when standard libraries include eachother.  We have already mapped many of these
-interactions in ``types.cc``, but we still might be missing some internal knowledge about
-all of the c++ std library modules out there.  An error like this almost always
-manifests itself with an abundance of errors complaining about ``std::bits`` or ``bits``.
+Even when the binding were generated successfully,  there might be compilation errors when building the modules from the generated sources.
+Quite often  the errors are caused by the implementation of the standard library, when the headers of the standard library 
+include each other, or include implementation-specific headers. 
+Many cases like that are already  handeled in the  functions from the ``source/types.cpp`` file, using the knowledge of the existing STL implementations.
+However some cases might still be missing, e.g. for the newest or not wide-spread versions of STL. An example of debug for these case is described below.
 
 
-So let's go through something I just debugged. Binder seemed to work fine, however the actual
-compiling step failed with the error:
+On systems with GNU STL, the compilation errors for the cases not handeled by the ``source/types.cpp``,
+would manifests itself with an abundance of errors complaining about some headers from the ``bits`` directory, which typically 
+contains the details of particular STL implementation.
+
+For instance, the compilation could fail with an error message:
 
 .. code-block:: console
 
@@ -41,14 +40,13 @@ compiling step failed with the error:
     /usr/include/c++/7/bits/stl_construct.h: In function ‘void std::_Destroy(_ForwardIterator, _ForwardIterator)’:
     **bunch of garbage below here**
 
-1.  Rebuild bindings, but now add the flag ``--annotate-includes`` which will give us much
-    more information than we would normally get
+The ways to handle this error:
 
-2.  Since we know that ``bits`` is bad for binder, we can just grep for bits in the directory where we
-    generate and compile the bindings.  In the ``examples`` section, this is the same as the directory
-    ``cmake_bindings``.
+1.  Rebuild bindings adding the flag ``--annotate-includes`` which will provide much
+    more information on the binded classes.
 
-3.  We then run the ``grep -r "bits" cmake_bindings/*`` which yields:
+2.  Since the includes from the ``bits`` directory should not appear in the generated code,  one can grep for ``bits`` in the generated codes, 
+   i.e. ``grep -r "bits" cmake_bindings/*`` could yield:
 
 .. code-block:: console
 
@@ -74,23 +72,24 @@ compiling step failed with the error:
     cmake_bindings/std/complex.cpp:#include <bits/stl_uninitialized.h> // std::__uninitialized_move_if_noexcept_a
     cmake_bindings/std/complex.cpp:#include <bits/stl_uninitialized.h> // std::uninitialized_copy
   
-Wow that's a lot, but we are really only interested in the std modules without ``_`` in them,
-usually located near the bottom! in this case, we are interested in
-``std::uninitialized_copy``.  A quick google tells us that this is part of the
-``#include <memory>`` library.  Something that binder (in this case) hadn't seen before.
+The important information in the output is the ``std::`` types/functions without the leading underscores.
+ Those are STL-implementation independent types/functions that should be defined elsewhere, not in the headrs from the ``bits`` directory.
+In this particular example, the function of interest is ``std::uninitialized_copy``.  
 
-Let's fix that!
+A quick search in the C++ documentation or in the WWW,  tells that this function is defined in the <memory> header.
+Therefore, this information should be hardcoded into the binder.
 
-4.  The internal binder function that we have made all std library mappings for is located
-    in ``source/types.cpp``:``add_relevant_include_for_decl``.  It has a vector that is
-    instantiated via something that looks a lot like this:
+
+3.  The internal binder function that handlels  the STL library mappings is located
+    in ``source/types.cpp``:``add_relevant_include_for_decl``.  Briefly, the function has a map with 
+    the STL headers and the types those contain. That should look similar to this:
 
 .. code-block:: python
 
     { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
     { "<exception>", {"std::nested_exception"} }
 
-In this case, we needed to make a simple change that added a map for ``<memory>``
+If there is a need to make a simple change, like in our case,  the map for the ``<memory>`` can be added like this:
 
 
 .. code-block:: python
@@ -100,5 +99,7 @@ In this case, we needed to make a simple change that added a map for ``<memory>`
     { "<memory>", {"std::uninitialized_copy"} },
 
 
-5.  Recompile binder, and then rebuild and see if your build works, if not and you still see ``bits``
-    rinse, and repeat.  If this fixes your problem please let us know, or make a pull request!
+4.  After the changes are done, the binder executable should be recompilled and re-used to create the desired bindings. 
+    In some cases many iterations of the described procedure will be needed till all the STL types/functions will be mapped to the correct includes. 
+    
+    If this fixes your problem please let us know, or make a pull request!
