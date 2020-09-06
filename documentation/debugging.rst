@@ -1,10 +1,10 @@
 Debugging and troubleshooting 
 ##########
 
-This section is dedicaded to the description of problems that 
+This section is dedicated to the description of problems that 
 might appear while creating the python bindings with binder and the ways to avoid them.
 
-Below are some helpful tips that might help to make  the bindings.
+Below are some helpful tips that might help to make the bindings.
 
 
 ---------------
@@ -20,15 +20,17 @@ consistent, and then move on to the next step.
 Build failures
 --------------
 
-Even when the binding were generated successfully,  there might be compilation errors when building the modules from the generated sources.
-Quite often  the errors are caused by the implementation of the standard library, when the headers of the standard library 
+Even when the bindings were generated successfully,  there might be compilation errors when building the modules from the generated sources.
+Quite often  the errors are caused by the implementation of the С++standard library, when the headers of the standard library 
 include each other, or include implementation-specific headers. 
-Many cases like that are already  handeled in the  functions from the ``source/types.cpp`` file, using the knowledge of the existing STL implementations.
-However some cases might still be missing, e.g. for the newest or not wide-spread versions of STL. An example of debug for these case is described below.
+Many cases like that are already handled in the functions from the ``source/types.cpp`` file, 
+using the knowledge of the existing STL implementations.
+However some cases might still be missing, e.g. for the newest or not wide-spread versions of STL. 
+An example of debugging for these cases is described below.
 
 
-On systems with GNU STL, the compilation errors for the cases not handeled by the ``source/types.cpp``,
-would manifests itself with an abundance of errors complaining about some headers from the ``bits`` directory, which typically 
+On systems with GNU STL, the compilation errors for the cases not handled by the ``source/types.cpp``,
+would manifest itself with an abundance of errors complaining about some headers from the ``bits`` directory, which typically 
 contains the details of particular STL implementation.
 
 For instance, the compilation could fail with an error message:
@@ -73,16 +75,15 @@ The ways to handle this error:
     cmake_bindings/std/complex.cpp:#include <bits/stl_uninitialized.h> // std::uninitialized_copy
   
 The important information in the output is the ``std::`` types/functions without the leading underscores.
- Those are STL-implementation independent types/functions that should be defined elsewhere, not in the headrs from the ``bits`` directory.
+ Those are STL-implementation independent types/functions that should be defined elsewhere, not in the headers from the ``bits`` directory.
 In this particular example, the function of interest is ``std::uninitialized_copy``.  
 
 A quick search in the C++ documentation or in the WWW,  tells that this function is defined in the <memory> header.
 Therefore, this information should be hardcoded into the binder.
 
 
-3.  The internal binder function that handlels  the STL library mappings is located
-    in ``source/types.cpp``:``add_relevant_include_for_decl``.  Briefly, the function has a map with 
-    the STL headers and the types those contain. That should look similar to this:
+3.  The internal binder function that handles the STL library mappings is located in ``source/types.cpp``:``add_relevant_include_for_decl``.  
+Briefly, the function has a map with the STL headers and the types those contain. That should look similar to this:
 
 .. code-block:: python
 
@@ -100,6 +101,6 @@ If there is a need to make a simple change, like in our case,  the map for the `
 
 
 4.  After the changes are done, the binder executable should be recompilled and re-used to create the desired bindings. 
-    In some cases many iterations of the described procedure will be needed till all the STL types/functions will be mapped to the correct includes. 
+    In some cases, many iterations of the described procedure will be needed till all the STL types/functions will be mapped to the correct includes. 
     
     If this fixes your problem please let us know, or make a pull request!
