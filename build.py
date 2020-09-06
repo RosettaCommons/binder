@@ -29,7 +29,7 @@ _machine_name_ = os.uname()[1]
 
 _python_version_ = '{}.{}'.format(sys.version_info.major, sys.version_info.minor)  # should be formatted: 2.7, 3.5, 3.6, ...
 
-_pybind11_version_ = '2d0507db43cd5a117f7843e053b17dffca114107'
+_pybind11_version_ = '35045eeef8969b7b446c64b192502ac1cbf7c451'
 
 
 def execute(message, command_line, return_='status', until_successes=False, terminate_on_failure=True, silent=False):
@@ -87,13 +87,13 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     '''
     if not os.path.isdir(prefix): os.makedirs(prefix)
 
-    llvm_version='4.0.0'
+    llvm_version='6.0.1'
     prefix += '/llvm-' + llvm_version
     clang_path = "{prefix}/tools/clang".format(**locals())
 
-    if not os.path.isfile(prefix + '/CMakeLists.txt'): execute('Download llvm source.', 'curl http://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo && mv llvm-{llvm_version}.src {prefix}'.format(llvm_version=llvm_version, prefix=prefix) )
+    if not os.path.isfile(prefix + '/CMakeLists.txt'): execute('Download llvm source.', 'curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxo && mv llvm-{llvm_version}.src {prefix}'.format(llvm_version=llvm_version, prefix=prefix) )
 
-    if not os.path.isdir(clang_path): execute('Download clang source.', 'curl http://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo && mv cfe-{llvm_version}.src {clang_path}'.format(llvm_version=llvm_version, clang_path=clang_path) )
+    if not os.path.isdir(clang_path): execute('Download clang source.', 'curl https://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxo && mv cfe-{llvm_version}.src {clang_path}'.format(llvm_version=llvm_version, clang_path=clang_path) )
 
     if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
@@ -111,7 +111,7 @@ def install_llvm_tool(name, source_location, prefix, debug, jobs=1, clean=True, 
     if not os.path.isdir(build_dir): os.makedirs(build_dir)
     execute(
         'Building tool: {}...'.format(name),
-        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja bin/binder clang {jobs}'.format( # we need to build Clang so lib/clang/<version>/include is also built
+        'cd {build_dir} && cmake -G Ninja -DCMAKE_BUILD_TYPE={build_type} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja binder tools/clang/lib/Headers/clang-headers {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
             build_dir=build_dir,
             jobs="-j{}".format(jobs) if jobs else "",
             build_type='Debug' if debug else 'Release',
@@ -152,7 +152,7 @@ def main(args):
     parser.add_argument('-j', '--jobs', default=1, const=0, nargs="?", type=int, help="Number of processors to use on when building, use '-j' with no arguments to launch job-per-core. (default: 1) ")
     parser.add_argument("--type", default='Release', choices=['Release', 'Debug', 'MinSizeRel', 'RelWithDebInfo'], help="Specify build type")
     parser.add_argument('--compiler', default='clang', help='Compiler to use, defualt is clang')
-    parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into main/source/build. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
+    parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')

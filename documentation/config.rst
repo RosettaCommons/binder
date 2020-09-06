@@ -8,33 +8,39 @@ Binder provides two ways to supply configuration options: command-line and confi
 Command line options
 ====================
 
-`--root-module` specify name of generated Python root module. This name is also used as prefix for various Binder output
+``--root-module`` specify name of generated Python root module. This name is also used as prefix for various Binder output
 files. Typically the following files will be generated: ``<root-module>.cpp``, ``<root-module>.sources``,
 ``<root-module>.modules``.
 
 
-`--max-file-size` specify maximum file size in bytes exceeding which Binder will split generated sources into multiple files.
+``--max-file-size`` specify maximum file size in bytes exceeding which Binder will split generated sources into multiple files.
 
 
-`--prefix` name/path prefix for generated files.
+``--prefix`` name/path prefix for generated files.
 
 
-`--bind` list of namespaces that need to binded. Works in conjunction with similar config file directives.
+``--bind`` list of namespaces that need to binded. Works in conjunction with similar config file directives.
 
 
-`--skip` list of namespaces that should be skipped. Works in conjunction with similar config file directives.
+``--skip`` list of namespaces that should be skipped. Works in conjunction with similar config file directives.
 
 
-`--config` specify config file to use.
+``--config`` specify config file to use.
 
 
-`--single-file` if specified instruct Binder to put generated sources into single large file. This might be useful for small projects.
+``--single-file`` if specified instruct Binder to put generated sources into single large file. This might be useful for small projects.
 
 
-`--annotate-includes` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
+``--flat`` if specified instruct Binder to write generate code files into single directory. Generated files will be named as ``<root-module>.cpp``, ``<root-module>_1.cpp``, ``<root-module>_2.cpp``, ... etc.
 
 
-`--trace` [debug] if specified instruct Binder to add extra debug output before binding each type. This might be useful when debugging generated code that produce seg-faults during python import.
+``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
+
+
+``--annotate-includes`` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
+
+
+``--trace`` [debug] if specified instruct Binder to add extra debug output before binding each type. This might be useful when debugging generated code that produce seg-faults during python import.
 
 
 
@@ -58,6 +64,7 @@ Config file directives:
   +namespace utility
 
 
+
 * ``class``, specify if particular class/struct should be bound. Purpose of this directive is to allow developer to cherry-pick
   particular class from otherwise binded/skipped namespaces and mark it for binding/skipping.
 
@@ -65,6 +72,7 @@ Config file directives:
 
   -class utility::pointer::ReferenceCount
   -class std::__weak_ptr
+
 
 
 * ``function``, specify if particular function should be bound. This could be used for both template and normal function.
@@ -87,6 +95,8 @@ Config file directives:
   -include <boost/format/internals.hpp>
   +include <python/PyRosetta/binder/stl_binders.hpp>
 
+
+
 * ``include_for_class``, directive to control C++ include directives on a per-class basis. Force Binder to add particular include
   into generated source files when a given target class is present. This allows the inclusion of custom binding code, which may
   then be referenced with either ``+binder`` or ``+add_on_binder`` directives.
@@ -94,6 +104,17 @@ Config file directives:
 .. code-block:: bash
 
   +include_for_class example::class <example/class_binding.hpp>
+
+
+
+* ``include_for_namespace``, directive to control C++ include directives on a per-namespace basis. Force Binder to add particular include
+  into generated source files when generating bindings for specified namespace. This allows the inclusion of custom binding code, which may
+  then be referenced with either ``+binder``, ``+add_on_binder``,  ``binder_for_namespace`` or ``add_on_binder_for_namespace`` directives.
+
+.. code-block:: bash
+
+  +include_for_namespace aaaa::bbbb <aaaa/bbbb/namespace_binding.hpp>
+
 
 
 * ``binder``, specify custom binding function for particular concrete or template class. In the example below all
@@ -107,6 +128,7 @@ Config file directives:
   vector_binder(pybind11::module &m, std::string const &name, std::string const & /*allocator name*/) {...}
 
 
+
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
   generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
   operators, etc.)
@@ -118,6 +140,23 @@ Config file directives:
 
   +add_on_binder numeric::xyzVector rosetta_binders::xyzVector_add_on_binder
 
+
+
+* ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
+  _instead_ of generating bindings for namaspace.
+
+.. code-block:: bash
+
+  +binder_for_namespace aaaa binder_for_namespace_aaaa
+
+
+
+* ``+add_on_binder_for_namespace``, similar to ``add_on_binder``: specify custom binding function for namespace that will be called `before` Binder
+  generated code bound it. This allow developer to create extra bindings for particular namespace.
+
+.. code-block:: bash
+
+  +add_on_binder_for_namespace aaaa::bbbb binder_for_namespace_aaaa_bbbb
 
 
 
@@ -144,7 +183,7 @@ Config file directives:
 * ``default_member_rvalue_reference_return_value_policy``, specify return value policy for member functions returning r-value reference. Default
   is 'pybind11::return_value_policy::automatic'.
 
-* ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <http://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard`_. Default None.
+* ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <http://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
 
 
 

@@ -142,13 +142,21 @@ bool is_bindable(FieldDecl *f)
 
 	if( !is_field_assignable(f) ) return false;
 
+	if( f->isAnonymousStructOrUnion() ) return false;
+
+	if( !is_bindable( f->getType() ) ) return false;
+
 	return true;
 }
 
 
 // Generate bindings for class data member
-string bind_data_member(FieldDecl const *d, string const &class_qualified_name)
+string bind_data_member(FieldDecl const *d, string const &class_qualified_name_)
 {
+	string class_qualified_name = class_qualified_name_;
+	string const anonymous = "::(anonymous)";
+	if( ends_with(class_qualified_name, anonymous) ) class_qualified_name.resize( class_qualified_name.size() - anonymous.size() );
+
 	if( d->getType().isConstQualified() ) return ".def_readonly(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 	else return ".def_readwrite(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 }
@@ -181,26 +189,27 @@ bool is_const_overload(CXXMethodDecl *mc)
 // check if given CXXRecordDecl (which known to be template specialization of std::function) is bindable
 bool is_std_function_bindable(CXXRecordDecl const *C)
 {
-	//outs() << "is_std_function_bindable( " << class_qualified_name(C) << "\n";
-	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+        //outs() << "is_std_function_bindable( " << class_qualified_name(C) << "\n";
+        if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
 
-		for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
+                for(uint i=0; i < t->getTemplateArgs().size(); ++i) {
 
+                        if (t->getTemplateArgs()[i].getKind() == TemplateArgument::Declaration) {
+                                //outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
+                                //t->getTemplateArgs()[i].dump();
+                                QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
+                                //qt.dump();
 
-			//outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
-			//t->getTemplateArgs()[i].dump();
-			QualType qt = t->getTemplateArgs()[i].getParamTypeForDecl();
-			//qt.dump();
-
-			if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
-				if( not is_bindable( ft->getReturnType() ) ) return false;
-				for(uint i=0; i < ft->getNumParams(); ++i) {
-					if( not is_bindable( ft->getParamType(i) ) ) return false;
-				}
-			}
-		}
-	}
-	return true;
+                                if( FunctionProtoType const *ft = dyn_cast<FunctionProtoType>( qt.getTypePtr() ) ) {
+                                        if( not is_bindable( ft->getReturnType() ) ) return false;
+                                        for(uint i=0; i < ft->getNumParams(); ++i) {
+                                                if( not is_bindable( ft->getParamType(i) ) ) return false;
+                                        }
+                                }
+                        }
+                }
+        }
+        return true;
 }
 
 bool is_bindable_raw(clang::CXXRecordDecl const *C);
@@ -240,9 +249,25 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 	// }
 
-	//if( qualified_name == "(anonymous)" ) return false;
 	//if( C->getNameAsString() == "" ) return false;
-	if( qualified_name.rfind(')') != std::string::npos ) return false;
+
+	// enabling binding of anonymous classes and handle it as special case in `bind_nested_classes`
+	//if( qualified_name == "(anonymous)" ) return false;
+	//if( qualified_name.rfind(')') != std::string::npos ) return false; // check for anonymous structs and types in anonymous namespaces
+
+	// disabling bindings for anonymous namespace's
+	// if( qualified_name.rfind("(anonymous namespace)") != std::string::npos ) return false;
+	if( C->isInAnonymousNamespace() ) return false;
+	//if( C->isAnonymousStructOrUnion() ) return false;
+	if( !C->hasNameForLinkage() and  !C->isCXXClassMember() ) return false;
+
+	bool anonymous_name = qualified_name.rfind(')') != std::string::npos;  // check if type name is "(anonymous)"
+	if( anonymous_name and C->hasNameForLinkage() ) return false;
+	if( anonymous_name and !C->hasNameForLinkage() and !C->isAnonymousStructOrUnion() ) return false;
+
+	//if( C->isAnonymousStructOrUnion() and C->hasNameForLinkage() ) return false;
+
+	//outs() << qualified_name << ": anonymous_name:" << anonymous_name << " isAnonymousStructOrUnion: " << C->isAnonymousStructOrUnion() << " hasNameForLinkage:" << C->hasNameForLinkage() << "\n";
 
 	if( C->isDependentType() ) return false;
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
@@ -281,11 +306,12 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	// 	}
 	// }
 
-	if( C->hasDefinition()  and  C->isAbstract() ) {
-		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
-		}
-	}
+	// Actually just always bind _all_ abstarct classes (but do not create trampoline for them if they can not be derived-from in Python!) so we can access base interfaces from Python
+	// if( C->hasDefinition()  and  C->isAbstract() ) {
+	// 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+	// 		if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+	// 	}
+	// }
 
 	if( r && is_banned_symbol(C) ) return false;
 
@@ -469,12 +495,16 @@ void ClassBinder::request_bindings_and_skipping(Config const &config)
 void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 {
 	string const qualified_name_without_template = standard_name( C->getQualifiedNameAsString() );
-	std::map<string, std::vector<string>> const &per_class_includes= Config::get().per_class_includes();
+	std::map<string, std::vector<string>> const &class_includes= Config::get().class_includes();
 
-	auto pci = per_class_includes.find(qualified_name_without_template);
-	if(pci != per_class_includes.end()) {
+	auto pci = class_includes.find(qualified_name_without_template);
+	if(pci != class_includes.end()) {
 		for(auto const & i : pci->second) includes.add_include(O_annotate_includes ? i + " // +include_for_class" : i);
 	}
+
+	for_public_nested_classes([&includes](CXXRecordDecl const *innerC) {
+		ClassBinder(innerC).add_relevant_includes(includes);
+	});
 
 	for(auto & m : prefix_includes ) binder::add_relevant_includes(m, includes, 0);
 	binder::add_relevant_includes(C, includes, 0);
@@ -521,6 +551,14 @@ inline string callback_structure_name(CXXRecordDecl const *C)
 bool is_callback_structure_needed(CXXRecordDecl const *C)
 {
 	//C->dump();
+
+	// check if all pure-virtual methods could be overridden in Python
+	if( C->isAbstract() ) {
+		for(auto m = C->method_begin(); m != C->method_end(); ++m) {
+			if( m->isPure() and is_const_overload(*m) ) return false;  // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+		}
+	}
+
 	if( C->hasAttr<FinalAttr>() ) return false;
 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
@@ -615,7 +653,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			// 	(*m)->dump();
 			// }
 
-			string return_type = m->getReturnType().getCanonicalType().getAsString();  fix_boolean_types(return_type);
+			string return_type = standard_name( m->getReturnType().getCanonicalType().getAsString() );  fix_boolean_types(return_type);
 
 			// check if we need to fix return class to be 'derived-class &' or 'derived-class *'
 			// if( m->isVirtual() ) {
@@ -652,7 +690,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 					if( fpt->getExceptionSpecType() & (clang::ExceptionSpecificationType::EST_DynamicNone | clang::ExceptionSpecificationType::EST_Dynamic | clang::ExceptionSpecificationType::EST_MSAny) ) exception_specification = "throw() ";
 				}
 
-				c += "\t{} {}({}){} {}override {{ "_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
+				c += "\t{} {}({}){} {}override {{"_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
 
 				c += indent( fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */python_name, std::get<1>(args), return_type), "\t\t");
 				if( m->isPure() ) c+= "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
@@ -880,6 +918,7 @@ struct ConstructorBindingInfo
 //char const * constructor_if_template = "\tcl.def(\"__init__\", [cl_type](pybind11::handle self_{0}) {{ if (self_.get_type() == cl_type) new (self_.cast<{2} *>()) {2}({1}); else new (self_.cast<{3} *>()) {3}({1}); }}, \"doc\");";
 
 char const * constructor_template =                 "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\");";
+char const * constructor_template_with_py_arg =      "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }} ), \"doc\" {3});";
 char const * constructor_with_trampoline_template = "\tcl.def( pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 //char const * constructor_lambda_template = "\tcl.def(pybind11::init( []({0}){{ return new {2}({1}); }}, []({0}){{ return new {3}({1}); }} ), \"doc\");";
 
@@ -909,6 +948,12 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 		//string params = args_to_bind ? ", " + args.first : "";
 		string params = args_to_bind ? args.first : "";
 
+		string args_helper;
+
+		for(uint i=0; i<CBI.T->getNumParams()  and  i < args_to_bind; ++i) {
+			args_helper += ", pybind11::arg(\"{}\")"_format( string( CBI.T->getParamDecl(i)->getName() ) );
+		}
+
 		// if( CBI.T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
 		// else if( constructor_types.first.size()  and  constructor_types.second.size() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
 		// else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first);
@@ -916,7 +961,7 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
 		else if( CBI.trampoline ) c = fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
-		else c = fmt::format(constructor_template, params, args.second, CBI.class_qualified_name);
+		else c = fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, args_helper);
 	}
 
 	return c;
@@ -1006,21 +1051,37 @@ std::string ClassBinder::bind_repr(Context &context)
 }
 
 
-string ClassBinder::bind_nested_classes(CXXRecordDecl const *EC, Context &context)
+void ClassBinder::for_public_nested_classes(std::function<void(clang::CXXRecordDecl const *)> const &f) const
 {
-	string c;
-	for(auto d = EC->decls_begin(); d != EC->decls_end(); ++d) {
-		if(CXXRecordDecl *C = dyn_cast<CXXRecordDecl>(*d) ) {
-			if( C->getAccess() == AS_public  and  is_bindable(C) ) {
-				//c += "\t// Binding " + C->getNameAsString() + ";\n";
-				ClassBinder b(C);
-				b.bind(context);
-				c += b.code();  c += '\n';
-				prefix_code_ += b.prefix_code();
+	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
+		if(CXXRecordDecl *innerC = dyn_cast<CXXRecordDecl>(*d)) {
+			if(innerC->getAccess() == AS_public) f(innerC);
+		}
+		else if(ClassTemplateDecl *ct = dyn_cast<ClassTemplateDecl>(*d)) {
+			if(ct->getAccess() == AS_public) {
+				for(auto s = ct->spec_begin(); s != ct->spec_end(); ++s) {
+					if(CXXRecordDecl *innerC = dyn_cast<CXXRecordDecl>(*s)) f(innerC);
+				}
 			}
 		}
 	}
-	return c;
+}
+
+
+string ClassBinder::bind_nested_classes(Context &context)
+{
+	string c;
+	for_public_nested_classes([&c, &context, this](CXXRecordDecl const *innerC) {
+		if(is_bindable(innerC)) {
+			//c += "\t// Binding " + C->getNameAsString() + ";\n";
+			ClassBinder b(innerC);
+			b.bind(context);
+			c += b.code();  c += '\n';
+			prefix_code_ += b.prefix_code();
+		}
+	});
+
+	return  c.empty() ? c : "\n" + c;
 }
 
 
@@ -1045,7 +1106,12 @@ void ClassBinder::bind(Context &context)
 	if(trampoline) generate_prefix_code();
 
 	string const qualified_name{ class_qualified_name(C) };
-	string const module_variable_name = C->isCXXClassMember() ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
+
+	bool named_class = not C->isAnonymousStructOrUnion();
+
+	//if( named_class and (qualified_name.rfind(')') != std::string::npos) ) named_class = false; // check for anonymous structs and types in anonymous namespaces
+
+	string const module_variable_name = C->isCXXClassMember() and named_class ? "enclosing_class" : context.module_variable_name( namespace_from_named_decl(C) );
 	//string const decl_namespace = namespace_from_named_decl(C);
 
 	string c = "{ " + generate_comment_for_declaration(C);
@@ -1053,7 +1119,7 @@ void ClassBinder::bind(Context &context)
 	//c += " // qualified_name: {}\n"_format(qualified_name);
 	//c += " // getQualifiedNameAsString: {}{}\n"_format( C->getQualifiedNameAsString(), template_specialization(C) );
 
-	if( C->isCXXClassMember() ) c += "\tauto & enclosing_class = cl;\n";
+	if( C->isCXXClassMember() and named_class ) c += "\tauto & enclosing_class = cl;\n";
 
 	//c += "// namespace: " + namespace_from_named_decl(C->getOuterLexicalRecordContext()) + "\n";
 
@@ -1068,14 +1134,12 @@ void ClassBinder::bind(Context &context)
 
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
-	c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
-	c += "\tpybind11::handle cl_type = cl;\n\n";
-
-	c += bind_nested_classes(C, context);
+	if(named_class) c += '\t' + R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}");)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C), generate_documentation_string_for_declaration(C)) + '\n';
+	//c += "\tpybind11::handle cl_type = cl;\n\n";
 
 	//if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
 
-	if( !C->isAbstract()  or  callback_structure_constructible) {
+	if( (!C->isAbstract()  or  callback_structure_constructible) and named_class ) {
 		bool default_constructor_processed = false;
 		//bool copy_constructor_processed = false;
 
@@ -1159,6 +1223,8 @@ void ClassBinder::bind(Context &context)
 
 	std::map<string, string> const &external_add_on_binders = Config::get().add_on_binders();
 	if( external_add_on_binders.count(qualified_name_without_template) ) c += "\n\t{}(cl);\n"_format(external_add_on_binders.at(qualified_name_without_template));
+
+	c += bind_nested_classes(context);
 
 	c += "}\n";
 

@@ -95,8 +95,8 @@ def run_test(test_path, build_dir):
     if not_binded: print('{}\n"not_binded" string found in results for test {}!!!\n'.format('\n'.join(not_binded), test)); sys.exit(1)
 
     if r  and  Options.accept:
-        a = input( 'Accept new results from test {} as reference? (yes or no) '.format(test) )
-        if a in ['y', 'yes']: shutil.copyfile(new, ref)
+        a = input( 'Accept new results from test {test} as reference? [Y/n] '.format(test=test) )
+        if a in ['', 'y', 'yes']: shutil.copyfile(new, ref)
 
 
 
@@ -111,7 +111,7 @@ def main():
 
     parser.add_argument("--accept", action="store_true", help="Run tests and accept new tests results as reference")
 
-    parser.add_argument('args', nargs=argparse.REMAINDER)
+    parser.add_argument('args', nargs=argparse.REMAINDER, help='Optional: list of tests to run')
 
     global Options
     Options = parser.parse_args()
@@ -120,7 +120,7 @@ def main():
 
     tests = Options.args or sorted( get_test_files(test_source_dir) )
 
-    build_dir = test_source_dir + '/build/'
+    build_dir = test_source_dir + '/build'
     if os.path.isdir(build_dir): print('Removing old test dir {0} ...'.format(build_dir));  shutil.rmtree(build_dir)  # remove old dir if any
     os.makedirs(build_dir)
     #if not os.path.isdir(build_dir): os.makedirs(build_dir)

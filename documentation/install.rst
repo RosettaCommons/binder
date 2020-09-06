@@ -9,48 +9,191 @@ Requirements
 The following tools need to be present in order to build and use **Binder**
 
 - CMake, https://cmake.org
+  - static compilation requires version 3.13 or above, see below
 - Pybind11, RosettaCommons fork: https://github.com/RosettaCommons/pybind11
-- [optional] Ninja (or you can use `make` by ommiting `-G Ninja` command below) 
+- [optional] Ninja (or you can use `make` by ommiting `-G Ninja` command below)
 
+
+Binder has experimental support for being *statically compiled* on CentOS 8,
+which additionally requires:
+
+- `libclang-static-build`: https://github.com/deech/libclang-static-build
+- CMake version 3.13 or above
+
+Go to :ref:`building-static` for the build process. Also note a caveat to
+static compilation: the version of `libclang` that Binder is compiled against
+may not be compatible with the header files on the system Binder where is run.
 
 
 Building
 ********
-The steps below is encoded in `binder/build.py` and `binder/build-and-run-tests.py` files so for default install you can just run `build-and-run-tests.py` script directly
+The steps below are encoded in `binder/build.py` and `binder/build-and-run-tests.py` files so for default install you can just run `build-and-run-tests.py` script directly. This section describes how to build a dynamically-linked ``binder`` executable. To *statically* compile binder, see :ref:`building-static`.
 
 
 #. To build Binder exectute the following command sequence in shell (replace ``$HOME/prefix`` and ``$HOME/binder`` with your paths):
 
 .. code-block:: bash
 
+  # clone Binder
+  cd $HOME
+  git clone https://github.com/RosettaCommons/binder.git
 
   # Create build dir
   mkdir $HOME/prefix && cd $HOME/prefix
 
   # Clone  LLVM
   git clone http://llvm.org/git/llvm.git llvm && cd llvm
-  git reset --hard origin/release_38
+  git checkout release_60
 
   # Clone Clang
   cd $HOME/prefix/llvm/tools
   git clone http://llvm.org/git/clang.git clang
-  cd clang && git reset --hard origin/release_38
+  cd clang && git checkout release_60
 
 
   # Clone Clang extra tools
   cd $HOME/prefix/llvm/tools/clang/tools
   git clone http://llvm.org/git/clang-tools-extra.git extra
+  cd extra && git checkout release_60
 
   # Create symlink pointing to binder/src dir
-  ln -s $HOME/binder/binder $HOME/prefix/llvm/tools/clang/tools/extra/binder
-
+  ln -s $HOME/binder/source $HOME/prefix/llvm/tools/clang/tools/extra/binder
 
   # Create ``llvm/tools/clang/tools/extra/CMakeLists.txt`` file with content: ``add_subdirectory(binder)``
   echo 'add_subdirectory(binder)' > $HOME/prefix/llvm/tools/clang/tools/extra/CMakeLists.txt
 
   # Build Binder
   mkdir $HOME/prefix/build && cd $HOME/prefix/build
-  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON .. && ninja
+  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON ../llvm && ninja
 
   # At this point, if all above steps is succeseful, binder should be at
   # $HOME/prefix/build/bin/binder
+
+
+Installation with pre-installed LLVM 
+============
+Requirements
+************
+The basic dependencies for this type of installanion are very similar to these described above and include:
+
+- CMake, version 3.4.3 or higher from https://cmake.org 
+- C++ compiler with c++11 support, e.g. gcc from  https://gcc.gnu.org/  
+- make or Ninja 
+- llvm with development packages (headers)
+- clang  with development packages (headers)
+
+The installation process of the required packages varies from system to system.
+On the RHEL7/RHEL8/Fedora22+/Ubuntu18+  systems binder can be compilled with the llvm, clang and dependent packages available 
+for these systems from their default repositories
+ 
+ 
+For RHEL7/RHEL8/Fedora22+:
+
+- To install the needed packages   run as root 
+ 
+  ``yum install clang clang-devel llvm-devel llvm-static clang-libs``
+  
+- If a newer or specific version of the llvm/clang is needed, it can be installed  as root
+  
+  ``yum install clang8.0 clang8.0-devel llvm8.0-devel llvm8.0-static clang8.0-libs``
+   
+  to obtain a specific version (8.0 in this case).
+    
+- If the option above is not sufficient, or the available packages are outdated, for the 
+  CentOS/RHEL/Fedora and compatible systems the llvm-toolset-7.0 toolset (or later) from
+  https://www.softwarecollections.org/en/scls/rhscl/llvm-toolset-7.0/ provides . Run as root
+  
+  ``yum install llvm-toolset-7.0* ``
+  
+  Then the compilation can be performed using the following shell
+ 
+  ``scl enable llvm-toolset-7 bash``
+ 
+- Please note that binder requires cmake of version 3, therefore for some older systems
+  package cmake3 should be installed and used instead of cmake.
+ 
+ ``yum install cmake3``
+ 
+ 
+ For Ubuntu18+ run, an example for LLVM/Clang 10:
+ 
+ ``sudo apt-get update``
+ 
+ ``sudo apt-get -y install  clang-10 llvm-10 libclang-10-dev llvm-10-dev``
+ 
+ ``sudo apt-get -y install  cmake make gcc g++``
+
+
+Building
+********
+To build ``binder`` run
+
+``cmake CMakeLists.txt -DCMAKE_INSTALL_PREFIX:PATH=/home/user/whereiwanttohaveit/``
+
+``make``
+
+``make install``
+
+To perform the build with a specific version of LLVM, the location of LLVM and CLANG directories 
+should be set simultaneously via the location of their cmake configurations, i.e.
+
+``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib64/llvm8.0/lib/cmake/llvm -DClang_DIR=/usr/lib64/llvm8.0/lib/cmake/clang``
+
+Alternatively,the location of the llvm-config script could be set.
+
+``cmake CMakeLists.txt   -DLLVMCONFIG=/usr/lib64/llvm7.0/bin/llvm-config``
+
+As an example with Ubuntu 18.04 and llvm-10:
+
+``cmake CMakeLists.txt   -DLLVM_DIR=/usr/lib/llvm-10 -DClang_DIR=/usr/lib/llvm-10``
+
+
+Using ``binder`` built with pre-installed LLVM
+**********************************************
+
+Under some circumstances (e.g. on system where the default compiller is not clang)
+``binder`` might emit error messages like 
+
+```
+/usr/lib/gcc/x86_64-redhat-linux/10/../../../../include/c++/10/bits/cxxabi_init_exception.h:38:10: fatal error: 'stddef.h' file not found
+#include <stddef.h>
+         ^~~~~~~~~~
+1 error generated.
+```
+and similar, see https://clang.llvm.org/docs/FAQ.html. To fix this issue, ``binder`` should be pointed to the location of the
+appropriate clang includes. This can be archieved using the clang options that are passed to binder after ``--`` flag, e.g.\
+
+```
+binder ...binder...options...  -- -x c++  ...other...options...   -iwithsysroot/where/the/directory/with/includes/is/
+```
+
+See https://clang.llvm.org/docs/ClangCommandLineReference.html for details.
+If ``binder` was build withsome older versions of LLVM, one could also set the location of the headers with the
+``C_INCLUDE_PATH`` and  ``CPLUS_INCLUDE_PATH`` environment variables, e.g.
+```
+export CPLUS_INCLUDE_PATH=/where/the/directory/with/includes/is/
+```
+
+
+.. _building-static:
+
+Building Statically
+*******************
+
+First, install version CMake version 3.13 or above, which is required to build `libclang-static-build`. CentOS 8's version is too old, so install a binary distribution of CMake from https://cmake.org/.
+
+Then build `libclang-static-build` per the official instructions: https://github.com/deech/libclang-static-build
+
+Then install the following packages on CentOS 8:
+
+ ``sudo yum install libstdc++-static ncurses-compat-libs``
+
+
+Set the environment variable ``LIBCLANG_STATIC_BUILD_DIR`` to the path of
+`libclang-static-build`. Then build ``binder`` with the following procedure:
+
+ ``cmake CMakeLists.txt -DSTATIC=on -DLLVMCONFIG="${LIBCLANG_STATIC_BUILD_DIR}/build/_deps/libclang_prebuilt-src/bin/llvm-config" -DLLVM_LIBRARY_DIR="${LIBCLANG_STATIC_BUILD_DIR}/lib" -DCMAKE_INSTALL_PREFIX:PATH=/home/user/whereiwanttohaveit/``
+
+ ``make``
+
+ ``make install``

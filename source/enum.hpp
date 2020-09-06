@@ -37,13 +37,13 @@ std::string bind_enum(std::string const & module, clang::EnumDecl const *E);
 class EnumBinder : public Binder
 {
 public:
-	EnumBinder(clang::EnumDecl *e) : E(e) {}
+	EnumBinder(clang::EnumDecl const *e) : E(e) {}
 
 	/// Generate string id that uniquly identify C++ binding object. For functions this is function prototype and for classes forward declaration.
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	clang::NamedDecl * named_decl() const override { return E; };
+	clang::NamedDecl const * named_decl() const override { return E; };
 
 	/// check if generator can create binding
     bool bindable() const override;
@@ -59,7 +59,7 @@ public:
 
 
 private:
-	clang::EnumDecl *E;
+	clang::EnumDecl const *E;
 };
 
 
