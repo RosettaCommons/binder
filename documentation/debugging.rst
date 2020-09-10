@@ -30,10 +30,9 @@ An example of debugging for these cases is described below.
 
 
 On systems with GNU STL, the compilation errors for the cases not handled by the ``source/types.cpp``,
-would manifest itself with an abundance of errors complaining about some headers from the ``bits`` directory, which typically 
-contains the details of particular STL implementation.
+would manifest itself with an abundance of long and cryptic messages
 
-For instance, the compilation could fail with an error message:
+For instance, the compilation could fail with the following error messages:
 
 .. code-block:: console
 
@@ -78,7 +77,7 @@ The important information in the output is the ``std::`` types/functions without
  Those are STL-implementation independent types/functions that should be defined elsewhere, not in the headers from the ``bits`` directory.
 In this particular example, the function of interest is ``std::uninitialized_copy``.  
 
-A quick search in the C++ documentation or in the WWW,  tells that this function is defined in the <memory> header.
+A quick search in the C++ documentation at https://en.cppreference.com , http://www.cplusplus.com  or elsewhere in the WWW,  tells that this function is defined in the <memory> header.
 Therefore, this information should be hardcoded into the binder.
 
 
@@ -98,6 +97,19 @@ If there is a need to make a simple change, like in our case,  the map for the `
     { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
     { "<exception>", {"std::nested_exception"} },
     { "<memory>", {"std::uninitialized_copy"} },
+
+
+In addition to that, to ensure a better postability, some of the implementation-specific headers are replaced in binder with the standard ones.
+The map that holds the replacements is located in the ``source/types.cpp`` file as well. It should look similar to this:
+
+
+.. code-block:: python
+
+       static vector< std::pair<string, string> > const include_map = {
+        make_pair("<bits/ios_base.h>",     "<ios>"),
+        make_pair("<bits/istream.tcc>",    "<istream>"),
+        make_pair("<bits/ostream.tcc>",    "<ostream>"),
+        make_pair("<bits/postypes.h>",     "<ios>"),
 
 
 4.  After the changes are done, the binder executable should be recompilled and re-used to create the desired bindings. 
