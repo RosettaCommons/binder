@@ -979,12 +979,6 @@ string bind_default_constructor(ConstructorBindingInfo const &CBI)  // CXXRecord
 	if( CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.trampoline_qualified_name);
 	else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
 	else return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.class_qualified_name);
-/* AV Could be done.
-	if( CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ), \"doc\" );\n"_format(CBI.trampoline_qualified_name);
-	else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
-	else return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ), \"doc\" );\n"_format(CBI.class_qualified_name);
-
-*/
 }
 
 /// Generate copy constructor in most cases this will be just: "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);

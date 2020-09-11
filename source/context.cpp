@@ -386,7 +386,7 @@ void Context::generate(Config const &config)
 	outs() << "Writing code...\n";
 	for(uint i=0; i<binders.size(); ++i) {
 		if( /*binders[i]->is_binded()  and*/  binders[i]->code().size() ) {
-            int code_size=binders[i]->code().size();
+
 			string np, file_name;
 
 			if( O_flat ) {
@@ -478,7 +478,7 @@ void Context::generate(Config const &config)
 
 			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
-			if( O_single_file ) root_module_file_handle << "// File: " << file_name <<" Code size: "<<code_size<< '\n' << code << "\n\n";
+			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);
 
 			++namespace_entrance[namespace_];

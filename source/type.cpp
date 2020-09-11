@@ -225,7 +225,6 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/hashtable.h>",        "<unordered_map>"),
 
 		make_pair("<bits/stl_multiset.h>", "<set>"),
-		make_pair("<bits/stl_multiset.cpp>", "<set>"),
 		make_pair("<bits/stl_multimap.h>", "<map>"),
 
 		make_pair("<__locale>", "<locale>"),
