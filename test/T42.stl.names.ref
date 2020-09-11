@@ -540,7 +540,7 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 
 }
 
-// Source list file: /home/andriish/Projects/binder/test//T42_stl_names.sources
+// Source list file: TEST/T42_stl_names.sources
 // T42_stl_names.cpp
 // std/stl_function.cpp
 // std/functional_hash.cpp
@@ -549,5 +549,5 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 // std/forward_list.cpp
 // T42_stl_names.cpp
 
-// Modules list file: /home/andriish/Projects/binder/test//T42_stl_names.modules
+// Modules list file: TEST/T42_stl_names.modules
 // std 

@@ -348,7 +348,7 @@ PYBIND11_MODULE(T42_stl_names_multi, root_module) {
 
 }
 
-// Source list file: /home/andriish/Projects/binder/test//T42_stl_names_multi.sources
+// Source list file: TEST/T42_stl_names_multi.sources
 // T42_stl_names_multi.cpp
 // std/stl_function.cpp
 // std/functional_hash.cpp
@@ -356,5 +356,5 @@ PYBIND11_MODULE(T42_stl_names_multi, root_module) {
 // std/unordered_map.cpp
 // T42_stl_names_multi.cpp
 
-// Modules list file: /home/andriish/Projects/binder/test//T42_stl_names_multi.modules
+// Modules list file: TEST/T42_stl_names_multi.modules
 // std 
