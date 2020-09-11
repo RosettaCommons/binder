@@ -248,12 +248,12 @@ PYBIND11_MODULE(T42_stl_names_multimap, root_module) {
 
 }
 
-// Source list file: /home/andriish/Projects/binder/test//T42_stl_names_multimap.sources
+// Source list file: TEST/T42_stl_names_multimap.sources
 // T42_stl_names_multimap.cpp
 // std/stl_function.cpp
 // std/functional_hash.cpp
 // std/stl_multimap.cpp
 // T42_stl_names_multimap.cpp
 
-// Modules list file: /home/andriish/Projects/binder/test//T42_stl_names_multimap.modules
+// Modules list file: TEST/T42_stl_names_multimap.modules
 // std 
