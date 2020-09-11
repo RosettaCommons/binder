@@ -1,0 +1,455 @@
+// File: std/stl_function.cpp Code size: 468
+#include <exception> // std::bad_exception
+#include <exception> // std::exception
+#include <exception> // std::terminate
+#include <exception> // std::uncaught_exception
+#include <exception> // std::unexpected
+#include <functional> // std::binary_function
+#include <functional> // std::equal_to
+#include <functional> // std::less
+#include <sstream> // __str__
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::binary_function file:bits/stl_function.h line:118
+		pybind11::class_<std::binary_function<float,float,bool>, std::shared_ptr<std::binary_function<float,float,bool>>> cl(M("std"), "binary_function_float_float_bool_t", "");
+		cl.def( pybind11::init( [](std::binary_function<float,float,bool> const &o){ return new std::binary_function<float,float,bool>(o); } ) );
+		cl.def( pybind11::init( [](){ return new std::binary_function<float,float,bool>(); } ) );
+	}
+	{ // std::equal_to file:bits/stl_function.h line:351
+		pybind11::class_<std::equal_to<float>, std::shared_ptr<std::equal_to<float>>, std::binary_function<float,float,bool>> cl(M("std"), "equal_to_float_t", "");
+		cl.def( pybind11::init( [](){ return new std::equal_to<float>(); } ) );
+		cl.def("__call__", (bool (std::equal_to<float>::*)(const float &, const float &) const) &std::equal_to<float>::operator(), "C++: std::equal_to<float>::operator()(const float &, const float &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
+	}
+}
+
+
+// File: std/functional_hash.cpp Code size: 428
+#include <functional> // std::_Manager_operation
+#include <functional> // std::bad_function_call
+#include <functional> // std::hash
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
+#include <memory> // std::allocator_arg_t
+#include <sstream> // __str__
+#include <stdexcept> // std::domain_error
+#include <stdexcept> // std::invalid_argument
+#include <stdexcept> // std::length_error
+#include <stdexcept> // std::logic_error
+#include <stdexcept> // std::out_of_range
+#include <stdexcept> // std::overflow_error
+#include <stdexcept> // std::range_error
+#include <stdexcept> // std::runtime_error
+#include <stdexcept> // std::underflow_error
+#include <string> // std::basic_string
+#include <string> // std::char_traits
+#include <string> // std::hash
+#include <tuple> // std::tuple
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::hash file:bits/functional_hash.h line:226
+		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
+		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
+		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
+	}
+}
+
+
+// File: std/stl_map.cpp Code size: 6709
+#include <deque> // std::deque
+#include <functional> // std::less
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <list> // std::list
+#include <map> // std::_Rb_tree_const_iterator
+#include <map> // std::_Rb_tree_iterator
+#include <map> // std::map
+#include <memory> // std::allocator
+#include <sstream> // __str__
+#include <utility> // std::pair
+#include <vector> // std::vector
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::map file:bits/stl_map.h line:100
+		pybind11::class_<std::map<float,int>, std::shared_ptr<std::map<float,int>>> cl(M("std"), "map_float_int_t", "");
+		cl.def( pybind11::init( [](){ return new std::map<float,int>(); } ) );
+		cl.def( pybind11::init( [](const struct std::less<float> & a0){ return new std::map<float,int>(a0); } ), "doc" , pybind11::arg("__comp"));
+		cl.def( pybind11::init<const struct std::less<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__comp"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::map<float,int> const &o){ return new std::map<float,int>(o); } ) );
+		cl.def( pybind11::init<const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<const class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__m"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > & (std::map<float,int>::*)(const class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator=(const class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &) --> class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("get_allocator", (class std::allocator<struct std::pair<const float, int> > (std::map<float,int>::*)() const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::get_allocator() const --> class std::allocator<struct std::pair<const float, int> >");
+		cl.def("empty", (bool (std::map<float,int>::*)() const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::empty() const --> bool");
+		cl.def("size", (unsigned long (std::map<float,int>::*)() const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::map<float,int>::*)() const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::max_size() const --> unsigned long");
+		cl.def("__getitem__", (int & (std::map<float,int>::*)(const float &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator[], "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::operator[](const float &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("at", (int & (std::map<float,int>::*)(const float &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::at, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::at(const float &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("insert", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, bool> (std::map<float,int>::*)(const struct std::pair<const float, int> &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::insert, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::insert(const struct std::pair<const float, int> &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, bool>", pybind11::arg("__x"));
+		cl.def("erase", (unsigned long (std::map<float,int>::*)(const float &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::erase(const float &) --> unsigned long", pybind11::arg("__x"));
+		cl.def("swap", (void (std::map<float,int>::*)(class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::swap(class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > > &) --> void", pybind11::arg("__x"));
+		cl.def("clear", (void (std::map<float,int>::*)()) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::clear() --> void");
+		cl.def("key_comp", (struct std::less<float> (std::map<float,int>::*)() const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::key_comp() const --> struct std::less<float>");
+		cl.def("count", (unsigned long (std::map<float,int>::*)(const float &) const) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
+		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > > (std::map<float,int>::*)(const float &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > >", pybind11::arg("__x"));
+	}
+	{ // std::list file:bits/stl_list.h line:564
+		pybind11::class_<std::list<double>, std::shared_ptr<std::list<double>>> cl(M("std"), "list_double_t", "");
+		cl.def( pybind11::init( [](){ return new std::list<double>(); } ) );
+		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::list<double>(a0); } ), "doc" , pybind11::arg("__n"));
+		cl.def( pybind11::init<unsigned long, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0, const double & a1){ return new std::list<double>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
+		cl.def( pybind11::init<unsigned long, const double &, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::list<double> const &o){ return new std::list<double>(o); } ) );
+		cl.def( pybind11::init<const class std::list<double, class std::allocator<double> > &, const class std::allocator<double> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::list<double, class std::allocator<double> > & (std::list<double>::*)(const class std::list<double, class std::allocator<double> > &)) &std::list<double, std::allocator<double> >::operator=, "C++: std::list<double, std::allocator<double> >::operator=(const class std::list<double, class std::allocator<double> > &) --> class std::list<double, class std::allocator<double> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
+		cl.def("assign", (void (std::list<double>::*)(unsigned long, const double &)) &std::list<double, std::allocator<double> >::assign, "C++: std::list<double, std::allocator<double> >::assign(unsigned long, const double &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
+		cl.def("get_allocator", (class std::allocator<double> (std::list<double>::*)() const) &std::list<double, std::allocator<double> >::get_allocator, "C++: std::list<double, std::allocator<double> >::get_allocator() const --> class std::allocator<double>");
+		cl.def("empty", (bool (std::list<double>::*)() const) &std::list<double, std::allocator<double> >::empty, "C++: std::list<double, std::allocator<double> >::empty() const --> bool");
+		cl.def("size", (unsigned long (std::list<double>::*)() const) &std::list<double, std::allocator<double> >::size, "C++: std::list<double, std::allocator<double> >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::list<double>::*)() const) &std::list<double, std::allocator<double> >::max_size, "C++: std::list<double, std::allocator<double> >::max_size() const --> unsigned long");
+		cl.def("resize", (void (std::list<double>::*)(unsigned long)) &std::list<double, std::allocator<double> >::resize, "C++: std::list<double, std::allocator<double> >::resize(unsigned long) --> void", pybind11::arg("__new_size"));
+		cl.def("resize", (void (std::list<double>::*)(unsigned long, const double &)) &std::list<double, std::allocator<double> >::resize, "C++: std::list<double, std::allocator<double> >::resize(unsigned long, const double &) --> void", pybind11::arg("__new_size"), pybind11::arg("__x"));
+		cl.def("front", (double & (std::list<double>::*)()) &std::list<double, std::allocator<double> >::front, "C++: std::list<double, std::allocator<double> >::front() --> double &", pybind11::return_value_policy::automatic);
+		cl.def("back", (double & (std::list<double>::*)()) &std::list<double, std::allocator<double> >::back, "C++: std::list<double, std::allocator<double> >::back() --> double &", pybind11::return_value_policy::automatic);
+		cl.def("push_front", (void (std::list<double>::*)(const double &)) &std::list<double, std::allocator<double> >::push_front, "C++: std::list<double, std::allocator<double> >::push_front(const double &) --> void", pybind11::arg("__x"));
+		cl.def("pop_front", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::pop_front, "C++: std::list<double, std::allocator<double> >::pop_front() --> void");
+		cl.def("push_back", (void (std::list<double>::*)(const double &)) &std::list<double, std::allocator<double> >::push_back, "C++: std::list<double, std::allocator<double> >::push_back(const double &) --> void", pybind11::arg("__x"));
+		cl.def("pop_back", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::pop_back, "C++: std::list<double, std::allocator<double> >::pop_back() --> void");
+		cl.def("swap", (void (std::list<double>::*)(class std::list<double, class std::allocator<double> > &)) &std::list<double, std::allocator<double> >::swap, "C++: std::list<double, std::allocator<double> >::swap(class std::list<double, class std::allocator<double> > &) --> void", pybind11::arg("__x"));
+		cl.def("clear", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::clear, "C++: std::list<double, std::allocator<double> >::clear() --> void");
+		cl.def("remove", (void (std::list<double>::*)(const double &)) &std::list<double, std::allocator<double> >::remove, "C++: std::list<double, std::allocator<double> >::remove(const double &) --> void", pybind11::arg("__value"));
+		cl.def("unique", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::unique, "C++: std::list<double, std::allocator<double> >::unique() --> void");
+		cl.def("merge", (void (std::list<double>::*)(class std::list<double, class std::allocator<double> > &)) &std::list<double, std::allocator<double> >::merge, "C++: std::list<double, std::allocator<double> >::merge(class std::list<double, class std::allocator<double> > &) --> void", pybind11::arg("__x"));
+		cl.def("reverse", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::reverse, "C++: std::list<double, std::allocator<double> >::reverse() --> void");
+		cl.def("sort", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::sort, "C++: std::list<double, std::allocator<double> >::sort() --> void");
+	}
+	{ // std::deque file:bits/stl_deque.h line:832
+		pybind11::class_<std::deque<int>, std::shared_ptr<std::deque<int>>> cl(M("std"), "deque_int_t", "");
+		cl.def( pybind11::init( [](){ return new std::deque<int>(); } ) );
+		cl.def( pybind11::init<const class std::allocator<int> &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::deque<int>(a0); } ), "doc" , pybind11::arg("__n"));
+		cl.def( pybind11::init<unsigned long, const class std::allocator<int> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0, const int & a1){ return new std::deque<int>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
+		cl.def( pybind11::init<unsigned long, const int &, const class std::allocator<int> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::deque<int> const &o){ return new std::deque<int>(o); } ) );
+		cl.def( pybind11::init<const class std::deque<int, class std::allocator<int> > &, const class std::allocator<int> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::deque<int, class std::allocator<int> > & (std::deque<int>::*)(const class std::deque<int, class std::allocator<int> > &)) &std::deque<int, std::allocator<int> >::operator=, "C++: std::deque<int, std::allocator<int> >::operator=(const class std::deque<int, class std::allocator<int> > &) --> class std::deque<int, class std::allocator<int> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
+		cl.def("assign", (void (std::deque<int>::*)(unsigned long, const int &)) &std::deque<int, std::allocator<int> >::assign, "C++: std::deque<int, std::allocator<int> >::assign(unsigned long, const int &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
+		cl.def("get_allocator", (class std::allocator<int> (std::deque<int>::*)() const) &std::deque<int, std::allocator<int> >::get_allocator, "C++: std::deque<int, std::allocator<int> >::get_allocator() const --> class std::allocator<int>");
+		cl.def("size", (unsigned long (std::deque<int>::*)() const) &std::deque<int, std::allocator<int> >::size, "C++: std::deque<int, std::allocator<int> >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::deque<int>::*)() const) &std::deque<int, std::allocator<int> >::max_size, "C++: std::deque<int, std::allocator<int> >::max_size() const --> unsigned long");
+		cl.def("resize", (void (std::deque<int>::*)(unsigned long)) &std::deque<int, std::allocator<int> >::resize, "C++: std::deque<int, std::allocator<int> >::resize(unsigned long) --> void", pybind11::arg("__new_size"));
+		cl.def("resize", (void (std::deque<int>::*)(unsigned long, const int &)) &std::deque<int, std::allocator<int> >::resize, "C++: std::deque<int, std::allocator<int> >::resize(unsigned long, const int &) --> void", pybind11::arg("__new_size"), pybind11::arg("__x"));
+		cl.def("shrink_to_fit", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::shrink_to_fit, "C++: std::deque<int, std::allocator<int> >::shrink_to_fit() --> void");
+		cl.def("empty", (bool (std::deque<int>::*)() const) &std::deque<int, std::allocator<int> >::empty, "C++: std::deque<int, std::allocator<int> >::empty() const --> bool");
+		cl.def("__getitem__", (int & (std::deque<int>::*)(unsigned long)) &std::deque<int, std::allocator<int> >::operator[], "C++: std::deque<int, std::allocator<int> >::operator[](unsigned long) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("at", (int & (std::deque<int>::*)(unsigned long)) &std::deque<int, std::allocator<int> >::at, "C++: std::deque<int, std::allocator<int> >::at(unsigned long) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("front", (int & (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::front, "C++: std::deque<int, std::allocator<int> >::front() --> int &", pybind11::return_value_policy::automatic);
+		cl.def("back", (int & (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::back, "C++: std::deque<int, std::allocator<int> >::back() --> int &", pybind11::return_value_policy::automatic);
+		cl.def("push_front", (void (std::deque<int>::*)(const int &)) &std::deque<int, std::allocator<int> >::push_front, "C++: std::deque<int, std::allocator<int> >::push_front(const int &) --> void", pybind11::arg("__x"));
+		cl.def("push_back", (void (std::deque<int>::*)(const int &)) &std::deque<int, std::allocator<int> >::push_back, "C++: std::deque<int, std::allocator<int> >::push_back(const int &) --> void", pybind11::arg("__x"));
+		cl.def("pop_front", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::pop_front, "C++: std::deque<int, std::allocator<int> >::pop_front() --> void");
+		cl.def("pop_back", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::pop_back, "C++: std::deque<int, std::allocator<int> >::pop_back() --> void");
+		cl.def("swap", (void (std::deque<int>::*)(class std::deque<int, class std::allocator<int> > &)) &std::deque<int, std::allocator<int> >::swap, "C++: std::deque<int, std::allocator<int> >::swap(class std::deque<int, class std::allocator<int> > &) --> void", pybind11::arg("__x"));
+		cl.def("clear", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::clear, "C++: std::deque<int, std::allocator<int> >::clear() --> void");
+	}
+	{ // std::vector file:bits/stl_vector.h line:339
+		pybind11::class_<std::vector<double>, std::shared_ptr<std::vector<double>>> cl(M("std"), "vector_double_t", "");
+		cl.def( pybind11::init( [](){ return new std::vector<double>(); } ) );
+		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::vector<double>(a0); } ), "doc" , pybind11::arg("__n"));
+		cl.def( pybind11::init<unsigned long, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0, const double & a1){ return new std::vector<double>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
+		cl.def( pybind11::init<unsigned long, const double &, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::vector<double> const &o){ return new std::vector<double>(o); } ) );
+		cl.def( pybind11::init<const class std::vector<double, class std::allocator<double> > &, const class std::allocator<double> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::vector<double, class std::allocator<double> > & (std::vector<double>::*)(const class std::vector<double, class std::allocator<double> > &)) &std::vector<double, std::allocator<double> >::operator=, "C++: std::vector<double, std::allocator<double> >::operator=(const class std::vector<double, class std::allocator<double> > &) --> class std::vector<double, class std::allocator<double> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
+		cl.def("assign", (void (std::vector<double>::*)(unsigned long, const double &)) &std::vector<double, std::allocator<double> >::assign, "C++: std::vector<double, std::allocator<double> >::assign(unsigned long, const double &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
+		cl.def("begin", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::begin, "C++: std::vector<double, std::allocator<double> >::begin() --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("end", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::end, "C++: std::vector<double, std::allocator<double> >::end() --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("cbegin", (class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::cbegin, "C++: std::vector<double, std::allocator<double> >::cbegin() const --> class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("cend", (class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::cend, "C++: std::vector<double, std::allocator<double> >::cend() const --> class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >");
+		cl.def("size", (unsigned long (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::size, "C++: std::vector<double, std::allocator<double> >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::max_size, "C++: std::vector<double, std::allocator<double> >::max_size() const --> unsigned long");
+		cl.def("resize", (void (std::vector<double>::*)(unsigned long)) &std::vector<double, std::allocator<double> >::resize, "C++: std::vector<double, std::allocator<double> >::resize(unsigned long) --> void", pybind11::arg("__new_size"));
+		cl.def("resize", (void (std::vector<double>::*)(unsigned long, const double &)) &std::vector<double, std::allocator<double> >::resize, "C++: std::vector<double, std::allocator<double> >::resize(unsigned long, const double &) --> void", pybind11::arg("__new_size"), pybind11::arg("__x"));
+		cl.def("shrink_to_fit", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::shrink_to_fit, "C++: std::vector<double, std::allocator<double> >::shrink_to_fit() --> void");
+		cl.def("capacity", (unsigned long (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::capacity, "C++: std::vector<double, std::allocator<double> >::capacity() const --> unsigned long");
+		cl.def("empty", (bool (std::vector<double>::*)() const) &std::vector<double, std::allocator<double> >::empty, "C++: std::vector<double, std::allocator<double> >::empty() const --> bool");
+		cl.def("reserve", (void (std::vector<double>::*)(unsigned long)) &std::vector<double, std::allocator<double> >::reserve, "C++: std::vector<double, std::allocator<double> >::reserve(unsigned long) --> void", pybind11::arg("__n"));
+		cl.def("__getitem__", (double & (std::vector<double>::*)(unsigned long)) &std::vector<double, std::allocator<double> >::operator[], "C++: std::vector<double, std::allocator<double> >::operator[](unsigned long) --> double &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("at", (double & (std::vector<double>::*)(unsigned long)) &std::vector<double, std::allocator<double> >::at, "C++: std::vector<double, std::allocator<double> >::at(unsigned long) --> double &", pybind11::return_value_policy::automatic, pybind11::arg("__n"));
+		cl.def("front", (double & (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::front, "C++: std::vector<double, std::allocator<double> >::front() --> double &", pybind11::return_value_policy::automatic);
+		cl.def("back", (double & (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::back, "C++: std::vector<double, std::allocator<double> >::back() --> double &", pybind11::return_value_policy::automatic);
+		cl.def("data", (double * (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::data, "C++: std::vector<double, std::allocator<double> >::data() --> double *", pybind11::return_value_policy::automatic);
+		cl.def("push_back", (void (std::vector<double>::*)(const double &)) &std::vector<double, std::allocator<double> >::push_back, "C++: std::vector<double, std::allocator<double> >::push_back(const double &) --> void", pybind11::arg("__x"));
+		cl.def("pop_back", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::pop_back, "C++: std::vector<double, std::allocator<double> >::pop_back() --> void");
+		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__x"));
+		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__n"), pybind11::arg("__x"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__first"), pybind11::arg("__last"));
+		cl.def("swap", (void (std::vector<double>::*)(class std::vector<double, class std::allocator<double> > &)) &std::vector<double, std::allocator<double> >::swap, "C++: std::vector<double, std::allocator<double> >::swap(class std::vector<double, class std::allocator<double> > &) --> void", pybind11::arg("__x"));
+		cl.def("clear", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::clear, "C++: std::vector<double, std::allocator<double> >::clear() --> void");
+	}
+}
+
+
+// File: std/forward_list.cpp Code size: 5719
+#include <forward_list> // std::forward_list
+#include <functional> // std::equal_to
+#include <functional> // std::hash
+#include <memory> // std::allocator
+#include <sstream> // __str__
+#include <unordered_map> // std::__detail::_Node_const_iterator
+#include <unordered_map> // std::__detail::_Node_iterator
+#include <unordered_map> // std::unordered_map
+#include <utility> // std::pair
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::forward_list file:bits/forward_list.h line:425
+		pybind11::class_<std::forward_list<float>, std::shared_ptr<std::forward_list<float>>> cl(M("std"), "forward_list_float_t", "");
+		cl.def( pybind11::init( [](){ return new std::forward_list<float>(); } ) );
+		cl.def( pybind11::init<const class std::allocator<float> &>(), pybind11::arg("__al") );
+
+		cl.def( pybind11::init<const class std::forward_list<float, class std::allocator<float> > &, const class std::allocator<float> &>(), pybind11::arg("__list"), pybind11::arg("__al") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::forward_list<float>(a0); } ), "doc" , pybind11::arg("__n"));
+		cl.def( pybind11::init<unsigned long, const class std::allocator<float> &>(), pybind11::arg("__n"), pybind11::arg("__al") );
+
+		cl.def( pybind11::init( [](unsigned long const & a0, const float & a1){ return new std::forward_list<float>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
+		cl.def( pybind11::init<unsigned long, const float &, const class std::allocator<float> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__al") );
+
+		cl.def( pybind11::init( [](std::forward_list<float> const &o){ return new std::forward_list<float>(o); } ) );
+		cl.def("assign", (class std::forward_list<float, class std::allocator<float> > & (std::forward_list<float>::*)(const class std::forward_list<float, class std::allocator<float> > &)) &std::forward_list<float, std::allocator<float> >::operator=, "C++: std::forward_list<float, std::allocator<float> >::operator=(const class std::forward_list<float, class std::allocator<float> > &) --> class std::forward_list<float, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg("__list"));
+		cl.def("assign", (void (std::forward_list<float>::*)(unsigned long, const float &)) &std::forward_list<float, std::allocator<float> >::assign, "C++: std::forward_list<float, std::allocator<float> >::assign(unsigned long, const float &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
+		cl.def("get_allocator", (class std::allocator<float> (std::forward_list<float>::*)() const) &std::forward_list<float, std::allocator<float> >::get_allocator, "C++: std::forward_list<float, std::allocator<float> >::get_allocator() const --> class std::allocator<float>");
+		cl.def("empty", (bool (std::forward_list<float>::*)() const) &std::forward_list<float, std::allocator<float> >::empty, "C++: std::forward_list<float, std::allocator<float> >::empty() const --> bool");
+		cl.def("max_size", (unsigned long (std::forward_list<float>::*)() const) &std::forward_list<float, std::allocator<float> >::max_size, "C++: std::forward_list<float, std::allocator<float> >::max_size() const --> unsigned long");
+		cl.def("front", (float & (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::front, "C++: std::forward_list<float, std::allocator<float> >::front() --> float &", pybind11::return_value_policy::automatic);
+		cl.def("push_front", (void (std::forward_list<float>::*)(const float &)) &std::forward_list<float, std::allocator<float> >::push_front, "C++: std::forward_list<float, std::allocator<float> >::push_front(const float &) --> void", pybind11::arg("__val"));
+		cl.def("pop_front", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::pop_front, "C++: std::forward_list<float, std::allocator<float> >::pop_front() --> void");
+		cl.def("swap", (void (std::forward_list<float>::*)(class std::forward_list<float, class std::allocator<float> > &)) &std::forward_list<float, std::allocator<float> >::swap, "C++: std::forward_list<float, std::allocator<float> >::swap(class std::forward_list<float, class std::allocator<float> > &) --> void", pybind11::arg("__list"));
+		cl.def("resize", (void (std::forward_list<float>::*)(unsigned long)) &std::forward_list<float, std::allocator<float> >::resize, "C++: std::forward_list<float, std::allocator<float> >::resize(unsigned long) --> void", pybind11::arg("__sz"));
+		cl.def("resize", (void (std::forward_list<float>::*)(unsigned long, const float &)) &std::forward_list<float, std::allocator<float> >::resize, "C++: std::forward_list<float, std::allocator<float> >::resize(unsigned long, const float &) --> void", pybind11::arg("__sz"), pybind11::arg("__val"));
+		cl.def("clear", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::clear, "C++: std::forward_list<float, std::allocator<float> >::clear() --> void");
+		cl.def("remove", (void (std::forward_list<float>::*)(const float &)) &std::forward_list<float, std::allocator<float> >::remove, "C++: std::forward_list<float, std::allocator<float> >::remove(const float &) --> void", pybind11::arg("__val"));
+		cl.def("unique", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::unique, "C++: std::forward_list<float, std::allocator<float> >::unique() --> void");
+		cl.def("merge", (void (std::forward_list<float>::*)(class std::forward_list<float, class std::allocator<float> > &)) &std::forward_list<float, std::allocator<float> >::merge, "C++: std::forward_list<float, std::allocator<float> >::merge(class std::forward_list<float, class std::allocator<float> > &) --> void", pybind11::arg("__list"));
+		cl.def("sort", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::sort, "C++: std::forward_list<float, std::allocator<float> >::sort() --> void");
+		cl.def("reverse", (void (std::forward_list<float>::*)()) &std::forward_list<float, std::allocator<float> >::reverse, "C++: std::forward_list<float, std::allocator<float> >::reverse() --> void");
+	}
+	{ // std::unordered_map file:bits/unordered_map.h line:102
+		pybind11::class_<std::unordered_map<float,int>, std::shared_ptr<std::unordered_map<float,int>>> cl(M("std"), "unordered_map_float_int_t", "");
+		cl.def( pybind11::init( [](){ return new std::unordered_map<float,int>(); } ) );
+		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_map<float,int>(a0); } ), "doc" , pybind11::arg("__n"));
+		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<float> & a1){ return new std::unordered_map<float,int>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"));
+		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<float> & a1, const struct std::equal_to<float> & a2){ return new std::unordered_map<float,int>(a0, a1, a2); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__eql"));
+		cl.def( pybind11::init<unsigned long, const struct std::hash<float> &, const struct std::equal_to<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__eql"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init( [](std::unordered_map<float,int> const &o){ return new std::unordered_map<float,int>(o); } ) );
+		cl.def( pybind11::init<const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<const class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__umap"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<unsigned long, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__n"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<unsigned long, const struct std::hash<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > & (std::unordered_map<float,int>::*)(const class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator=(const class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &) --> class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("get_allocator", (class std::allocator<struct std::pair<const float, int> > (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::get_allocator() const --> class std::allocator<struct std::pair<const float, int> >");
+		cl.def("empty", (bool (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::empty() const --> bool");
+		cl.def("size", (unsigned long (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::size() const --> unsigned long");
+		cl.def("max_size", (unsigned long (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_size() const --> unsigned long");
+		cl.def("insert", (struct std::pair<struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false>, bool> (std::unordered_map<float,int>::*)(const struct std::pair<const float, int> &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::insert, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::insert(const struct std::pair<const float, int> &) --> struct std::pair<struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false>, bool>", pybind11::arg("__x"));
+		cl.def("erase", (unsigned long (std::unordered_map<float,int>::*)(const float &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::erase(const float &) --> unsigned long", pybind11::arg("__x"));
+		cl.def("clear", (void (std::unordered_map<float,int>::*)()) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::clear() --> void");
+		cl.def("swap", (void (std::unordered_map<float,int>::*)(class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::swap(class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > > &) --> void", pybind11::arg("__x"));
+		cl.def("hash_function", (struct std::hash<float> (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::hash_function() const --> struct std::hash<float>");
+		cl.def("key_eq", (struct std::equal_to<float> (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::key_eq() const --> struct std::equal_to<float>");
+		cl.def("count", (unsigned long (std::unordered_map<float,int>::*)(const float &) const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::count(const float &) const --> unsigned long", pybind11::arg("__x"));
+		cl.def("equal_range", (struct std::pair<struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false>, struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false> > (std::unordered_map<float,int>::*)(const float &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::equal_range(const float &) --> struct std::pair<struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false>, struct std::__detail::_Node_iterator<struct std::pair<const float, int>, false, false> >", pybind11::arg("__x"));
+		cl.def("__getitem__", (int & (std::unordered_map<float,int>::*)(const float &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator[], "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::operator[](const float &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("at", (int & (std::unordered_map<float,int>::*)(const float &)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::at, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::at(const float &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("__k"));
+		cl.def("bucket_count", (unsigned long (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_count() const --> unsigned long");
+		cl.def("max_bucket_count", (unsigned long (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_bucket_count() const --> unsigned long");
+		cl.def("bucket_size", (unsigned long (std::unordered_map<float,int>::*)(unsigned long) const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket_size(unsigned long) const --> unsigned long", pybind11::arg("__n"));
+		cl.def("bucket", (unsigned long (std::unordered_map<float,int>::*)(const float &) const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::bucket(const float &) const --> unsigned long", pybind11::arg("__key"));
+		cl.def("load_factor", (float (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::load_factor() const --> float");
+		cl.def("max_load_factor", (float (std::unordered_map<float,int>::*)() const) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor() const --> float");
+		cl.def("max_load_factor", (void (std::unordered_map<float,int>::*)(float)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::max_load_factor(float) --> void", pybind11::arg("__z"));
+		cl.def("rehash", (void (std::unordered_map<float,int>::*)(unsigned long)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::rehash(unsigned long) --> void", pybind11::arg("__n"));
+		cl.def("reserve", (void (std::unordered_map<float,int>::*)(unsigned long)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve(unsigned long) --> void", pybind11::arg("__n"));
+	}
+}
+
+
+// File: T42_stl_names_map.cpp Code size: 288
+#include <T42.stl.names.map.hpp> // foo
+#include <deque> // std::deque
+#include <forward_list> // std::forward_list
+#include <functional> // std::equal_to
+#include <functional> // std::hash
+#include <functional> // std::less
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <list> // std::list
+#include <map> // std::_Rb_tree_const_iterator
+#include <map> // std::_Rb_tree_iterator
+#include <map> // std::map
+#include <memory> // std::allocator
+#include <unordered_map> // std::__detail::_Node_const_iterator
+#include <unordered_map> // std::__detail::_Node_iterator
+#include <unordered_map> // std::unordered_map
+#include <utility> // std::pair
+#include <vector> // std::vector
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_T42_stl_names_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	// foo(class std::list<double, class std::allocator<double> >) file:T42.stl.names.map.hpp line:27
+	M("").def("foo", (void (*)(class std::list<double, class std::allocator<double> >)) &foo, "C++: foo(class std::list<double, class std::allocator<double> >) --> void", pybind11::arg(""));
+
+	// foo(class std::forward_list<float, class std::allocator<float> >) file:T42.stl.names.map.hpp line:28
+	M("").def("foo", (void (*)(class std::forward_list<float, class std::allocator<float> >)) &foo, "C++: foo(class std::forward_list<float, class std::allocator<float> >) --> void", pybind11::arg(""));
+
+	// foo(class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) file:T42.stl.names.map.hpp line:29
+	M("").def("foo", (void (*)(class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::map<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
+
+	// foo(class std::vector<double, class std::allocator<double> >) file:T42.stl.names.map.hpp line:30
+	M("").def("foo", (void (*)(class std::vector<double, class std::allocator<double> >)) &foo, "C++: foo(class std::vector<double, class std::allocator<double> >) --> void", pybind11::arg(""));
+
+	// foo(class std::deque<int, class std::allocator<int> >) file:T42.stl.names.map.hpp line:31
+	M("").def("foo", (void (*)(class std::deque<int, class std::allocator<int> >)) &foo, "C++: foo(class std::deque<int, class std::allocator<int> >) --> void", pybind11::arg(""));
+
+	// foo(class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) file:T42.stl.names.map.hpp line:34
+	M("").def("foo", (void (*)(class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::unordered_map<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
+
+}
+
+
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <functional>
+#include <string>
+
+#include <pybind11/pybind11.h>
+
+typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+
+void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T42_stl_names_map(std::function< pybind11::module &(std::string const &namespace_) > &M);
+
+
+PYBIND11_MODULE(T42_stl_names_map, root_module) {
+	root_module.doc() = "T42_stl_names_map module";
+
+	std::map <std::string, pybind11::module> modules;
+	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
+		auto it = modules.find(namespace_);
+		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
+		return it->second;
+	};
+
+	modules[""] = root_module;
+
+	std::vector< std::pair<std::string, std::string> > sub_modules {
+		{"", "std"},
+	};
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+
+	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+
+	bind_std_stl_function(M);
+	bind_std_functional_hash(M);
+	bind_std_stl_map(M);
+	bind_std_forward_list(M);
+	bind_T42_stl_names_map(M);
+
+}
+
+// Source list file: /home/andriish/Projects/binder/test//T42_stl_names_map.sources
+// T42_stl_names_map.cpp
+// std/stl_function.cpp
+// std/functional_hash.cpp
+// std/stl_map.cpp
+// std/forward_list.cpp
+// T42_stl_names_map.cpp
+
+// Modules list file: /home/andriish/Projects/binder/test//T42_stl_names_map.modules
+// std 
