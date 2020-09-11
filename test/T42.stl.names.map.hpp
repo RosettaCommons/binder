@@ -18,18 +18,9 @@
 
 #include <functional>
 #include <map>
-#include <list>
-#include <deque>
-#include <vector>
-#include <forward_list>
 #include <unordered_map>
 
-void foo(std::list<double> ) {}
-void foo(std::forward_list<float> ) {}
 void foo(std::map<float,int> ) {}
-void foo(std::vector<double> ) {}
-void foo(std::deque<int> ) {}
-
 
 void foo(std::unordered_map<float,int> ) {}
 

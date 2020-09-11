@@ -87,6 +87,7 @@ set( binder_tests
          T31.include_for_class
          T32.call_guard
          T40.stl
+         T42.stl.names
          T42.stl.names.map
          T42.stl.names.set
          T42.stl.names.multimap

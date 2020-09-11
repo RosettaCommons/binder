@@ -17,25 +17,17 @@
 #define _INCLUDED_T42_stl_names_hpp_
 
 #include <functional>
-#include <set>
-#include <map>
 #include <list>
 #include <deque>
 #include <vector>
 #include <forward_list>
-#include <unordered_set>
-#include <unordered_map>
 
-void foo(std::set<float> ) {}
+
 void foo(std::list<double> ) {}
 void foo(std::forward_list<float> ) {}
-void foo(std::map<float,int> ) {}
 void foo(std::vector<double> ) {}
 void foo(std::deque<int> ) {}
 
-
-void foo(std::unordered_set<float> ) {}
-void foo(std::unordered_map<float,int> ) {}
 
 
 #endif // _INCLUDED_T42_stl_names_hpp_

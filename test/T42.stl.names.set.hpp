@@ -18,19 +18,9 @@
 
 #include <functional>
 #include <set>
-#include <list>
-#include <deque>
-#include <vector>
-#include <forward_list>
 #include <unordered_set>
 
 void foo(std::set<float> ) {}
-void foo(std::list<double> ) {}
-void foo(std::forward_list<float> ) {}
-void foo(std::vector<double> ) {}
-void foo(std::deque<int> ) {}
-
-
 void foo(std::unordered_set<float> ) {}
 
 
