@@ -99,7 +99,7 @@ If there is a need to make a simple change, like in our case,  the map for the `
     { "<memory>", {"std::uninitialized_copy"} },
 
 
-In addition to that, to ensure a better postability, some of the implementation-specific headers are replaced in binder with the standard ones.
+In addition to that, to ensure a better portability, some of the implementation-specific headers are replaced in binder with the standard ones.
 The map that holds the replacements is located in the ``source/types.cpp`` file as well. It should look similar to this:
 
 
