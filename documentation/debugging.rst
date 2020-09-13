@@ -89,8 +89,8 @@ Briefly, the function has a map with the STL headers and the types those contain
     { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
     { "<exception>", {"std::nested_exception"} }
 
-If there is a need to make a simple change, like in our case,  the map for the ``<memory>`` can be added like this:
 
+If there is a need to make a simple change, like in our case,  the map for the ``<memory>`` can be added like this:
 
 .. code-block:: python
 
@@ -101,7 +101,6 @@ If there is a need to make a simple change, like in our case,  the map for the `
 
 In addition to that, to ensure a better portability, some of the implementation-specific headers are replaced in binder with the standard ones.
 The map that holds the replacements is located in the ``source/types.cpp`` file as well. It should look similar to this:
-
 
 .. code-block:: python
 
@@ -116,3 +115,4 @@ The map that holds the replacements is located in the ``source/types.cpp`` file 
     In some cases, many iterations of the described procedure will be needed till all the STL types/functions will be mapped to the correct includes. 
     
     If this fixes your problem please let us know, or make a pull request!
+    
