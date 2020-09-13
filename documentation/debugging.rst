@@ -39,7 +39,7 @@ For instance, the compilation could fail with the following error messages:
     FAILED: CMakeFiles/statvec.dir/std/complex.o 
     In file included from std/complex.cpp:1:0:
     /usr/include/c++/7/bits/stl_construct.h: In function ‘void std::_Destroy(_ForwardIterator, _ForwardIterator)’:
-    **bunch of garbage below here**
+    **long and cryptic error message**
 
 The ways to handle this error:
 
@@ -77,7 +77,7 @@ The important information in the output is the ``std::`` types/functions without
  Those are STL-implementation independent types/functions that should be defined elsewhere, not in the headers from the ``bits`` directory.
 In this particular example, the function of interest is ``std::uninitialized_copy``.  
 
-A quick search in the C++ documentation at https://en.cppreference.com , http://www.cplusplus.com  or elsewhere in the WWW,  tells that this function is defined in the <memory> header.
+A quick search in the C++ documentation at https://en.cppreference.com or other resources tells that this function is defined in the <memory> header.
 Therefore, this information should be hardcoded into the binder.
 
 
