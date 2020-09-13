@@ -53,8 +53,8 @@ def make_bindings_code(all_includes_fn):
                + ('--config config.cfg ' if use_pybind_stl else '') +
                f' {all_includes_fn} -- -std=c++11 '
                f'-I{this_project_include} -DNDEBUG -v').split()
-    print('BINDER COMMAND: ' + ' '.join(command))
-    subprocess.call(command)
+    print('BINDER COMMAND:', ' '.join(command))
+    subprocess.check_call(command)
     sources_to_compile = []
     with open(f'{bindings_dir}/{python_module_name}.sources', 'r') as fh:
         for line in fh:

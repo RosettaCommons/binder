@@ -16,6 +16,29 @@
 struct Base
 {
 	virtual void foo() {}
+
+	// anonymous
+	struct
+	{
+		int a;
+		float b;
+	};
+
+	struct InnerBase
+	{
+		int ia;
+		float ib;
+
+		void foo_i() {}
+	};
+
+
+	template <typename T>
+	struct InnerTemplate
+	{
+		T value;
+	};
+
 };
 
 namespace n1 {
@@ -26,3 +49,5 @@ struct A: public n1::A {};
 }
 
 }
+
+void instantiate_templates(n1::A::InnerTemplate<int>, n1::n2::A::InnerTemplate<float>) {}

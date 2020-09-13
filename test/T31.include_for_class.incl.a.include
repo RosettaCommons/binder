@@ -3,6 +3,7 @@
 namespace aaaa
 {
 
-class A {};
+struct A {
+};
 
 }

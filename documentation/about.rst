@@ -1,7 +1,8 @@
 About this project
 ==================
-**Binder** is a tool for automatic generation of Python bindings for C++11 projects using `Pybind11 <https://github.com/pybind/pybind11>`_ and `Clang LibTooling <http://clang.llvm.org/docs/LibTooling.html>`_ libraries.  That is, Binder, takes a C++ project and compiles it into objects and functions that are all usable within Python.  Binder is different from prior tools in that it handles special features new in C++11.
+**Binder** is a tool for automatic generation of Python bindings for C++11 projects using `Pybind11 <https://github.com/pybind/pybind11>`_ and `Clang LibTooling <http://clang.llvm.org/docs/LibTooling.html>`_ libraries.  That is, Binder, takes a C++ project and compiles it into objects and functions that are all usable within Python.  Binder is different from prior tools in that it handles special features new in C++11. 
 
+Initially Binder was developed to create `PyRosetta <http://www.pyrosetta.org/>`_ - Python bindings for `Rosetta <https://www.rosettacommons.org/>`_ project. Using such rather large C++ code base (Rosetta have ~3M SLOC of C++11 code) allowed to develop fully automated solution capable of bindings almost any C++11 code without need of human intervention.
 
 Core features
 *************

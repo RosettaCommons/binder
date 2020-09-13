@@ -51,29 +51,46 @@ Config &Config::get()
 /// Read config setting from file
 void Config::read(string const &file_name)
 {
-	string const _namespace_     {"namespace"};
-	string const _function_      {"function"};
-	string const _class_         {"class"};
-	string const _include_       {"include"};
-	string const _include_for_class_       {"include_for_class"};
+	string const _namespace_ {"namespace"};
+	string const _function_  {"function"};
+	string const _class_     {"class"};
+
+	string const _include_               {"include"};
+	string const _include_for_class_     {"include_for_class"};
+	string const _include_for_namespace_ {"include_for_namespace"};
+
 	string const _binder_        {"binder"};
 	string const _add_on_binder_ {"add_on_binder"};
 
-	string const _default_static_pointer_return_value_policy_           {"default_static_pointer_return_value_policy"};
-	string const _default_static_lvalue_reference_return_value_policy_	{"default_static_lvalue_reference_return_value_policy"};
-	string const _default_static_rvalue_reference_return_value_policy_  {"default_static_rvalue_reference_return_value_policy"};
+	string const _binder_for_namespace_        {"binder_for_namespace"};
+	string const _add_on_binder_for_namespace_ {"add_on_binder_for_namespace"};
 
-	string const _default_member_pointer_return_value_policy_           {"default_member_pointer_return_value_policy"};
-	string const _default_member_lvalue_reference_return_value_policy_	{"default_member_lvalue_reference_return_value_policy"};
-	string const _default_member_rvalue_reference_return_value_policy_  {"default_member_rvalue_reference_return_value_policy"};
-	string const _default_call_guard_   {"default_call_guard"};
+	string const _default_static_pointer_return_value_policy_          {"default_static_pointer_return_value_policy"};
+	string const _default_static_lvalue_reference_return_value_policy_ {"default_static_lvalue_reference_return_value_policy"};
+	string const _default_static_rvalue_reference_return_value_policy_ {"default_static_rvalue_reference_return_value_policy"};
+
+	string const _default_member_pointer_return_value_policy_          {"default_member_pointer_return_value_policy"};
+	string const _default_member_lvalue_reference_return_value_policy_ {"default_member_lvalue_reference_return_value_policy"};
+	string const _default_member_rvalue_reference_return_value_policy_ {"default_member_rvalue_reference_return_value_policy"};
+
+	string const _default_call_guard_ {"default_call_guard"};
 
 	std::ifstream f(file_name);
+
+	if( not f.good() ) {
+		throw std::runtime_error("can not open file " + file_name + " for reading...");
+	}
+
 	string line;
 
 	while( std::getline(f, line) ) {
 		if( line.size() ) {
 			if( line[0] == '#' ) continue;
+
+			if( line.back() == '\r' ) {
+				line.pop_back();
+				if( line.empty() ) continue;
+			}
 
 			if( line[0] == '+'  or  line[0] == '-' ) {
 				size_t space = line.find(' ');
@@ -108,10 +125,20 @@ void Config::read(string const &file_name)
 
 						if(bind) {
 							auto class_and_include = split_in_two(name, "Invalid line for include_for_class specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
-							per_class_includes_[class_and_include.first].push_back(class_and_include.second);
+							class_includes_[class_and_include.first].push_back(class_and_include.second);
 						}
 						else {
 							throw std::runtime_error("include_for_class must be '+' configuration.");
+						}
+
+					} else if( token == _include_for_namespace_ ) {
+
+						if(bind) {
+							auto namespace_and_include = split_in_two(name, "Invalid line for include_for_namespace specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
+							namespace_includes_[namespace_and_include.first].push_back(namespace_and_include.second);
+						}
+						else {
+							throw std::runtime_error("include_for_namespace must be '+' configuration.");
 						}
 
 					} else if( token == _binder_ ) {
@@ -127,7 +154,22 @@ void Config::read(string const &file_name)
 							auto binder_function = split_in_two(name, "Invalid line for add_on_binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
 							add_on_binders_[binder_function.first] = binder_function.second;
 						}
+
+					} else if( token == _binder_for_namespace_ ) {
+
+						if(bind) {
+							auto binder_function = split_in_two(name, "Invalid line for binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+							binder_for_namespaces_[binder_function.first] = binder_function.second;
+						}
+
+					} else if( token == _add_on_binder_for_namespace_ ) {
+
+						if(bind) {
+							auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+							add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
+						}
 					}
+
 					else if( token == _default_static_pointer_return_value_policy_ )          default_static_pointer_return_value_policy_ = name_without_spaces;
 					else if( token == _default_static_lvalue_reference_return_value_policy_ ) default_static_lvalue_reference_return_value_policy_ = name_without_spaces;
 					else if( token == _default_static_rvalue_reference_return_value_policy_ ) default_static_rvalue_reference_return_value_policy_ = name_without_spaces;

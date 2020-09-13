@@ -17,6 +17,7 @@ Contents:
     config
     examples
     debugging
+    testing
 
 Indices and tables
 ==================

@@ -20,13 +20,17 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
+#include <clang/Basic/SourceManager.h>
 #include <llvm/Support/Regex.h>
+
 
 //#include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
 
-using namespace llvm;
+//using namespace llvm;
+using llvm::outs;
+
 using namespace clang;
 
 using std::string;
@@ -40,7 +44,7 @@ namespace binder {
 /// check if user requested binding for the given QualType
 bool is_binding_requested(clang::QualType const &qt, Config const &config)
 {
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_binding_requested(rt->getPointeeType(), config);
 
@@ -53,7 +57,7 @@ bool is_binding_requested(clang::QualType const &qt, Config const &config)
 // check if user requested skipping for the given declaration
 bool is_skipping_requested(QualType const &qt, Config const &config)
 {
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_skipping_requested(rt->getPointeeType(), config);
 
@@ -71,6 +75,8 @@ string relevant_include(NamedDecl const *decl)
 
 	FileID fid = sm.getFileID( decl->getLocation() );
 	SourceLocation include = sm.getIncludeLoc(fid);
+
+	//outs() << "SL: "; include.dump(sm); outs() << "\n";
 
 	string include_string;
 	if( include.isValid() ) {
@@ -100,9 +106,19 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			{
 			 { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
 
-			 { "<iterator>", {"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag", "std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",} },
+			 { "<iterator>",
+			   {
+				"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag",
+				"std::forward_iterator_tag", "std::input_iterator_tag", "std::random_access_iterator_tag",
+				"std::begin", "std::end",
+			   }
+			 },
 
-			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale", "std::money_base", "std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname", "std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"} },
+			 { "<locale>", {"std::ctype", "std::ctype_byname", "std::ctype_base", "std::locale",
+							"std::money_base", "std::money_base::pattern",
+							"std::messages_base", "std::numpunct", "std::num_get", "std::num_put", "std::numpunct_byname",
+							"std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"}
+			 },
 
 			 { "<regex>", {"std::basic_regex", "std::regex_traits"} },
 
@@ -116,6 +132,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<memory>", {"std::uninitialized_copy"} },
 
+			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
+      
 			};
 
 		for(auto const & include_types : include_types_map ) {
@@ -230,6 +248,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("<bits/stl_heap.h>", "<algorithm>"),
 
+		make_pair("<bits/types/__mbstate_t.h>", "<ios>"),
 
 		// C headers
 		make_pair("<bits/libio.h>", "<stdio.h>"),
@@ -238,8 +257,11 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("<bits/types/struct_timespec.h>",   "<time.h>"),
 		make_pair("<bits/types/struct_itimerspec.h>", "<time.h>"),
 
-		make_pair("<bits/pthreadtypes-arch.h>",   "<pthread.h>"),
-		make_pair("<bits/thread-shared-types.h>", "<pthread.h>"),
+		make_pair("<bits/pthreadtypes-arch.h>",        "<pthread.h>"),
+		make_pair("<bits/thread-shared-types.h>",      "<pthread.h>"),
+		make_pair("<bits/struct_mutex.h>",             "<pthread.h>"),
+		make_pair("<bits/struct_rwlock.h>",            "<pthread.h>"),
+		make_pair("<bits/types/struct_sched_param.h>", "<pthread.h>"),
 
 	};
 
@@ -266,6 +288,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		name = decl->getQualifiedNameAsString();
 	}
 
+	name = standard_name(name);
 
 	auto it = type_map.find(name);
 	if( it != type_map.end() ) {
@@ -308,7 +331,7 @@ void add_relevant_includes(QualType const &qt, /*const ASTContext &context,*/ In
 {
 	//QualType qt = qt.getDesugaredType(context);
 	//outs() << "add_relevant_includes(qt): " << qt.getAsString() << "\n";
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) add_relevant_includes(rt->getPointeeType(), includes, level);
 	if( CXXRecordDecl *r = qt->getAsCXXRecordDecl() ) add_relevant_includes(r, includes, level);
 	if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAsTagDecl() ) ) add_relevant_includes(e, includes, level);
@@ -322,7 +345,7 @@ bool is_bindable(QualType const &qt)
 
 	r &= !qt->isFunctionPointerType()  and  !qt->isRValueReferenceType()  and  !qt->isInstantiationDependentType()  and  !qt->isArrayType();  //and  !qt->isConstantArrayType()  and  !qt->isIncompleteArrayType()  and  !qt->isVariableArrayType()  and  !qt->isDependentSizedArrayType()
 
-	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
 		QualType pqt = pt->getPointeeType();
 
 		if( pqt->isPointerType() ) return false;  // refuse to bind 'value**...' types
@@ -374,7 +397,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 			if( td->isCompleteDefinition()  or  dyn_cast<ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
 		}
 
-		if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
+		if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
 			request_bindings( pt->getPointeeType()/*.getCanonicalType()*/, context );
 		}
 

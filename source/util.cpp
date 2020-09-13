@@ -19,6 +19,7 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
+#include <clang/Basic/SourceManager.h>
 #include <clang/AST/Comment.h>
 
 //#include <experimental/filesystem>
@@ -109,16 +110,18 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 	for(auto &d : dirs) path += "/" + d;
 
 	//std::experimental::filesystem::create_directories(path);
-	string command_line = "mkdir -p "+path;
+	string command_line = "mkdir -p " + path;
 	system( command_line.c_str() );
 
-	string full_file_name = prefix + file_name;
+	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
 	std::string old_code((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
 
 	if( old_code != code ) {
 		if( O_verbose ) outs() << "Writing " << full_file_name << "\n";
-		std::ofstream(full_file_name) << code;
+		std::ofstream f(full_file_name);
+		if( f.fail() ) throw std::runtime_error("ERROR: Can not open file " + full_file_name + " for writing...");
+		f << code;
 	} else {
 		if( O_verbose ) outs() << "File " << full_file_name << " is up-to-date, skipping...\n";
 	}
@@ -142,7 +145,7 @@ string namespace_from_named_decl(NamedDecl const *decl)
 
 
 /// generate unique string representation of type represented by given declaration
-string typename_from_type_decl(TypeDecl *decl)
+string typename_from_type_decl(TypeDecl const *decl)
 {
 	return standard_name( decl->getTypeForDecl()->getCanonicalTypeInternal()/*getCanonicalType()*/.getAsString() );
 }
@@ -253,17 +256,25 @@ string generate_comment_for_declaration(clang::NamedDecl const *decl)
 // extract text from hierarchy of comments
 string get_text(comments::Comment const *C, SourceManager const & SM, SourceLocation previous)
 {
-	if( auto tc = dyn_cast<comments::TextComment>(C) ) return tc->getText();
+	if( auto tc = dyn_cast<comments::TextComment>(C) ) return string(tc->getText());
 	else {
 		string r;
 
 		if( isa<comments::ParagraphComment>(C) ) r += '\n';
 
 		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
-			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getLocStart() ) ) {
-				previous = (*i)->getLocStart();
+#if  (LLVM_VERSION_MAJOR < 8)
+			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getLocStart() ) ) {  // getBeginLoc
+				previous = (*i)->getLocStart(); // getBeginLoc();
 				r += '\n';
 			}
+#endif
+#if  (LLVM_VERSION_MAJOR >= 8)
+			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getBeginLoc() ) ) {  // getBeginLoc
+				previous = (*i)->getBeginLoc(); // getBeginLoc();
+				r += '\n';
+			}
+#endif
 			r += get_text(*i, SM, previous);
 		}
 

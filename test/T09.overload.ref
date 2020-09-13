@@ -20,7 +20,7 @@
 struct PyCallBack_A2 : public A2 {
 	using A2::A2;
 
-	void f() override { 
+	void f() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A2 *>(this), "f");
 		if (overload) {
@@ -39,7 +39,7 @@ struct PyCallBack_A2 : public A2 {
 struct PyCallBack_A3 : public A3 {
 	using A3::A3;
 
-	void f() override { 
+	void f() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A3 *>(this), "f");
 		if (overload) {
@@ -58,7 +58,7 @@ struct PyCallBack_A3 : public A3 {
 struct PyCallBack_A4 : public A4 {
 	using A4::A4;
 
-	int operator=(int a0) override { 
+	int operator=(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const A4 *>(this), "assign");
 		if (overload) {
@@ -77,16 +77,12 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 {
 	{ // A1 file:T09.overload.hpp line:15
 		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
-		pybind11::handle cl_type = cl;
-
-		cl.def( pybind11::init( [](){ return new A1(); } ), "doc");
+		cl.def( pybind11::init( [](){ return new A1(); } ), "doc" );
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
 	}
 	{ // A2 file:T09.overload.hpp line:20
 		pybind11::class_<A2, std::shared_ptr<A2>, PyCallBack_A2> cl(M(""), "A2", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new A2(); }, [](){ return new PyCallBack_A2(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
@@ -95,8 +91,6 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 	}
 	{ // A3 file:T09.overload.hpp line:27
 		pybind11::class_<A3, std::shared_ptr<A3>, PyCallBack_A3> cl(M(""), "A3", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new PyCallBack_A3(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
@@ -105,8 +99,6 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 	}
 	{ // A4 file:T09.overload.hpp line:33
 		pybind11::class_<A4, std::shared_ptr<A4>, PyCallBack_A4> cl(M(""), "A4", "");
-		pybind11::handle cl_type = cl;
-
 		cl.def( pybind11::init( [](){ return new PyCallBack_A4(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
