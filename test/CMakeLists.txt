@@ -18,7 +18,7 @@ else()
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include "#include <${stestname}.hpp>" )
   ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
 #The first two expressions below are for older clang
-  COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  
+  COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
     --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${stestname}.hpp.include  
     -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
@@ -36,7 +36,7 @@ macro( binder_test testname vers)
     endif()
     add_test( NAME ${testname}_diff
 #--always-success option forces the diffbinder to return success regardles of the results of comparison. 
-      COMMAND diffbinder ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp ${CMAKE_CURRENT_SOURCE_DIR}/${testname}.ref  --always-success
+      COMMAND diffbinder ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp ${CMAKE_CURRENT_SOURCE_DIR}/${testname}.ref 
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
     set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/${testnamenodot}.cpp PROPERTIES GENERATED TRUE)
     add_dependencies( diffbinder target${testnamenodot}cpp)
@@ -88,7 +88,10 @@ set( binder_tests
          T32.call_guard
          T40.stl
          T42.stl.names
-         T42.stl.names.multi
+         T42.stl.names.map
+         T42.stl.names.set
+         T42.stl.names.multimap
+         T42.stl.names.multiset
          T50.namespace_binder
          )
 

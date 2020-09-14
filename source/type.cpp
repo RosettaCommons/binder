@@ -133,7 +133,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			 { "<memory>", {"std::uninitialized_copy"} },
 
 			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
-
+      
 			};
 
 		for(auto const & include_types : include_types_map ) {
