@@ -133,7 +133,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			 { "<memory>", {"std::uninitialized_copy"} },
 
 			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
-      
+
 			};
 
 		for(auto const & include_types : include_types_map ) {
@@ -417,6 +417,7 @@ string standard_name(string const &type)
 
 		make_pair("std::basic_string<char>",  "std::string"),
 		make_pair("std::basic_ostream<char>", "std::ostream"),
+		make_pair("std::basic_istream<char>", "std::istream"),
 
 		make_pair("class std::string",  "std::string"), // for return/paremeters types
 		make_pair("class std::ostream", "std::ostream"),
