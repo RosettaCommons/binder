@@ -106,6 +106,12 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 			{
 			 { "<algorithm>", {"std::move_backward", "std::iter_swap", "std::min"} },
 
+			 { "<atomic>", {"std::memory_order", "std::atomic_signal_fence", "std::atomic_thread_fence", } },
+
+			 { "<exception>", {"std::nested_exception"} },
+
+			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
+
 			 { "<iterator>",
 			   {
 				"std::advance", "std::distance", "std::iterator", "std::iterator_traits", "std::reverse_iterator", "std::bidirectional_iterator_tag",
@@ -124,15 +130,13 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<string>", {"std::basic_string", "std::char_traits"} },
 
-			 { "<utility>", {"std::move"} },
-
-			 { "<exception>", {"std::nested_exception"} },
-
 			 { "<cwchar>", {"std::mbstate_t"} },
 
 			 { "<memory>", {"std::uninitialized_copy"} },
 
-			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
+			 { "<mutex>", {"std::mutex", " std::adopt_lock", "std::adopt_lock_t", "std::defer_lock", "std::defer_lock_t", "std::try_to_lock", "std::try_to_lock_t", "std::unique_lock", "std::lock_guard", } },
+
+			 { "<utility>", {"std::move"} },
 
 			};
 
@@ -166,6 +170,7 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 
 	static vector< std::pair<string, string> > const include_map = {
+		make_pair("<bits/atomic_base.h>",  "<atomic>"),
 		make_pair("<bits/ios_base.h>",     "<ios>"),
 		make_pair("<bits/istream.tcc>",    "<istream>"),
 		make_pair("<bits/ostream.tcc>",    "<ostream>"),
@@ -421,6 +426,7 @@ string standard_name(string const &type)
 
 		make_pair("class std::string",  "std::string"), // for return/paremeters types
 		make_pair("class std::ostream", "std::ostream"),
+		make_pair("class std::istream", "std::istream"),
 
 		make_pair("nullptr_t",     "std::nullptr_t"),
 
