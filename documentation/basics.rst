@@ -48,7 +48,7 @@ do so.
 Running the Binder
 ------------------
 
-After the input file is ready the next step is to run Binder. Assuming that our include file conatining all headers from the
+After the input file is ready the next step is to run Binder. Assuming that our include file containing all headers from the
 project is named as ``all_includes.hpp`` it could be done as:
 
 .. code-block:: bash
@@ -61,7 +61,7 @@ project is named as ``all_includes.hpp`` it could be done as:
 
 
 Note that we have to specify project-wide include path so Binder could find includes specifies in ``all_includes.hpp`` as well
-as path to any aditional C++ include headers that is used in project.
+as path to any additional C++ include headers that is used in project.
 
 Most big project will probably require fine tunning of bindings generation process. This can be done by creating Binder config
 file and specifying it when calling Binder as ``--config my_project.config``. For detailed reference of config file options
