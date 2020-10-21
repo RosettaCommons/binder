@@ -29,7 +29,7 @@ struct PyCallBack_Base : public Base {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -42,7 +42,7 @@ struct PyCallBack_Base : public Base {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -55,7 +55,7 @@ struct PyCallBack_Base : public Base {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -74,7 +74,7 @@ struct PyCallBack_Derived : public Derived {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -87,7 +87,7 @@ struct PyCallBack_Derived : public Derived {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -100,7 +100,7 @@ struct PyCallBack_Derived : public Derived {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -119,7 +119,7 @@ struct PyCallBack_Delete : public Delete {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -132,7 +132,7 @@ struct PyCallBack_Delete : public Delete {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -145,7 +145,7 @@ struct PyCallBack_Delete : public Delete {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -164,7 +164,7 @@ struct PyCallBack_X : public X {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));
@@ -177,7 +177,7 @@ struct PyCallBack_X : public X {
 		if (overload) {
 			auto o = overload.operator()<pybind11::return_value_policy::reference>();
 			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::overload_caster_t<void> caster;
+				static pybind11::detail::override_caster_t<void> caster;
 				return pybind11::detail::cast_ref<void>(std::move(o), caster);
 			}
 			else return pybind11::detail::cast_safe<void>(std::move(o));

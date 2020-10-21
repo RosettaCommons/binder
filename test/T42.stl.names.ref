@@ -1,10 +1,9 @@
-// File: std/stl_list.cpp Code size: 6119
-#include <deque> // std::deque
-#include <iterator> // __gnu_cxx::__normal_iterator
+// File: std/stl_list.cpp
 #include <list> // std::list
 #include <memory> // std::allocator
+#include <memory> // std::allocator_traits
+#include <memory> // std::pointer_traits
 #include <sstream> // __str__
-#include <vector> // std::vector
 
 #include <pybind11/pybind11.h>
 #include <functional>
@@ -19,20 +18,15 @@
 
 void bind_std_stl_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::list file:bits/stl_list.h line:564
+	{ // std::list file:bits/stl_list.h line:438
 		pybind11::class_<std::list<double>, std::shared_ptr<std::list<double>>> cl(M("std"), "list_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::list<double>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
-
-		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::list<double>(a0); } ), "doc" , pybind11::arg("__n"));
-		cl.def( pybind11::init<unsigned long, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](unsigned long const & a0, const double & a1){ return new std::list<double>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
 		cl.def( pybind11::init<unsigned long, const double &, const class std::allocator<double> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](std::list<double> const &o){ return new std::list<double>(o); } ) );
-		cl.def( pybind11::init<const class std::list<double, class std::allocator<double> > &, const class std::allocator<double> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
-
 		cl.def("assign", (class std::list<double, class std::allocator<double> > & (std::list<double>::*)(const class std::list<double, class std::allocator<double> > &)) &std::list<double, std::allocator<double> >::operator=, "C++: std::list<double, std::allocator<double> >::operator=(const class std::list<double, class std::allocator<double> > &) --> class std::list<double, class std::allocator<double> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
 		cl.def("assign", (void (std::list<double>::*)(unsigned long, const double &)) &std::list<double, std::allocator<double> >::assign, "C++: std::list<double, std::allocator<double> >::assign(unsigned long, const double &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
 		cl.def("get_allocator", (class std::allocator<double> (std::list<double>::*)() const) &std::list<double, std::allocator<double> >::get_allocator, "C++: std::list<double, std::allocator<double> >::get_allocator() const --> class std::allocator<double>");
@@ -55,20 +49,38 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 		cl.def("reverse", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::reverse, "C++: std::list<double, std::allocator<double> >::reverse() --> void");
 		cl.def("sort", (void (std::list<double>::*)()) &std::list<double, std::allocator<double> >::sort, "C++: std::list<double, std::allocator<double> >::sort() --> void");
 	}
-	{ // std::deque file:bits/stl_deque.h line:832
+}
+
+
+// File: std/stl_deque.cpp
+#include <deque> // std::deque
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
+#include <sstream> // __str__
+#include <vector> // std::vector
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*);
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>);
+#endif
+
+void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // std::deque file:bits/stl_deque.h line:730
 		pybind11::class_<std::deque<int>, std::shared_ptr<std::deque<int>>> cl(M("std"), "deque_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::deque<int>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<int> &>(), pybind11::arg("__a") );
-
-		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::deque<int>(a0); } ), "doc" , pybind11::arg("__n"));
-		cl.def( pybind11::init<unsigned long, const class std::allocator<int> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](unsigned long const & a0, const int & a1){ return new std::deque<int>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__value"));
 		cl.def( pybind11::init<unsigned long, const int &, const class std::allocator<int> &>(), pybind11::arg("__n"), pybind11::arg("__value"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](std::deque<int> const &o){ return new std::deque<int>(o); } ) );
-		cl.def( pybind11::init<const class std::deque<int, class std::allocator<int> > &, const class std::allocator<int> &>(), pybind11::arg("__x"), pybind11::arg("__a") );
-
 		cl.def("assign", (class std::deque<int, class std::allocator<int> > & (std::deque<int>::*)(const class std::deque<int, class std::allocator<int> > &)) &std::deque<int, std::allocator<int> >::operator=, "C++: std::deque<int, std::allocator<int> >::operator=(const class std::deque<int, class std::allocator<int> > &) --> class std::deque<int, class std::allocator<int> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
 		cl.def("assign", (void (std::deque<int>::*)(unsigned long, const int &)) &std::deque<int, std::allocator<int> >::assign, "C++: std::deque<int, std::allocator<int> >::assign(unsigned long, const int &) --> void", pybind11::arg("__n"), pybind11::arg("__val"));
 		cl.def("get_allocator", (class std::allocator<int> (std::deque<int>::*)() const) &std::deque<int, std::allocator<int> >::get_allocator, "C++: std::deque<int, std::allocator<int> >::get_allocator() const --> class std::allocator<int>");
@@ -89,7 +101,7 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 		cl.def("swap", (void (std::deque<int>::*)(class std::deque<int, class std::allocator<int> > &)) &std::deque<int, std::allocator<int> >::swap, "C++: std::deque<int, std::allocator<int> >::swap(class std::deque<int, class std::allocator<int> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::deque<int>::*)()) &std::deque<int, std::allocator<int> >::clear, "C++: std::deque<int, std::allocator<int> >::clear() --> void");
 	}
-	{ // std::vector file:bits/stl_vector.h line:339
+	{ // std::vector file:bits/stl_vector.h line:210
 		pybind11::class_<std::vector<double>, std::shared_ptr<std::vector<double>>> cl(M("std"), "vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<double>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
@@ -124,17 +136,17 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 		cl.def("data", (double * (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::data, "C++: std::vector<double, std::allocator<double> >::data() --> double *", pybind11::return_value_policy::automatic);
 		cl.def("push_back", (void (std::vector<double>::*)(const double &)) &std::vector<double, std::allocator<double> >::push_back, "C++: std::vector<double, std::allocator<double> >::push_back(const double &) --> void", pybind11::arg("__x"));
 		cl.def("pop_back", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::pop_back, "C++: std::vector<double, std::allocator<double> >::pop_back() --> void");
-		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__x"));
-		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__n"), pybind11::arg("__x"));
-		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"));
-		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<const double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__first"), pybind11::arg("__last"));
+		cl.def("insert", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, const double &) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"), pybind11::arg("__x"));
+		cl.def("insert", (void (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &)) &std::vector<double, std::allocator<double> >::insert, "C++: std::vector<double, std::allocator<double> >::insert(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, unsigned long, const double &) --> void", pybind11::arg("__position"), pybind11::arg("__n"), pybind11::arg("__x"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__position"));
+		cl.def("erase", (class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > > (std::vector<double>::*)(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >)) &std::vector<double, std::allocator<double> >::erase, "C++: std::vector<double, std::allocator<double> >::erase(class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >, class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >) --> class __gnu_cxx::__normal_iterator<double *, class std::vector<double, class std::allocator<double> > >", pybind11::arg("__first"), pybind11::arg("__last"));
 		cl.def("swap", (void (std::vector<double>::*)(class std::vector<double, class std::allocator<double> > &)) &std::vector<double, std::allocator<double> >::swap, "C++: std::vector<double, std::allocator<double> >::swap(class std::vector<double, class std::allocator<double> > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<double>::*)()) &std::vector<double, std::allocator<double> >::clear, "C++: std::vector<double, std::allocator<double> >::clear() --> void");
 	}
 }
 
 
-// File: std/forward_list.cpp Code size: 5719
+// File: std/forward_list.cpp
 #include <forward_list> // std::forward_list
 #include <memory> // std::allocator
 #include <sstream> // __str__
@@ -152,9 +164,9 @@ void bind_std_stl_list(std::function< pybind11::module &(std::string const &name
 
 void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::forward_list file:bits/forward_list.h line:425
+	{ // std::forward_list file:bits/forward_list.h line:408
 		pybind11::class_<std::forward_list<float>, std::shared_ptr<std::forward_list<float>>> cl(M("std"), "forward_list_float_t", "");
-		cl.def( pybind11::init( [](){ return new std::forward_list<float>(); } ) );
+		cl.def( pybind11::init( [](){ return new std::forward_list<float>(); } ), "doc" );
 		cl.def( pybind11::init<const class std::allocator<float> &>(), pybind11::arg("__al") );
 
 		cl.def( pybind11::init<const class std::forward_list<float, class std::allocator<float> > &, const class std::allocator<float> &>(), pybind11::arg("__list"), pybind11::arg("__al") );
@@ -187,7 +199,7 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 }
 
 
-// File: T42_stl_names.cpp Code size: 284
+// File: T42_stl_names.cpp
 #include <T42.stl.names.hpp> // foo
 #include <deque> // std::deque
 #include <forward_list> // std::forward_list
@@ -235,6 +247,7 @@ void bind_T42_stl_names(std::function< pybind11::module &(std::string const &nam
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_stl_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T42_stl_names(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
@@ -259,6 +272,7 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_std_stl_list(M);
+	bind_std_stl_deque(M);
 	bind_std_forward_list(M);
 	bind_T42_stl_names(M);
 
@@ -267,6 +281,7 @@ PYBIND11_MODULE(T42_stl_names, root_module) {
 // Source list file: TEST/T42_stl_names.sources
 // T42_stl_names.cpp
 // std/stl_list.cpp
+// std/stl_deque.cpp
 // std/forward_list.cpp
 // T42_stl_names.cpp
 
