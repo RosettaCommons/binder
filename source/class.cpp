@@ -628,7 +628,7 @@ pybind11::function overload = pybind11::get_overload(static_cast<const {0} *>(th
 if (overload) {{
 	auto o = overload.operator()<pybind11::return_value_policy::reference>({2});
 	if (pybind11::detail::cast_is_temporary_value_reference<{3}>::value) {{
-		static pybind11::detail::overload_caster_t<{3}> caster;
+		static pybind11::detail::override_caster_t<{3}> caster;
 		return pybind11::detail::cast_ref<{3}>(std::move(o), caster);
 	}}
 	else return pybind11::detail::cast_safe<{3}>(std::move(o));
