@@ -161,27 +161,27 @@ Config file directives:
 
 
 * ``default_static_pointer_return_value_policy``, specify return value policy for static functions returning pointer to objects. Default is
-  'pybind11::return_value_policy::automatic'.
+  `pybind11::return_value_policy::automatic`.
 
 
 * ``default_static_lvalue_reference_return_value_policy``, specify return value policy for static functions returning l-value reference. Default
-  is 'pybind11::return_value_policy::automatic'.
+  is `pybind11::return_value_policy::automatic`.
 
 
 * ``default_static_rvalue_reference_return_value_policy``, specify return value policy for static functions returning r-value reference. Default
-  is 'pybind11::return_value_policy::automatic'.
+  is `pybind11::return_value_policy::automatic`.
 
 
 * ``default_member_pointer_return_value_policy``, specify return value policy for member functions returning pointer to objects. Default is
-  'pybind11::return_value_policy::automatic'.
+  `pybind11::return_value_policy::automatic`.
 
 
 * ``default_member_lvalue_reference_return_value_policy``, specify return value policy for member functions returning l-value reference. Default
-  is 'pybind11::return_value_policy::automatic'.
+  is `pybind11::return_value_policy::automatic`.
 
 
 * ``default_member_rvalue_reference_return_value_policy``, specify return value policy for member functions returning r-value reference. Default
-  is 'pybind11::return_value_policy::automatic'.
+  is `pybind11::return_value_policy::automatic`.
 
 * ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <http://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
 

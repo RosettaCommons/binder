@@ -36,8 +36,8 @@ folder.
 Their names are self explanatory, but I would highly recommend that for your
 own applications that you follow the ``python`` & ``cmake`` workflow.
 
-Each script's final running lines also imports the ``test_struct`` module and
-prints a variable or two of it to prove that it's working.
+Each script\'s final running lines also imports the ``test_struct`` module and
+prints a variable or two of it to prove that it is working.
 
 
 This example/tutorial will walk you through the step-by-step of both
@@ -45,11 +45,11 @@ This example/tutorial will walk you through the step-by-step of both
 to be done to generate bindings.  Upon understanding the more manual ``bash``
 method, the ``cmake`` code should make much more sense.
 
-The rest of "Simple struct" will also take you through generating pybind11 stl
+The rest of \"Simple struct\" will also take you through generating pybind11 stl
 bindings (like making bindings for `std::vector` -> python list) and how to use
-binder's bindings for `std::vector` to access `std::vector` objects without
+binder\'s bindings for `std::vector` to access `std::vector` objects without
 converting them to python lists.  This allows us to benefit from the speed of
-c++!
+C++!
 
 
 Building bindings basics
@@ -191,18 +191,18 @@ You may notice how ever that this will still fail:
 
     python3 -c "import sys; sys.path.append('.'); import test_struct; f = test_struct.testers.test_my_struct(); print(f.a_float); f.add_float(); print(f.a_float); print(f.a_vector)"
 
-This fails because python doesn't understand how to interact with the std
+This fails because python does not understand how to interact with the std
 library classes like ``std::vector``. You can get around this by remaking your
 bindings with this config file. **However**, you must note that when you are
 returning vectors into your python environment, or pushing lists to the c++
-side, there is a performance penalty when pybind converts from ``python
+side, there is a performance penalty when pybind11 converts from ``python
 list[]`` -> ``std::vector``, and vice-versa. This can be a problem when dealing
 with larger lists/vectors.
 
 If performance is critical, it is advised that most work is done via c++,
-and you just use python as the 'glue'. For example, the following command
-doesn't fail, because python never has to 'see' the std::vector and all of
-the work is done in the c++ layer.
+and you just use python as the \"glue\". For example, the following command
+does not fail, because python never has to \"see\" the std::vector and all of
+the work is done in the C++ layer.
 
 .. code-block:: console
 
