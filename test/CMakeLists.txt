@@ -75,9 +75,9 @@ set( binder_tests
          T05.default
          T07.class
          T08.constructor
-         T09.overload
-         T10.inheritance
-         T11.override
+         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T09.overload
+         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T10.inheritance
+         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T11.override
          T12.operator
          T15.copy
          T15.inner_class
