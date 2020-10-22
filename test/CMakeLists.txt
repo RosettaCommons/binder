@@ -95,7 +95,7 @@ set( binder_tests
          T50.namespace_binder
          )
 if (pybind11_VERSION VERSION_LESS 2.5.99)
- message(STATUS "pybind11 version ${pybind11_VERSION} is less than 2.5.99. Some tests will be disabled. )
+ message(STATUS "pybind11 version ${pybind11_VERSION} is less than 2.5.99. Some tests will be disabled." )
  list(REMOVE_ITEM binder_tests T09.overload)
  list(REMOVE_ITEM binder_tests T10.inheritance)
  list(REMOVE_ITEM binder_tests T11.override)
