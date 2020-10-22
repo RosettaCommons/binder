@@ -75,9 +75,9 @@ set( binder_tests
          T05.default
          T07.class
          T08.constructor
-         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T09.overload
-         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T10.inheritance
-         $<$<VERSION_GREATER:$<pybind11_VERSION>,2.4.99>:> T11.override
+         T09.overload
+         T10.inheritance
+         T11.override
          T12.operator
          T15.copy
          T15.inner_class
@@ -94,7 +94,13 @@ set( binder_tests
          T42.stl.names.multiset
          T50.namespace_binder
          )
-
+if (pybind11_VERSION VERSION_LESS 2.5.99)
+ message(STATUS "pybind11 version ${pybind11_VERSION} is less than 2.5.99. Some tests will be disabled. )
+ list(REMOVE_ITEM binder_tests T09.overload)
+ list(REMOVE_ITEM binder_tests T10.inheritance)
+ list(REMOVE_ITEM binder_tests T11.override)
+ list(REMOVE_ITEM binder_tests T15.inner_class)
+endif()
 string(REPLACE "," ";" TESTVERSIONS ${BINDER_TEST_PYTHON_VERSIONS})
 foreach ( tests ${binder_tests} )
   binder_src( ${tests})
