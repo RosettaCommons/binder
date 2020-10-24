@@ -106,3 +106,15 @@ jobs:
       uses: ./.github/workflows/fedora33
     - name: Get the output status
       run: exit ${{ steps.compileindocker.outputs.out }}
+  
+  compilejobOSX:
+    runs-on: macos-latest
+    name: Binder_on_OSX
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: compile
+      run: ./.github/workflows/osx/entrypoint.sh
+    - name: Get the output status
+      run: exit ${{ steps.compile.outputs.out }}
