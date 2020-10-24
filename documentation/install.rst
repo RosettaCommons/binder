@@ -138,6 +138,24 @@ For Ubuntu18+ run, an example for LLVM/Clang 10:
     sudo apt-get -y install  clang-10 llvm-10 libclang-10-dev llvm-10-dev
     sudo apt-get -y install  cmake make gcc g++
 
+For MacOSX:
+
+  Make sure the XCode is installed. If needed, install cmake, python and other utilities, e.g. using homebrew:
+  
+  .. code-block:: console
+    
+    brew install wget coreutils xz pybind11 cmake
+
+
+  Download and install the llvm+clang from the official site, e.g. using ``wget`` and 
+  add the location of llvm config to the $PATH:
+
+  .. code-block:: console
+    
+    wget --no-verbose https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
+    tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
+    export PATH=$PATH:$(pwd)/clang+llvm-11.0.0-x86_64-apple-darwin/bin
+
 
 Building
 ********
