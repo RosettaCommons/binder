@@ -16,7 +16,7 @@ else()
     SET(${stestname}_config_flag --config ${stestname}.config )
   endif()
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include "#include <${stestname}.hpp>" )
-  if (APPLE)
+  if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
     #The first two expressions below are for older clang
     COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/  CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/
@@ -111,7 +111,7 @@ if (pybind11_VERSION VERSION_LESS 2.5.99)
  list(REMOVE_ITEM binder_tests T11.override)
  list(REMOVE_ITEM binder_tests T15.inner_class)
 endif()
-if (APPLE)
+if( CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" )
  list(REMOVE_ITEM binder_tests T42.stl.names.multimap)
  list(REMOVE_ITEM binder_tests T42.stl.names.multiset)
  list(REMOVE_ITEM binder_tests T42.stl.names.set)

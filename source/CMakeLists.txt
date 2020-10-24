@@ -40,7 +40,7 @@ if(USE_EXTERNAL_LLVM)
                                REQUIRED
                                )
   else()
-    if (APPLE)
+    if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
       set(lib_llvm_path )
     else()
       find_library(lib_llvm_path NAMES LLVM
