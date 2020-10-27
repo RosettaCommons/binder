@@ -146,7 +146,9 @@ For MacOSX:
     
     brew install wget coreutils xz pybind11 cmake
 
-
+  Note: the pybind11 version from   https://github.com/RosettaCommons/pybind11  should be preffered , 
+  but pybind11 version from homebrew might work as well. 
+  
   Download and install the llvm+clang from the official site, e.g. using ``wget`` and 
   add the location of llvm config to the $PATH:
 
