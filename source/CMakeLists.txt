@@ -40,13 +40,17 @@ if(USE_EXTERNAL_LLVM)
                                REQUIRED
                                )
   else()
-    find_library(lib_llvm_path NAMES LLVM
+    if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+      set(lib_llvm_path )
+    else()
+      find_library(lib_llvm_path NAMES LLVM
                                LLVM-${LLVM_VERSION_MAJOR}
                                LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
                                LLVM-${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}
                                PATHS  ${LLVM_LIBRARY_DIR}  ${LLVMLIBDIR}
                                REQUIRED
                                )
+     endif()
   endif()
   add_definitions(${LLVM_DEFINITIONS})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_COMPILE_FLAGS}")
