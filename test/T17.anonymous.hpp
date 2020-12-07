@@ -52,3 +52,14 @@ struct S {
 typedef struct _S2 {
 	int a;
 } S2;
+
+struct Anonymous
+{
+	union {
+		double coord[2];
+		struct {
+			double x;
+			double y;
+		};
+	};
+};
