@@ -88,15 +88,4 @@ struct ConstOverload
 	void foo(int) const {}
 };
 
-struct Anonymous
-{
-	union {
-		double coord[2];
-		struct {
-			double x;
-			double y;
-		};
-	};
-};
-
 #endif // _INCLUDED_T07_class_hpp_
