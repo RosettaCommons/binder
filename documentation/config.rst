@@ -191,7 +191,7 @@ Config file directives:
 
 .. code-block:: bash
 
-  +default_pointer_return_value_policy           pybind11::return_value_policy::reference
-  +default_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference_internal
-  +default_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
+  +default_static_pointer_return_value_policy           pybind11::return_value_policy::reference
+  +default_static_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference_internal
+  +default_static_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
   +default_call_guard pybind11::gil_scoped_release
