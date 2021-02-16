@@ -357,8 +357,13 @@ bool is_bindable(QualType const &qt)
 		//if( pqt->isArithmeticType() ) return false;  // refuse to bind 'int*, doublle*...' types
 		if( pqt->isArrayType() or pqt->isConstantArrayType() ) return false;  // refuse to bind 'T* v[]...' types
 
-		string pqt_name = pqt.getAsString();
-		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
+		string pqt_name = standard_name( pqt.getAsString() );
+		if(     begins_with(pqt_name, "struct std::pair")
+			or	begins_with(pqt_name, "const struct std::pair")
+			or  begins_with(pqt_name, "class std::tuple")
+			or  begins_with(pqt_name, "const class std::tuple")
+			) return false;
+		//outs() << pqt_name << "\n";
 		//qt->dump();
 		r &= is_bindable( pt->getPointeeType()/*.getCanonicalType()*/ );
 	}
@@ -369,7 +374,7 @@ bool is_bindable(QualType const &qt)
 
 		// special handling for std::pair&  and  std::tuple&  whitch pybind11 can't pass by refference
 		string pqt_name = standard_name( pqt.getAsString() );
-		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "struct std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
+		if( begins_with(pqt_name, "struct std::pair")  or  begins_with(pqt_name, "class std::tuple") ) return false;  // but we allow bindings for 'const std::tuple' and 'const std::pair'
 
 		//if( pqt_name == "char"  or  pqt_name == "wchar_t") return false; // WARNING only TEMPORARY, until Pybind11 upstream is fixed
 
