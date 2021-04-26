@@ -29,6 +29,7 @@
 
 #include <context.hpp>
 #include <enum.hpp>
+#include <const.hpp>
 #include <function.hpp>
 #include <class.hpp>
 #include <util.hpp>
@@ -208,6 +209,15 @@ public:
 
         return true;
 	}
+	 virtual bool VisitVarDecl(VarDecl *V) {
+		if( !V->getType().isConstQualified() )  return true;
+		if( !V->hasInit() ) return true;
+		if( V->getType().getTypePtr()->isArrayType()) return true;
+		if( V->isCXXInstanceMember()  or  V->isCXXClassMember() ) return true;
+		binder::BinderOP b = std::make_shared<binder::ConstBinder>( V );
+		context.add(b);
+        return true;
+	 }
 
 	void generate(void) {
 		context.generate( Config::get() );

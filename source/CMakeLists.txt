@@ -21,6 +21,9 @@ add_clang_executable(binder
   enum.hpp
   enum.cpp
 
+  const.hpp
+  const.cpp
+
   function.hpp
   function.cpp
 

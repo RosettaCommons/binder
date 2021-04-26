@@ -19,6 +19,9 @@
 
 void bind_T00_basic(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
+     M("").attr("some_constant") = pybind11::int_(14);
+
+
 	// foo() file:T00.basic.hpp line:25
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
