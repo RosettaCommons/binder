@@ -10,3 +10,4 @@ cmake CMakeLists.txt
 make
 otool -L source/binder
 ctest . --output-on-failure 
+cat Testing/Temporary/LastTest.log
