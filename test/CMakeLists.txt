@@ -91,6 +91,7 @@ set( binder_tests
          T12.operator
          T15.copy
          T15.inner_class
+         T15.inner_class.fwd
          T17.anonymous
          T20.template
          T30.include

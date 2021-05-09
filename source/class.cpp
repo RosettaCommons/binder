@@ -1080,6 +1080,11 @@ string ClassBinder::bind_nested_classes(Context &context)
 {
 	string c;
 	for_public_nested_classes([&c, &context, this](CXXRecordDecl const *innerC) {
+		if ( !innerC->isFirstDecl() ) return;
+		if ( !innerC->isThisDeclarationADefinition() && innerC->hasDefinition() ) {
+			// innerC seems to be a forward declaration
+			innerC = innerC->getDefinition();
+		}
 		if(is_bindable(innerC)) {
 			//c += "\t// Binding " + C->getNameAsString() + ";\n";
 			ClassBinder b(innerC);
