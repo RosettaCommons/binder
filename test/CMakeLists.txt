@@ -92,6 +92,7 @@ set( binder_tests
          T15.copy
          T15.inner_class
          T15.inner_class.fwd
+         T15.inner_class.inheritance
          T17.anonymous
          T20.template
          T30.include
