@@ -29,11 +29,11 @@ std::string const global_string1 = "Some test string";
 std::string const global_string2 = std::string("Some test string");
 
 
-double const expression_global_double = 8.0+1.0/5.0;
+double const expression_global_double = 8.0 + 1.0/5.0;
 
-double const array_global_double_not_binded[5] = {1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
+double const array_global_double_not_binded[5] = {1.0, 2.0, 3.0, 4.0, 5.0};  //This should not appear in bindings so far.
 
-std::vector<double> const vector_global_double_not_binded{1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
+std::vector<double> const vector_global_double_not_binded{1.0, 2.0, 3.0, 4.0, 5.0};  //This should not appear in bindings so far.
 
 int foo_char(char *) { return 0; } //This is just for control.
 

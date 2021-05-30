@@ -50,7 +50,7 @@ std::string bind_const(std::string const & module, VarDecl const *E)
 {
 	string r="\t";
 	clang::Expr const* init = E->getInit();
-	if (init){
+	if ( init ){
 		string name { E->getNameAsString() };
 		std::string type = E->getType().getCanonicalType().getAsString();
 		std::string pytype = "";
@@ -60,7 +60,7 @@ std::string bind_const(std::string const & module, VarDecl const *E)
 		if ( !pytype_set and E->getType().getTypePtr()->isRealFloatingType() ) { pytype_set = true;  pytype = "float_"; }
 		if ( !pytype_set and E->getType().getTypePtr()->isIntegerType() ) { pytype_set = true; pytype = "int_"; }
 		if ( !pytype_set and E->getType().getTypePtr()->isBooleanType() ) { pytype_set = true; pytype = "bool_"; }
-		if (pytype_set) {
+		if ( pytype_set ) {
 			std::string rhs;
 			llvm::raw_string_ostream rso(rhs);
 			clang::LangOptions lang_opts;
