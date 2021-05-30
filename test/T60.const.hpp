@@ -15,31 +15,31 @@
 #include <string>
 #include <vector>
 
-const int global_int=1;
-const long global_long=2;
+int const global_int=1;
+long const global_long=2;
 
-const unsigned int global_unsigned_int=3;
-const unsigned long global_unsigned_long=4;
+unsigned int const global_unsigned_int=3;
+unsigned long const global_unsigned_long=4;
 
-const float global_float=5.0;
-const double global_double=6.0;
+float const  global_float=5.0;
+double const global_double=6.0;
 
-const std::string global_string1="Some test string";
+std::string const global_string1="Some test string";
 
-const std::string global_string2=std::string("Some test string");
+std::string const global_string2=std::string("Some test string");
 
 
-const double expression_global_double=8.0+1.0/5.0;
+double const expression_global_double=8.0+1.0/5.0;
 
-const double array_global_double[5]={1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
+double const array_global_double_not_binded[5]={1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
 
-const std::vector<double> vector_global_double{1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
+std::vector<double> const vector_global_double_not_binded{1.0,2.0,3.0,4.0,5.0};  //This should not appear in bindings so far.
 
-int foo_char(char *) { return 0; }
+int foo_char(char *) { return 0; } //This is just for control.
 
 namespace foo
 {
-const double foonamespaced_global_double=7.0;
+double const foonamespaced_global_double=7.0;
 
 int foonamespaced_foo_char(char *) { return 0; }
 

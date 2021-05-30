@@ -41,7 +41,7 @@ public:
 	clang::NamedDecl const * named_decl() const override { return E; };
 
 	/// check if generator can create binding
-    bool bindable() const override;
+	bool bindable() const override;
 
 	/// check if user requested binding for the given declaration
 	virtual void request_bindings_and_skipping(Config const &) override;

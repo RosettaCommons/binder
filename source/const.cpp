@@ -36,40 +36,40 @@ bool is_bindable(VarDecl const *E)
 	if ( !E->getType().isConstQualified() )  return false;
 	if ( !E->hasInit() ) return false; 
 	if ( E->getType().getTypePtr()->isArrayType()) return false; 
-	if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return false;
-	if( E->isCXXInstanceMember() ) return false;
+	if ( E->isCXXInstanceMember() or E->isCXXClassMember() ) return false;
+	if ( E->isCXXInstanceMember() ) return false;
 	if ( standard_name( E->getType().getCanonicalType().getAsString() ) == "const std::string" ) return true;
-	if (E->getType().getTypePtr()->isRealFloatingType() ) return true;
-	if (E->getType().getTypePtr()->isIntegerType() ) return true;
-	if (E->getType().getTypePtr()->isBooleanType() ) return true;
+	if ( E->getType().getTypePtr()->isRealFloatingType() ) return true;
+	if ( E->getType().getTypePtr()->isIntegerType() ) return true;
+	if ( E->getType().getTypePtr()->isBooleanType() ) return true;
 	return false;
 }
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
 std::string bind_const(std::string const & module, VarDecl const *E)
 {
-		string r=" ";
-		clang::Expr const* init = E->getInit();
-		if (init){
-			string name { E->getNameAsString() };
-			std::string type = E->getType().getCanonicalType().getAsString();
-			std::string pytype = "";
-			bool pytype_set = false;
-//This is a list of types that can bi binded with pybind, see  https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html*/
-			if ( !pytype_set and standard_name( type ) == "const std::string" ) { pytype_set=true; pytype="str";}
-			if ( !pytype_set and E->getType().getTypePtr()->isRealFloatingType() ) { pytype_set=true;  pytype="float_"; }
-			if ( !pytype_set and E->getType().getTypePtr()->isIntegerType() ) { pytype_set=true; pytype="int_"; }
-			if ( !pytype_set and E->getType().getTypePtr()->isBooleanType() ) { pytype_set=true; pytype="bool_"; }
-			if (pytype_set) {
-				std::string rhs;
-				llvm::raw_string_ostream rso(rhs);
-				clang::LangOptions lang_opts;
-				lang_opts.CPlusPlus = true;
-				clang::PrintingPolicy Policy(lang_opts);
-				init->printPretty(rso, NULL, Policy);
-				r = "\t{}.attr(\"{}\") = pybind11::{}({})\n"_format( module, name, pytype, rhs);
-			}
+	string r="\t";
+	clang::Expr const* init = E->getInit();
+	if (init){
+		string name { E->getNameAsString() };
+		std::string type = E->getType().getCanonicalType().getAsString();
+		std::string pytype = "";
+		bool pytype_set = false;
+		//This is a list of types that can be binded with pybind, see  https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
+		if ( !pytype_set and standard_name( type ) == "const std::string" ) { pytype_set=true; pytype="str";}
+		if ( !pytype_set and E->getType().getTypePtr()->isRealFloatingType() ) { pytype_set=true;  pytype="float_"; }
+		if ( !pytype_set and E->getType().getTypePtr()->isIntegerType() ) { pytype_set=true; pytype="int_"; }
+		if ( !pytype_set and E->getType().getTypePtr()->isBooleanType() ) { pytype_set=true; pytype="bool_"; }
+		if (pytype_set) {
+			std::string rhs;
+			llvm::raw_string_ostream rso(rhs);
+			clang::LangOptions lang_opts;
+			lang_opts.CPlusPlus = true;
+			clang::PrintingPolicy Policy(lang_opts);
+			init->printPretty(rso, 0, Policy);
+			r = "\t{}.attr(\"{}\") = pybind11::{}({})\n"_format( module, name, pytype, rhs);
 		}
+	}
 	r.pop_back();
 	return r;
 }
