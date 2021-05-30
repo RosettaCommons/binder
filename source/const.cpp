@@ -56,10 +56,10 @@ std::string bind_const(std::string const & module, VarDecl const *E)
 		std::string pytype = "";
 		bool pytype_set = false;
 		//This is a list of types that can be binded with pybind, see  https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
-		if ( !pytype_set and standard_name( type ) == "const std::string" ) { pytype_set=true; pytype="str";}
-		if ( !pytype_set and E->getType().getTypePtr()->isRealFloatingType() ) { pytype_set=true;  pytype="float_"; }
-		if ( !pytype_set and E->getType().getTypePtr()->isIntegerType() ) { pytype_set=true; pytype="int_"; }
-		if ( !pytype_set and E->getType().getTypePtr()->isBooleanType() ) { pytype_set=true; pytype="bool_"; }
+		if ( !pytype_set and standard_name( type ) == "const std::string" ) { pytype_set = true; pytype = "str";}
+		if ( !pytype_set and E->getType().getTypePtr()->isRealFloatingType() ) { pytype_set = true;  pytype = "float_"; }
+		if ( !pytype_set and E->getType().getTypePtr()->isIntegerType() ) { pytype_set = true; pytype = "int_"; }
+		if ( !pytype_set and E->getType().getTypePtr()->isBooleanType() ) { pytype_set = true; pytype = "bool_"; }
 		if (pytype_set) {
 			std::string rhs;
 			llvm::raw_string_ostream rso(rhs);
