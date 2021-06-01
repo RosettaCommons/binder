@@ -426,6 +426,8 @@ string standard_name(string const &type)
 		make_pair("std::__cxx11::", "std::"), // GCC libstdc++ 5.0+ puts all STD objects into std::__cxx11::
 
 		make_pair("std::basic_string<char>",  "std::string"),
+		make_pair("std::basic_string<char, std::char_traits<char>, std::allocator<char> >",  "std::string"),
+
 		make_pair("std::basic_ostream<char>", "std::ostream"),
 		make_pair("std::basic_istream<char>", "std::istream"),
 
