@@ -225,7 +225,11 @@ void Context::bind(Config const &config)
 
 		outs() << "Generate bindings, pass " << pass << "...\n";
 
-		for(auto & sp : binders) {
+		// Context::add might invalidate iterators over binders
+		// when called inside b.bind(*this)
+		// => need to loop over a copy here
+		auto binders_ = binders;
+		for(auto & sp : binders_) {
 			Binder & b( *sp );
 			if( !b.is_binded()  and  b.bindable() and  b.binding_requested() ) {
 				//outs() << "Binding: " << b.id() /*named_decl()->getQualifiedNameAsString()*/ << "\n";

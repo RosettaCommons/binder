@@ -12,8 +12,10 @@
 
 #include <binder.hpp>
 #include <class.hpp>
+#include <dependency.hpp>
 #include <function.hpp>
 #include <enum.hpp>
+#include <memory>
 #include <type.hpp>
 #include <util.hpp>
 
@@ -1091,6 +1093,10 @@ string ClassBinder::bind_nested_classes(Context &context)
 			b.bind(context);
 			c += b.code();  c += '\n';
 			prefix_code_ += b.prefix_code();
+			// make context aware of innerC
+			// (this registers innerC with context with C as a dependency)
+			BinderOP bop = std::shared_ptr<Binder>( new Dependency( innerC, C ) );
+			context.add( bop );
 		}
 	});
 
