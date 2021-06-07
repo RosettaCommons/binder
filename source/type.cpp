@@ -130,6 +130,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<string>", {"std::basic_string", "std::char_traits"} },
 
+			 { "<thread>", {"std::thread::id", } },
+
 			 { "<cwchar>", {"std::mbstate_t"} },
 
 			 { "<memory>", {"std::uninitialized_copy"} },
@@ -425,13 +427,22 @@ string standard_name(string const &type)
 		make_pair("std::__1::",     "std::"), // Mac libc++ put all STD objects into std::__1::  // WARNING: order is important here: we want to first replace std::__1:: so later we can change basic_string into string
 		make_pair("std::__cxx11::", "std::"), // GCC libstdc++ 5.0+ puts all STD objects into std::__cxx11::
 
+		// make_pair("class std::", "std::"),
+		// make_pair("struct std::", "std::"),
+
 		make_pair("std::basic_string<char>",  "std::string"),
+		make_pair("std::basic_string<char, std::char_traits<char>, std::allocator<char> >", "std::string"),
+		make_pair("class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char> >", "std::string"),
+
 		make_pair("std::basic_ostream<char>", "std::ostream"),
 		make_pair("std::basic_istream<char>", "std::istream"),
 
-		make_pair("class std::string",  "std::string"), // for return/paremeters types
+		make_pair("class std::string",  "std::string"),
 		make_pair("class std::ostream", "std::ostream"),
 		make_pair("class std::istream", "std::istream"),
+
+		make_pair("class std::__thread_id", "std::thread::id"),
+		make_pair("std::__thread_id", "std::thread::id"),
 
 		make_pair("nullptr_t",     "std::nullptr_t"),
 

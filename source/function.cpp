@@ -84,7 +84,7 @@ pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *re
 
 	for(uint i=0; i<record->getNumParams()  and  i<n; ++i) {
 		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += qt.getAsString() + ' ';
+		r += standard_name(qt.getAsString()) + ' ';
 		if( !qt->isReferenceType()  and  !qt->isPointerType() ) r += !qt.isConstQualified() ? "const & " : "& ";
 		r += "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
@@ -105,7 +105,7 @@ tuple<string, string, string> function_arguments_for_py_overload(clang::Function
 
 	for(uint i=0; i<record->getNumParams(); ++i) {
 		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += qt.getAsString() + ' ' + "a" + std::to_string(i);
+		r += standard_name( qt.getAsString() ) + ' ' + "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
 		p += string(qt->isLValueReferenceType() ? "&" : "" ) + "a" + std::to_string(i);
 		if( i+1 != record->getNumParams() ) { r += ", ";  a += ", ";  p += ", ";  }
