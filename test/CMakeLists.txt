@@ -104,6 +104,7 @@ set( binder_tests
          T42.stl.names.multimap
          T42.stl.names.multiset
          T50.namespace_binder
+         T60.const
          )
 if (pybind11_VERSION VERSION_LESS 2.5.99)
  message(STATUS "pybind11 version ${pybind11_VERSION} is less than 2.5.99. Some tests will be disabled." )
