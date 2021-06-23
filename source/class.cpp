@@ -531,6 +531,10 @@ string binding_public_data_members(CXXRecordDecl const *C)
 				for(auto s = u->shadow_begin(); s != u->shadow_end(); ++s) {
 					if(UsingShadowDecl *us = dyn_cast<UsingShadowDecl>(*s) ) {
 						if( FieldDecl *f = dyn_cast<FieldDecl>( us->getTargetDecl() ) ) {
+							auto config = Config::get();
+							if ( config.is_field_skipping_requested(f->getQualifiedNameAsString())) {
+								continue;
+							}
 							if( is_bindable(f) ) c += "\tcl" + bind_data_member(f, class_qualified_name(C)) + ";\n";
 						}
 					}
@@ -541,6 +545,10 @@ string binding_public_data_members(CXXRecordDecl const *C)
 
 	for(auto d = C->decls_begin(); d != C->decls_end(); ++d) {
 		if(FieldDecl *f = dyn_cast<FieldDecl>(*d) ) {
+			auto config = Config::get();
+			if ( config.is_field_skipping_requested(f->getQualifiedNameAsString()) ) {
+				continue;
+			}
 			if( f->getAccess() == AS_public  and  is_bindable(f) ) c += "\tcl" + bind_data_member(f, class_qualified_name(C)) + ";\n";
 		}
 	}

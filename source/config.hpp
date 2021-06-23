@@ -59,7 +59,8 @@ public:
 
 	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind,
 						namespaces_to_skip, classes_to_skip, functions_to_skip,
-						includes_to_add, includes_to_skip;
+						includes_to_add, includes_to_skip,
+						includes_to_add_before, primitives, fields_to_skip;
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
@@ -96,6 +97,9 @@ public:
 	bool is_include_skipping_requested(string const &include) const;
 
 	string includes_code() const;
+	string includes_before_code() const;
+	bool is_primitive(string const &type_) const;
+	bool is_field_skipping_requested(string const &name) const;
 };
 
 

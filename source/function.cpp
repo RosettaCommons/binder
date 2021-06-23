@@ -269,8 +269,14 @@ bool is_binding_requested(FunctionDecl const *F, Config const &config)
 {
 	bool bind = config.is_function_binding_requested( F->getQualifiedNameAsString() ) or  config.is_function_binding_requested( function_qualified_name(F) )  or  config.is_namespace_binding_requested( namespace_from_named_decl(F) );
 
-	for(auto & t : get_type_dependencies(F) ) bind |= binder::is_binding_requested(t, config);
-
+	for(auto & t : get_type_dependencies(F) ) {
+		bool requested = binder::is_binding_requested(t, config);
+		bool primitive = binder::is_primitive(t, config);
+		if ( primitive ) {
+			requested = false;
+		}
+		bind |= requested; // binder::is_binding_requested(t, config);
+	}
 	return bind;
 }
 
@@ -296,8 +302,18 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 	}
 	//outs() << "OK\n";
 
-	for(auto & t : get_type_dependencies(F) ) skip |= is_skipping_requested(t, config);
-
+	for(auto & t : get_type_dependencies(F) ) {
+		bool dep_skip = is_skipping_requested(t, config);
+		bool primitive = is_primitive(t, config);
+		if ( primitive ) dep_skip = false;
+		skip |= dep_skip;
+	}
+	// if (skip) {
+	// 	// check if explicitly added
+	// 	if (config.is_function_binding_requested(F->getQualifiedNameAsString())) {
+	// 		skip = false;
+	// 	}
+	// }
 	return skip;
 }
 
