@@ -54,11 +54,14 @@ void Config::read(string const &file_name)
 	string const _namespace_ {"namespace"};
 	string const _function_  {"function"};
 	string const _class_     {"class"};
+	string const _field_     {"field"};
 
 	string const _include_               {"include"};
 	string const _include_for_class_     {"include_for_class"};
 	string const _include_for_namespace_ {"include_for_namespace"};
+	string const _include_before_		 {"include_before"};
 
+	string const _primitive_			 {"primitive"};
 	string const _binder_        {"binder"};
 	string const _add_on_binder_ {"add_on_binder"};
 
@@ -120,7 +123,18 @@ void Config::read(string const &file_name)
 
 						if(bind) includes_to_add.push_back(name_without_spaces);
 						else includes_to_skip.push_back(name_without_spaces);
-
+					} else if ( token == _include_before_ ) {
+						if (bind) {
+							includes_to_add_before.push_back(name_without_spaces);
+						}
+					} else if ( token == _primitive_ ) {
+						if (bind) {
+							primitives.push_back(name_without_spaces);
+						}
+					} else if ( token == _field_ ) {
+						if (!bind) {
+							fields_to_skip.push_back(name_without_spaces);
+						}
 					} else if( token == _include_for_class_ ) {
 
 						if(bind) {
@@ -302,6 +316,23 @@ bool Config::is_class_skipping_requested(string const &class__) const
 }
 
 
+bool Config::is_field_skipping_requested(string const &field_) const
+{
+	string field {field_};
+	field.erase(std::remove(field.begin(), field.end(), ' '), field.end());
+
+	auto bind = std::find(fields_to_skip.begin(), fields_to_skip.end(), field);
+
+	if( bind != fields_to_skip.end() ) {
+		//outs() << "Skipping: " << class_ << "\n";
+		return true;
+	}
+
+	return false;
+}
+
+
+
 bool Config::is_include_skipping_requested(string const &include) const
 {
 	for(auto & i : includes_to_skip)
@@ -316,6 +347,21 @@ string Config::includes_code() const
 	string c;
 	for(auto & i: includes_to_add) c += "#include " + i + "\n";
 	return c.size() ? c+'\n' : c;
+}
+
+
+string Config::includes_before_code() const
+{
+	string c;
+	for(auto & i: includes_to_add_before) c += "#include " + i + "\n";
+	return c.size() ? c+'\n' : c;
+}
+
+bool Config::is_primitive(string const &name) const
+{
+	auto prim = std::find(primitives.begin(), primitives.end(), name);
+	if ( prim != primitives.end() ) return true;
+	return false;
 }
 
 } // namespace binder

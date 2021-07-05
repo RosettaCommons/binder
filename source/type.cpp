@@ -660,4 +660,11 @@ bool is_banned_symbol(clang::NamedDecl const *D)
 // 	return false;
 // }
 
+bool is_primitive(const clang::QualType &qt, const Config &config) {
+	auto id = qt.getBaseTypeIdentifier();
+	if ( ! id ) return false;
+	auto name = id->getName();
+	return config.is_primitive( name.str() );
+};
+
 } // namespace binder

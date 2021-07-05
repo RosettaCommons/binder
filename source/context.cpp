@@ -227,6 +227,10 @@ void Context::bind(Config const &config)
 
 		for(auto & sp : binders) {
 			Binder & b( *sp );
+			if ( config.is_primitive( b.id() ) ) {
+				flag=false;
+				continue;
+			}
 			if( !b.is_binded()  and  b.bindable() and  b.binding_requested() ) {
 				//outs() << "Binding: " << b.id() /*named_decl()->getQualifiedNameAsString()*/ << "\n";
 				b.bind(*this);
@@ -476,7 +480,7 @@ void Context::generate(Config const &config)
 
 			if( i < binders.size() ) --i;
 
-			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+			code = generate_include_directives(includes) + config.includes_before_code() + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 			else update_source_file(config.prefix, file_name, code);

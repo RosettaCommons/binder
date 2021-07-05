@@ -68,7 +68,7 @@ bool is_banned_symbol(clang::NamedDecl const *D);
 // check if class/struct is in banned type lists
 //bool is_banned_type(clang::CXXRecordDecl const *C);
 
-
+bool is_primitive(clang::QualType const &qt, const Config &config);
 } // namespace binder
 
 #endif  // _INCLUDED_type_hpp_
