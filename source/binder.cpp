@@ -251,7 +251,7 @@ int main(int argc, const char **argv)
 #if  (LLVM_VERSION_MAJOR < 13)
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 #else
-	CommonOptionsParser op = CommonOptionsParser::create(argc, argv, BinderToolCategory);
+	CommonOptionsParser& op = CommonOptionsParser::create(argc, argv, BinderToolCategory).get();
 #endif
 
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
