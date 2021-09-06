@@ -141,3 +141,4 @@ jobs:
       run: ./.github/workflows/osx/entrypoint.sh
     - name: Get the output status
       run: exit ${{ steps.compile.outputs.out }}
+
