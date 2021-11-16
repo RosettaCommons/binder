@@ -209,7 +209,11 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 
 	std::string _;
 	llvm::raw_string_ostream s(_);
+#if  (LLVM_VERSION_MAJOR < 13)
 	t.print(Policy, s);
+#else
+	t.print(Policy, s, true);
+#endif
 	return s.str();
 }
 

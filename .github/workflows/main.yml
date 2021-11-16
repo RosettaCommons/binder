@@ -94,7 +94,6 @@ jobs:
     - name: Get the output status
       run: exit ${{ steps.compileindocker.outputs.out }}
 
-
   compilejobFedora33:
     runs-on: ubuntu-latest
     name: Binder_on_Fedora33
@@ -119,7 +118,18 @@ jobs:
     - name: Get the output status
       run: exit ${{ steps.compileindocker.outputs.out }}
 
-  
+  compilejobFedora35:
+    runs-on: ubuntu-latest
+    name: Binder_on_Fedora35
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Compile
+      id: compileindocker
+      uses: ./.github/workflows/fedora35
+    - name: Get the output status
+      run: exit ${{ steps.compileindocker.outputs.out }}
+
   compilejobOSX:
     runs-on: macos-latest
     name: Binder_on_OSX
