@@ -31,7 +31,9 @@ add_clang_executable(binder
   util.cpp
 
   fmt/format.cc
-  fmt/posix.cc
+  fmt/format.h
+  fmt/os.cc
+  fmt/os.h
   )
 if(USE_EXTERNAL_LLVM)
   if(STATIC)
@@ -59,11 +61,11 @@ if(USE_EXTERNAL_LLVM)
   message(STATUS "binder: lib_llvm_path=${lib_llvm_path}")
   message(STATUS "binder: CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
   if ( (LLVM_VERSION_MAJOR GREATER 3)  AND (LLVM_VERSION_MAJOR LESS 8) )
-    target_link_libraries(binder 
+    target_link_libraries(binder
       PRIVATE
       ${lib_llvm_path}
       clangAST
-      clangBasic 
+      clangBasic
       clangFrontend
       clangTooling
       )
@@ -112,6 +114,6 @@ else()
     clangFrontend
     )
 endif()
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder 
-PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder
+PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE
 DESTINATION ${CMAKE_INSTALL_BINDIR})

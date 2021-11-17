@@ -250,13 +250,17 @@ int main(int argc, const char **argv)
 {
 #if  (LLVM_VERSION_MAJOR < 13)
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
-#else
-	CommonOptionsParser& op = CommonOptionsParser::create(argc, argv, BinderToolCategory).get();
-#endif
-
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
 	//outs() << "Root module: " << O_root_module << "\n";
 	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
 	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+
+#else
+	//CommonOptionsParser op(argc, argv, BinderToolCategory);
+	llvm::Expected< CommonOptionsParser > eop = CommonOptionsParser::create(argc, argv, BinderToolCategory);
+	ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
+	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+#endif
+
 }
