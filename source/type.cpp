@@ -523,32 +523,40 @@ string simplify_std_class_name(string const &type)
 
 	if( regex_map.empty() ) {
 		vector< std::pair<string, string> > regex_arg_map = {
-			make_pair("^list<(.*),std::allocator<\\1>>$", "list<\\1>"),
-			make_pair("^deque<(.*),std::allocator<\\1>>$", "deque<\\1>"),
-			make_pair("^vector<(.*),std::allocator<\\1>>$", "vector<\\1>"),
-			make_pair("^set<(.*),std::less<\\1>,std::allocator<\\1>>$", "set<\\1>"),
-			make_pair("^forward_list<(.*),std::allocator<\\1>>$", "forward_list<\\1>"),
-			make_pair("^map<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "map<\\1,\\2>"),
+			make_pair("list<(.*), *std::allocator<\\1 *> *>", "list<\\1>"),
+			make_pair("deque<(.*), *std::allocator<\\1 *> *>", "deque<\\1>"),
 
-			make_pair("^multiset<(.*),std::less<(.*)>,std::allocator<(.*)>>$", "multiset<\\1>"),
-			make_pair("^multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "multimap<\\1,\\2>"),
+			make_pair("vector<(.*), *std::allocator<\\1 *> *>", "vector<\\1>"),
+
+			make_pair("set<(.*), *std::less<\\1>,std::allocator<\\1 *> *>", "set<\\1>"),
+			make_pair("forward_list<(.*), *std::allocator<\\1 *> *>", "forward_list<\\1>"),
+			make_pair("map<(.*),(.*), *std::less<\\1 *>,std::allocator<std::pair<const \\1, \\2 *> *> *>", "map<\\1,\\2>"),
+
+			make_pair("multiset<(.*), *std::less<(.*)>,std::allocator<(.*)>>", "multiset<\\1 *>"),
+			make_pair("multimap<(.*),(.*), *std::less<\\1>,std::allocator<std::pair<const \\1, \\2 *> *> *>", "multimap<\\1,\\2>"),
 
 			// LLVM-3.7
 			//make_pair("^std::multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>", "multimap<\\1,\\2>"),
 
-			make_pair("^unordered_set<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_set<\\1>"),
-			make_pair("^unordered_map<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_map<\\1,\\2>"),
+			make_pair("unordered_set<(.*), *std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>", "unordered_set<\\1>"),
+			make_pair("unordered_map<(.*), *(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2 *> *> *>", "unordered_map<\\1,\\2>"),
 
-			make_pair("^unordered_multiset<(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<\\1>>$", "unordered_multiset<\\1>"),
-			make_pair("^unordered_multimap<(.*),(.*),std::hash<\\1>,std::equal_to<\\1>,std::allocator<std::pair<const \\1, \\2> >>$", "unordered_multimap<\\1,\\2>"),
+			make_pair("unordered_multiset<(.*), *std::hash<\\1>, *std::equal_to<\\1>, *std::allocator<\\1 *> *>", "unordered_multiset<\\1>"),
+			make_pair("unordered_multimap<(.*), *(.*),std::hash<\\1 *>, *std::equal_to<\\1 *>, *std::allocator<std::pair<const \\1, \\2 *> *> *>", "unordered_multimap<\\1,\\2>"),
 		};
 
 		for(auto & p : regex_arg_map) regex_map.emplace_back(llvm::Regex(p.first), p.second);
 	}
 
-	for(auto & p : regex_map) {
-		//llvm::Regex R(p.first);
-		res = p.first.sub(p.second, res);
+	int len = res.size(), previous_len = 0;
+
+	while( len != previous_len ) {
+		for(auto & p : regex_map) {
+			//llvm::Regex R(p.first);
+			res = p.first.sub(p.second, res);
+		}
+		previous_len = len;
+		len = res.size();
 	}
 
 	return res;
