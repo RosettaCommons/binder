@@ -528,12 +528,12 @@ string simplify_std_class_name(string const &type)
 
 			make_pair("vector<(.*), *std::allocator<\\1 *> *>", "vector<\\1>"),
 
-			make_pair("set<(.*), *std::less<\\1>,std::allocator<\\1 *> *>", "set<\\1>"),
+			make_pair("set<(.*), *std::less<\\1 *>, *std::allocator<\\1 *> *>", "set<\\1>"),
 			make_pair("forward_list<(.*), *std::allocator<\\1 *> *>", "forward_list<\\1>"),
-			make_pair("map<(.*),(.*), *std::less<\\1 *>,std::allocator<std::pair<const \\1, \\2 *> *> *>", "map<\\1,\\2>"),
+			make_pair("map<(.*),(.*), *std::less<\\1 *>, *std::allocator<std::pair<const \\1, \\2 *> *> *>", "map<\\1,\\2>"),
 
-			make_pair("multiset<(.*), *std::less<(.*)>,std::allocator<(.*)>>", "multiset<\\1 *>"),
-			make_pair("multimap<(.*),(.*), *std::less<\\1>,std::allocator<std::pair<const \\1, \\2 *> *> *>", "multimap<\\1,\\2>"),
+			make_pair("multiset<(.*), *std::less<(.*)>, *std::allocator<(.*)>>", "multiset<\\1 *>"),
+			make_pair("multimap<(.*),(.*), *std::less<\\1>, *std::allocator<std::pair<const \\1, \\2 *> *> *>", "multimap<\\1,\\2>"),
 
 			// LLVM-3.7
 			//make_pair("^std::multimap<(.*),(.*),std::less<\\1>,std::allocator<std::pair<const \\1, \\2> >>", "multimap<\\1,\\2>"),
