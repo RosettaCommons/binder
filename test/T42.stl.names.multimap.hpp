@@ -11,7 +11,7 @@
 /// @author Sergey Lyskov/Andrii Verbytskyi
 
 /// This test is separated from the binder/test/T42.stl.names.hpp to avoid
-/// problems with different ordering of multiset/set and multimap/map bindings 
+/// problems with different ordering of multiset/set and multimap/map bindings
 /// in the generated files on different platforms.
 #ifndef _INCLUDED_T42_stl_names_multi_hpp_
 #define _INCLUDED_T42_stl_names_multi_hpp_
@@ -21,9 +21,16 @@
 #include <forward_list>
 #include <unordered_map>
 
+#include <list>
+#include <deque>
+#include <vector>
+#include <forward_list>
 
 void foo(std::multimap<float, int> ) {}
 
 void foo(std::unordered_multimap<float, int> ) {}
+
+void foo(std::multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > > ) {}
+void foo(std::unordered_multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > > ) {}
 
 #endif // _INCLUDED_T42_stl_names_multi_hpp_

@@ -258,9 +258,15 @@ int main(int argc, const char **argv)
 
 #else
 	//CommonOptionsParser op(argc, argv, BinderToolCategory);
-	llvm::Expected< CommonOptionsParser > eop = CommonOptionsParser::create(argc, argv, BinderToolCategory);
-	ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
-	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+	if( llvm::Expected< CommonOptionsParser > eop = CommonOptionsParser::create(argc, argv, BinderToolCategory) ) {
+		ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
+		return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+	}
+	else {
+		auto errs = eop.takeError();
+		llvm::logAllUnhandledErrors(std::move(errs), outs(), "\nErrors:\n");
+		return 1;
+	}
 #endif
 
 }

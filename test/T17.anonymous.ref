@@ -1,4 +1,6 @@
 // File: T17_anonymous.cpp
+#include <T17.anonymous.hpp> // Anonymous
+#include <T17.anonymous.hpp> // Anonymous::(anonymous)
 #include <T17.anonymous.hpp> // S
 #include <T17.anonymous.hpp> // S::_D
 #include <T17.anonymous.hpp> // _S2
@@ -42,14 +44,14 @@ void bind_T17_anonymous(std::function< pybind11::module &(std::string const &nam
 		pybind11::class_<_S2, std::shared_ptr<_S2>> cl(M(""), "_S2", "");
 		cl.def( pybind11::init( [](){ return new _S2(); } ) );
 		cl.def_readwrite("a", &_S2::a);
-	}	
+	}
 	{ // Anonymous file:T17.anonymous.hpp line:56
 		pybind11::class_<Anonymous, std::shared_ptr<Anonymous>> cl(M(""), "Anonymous", "");
-		cl.def( pybind11::init( [](){ return new Anonymous(); } ) );		
-		
-		{ // Anonymous::(anonymous) file: line:58
+		cl.def( pybind11::init( [](){ return new Anonymous(); } ) );
 
-			{ // Anonymous::(anonymous union)::(anonymous) file: line:60
+		{ // Anonymous::(anonymous) file:T17.anonymous.hpp line:58
+
+			{ // Anonymous::(anonymous union)::(anonymous) file:T17.anonymous.hpp line:60
 				cl.def_readwrite("x", &Anonymous::x);
 				cl.def_readwrite("y", &Anonymous::y);
 			}
