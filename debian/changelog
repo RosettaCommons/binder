@@ -1,0 +1,8 @@
+binder (1.2.1-1) UNRELEASED; urgency=low
+  
+  * Release 1.2.1
+    Adding support for std::optional and std::variant.
+  * Release 1.2.0
+    Adding support for LLVM-13 plus various improvements and bug fixes.
+
+ -- Sergey Lyskov <sergey.lyskov@jhu.edu>  Tue, 7 Dec 2021 12:25:47 +0100

@@ -126,11 +126,15 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 							"std::time_base", "std::codecvt", "std::codecvt_base", "std::codecvt_byname"}
 			 },
 
+			 { "<optional>", {"std::optional"} },
+
 			 { "<regex>", {"std::basic_regex", "std::regex_traits"} },
 
 			 { "<string>", {"std::basic_string", "std::char_traits"} },
 
 			 { "<thread>", {"std::thread::id", } },
+
+			 { "<variant>", {"std::variant"} },
 
 			 { "<cwchar>", {"std::mbstate_t"} },
 
@@ -161,6 +165,10 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("std::vector",           "<vector>"),
 
 		make_pair("std::pair",             "<utility>"),
+
+		make_pair("std::optional",         "<optional>"),
+
+		make_pair("std::variant",          "<variant>"),
 
 		make_pair("__gnu_cxx::__normal_iterator", "<iterator>"),
 
@@ -602,6 +610,11 @@ bool is_python_builtin(NamedDecl const *C)
 													  "std::__hash_value_type",
 
 													  "std::function",
+
+													  "std::optional",
+
+													  "std::variant",
+
  	};
 
 	for(auto &k : known_builtin) {

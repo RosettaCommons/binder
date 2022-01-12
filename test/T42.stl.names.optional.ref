@@ -1,0 +1,72 @@
+// File: T42_stl_names_optional.cpp
+#include <T42.stl.names.optional.hpp> // foo
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
+#include <optional> // 
+#include <optional> // std::nullopt_t
+#include <optional> // std::optional
+#include <vector> // std::vector
+
+#include <pybind11/pybind11.h>
+#include <functional>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T42_stl_names_optional(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	// foo(class std::optional<float>) file:T42.stl.names.optional.hpp line:19
+	M("").def("foo", (void (*)(class std::optional<float>)) &foo, "C++: foo(class std::optional<float>) --> void", pybind11::arg(""));
+
+	// foo(class std::optional<class std::vector<int, class std::allocator<int> > >) file:T42.stl.names.optional.hpp line:21
+	M("").def("foo", (void (*)(class std::optional<class std::vector<int, class std::allocator<int> > >)) &foo, "C++: foo(class std::optional<class std::vector<int, class std::allocator<int> > >) --> void", pybind11::arg(""));
+
+}
+
+
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <functional>
+#include <string>
+
+#include <pybind11/pybind11.h>
+
+typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+
+void bind_T42_stl_names_optional(std::function< pybind11::module &(std::string const &namespace_) > &M);
+
+
+PYBIND11_MODULE(T42_stl_names_optional, root_module) {
+	root_module.doc() = "T42_stl_names_optional module";
+
+	std::map <std::string, pybind11::module> modules;
+	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
+		auto it = modules.find(namespace_);
+		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
+		return it->second;
+	};
+
+	modules[""] = root_module;
+
+	std::vector< std::pair<std::string, std::string> > sub_modules {
+	};
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule(p.second.c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+
+	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+
+	bind_T42_stl_names_optional(M);
+
+}
+
+// Source list file: /home/ghottiger/git/binder-1.2.0/test//T42_stl_names_optional.sources
+// T42_stl_names_optional.cpp
+// T42_stl_names_optional.cpp
+
+// Modules list file: /home/ghottiger/git/binder-1.2.0/test//T42_stl_names_optional.modules
+// 
