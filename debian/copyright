@@ -1,0 +1,1146 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: binder
+Source: <url://example.com>
+#
+# Please double check copyright with the licensecheck(1) command.
+
+Files:     .clang-format
+           .github/workflows/fedora26/Dockerfile
+           .github/workflows/fedora26/action.yaml
+           .github/workflows/fedora26/entrypoint.sh
+           .github/workflows/fedora27/Dockerfile
+           .github/workflows/fedora27/action.yaml
+           .github/workflows/fedora27/entrypoint.sh
+           .github/workflows/fedora28/Dockerfile
+           .github/workflows/fedora28/action.yaml
+           .github/workflows/fedora28/entrypoint.sh
+           .github/workflows/fedora29/Dockerfile
+           .github/workflows/fedora29/action.yaml
+           .github/workflows/fedora29/entrypoint.sh
+           .github/workflows/fedora30/Dockerfile
+           .github/workflows/fedora30/action.yaml
+           .github/workflows/fedora30/entrypoint.sh
+           .github/workflows/fedora31/Dockerfile
+           .github/workflows/fedora31/action.yaml
+           .github/workflows/fedora31/entrypoint.sh
+           .github/workflows/fedora32/Dockerfile
+           .github/workflows/fedora32/action.yaml
+           .github/workflows/fedora32/entrypoint.sh
+           .github/workflows/fedora33/Dockerfile
+           .github/workflows/fedora33/action.yaml
+           .github/workflows/fedora33/entrypoint.sh
+           .github/workflows/fedora34/Dockerfile
+           .github/workflows/fedora34/action.yaml
+           .github/workflows/fedora34/entrypoint.sh
+           .github/workflows/fedora35/Dockerfile
+           .github/workflows/fedora35/action.yaml
+           .github/workflows/fedora35/entrypoint.sh
+           .github/workflows/main.yml
+           .github/workflows/osx/entrypoint.sh
+           .gitignore
+           CMakeLists.txt
+           README.md
+           build/CMakeCache.txt
+           build/CMakeFiles/3.16.3/CMakeCCompiler.cmake
+           build/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake
+           build/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_C.bin
+           build/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_CXX.bin
+           build/CMakeFiles/3.16.3/CMakeSystem.cmake
+           build/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c
+           build/CMakeFiles/3.16.3/CompilerIdC/a.out
+           build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp
+           build/CMakeFiles/3.16.3/CompilerIdCXX/a.out
+           build/CMakeFiles/CMakeDirectoryInformation.cmake
+           build/CMakeFiles/CMakeOutput.log
+           build/CMakeFiles/CMakeRuleHashes.txt
+           build/CMakeFiles/Makefile.cmake
+           build/CMakeFiles/Makefile2
+           build/CMakeFiles/TargetDirectories.txt
+           build/CMakeFiles/clang-tablegen-targets.dir/DependInfo.cmake
+           build/CMakeFiles/clang-tablegen-targets.dir/build.make
+           build/CMakeFiles/clang-tablegen-targets.dir/cmake_clean.cmake
+           build/CMakeFiles/clang-tablegen-targets.dir/progress.make
+           build/CMakeFiles/cmake.check_cache
+           build/CMakeFiles/intrinsics_gen.dir/DependInfo.cmake
+           build/CMakeFiles/intrinsics_gen.dir/build.make
+           build/CMakeFiles/intrinsics_gen.dir/cmake_clean.cmake
+           build/CMakeFiles/intrinsics_gen.dir/progress.make
+           build/CMakeFiles/progress.marks
+           build/CTestTestfile.cmake
+           build/Makefile
+           build/cmake_install.cmake
+           build/install_manifest.txt
+           build/py3.8.10/lib/T00_basic.so
+           build/py3.8.10/lib/T08_constructor.so
+           build/py3.8.10/lib/T11_override.so
+           build/py3.8.10/lib/T12_operator.so
+           build/py3.8.10/lib/T15_inner_class_fwd.so
+           build/py3.8.10/lib/T17_anonymous.so
+           build/py3.8.10/lib/T20_template.so
+           build/py3.8.10/lib/T30_include.so
+           build/py3.8.10/lib/T31_include_for_class.so
+           build/py3.8.10/lib/T32_call_guard.so
+           build/py3.8.10/lib/T42_stl_names_chrono.so
+           build/py3.8.10/lib/T42_stl_names_optional.so
+           build/py3.8.10/lib/T42_stl_names_variant.so
+           build/py3.8.10/lib/T50_namespace_binder.so
+           build/source/CMakeFiles/CMakeDirectoryInformation.cmake
+           build/source/CMakeFiles/binder.dir/CXX.includecache
+           build/source/CMakeFiles/binder.dir/DependInfo.cmake
+           build/source/CMakeFiles/binder.dir/build.make
+           build/source/CMakeFiles/binder.dir/cmake_clean.cmake
+           build/source/CMakeFiles/binder.dir/config.cpp.o
+           build/source/CMakeFiles/binder.dir/context.cpp.o
+           build/source/CMakeFiles/binder.dir/depend.internal
+           build/source/CMakeFiles/binder.dir/depend.make
+           build/source/CMakeFiles/binder.dir/enum.cpp.o
+           build/source/CMakeFiles/binder.dir/flags.make
+           build/source/CMakeFiles/binder.dir/fmt/os.cc.o
+           build/source/CMakeFiles/binder.dir/function.cpp.o
+           build/source/CMakeFiles/binder.dir/link.txt
+           build/source/CMakeFiles/binder.dir/progress.make
+           build/source/CMakeFiles/binder.dir/type.cpp.o
+           build/source/CMakeFiles/binder.dir/util.cpp.o
+           build/source/CMakeFiles/progress.marks
+           build/source/Makefile
+           build/source/cmake_install.cmake
+           build/test/CMakeFiles/CMakeDirectoryInformation.cmake
+           build/test/CMakeFiles/T00_basic3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T00_basic3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T00_basic3.8.10.dir/build.make
+           build/test/CMakeFiles/T00_basic3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T00_basic3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T00_basic3.8.10.dir/depend.make
+           build/test/CMakeFiles/T00_basic3.8.10.dir/flags.make
+           build/test/CMakeFiles/T00_basic3.8.10.dir/link.txt
+           build/test/CMakeFiles/T00_basic3.8.10.dir/progress.make
+           build/test/CMakeFiles/T01_enum3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T01_enum3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T01_enum3.8.10.dir/build.make
+           build/test/CMakeFiles/T01_enum3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T01_enum3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T01_enum3.8.10.dir/depend.make
+           build/test/CMakeFiles/T01_enum3.8.10.dir/flags.make
+           build/test/CMakeFiles/T01_enum3.8.10.dir/link.txt
+           build/test/CMakeFiles/T01_enum3.8.10.dir/progress.make
+           build/test/CMakeFiles/T02_function3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T02_function3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T02_function3.8.10.dir/build.make
+           build/test/CMakeFiles/T02_function3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T02_function3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T02_function3.8.10.dir/depend.make
+           build/test/CMakeFiles/T02_function3.8.10.dir/flags.make
+           build/test/CMakeFiles/T02_function3.8.10.dir/link.txt
+           build/test/CMakeFiles/T02_function3.8.10.dir/progress.make
+           build/test/CMakeFiles/T05_default3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T05_default3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T05_default3.8.10.dir/build.make
+           build/test/CMakeFiles/T05_default3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T05_default3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T05_default3.8.10.dir/depend.make
+           build/test/CMakeFiles/T05_default3.8.10.dir/flags.make
+           build/test/CMakeFiles/T05_default3.8.10.dir/link.txt
+           build/test/CMakeFiles/T05_default3.8.10.dir/progress.make
+           build/test/CMakeFiles/T07_class3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T07_class3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T07_class3.8.10.dir/build.make
+           build/test/CMakeFiles/T07_class3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T07_class3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T07_class3.8.10.dir/depend.make
+           build/test/CMakeFiles/T07_class3.8.10.dir/flags.make
+           build/test/CMakeFiles/T07_class3.8.10.dir/link.txt
+           build/test/CMakeFiles/T07_class3.8.10.dir/progress.make
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/build.make
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/depend.make
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/flags.make
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/link.txt
+           build/test/CMakeFiles/T08_constructor3.8.10.dir/progress.make
+           build/test/CMakeFiles/T09_overload3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T09_overload3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T09_overload3.8.10.dir/build.make
+           build/test/CMakeFiles/T09_overload3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T09_overload3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T09_overload3.8.10.dir/depend.make
+           build/test/CMakeFiles/T09_overload3.8.10.dir/flags.make
+           build/test/CMakeFiles/T09_overload3.8.10.dir/link.txt
+           build/test/CMakeFiles/T09_overload3.8.10.dir/progress.make
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/build.make
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/depend.make
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/flags.make
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/link.txt
+           build/test/CMakeFiles/T10_inheritance3.8.10.dir/progress.make
+           build/test/CMakeFiles/T11_override3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T11_override3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T11_override3.8.10.dir/build.make
+           build/test/CMakeFiles/T11_override3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T11_override3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T11_override3.8.10.dir/depend.make
+           build/test/CMakeFiles/T11_override3.8.10.dir/flags.make
+           build/test/CMakeFiles/T11_override3.8.10.dir/link.txt
+           build/test/CMakeFiles/T11_override3.8.10.dir/progress.make
+           build/test/CMakeFiles/T12_operator3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T12_operator3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T12_operator3.8.10.dir/build.make
+           build/test/CMakeFiles/T12_operator3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T12_operator3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T12_operator3.8.10.dir/depend.make
+           build/test/CMakeFiles/T12_operator3.8.10.dir/flags.make
+           build/test/CMakeFiles/T12_operator3.8.10.dir/link.txt
+           build/test/CMakeFiles/T12_operator3.8.10.dir/progress.make
+           build/test/CMakeFiles/T15_copy3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T15_copy3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T15_copy3.8.10.dir/build.make
+           build/test/CMakeFiles/T15_copy3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T15_copy3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T15_copy3.8.10.dir/depend.make
+           build/test/CMakeFiles/T15_copy3.8.10.dir/flags.make
+           build/test/CMakeFiles/T15_copy3.8.10.dir/link.txt
+           build/test/CMakeFiles/T15_copy3.8.10.dir/progress.make
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/build.make
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/depend.make
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/flags.make
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/link.txt
+           build/test/CMakeFiles/T15_inner_class3.8.10.dir/progress.make
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/build.make
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/depend.make
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/flags.make
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/link.txt
+           build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/progress.make
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/build.make
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/depend.make
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/flags.make
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/link.txt
+           build/test/CMakeFiles/T17_anonymous3.8.10.dir/progress.make
+           build/test/CMakeFiles/T20_template3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T20_template3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T20_template3.8.10.dir/build.make
+           build/test/CMakeFiles/T20_template3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T20_template3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T20_template3.8.10.dir/depend.make
+           build/test/CMakeFiles/T20_template3.8.10.dir/flags.make
+           build/test/CMakeFiles/T20_template3.8.10.dir/link.txt
+           build/test/CMakeFiles/T20_template3.8.10.dir/progress.make
+           build/test/CMakeFiles/T30_include3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T30_include3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T30_include3.8.10.dir/build.make
+           build/test/CMakeFiles/T30_include3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T30_include3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T30_include3.8.10.dir/depend.make
+           build/test/CMakeFiles/T30_include3.8.10.dir/flags.make
+           build/test/CMakeFiles/T30_include3.8.10.dir/link.txt
+           build/test/CMakeFiles/T30_include3.8.10.dir/progress.make
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/build.make
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/depend.make
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/flags.make
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/link.txt
+           build/test/CMakeFiles/T31_include_for_class3.8.10.dir/progress.make
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/build.make
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/depend.make
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/flags.make
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/link.txt
+           build/test/CMakeFiles/T32_call_guard3.8.10.dir/progress.make
+           build/test/CMakeFiles/T40_stl3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T40_stl3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T40_stl3.8.10.dir/build.make
+           build/test/CMakeFiles/T40_stl3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T40_stl3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T40_stl3.8.10.dir/depend.make
+           build/test/CMakeFiles/T40_stl3.8.10.dir/flags.make
+           build/test/CMakeFiles/T40_stl3.8.10.dir/link.txt
+           build/test/CMakeFiles/T40_stl3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/progress.make
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/build.make
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/depend.make
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/flags.make
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/link.txt
+           build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/progress.make
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/CXX.includecache
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/DependInfo.cmake
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/build.make
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/cmake_clean.cmake
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/depend.internal
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/depend.make
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/flags.make
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/link.txt
+           build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/progress.make
+           build/test/CMakeFiles/diffbinder.dir/CXX.includecache
+           build/test/CMakeFiles/diffbinder.dir/DependInfo.cmake
+           build/test/CMakeFiles/diffbinder.dir/build.make
+           build/test/CMakeFiles/diffbinder.dir/cmake_clean.cmake
+           build/test/CMakeFiles/diffbinder.dir/depend.internal
+           build/test/CMakeFiles/diffbinder.dir/depend.make
+           build/test/CMakeFiles/diffbinder.dir/diffbinder.cpp.o
+           build/test/CMakeFiles/diffbinder.dir/flags.make
+           build/test/CMakeFiles/diffbinder.dir/link.txt
+           build/test/CMakeFiles/diffbinder.dir/progress.make
+           build/test/CMakeFiles/progress.marks
+           build/test/CMakeFiles/targetT00_basiccpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT00_basiccpp.dir/build.make
+           build/test/CMakeFiles/targetT00_basiccpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT00_basiccpp.dir/depend.internal
+           build/test/CMakeFiles/targetT00_basiccpp.dir/depend.make
+           build/test/CMakeFiles/targetT00_basiccpp.dir/progress.make
+           build/test/CMakeFiles/targetT01_enumcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT01_enumcpp.dir/build.make
+           build/test/CMakeFiles/targetT01_enumcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT01_enumcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT01_enumcpp.dir/depend.make
+           build/test/CMakeFiles/targetT01_enumcpp.dir/progress.make
+           build/test/CMakeFiles/targetT02_functioncpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT02_functioncpp.dir/build.make
+           build/test/CMakeFiles/targetT02_functioncpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT02_functioncpp.dir/depend.internal
+           build/test/CMakeFiles/targetT02_functioncpp.dir/depend.make
+           build/test/CMakeFiles/targetT02_functioncpp.dir/progress.make
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/build.make
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/depend.make
+           build/test/CMakeFiles/targetT05_defaultcpp.dir/progress.make
+           build/test/CMakeFiles/targetT07_classcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT07_classcpp.dir/build.make
+           build/test/CMakeFiles/targetT07_classcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT07_classcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT07_classcpp.dir/depend.make
+           build/test/CMakeFiles/targetT07_classcpp.dir/progress.make
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/build.make
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/depend.make
+           build/test/CMakeFiles/targetT08_constructorcpp.dir/progress.make
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/build.make
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/depend.make
+           build/test/CMakeFiles/targetT09_overloadcpp.dir/progress.make
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/build.make
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/depend.internal
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/depend.make
+           build/test/CMakeFiles/targetT10_inheritancecpp.dir/progress.make
+           build/test/CMakeFiles/targetT11_overridecpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT11_overridecpp.dir/build.make
+           build/test/CMakeFiles/targetT11_overridecpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT11_overridecpp.dir/depend.internal
+           build/test/CMakeFiles/targetT11_overridecpp.dir/depend.make
+           build/test/CMakeFiles/targetT11_overridecpp.dir/progress.make
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/build.make
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/depend.make
+           build/test/CMakeFiles/targetT12_operatorcpp.dir/progress.make
+           build/test/CMakeFiles/targetT15_copycpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT15_copycpp.dir/build.make
+           build/test/CMakeFiles/targetT15_copycpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT15_copycpp.dir/depend.internal
+           build/test/CMakeFiles/targetT15_copycpp.dir/depend.make
+           build/test/CMakeFiles/targetT15_copycpp.dir/progress.make
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/build.make
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/depend.make
+           build/test/CMakeFiles/targetT15_inner_class_fwdcpp.dir/progress.make
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/build.make
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/depend.make
+           build/test/CMakeFiles/targetT15_inner_classcpp.dir/progress.make
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/build.make
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/depend.internal
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/depend.make
+           build/test/CMakeFiles/targetT17_anonymouscpp.dir/progress.make
+           build/test/CMakeFiles/targetT20_templatecpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT20_templatecpp.dir/build.make
+           build/test/CMakeFiles/targetT20_templatecpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT20_templatecpp.dir/depend.internal
+           build/test/CMakeFiles/targetT20_templatecpp.dir/depend.make
+           build/test/CMakeFiles/targetT20_templatecpp.dir/progress.make
+           build/test/CMakeFiles/targetT30_includecpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT30_includecpp.dir/build.make
+           build/test/CMakeFiles/targetT30_includecpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT30_includecpp.dir/depend.internal
+           build/test/CMakeFiles/targetT30_includecpp.dir/depend.make
+           build/test/CMakeFiles/targetT30_includecpp.dir/progress.make
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/build.make
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/depend.make
+           build/test/CMakeFiles/targetT31_include_for_classcpp.dir/progress.make
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/build.make
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/depend.make
+           build/test/CMakeFiles/targetT32_call_guardcpp.dir/progress.make
+           build/test/CMakeFiles/targetT40_stlcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT40_stlcpp.dir/build.make
+           build/test/CMakeFiles/targetT40_stlcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT40_stlcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT40_stlcpp.dir/depend.make
+           build/test/CMakeFiles/targetT40_stlcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_chronocpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_mapcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_multimapcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_multisetcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_optionalcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_setcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_names_variantcpp.dir/progress.make
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/build.make
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/depend.internal
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/depend.make
+           build/test/CMakeFiles/targetT42_stl_namescpp.dir/progress.make
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/DependInfo.cmake
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/build.make
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/cmake_clean.cmake
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/depend.internal
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/depend.make
+           build/test/CMakeFiles/targetT50_namespace_bindercpp.dir/progress.make
+           build/test/CTestTestfile.cmake
+           build/test/Makefile
+           build/test/T00.basic.hpp.include
+           build/test/T00_basic.cpp
+           build/test/T01.enum.hpp.include
+           build/test/T01_enum.cpp
+           build/test/T02.function.hpp.include
+           build/test/T02_function.cpp
+           build/test/T05.default.hpp.include
+           build/test/T05_default.cpp
+           build/test/T07.class.hpp.include
+           build/test/T07_class.cpp
+           build/test/T08.constructor.hpp.include
+           build/test/T08_constructor.cpp
+           build/test/T09.overload.hpp.include
+           build/test/T09_overload.cpp
+           build/test/T10.inheritance.hpp.include
+           build/test/T10_inheritance.cpp
+           build/test/T11.override.hpp.include
+           build/test/T11_override.cpp
+           build/test/T12.operator.hpp.include
+           build/test/T12_operator.cpp
+           build/test/T15.copy.hpp.include
+           build/test/T15.inner_class.fwd.hpp.include
+           build/test/T15.inner_class.hpp.include
+           build/test/T15_copy.cpp
+           build/test/T15_inner_class.cpp
+           build/test/T15_inner_class_fwd.cpp
+           build/test/T17.anonymous.hpp.include
+           build/test/T17_anonymous.cpp
+           build/test/T20.template.hpp.include
+           build/test/T20_template.cpp
+           build/test/T30.include.hpp.include
+           build/test/T30_include.cpp
+           build/test/T31.include_for_class.hpp.include
+           build/test/T31_include_for_class.cpp
+           build/test/T32.call_guard.hpp.include
+           build/test/T32_call_guard.cpp
+           build/test/T40.stl.hpp.include
+           build/test/T40_stl.cpp
+           build/test/T42.stl.names.chrono.hpp.include
+           build/test/T42.stl.names.hpp.include
+           build/test/T42.stl.names.map.hpp.include
+           build/test/T42.stl.names.multimap.hpp.include
+           build/test/T42.stl.names.multiset.hpp.include
+           build/test/T42.stl.names.optional.hpp.include
+           build/test/T42.stl.names.set.hpp.include
+           build/test/T42.stl.names.variant.hpp.include
+           build/test/T42_stl_names.cpp
+           build/test/T42_stl_names_chrono.cpp
+           build/test/T42_stl_names_map.cpp
+           build/test/T42_stl_names_multimap.cpp
+           build/test/T42_stl_names_multiset.cpp
+           build/test/T42_stl_names_optional.cpp
+           build/test/T42_stl_names_set.cpp
+           build/test/T42_stl_names_variant.cpp
+           build/test/T50.namespace_binder.hpp.include
+           build/test/T50_namespace_binder.cpp
+           build/test/cmake_install.cmake
+           build/test/diffbinder
+           cmake/Modules/CMakeFindFrameworks.cmake
+           cmake/Modules/FindPackageHandleStandardArgs.cmake
+           cmake/Modules/FindPackageMessage.cmake
+           cmake/Modules/FindPython.cmake
+           cmake/Modules/FindPython/Support.cmake
+           cmake/Modules/FindPython3.cmake
+           cmake/Modules/SelectLibraryConfigurations.cmake
+           debian/compat
+           debian/control
+           debian/rules
+           documentation/Makefile
+           documentation/about.rst
+           documentation/basics.rst
+           documentation/config.rst
+           documentation/debugging.rst
+           documentation/examples.rst
+           documentation/index.rst
+           documentation/install.rst
+           documentation/testing.rst
+           examples/example_struct/README.md
+           examples/example_struct/config.cfg
+           examples/example_struct/include/myts.hpp
+           examples/example_struct/include/test_struct/test_struct.hpp
+           examples/example_struct/make_bindings_via_bash.sh
+           examples/example_struct/make_bindings_via_bash_and_stl.sh
+           examples/example_struct/make_bindings_via_cmake.py
+           examples/example_struct/reference_all_includes.hpp
+           source/CMakeLists.txt
+           source/fmt/posix.h
+           test/CMakeLists.txt
+           test/T00.basic.ref
+           test/T01.enum.ref
+           test/T02.function.ref
+           test/T05.default.ref
+           test/T07.class.ref
+           test/T08.constructor.ref
+           test/T09.overload.ref
+           test/T10.inheritance.ref
+           test/T11.override.ref
+           test/T12.operator.ref
+           test/T15.copy.ref
+           test/T15.inner_class.fwd.hpp
+           test/T15.inner_class.fwd.ref
+           test/T15.inner_class.ref
+           test/T17.anonymous.ref
+           test/T20.template.ref
+           test/T30.include.incl.a.include
+           test/T30.include.incl.b.include
+           test/T30.include.ref
+           test/T31.include_for_class.config
+           test/T31.include_for_class.incl.a.include
+           test/T31.include_for_class.incl.b.extra.include
+           test/T31.include_for_class.incl.b.include
+           test/T31.include_for_class.ref
+           test/T32.call_guard.config
+           test/T32.call_guard.ref
+           test/T40.stl.config
+           test/T40.stl.ref
+           test/T42.stl.names.chrono.ref
+           test/T42.stl.names.config
+           test/T42.stl.names.map.config
+           test/T42.stl.names.map.ref
+           test/T42.stl.names.multi.ref
+           test/T42.stl.names.multimap.ref
+           test/T42.stl.names.multiset.ref
+           test/T42.stl.names.optional.ref
+           test/T42.stl.names.ref
+           test/T42.stl.names.set.config
+           test/T42.stl.names.set.ref
+           test/T42.stl.names.variant.ref
+           test/T50.namespace_binder.a.1.include
+           test/T50.namespace_binder.a.2.include
+           test/T50.namespace_binder.a.b.include
+           test/T50.namespace_binder.config
+           test/T50.namespace_binder.ref
+Copyright: __NO_COPYRIGHT_NOR_LICENSE__
+License:   __NO_COPYRIGHT_NOR_LICENSE__
+
+Files:     source/fmt/chrono.h
+           source/fmt/color.h
+           source/fmt/compile.h
+           source/fmt/core.h
+           source/fmt/format-inl.h
+           source/fmt/format.cc
+           source/fmt/locale.h
+           source/fmt/os.h
+           source/fmt/ostream.h
+           source/fmt/printf.h
+Copyright: 2012 present, Victor Zverovich
+           2012-2016 Victor Zverovich
+           2012-2018 present, Victor Zverovich and fmt contributors
+License:   __UNKNOWN__
+ For the license information refer to format.h.
+
+Files:     test/T40.stl.hpp
+           test/T42.stl.names.chrono.hpp
+           test/T42.stl.names.optional.hpp
+           test/T42.stl.names.variant.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Tests for bindings of STL classes.
+ @author Sergey Lyskov
+
+Files:     source/stl_binders.hpp
+           test/T15.inner_class.hpp
+           test/T31.include_for_class.hpp
+           test/T50.namespace_binder.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+
+Files:     test/T42.stl.names.multi.hpp
+           test/T42.stl.names.multimap.hpp
+           test/T42.stl.names.multiset.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Tests for bindings of STL classes multiset/multimap.
+ @author Sergey Lyskov/Andrii Verbytskyi
+ .
+ This test is separated from the binder/test/T42.stl.names.hpp to avoid
+ problems with different ordering of multiset/set and multimap/map bindings
+ in the generated files on different platforms.
+
+Files:     test/T42.stl.names.hpp
+           test/T42.stl.names.map.hpp
+           test/T42.stl.names.set.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Tests for bindings of STL classes.
+ @author Sergey Lyskov
+ .
+ The multimap/multiset classes are tested in the binder/test/T43.stl.names.multi.hpp to avoid
+ problems with different ordering of multiset/set and multimap/map bindings
+ in the generated files on different platforms.
+
+Files:     source/fmt/LICENSE.rst
+           source/fmt/format.h
+Copyright: 2012 present, Victor Zverovich
+License:   Expat
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Files:     source/context.cpp
+           source/context.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Data structures to represent root context and modules
+ @author Sergey Lyskov
+
+Files:     source/class.cpp
+           source/class.hpp
+Copyright: 2016-2018 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binding generation for C++ struct and class objects
+ @author Sergey Lyskov
+
+Files:     source/config.cpp
+           source/config.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Support for Binder Config file
+ @author Sergey Lyskov
+
+Files:     source/function.cpp
+           source/function.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binding generation for static and member functions
+ @author Sergey Lyskov
+
+Files:     source/enum.cpp
+           source/enum.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binding generation for C++ enums
+ @author Sergey Lyskov
+
+Files:     source/util.cpp
+           source/util.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Various helper functions
+ @author Sergey Lyskov
+
+Files:     test/T11.override.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings tests for overriding classes in Python.
+ @author Sergey Lyskov
+
+Files:     test/T09.overload.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Test for function overloads in Python
+ @author Sergey Lyskov
+
+Files:     test/T12.operator.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of class operator member functions.
+ @author Sergey Lyskov
+
+Files:     sphinx-doc-generator.py
+Copyright: For more information, see http://www.rosettacommons.org. Questions about this can be
+           Rosetta Commons Member Institutions.
+           The Rosetta software is developed  the contributing members of the Rosetta Commons.
+           This file is part of the Rosetta software suite and is made available under license.
+           addressed to University of Washington CoMotion, email: license@uw.edu.
+License:   __UNKNOWN__
+ @brief  Script to generate Sphinx documentation files out of Binder output
+ @author Sergey Lyskov
+
+Files:     source/type.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Various functionality for handline clang::QualType and clang::NamedDecl
+ @author Sergey Lyskov
+
+Files:     test/T15.copy.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Binding for copy constuctors
+ @author Sergey Lyskov
+
+Files:     source/binder.cpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Main
+ @author Sergey Lyskov
+
+Files:     test/T30.include.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Tests for include-request functionality.
+ @author Sergey Lyskov
+
+Files:     test/self-test.py
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Script to run Binder tool self-test
+ @author Sergey Lyskov
+
+Files:     test/T00.basic.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Basic functionality.
+ @author Sergey Lyskov
+
+Files:     source/fmt/ranges.h
+Copyright: 2012 present, Victor Zverovich
+           2018 present, Remotion (Igor Schulz)
+License:   __UNKNOWN__
+ For the license information refer to format.h.
+ .
+ {fmt} support for ranges, containers and types tuple interface.
+
+Files:     source/fmt/os.cc
+Copyright: 2012-2016 Victor Zverovich
+License:   __UNKNOWN__
+ For the license information refer to format.h.
+ .
+ Disable bogus MSVC warnings.
+
+Files:     test/T20.template.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of temlate classes and functions functionality.
+ @author Sergey Lyskov
+
+Files:     build-and-run-tests.py
+Copyright: For more information, see http://www.rosettacommons.org. Questions about this can be
+           Rosetta Commons Member Institutions.
+           The Rosetta software is developed  the contributing members of the Rosetta Commons.
+           This file is part of the Rosetta software suite and is made available under license.
+           addressed to University of Washington CoMotion, email: license@uw.edu.
+License:   __UNKNOWN__
+ @brief  Script to build Binder and run Binder self-test's
+ @author Sergey Lyskov
+
+Files:     test/T02.function.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings for functions.
+ @author Sergey Lyskov
+
+Files:     test/T08.constructor.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of classes constructors.
+ @author Sergey Lyskov
+
+Files:     test/diffbinder.cpp
+Copyright: 2020 Andrii Vertskyi <andrii.vertskyi@mpp.mpg.de> for the binder project
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ This is a simple and portable implementation of diff utility for the binder CI
+ that should ignore certain patters.
+
+Files:     source/type.cpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Various functionality for handline clang::QualType's
+ @author Sergey Lyskov
+
+Files:     test/T07.class.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of classes data members functionality.
+ @author Sergey Lyskov
+
+Files:     test/T32.call_guard.hpp
+Copyright: 2016 University of Washington
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Test gil-release guard configuration.
+ @author Alex Ford <fordas@uw.edu>
+
+Files:     test/T17.anonymous.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of classes/functions in anonymous namespace
+ @author Sergey Lyskov
+
+Files:     cmake/Modules/CMakeMacroParseArguments.cmake
+Copyright: 2010 Alexander Neundorf <neundorf@kde.org>
+License:   __UNKNOWN__
+ Distributed under the OSI-approved BSD License (the "License");
+ see accompanying file Copyright.txt for details.
+ .
+ This software is distributed WITHOUT ANY WARRANTY; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the License for more information.
+
+Files:     source/binder.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Options
+ @author Sergey Lyskov
+
+Files:     build.py
+Copyright: For more information, see http://www.rosettacommons.org. Questions about this can be
+           Rosetta Commons Member Institutions.
+           The Rosetta software is developed  the contributing members of the Rosetta Commons.
+           This file is part of the Rosetta software suite and is made available under license.
+           addressed to University of Washington CoMotion, email: license@uw.edu.
+License:   __UNKNOWN__
+ @brief  Script to build Binder
+ @author Sergey Lyskov
+
+Files:     test/T01.enum.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of enum's functionality.
+ @author Sergey Lyskov
+
+Files:     documentation/conf.py
+Copyright: __NO_COPYRIGHT__ in: documentation/conf.py
+License:   __UNKNOWN__
+ # The version info for the project you're documenting, acts as replacement for
+ # |version| and |release|, also used in various other places throughout the
+ # built documents.
+ #
+ # The short X.Y version.
+
+Files:     test/T05.default.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings of functions with default arguments.
+ @author Sergey Lyskov
+
+Files:     test/T10.inheritance.hpp
+Copyright: 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+License:   __UNKNOWN__
+ Use of this source code is governed by a
+ MIT license that can be found in the LICENSE file.
+ .
+ @brief  Binder self-test file. Bindings tests for class hierarchy’s.
+ @author Sergey Lyskov
+
+#----------------------------------------------------------------------------
+# huge files   (skipped):
+#         build/py3.8.10/lib/T15_inner_class.so
+#         build/py3.8.10/lib/T02_function.so
+#         build/py3.8.10/lib/T09_overload.so
+#         build/py3.8.10/lib/T07_class.so
+#         build/py3.8.10/lib/T40_stl.so
+#         build/py3.8.10/lib/T42_stl_names.so
+#         build/py3.8.10/lib/T10_inheritance.so
+#         build/py3.8.10/lib/T15_copy.so
+#         build/py3.8.10/lib/T05_default.so
+#         build/py3.8.10/lib/T42_stl_names_set.so
+#         build/py3.8.10/lib/T01_enum.so
+#         build/py3.8.10/lib/T42_stl_names_multimap.so
+#         build/py3.8.10/lib/T42_stl_names_map.so
+#         build/py3.8.10/lib/T42_stl_names_multiset.so
+#         build/test/CMakeFiles/T42_stl_names_optional3.8.10.dir/T42_stl_names_optional.cpp.o
+#         build/test/CMakeFiles/T00_basic3.8.10.dir/T00_basic.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_chrono3.8.10.dir/T42_stl_names_chrono.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_multimap3.8.10.dir/T42_stl_names_multimap.cpp.o
+#         build/test/CMakeFiles/T15_inner_class3.8.10.dir/T15_inner_class.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_multiset3.8.10.dir/T42_stl_names_multiset.cpp.o
+#         build/test/CMakeFiles/T30_include3.8.10.dir/T30_include.cpp.o
+#         build/test/CMakeFiles/T09_overload3.8.10.dir/T09_overload.cpp.o
+#         build/test/CMakeFiles/T20_template3.8.10.dir/T20_template.cpp.o
+#         build/test/CMakeFiles/T11_override3.8.10.dir/T11_override.cpp.o
+#         build/test/CMakeFiles/T01_enum3.8.10.dir/T01_enum.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_variant3.8.10.dir/T42_stl_names_variant.cpp.o
+#         build/test/CMakeFiles/T15_inner_class_fwd3.8.10.dir/T15_inner_class_fwd.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_map3.8.10.dir/T42_stl_names_map.cpp.o
+#         build/test/CMakeFiles/T17_anonymous3.8.10.dir/T17_anonymous.cpp.o
+#         build/test/CMakeFiles/T42_stl_names3.8.10.dir/T42_stl_names.cpp.o
+#         build/test/CMakeFiles/T32_call_guard3.8.10.dir/T32_call_guard.cpp.o
+#         build/test/CMakeFiles/T15_copy3.8.10.dir/T15_copy.cpp.o
+#         build/test/CMakeFiles/T05_default3.8.10.dir/T05_default.cpp.o
+#         build/test/CMakeFiles/T07_class3.8.10.dir/T07_class.cpp.o
+#         build/test/CMakeFiles/T50_namespace_binder3.8.10.dir/T50_namespace_binder.cpp.o
+#         build/test/CMakeFiles/T31_include_for_class3.8.10.dir/T31_include_for_class.cpp.o
+#         build/test/CMakeFiles/T42_stl_names_set3.8.10.dir/T42_stl_names_set.cpp.o
+#         build/test/CMakeFiles/T40_stl3.8.10.dir/T40_stl.cpp.o
+#         build/test/CMakeFiles/T12_operator3.8.10.dir/T12_operator.cpp.o
+#         build/test/CMakeFiles/T10_inheritance3.8.10.dir/T10_inheritance.cpp.o
+#         build/test/CMakeFiles/T02_function3.8.10.dir/T02_function.cpp.o
+#         build/test/CMakeFiles/T08_constructor3.8.10.dir/T08_constructor.cpp.o
+#         build/source/binder
+#         build/source/CMakeFiles/binder.dir/class.cpp.o
+#         build/source/CMakeFiles/binder.dir/binder.cpp.o
+#         build/source/CMakeFiles/binder.dir/fmt/format.cc.o
+
+#----------------------------------------------------------------------------
+# Files marked as NO_LICENSE_TEXT_FOUND may be covered by the following
+# license/copyright files.
+
+#----------------------------------------------------------------------------
+# License file: LICENSE
+ Copyright (c) 2016 Sergey Lyskov <sergey.lyskov@jhu.edu>
+ .
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
+ (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

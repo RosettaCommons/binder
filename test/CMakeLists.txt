@@ -105,6 +105,7 @@ set( binder_tests
          T42.stl.names.multiset
          T42.stl.names.optional
          T42.stl.names.variant
+         T42.stl.names.chrono
          T50.namespace_binder
          )
 if (pybind11_VERSION VERSION_LESS 2.5.99)

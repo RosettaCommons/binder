@@ -108,6 +108,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<atomic>", {"std::memory_order", "std::atomic_signal_fence", "std::atomic_thread_fence", } },
 
+			 { "<chrono>", {"std::chrono::time_point", "std::chrono::duration"} },
+
 			 { "<exception>", {"std::nested_exception"} },
 
 			 { "<functional>", {"std::function", "std::_Manager_operation", "std::bad_function_call"} },
@@ -169,6 +171,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 		make_pair("std::optional",         "<optional>"),
 
 		make_pair("std::variant",          "<variant>"),
+
+		make_pair("std::chrono::duration", 	"<chrono>"),
+		make_pair("std::chrono::time_point", 	"<chrono>"),
 
 		make_pair("__gnu_cxx::__normal_iterator", "<iterator>"),
 
@@ -454,6 +459,9 @@ string standard_name(string const &type)
 
 		make_pair("nullptr_t",     "std::nullptr_t"),
 
+		make_pair("struct std::chrono::duration",   "std::chrono::duration"),
+		make_pair("struct std::chrono::time_point", "std::chrono::time_point"),
+
 		//make_pair("const class ", "const "),
 		//make_pair("const struct ", "const "),
 	};
@@ -615,6 +623,9 @@ bool is_python_builtin(NamedDecl const *C)
 
 													  "std::variant",
 
+													  "std::ratio",
+
+													  "std::chrono::time_point", "std::chrono::duration"
  	};
 
 	for(auto &k : known_builtin) {
