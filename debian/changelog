@@ -1,5 +1,7 @@
-binder (1.2.2-2) UNRELEASED; urgency=low
-  
+binder (1.2.3-1) UNRELEASED; urgency=low
+
+  * Release 1.2.3
+    Split debian packages into binder, binder-dev and binder-dbg.
   * Release 1.2.2
     Adding support std::chrono::duration and std::chrono::time_point.
   * Release 1.2.1

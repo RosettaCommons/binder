@@ -10,9 +10,10 @@ export DH_VERBOSE = 1
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-    -DLLVM_DIR=/usr/lib/llvm-10 \
-    -DClang_DIR=/usr/lib/llvm-10 \
-    -DBINDER_ENABLE_TEST=OFF
+    -DLLVM_DIR=/usr/lib/llvm \
+    -DClang_DIR=/usr/lib/llvm \
+    -DBINDER_ENABLE_TEST=ON \
+    -DBINDER_TEST_PYTHON_VERSIONS=3
 
 override_dh_shlibdeps:
 	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info

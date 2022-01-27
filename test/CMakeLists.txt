@@ -23,14 +23,14 @@ else()
       ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
       --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include
       -- -x c++ -std=c++17   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
-      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM DEPENDS binder)
   else()
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
     #The first two expressions below are for older clang
     COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
       --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include
       -- -x c++ -std=c++17   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
-      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM DEPENDS binder)
   endif()
 endif()
 endmacro( binder_src  stestname)

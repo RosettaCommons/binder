@@ -1,7 +1,7 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
 PROJECT(binder CXX C)
-SET(VERSION 1.0.0)
+SET(VERSION 1.2.3)
 option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
 #This actually will work even with C++11
 set(CMAKE_CXX_STANDARD 17)
@@ -125,6 +125,27 @@ macro(add_clang_executable name)
 endmacro(add_clang_executable)
 include_directories(source)
 add_subdirectory(source)
+
+include(CMakePackageConfigHelpers)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
+configure_package_config_file(
+    cmake/${PROJECT_NAME}Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake"
+    PATH_VARS INCLUDE_INSTALL_DIR
+)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake"
+)
+
 if (BINDER_ENABLE_TEST)
  if(${CMAKE_VERSION} VERSION_LESS "3.0.0")
    message("You are running cmake version ${CMAKE_VERSION}.")
