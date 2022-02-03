@@ -26,6 +26,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <cctype>
+#include <iostream>
 
 using namespace llvm;
 using namespace clang;
@@ -258,13 +259,16 @@ string generate_comment_for_declaration(clang::NamedDecl const *decl)
 
 
 // extract text from hierarchy of comments
-string get_text(comments::Comment const *C, SourceManager const & SM, SourceLocation previous)
+string get_text(comments::Comment const *C, SourceManager const & SM, comments::CommandTraits const & CT, SourceLocation previous)
 {
+
 	if( auto tc = dyn_cast<comments::TextComment>(C) ) return string(tc->getText());
 	else {
 		string r;
 
-		if( isa<comments::ParagraphComment>(C) ) r += '\n';
+		if( isa<comments::ParagraphComment>(C)) r += '\n';
+
+
 
 		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
 #if  (LLVM_VERSION_MAJOR < 8)
@@ -279,7 +283,23 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 				r += '\n';
 			}
 #endif
-			r += get_text(*i, SM, previous);
+			if( auto pc = dyn_cast<comments::ParamCommandComment>(*i) ) {
+				if(pc->hasParamName()) {
+					r += string{":param "} + pc->getParamNameAsWritten().str() + string{":\t"};
+				}
+			}
+			else if( auto bc = dyn_cast<comments::BlockCommandComment>(*i) ) {
+				// ParamCommandComments are also of type BlockCommandComment -> else if.
+				string command = bc->getCommandName(CT).str();
+				if(!command.empty()) {
+					// Throws are raises in python.
+					if(command == "throws" || command == "throw") {
+						command = "raises";
+					}
+					r += string{":"} + command + string{":\t"};
+				}
+			}
+			r += get_text(*i, SM, CT, previous);
 		}
 
 		return r;
@@ -296,10 +316,11 @@ std::string generate_documentation_string_for_declaration(clang::Decl const* dec
 	if( auto comment = ast_context.getLocalCommentForDeclUncached(decl) ) {
 
 		SourceManager & sm( ast_context.getSourceManager() );
+		comments::CommandTraits & ct( ast_context.getCommentCommandTraits() );
 
 		//comment->dumpColor();
 
-		text = get_text(comment, sm, SourceLocation());
+		text = get_text(comment, sm, ct, SourceLocation());
 
 		uint i=0;
 		for(; i<text.size()  and  (text[i]==' ' or text[i]=='\n'); ++i) {}

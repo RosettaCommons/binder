@@ -1,5 +1,7 @@
-binder (1.2.3-1) UNRELEASED; urgency=low
+binder (1.2.4-1) UNRELEASED; urgency=low
 
+  * Release 1.2.4
+    Nicer documentation of parameters, return types and throw statements.
   * Release 1.2.3
     Split debian packages into binder, binder-dev and binder-dbg.
   * Release 1.2.2
