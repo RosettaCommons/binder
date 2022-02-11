@@ -57,6 +57,8 @@ static std::map<string, string > const cpp_python_operator_map {
 	{"operator=",  "assign"},
 	{"operator++", "plus_plus"},
 	{"operator--", "minus_minus"},
+
+	{"operator->", "arrow"},
 };
 
 // Generate function argument list separate by comma: int, bool, std::string

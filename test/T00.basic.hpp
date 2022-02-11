@@ -46,4 +46,11 @@ VoidP foo_void_p(VoidP) { return nullptr; }
 VoidP foo_void_p(VoidP const &) { return nullptr; }
 VoidP foo_void_p(VoidP &) { return nullptr; }
 
+namespace global {
+void foo() {}
+}
+namespace nonlocal {
+void foo() {}
+}
+
 #endif // _INCLUDED_T00_basic_hpp_
