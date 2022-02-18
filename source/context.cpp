@@ -538,7 +538,7 @@ void Context::generate(Config const &config)
 /// generate unique trace line containing `info` to insert into the code
 std::string Context::trace_line(std::string const &info)
 {
-	return "\tstd::cout << \"B" + std::to_string(++trace_counter) + "_[" + info + "] \";\n";
+	return "\tstd::cout << \"B" + std::to_string(++trace_counter) + "_[" + info + "]\" << std::endl;\n" ;
 }
 
 
