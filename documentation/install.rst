@@ -167,6 +167,7 @@ To build ``binder`` run
 
    cmake CMakeLists.txt -DCMAKE_INSTALL_PREFIX:PATH=/home/user/whereiwanttohaveit/
    make
+   ctest
    make install
 
 To perform the build with a specific version of LLVM, the location of LLVM and CLANG directories 
@@ -245,5 +246,5 @@ Set the environment variable ``LIBCLANG_STATIC_BUILD_DIR`` to the path of
    cmake CMakeLists.txt -DSTATIC=on -DLLVMCONFIG="${LIBCLANG_STATIC_BUILD_DIR}/build/_deps/libclang_prebuilt-src/bin/llvm-config" -DLLVM_LIBRARY_DIR="${LIBCLANG_STATIC_BUILD_DIR}/lib" -DCMAKE_INSTALL_PREFIX:PATH=/home/user/whereiwanttohaveit/
 
    make
-
+   ctest
    make install
