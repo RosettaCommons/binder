@@ -11,6 +11,7 @@ message( STATUS "binder test: building ${stestnamenodot}.cpp for ${stestname}" )
 if (BINDER_MOCK_TEST)
   file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${stestnamenodot}.cpp INPUT ${CMAKE_CURRENT_SOURCE_DIR}/${stestname}.ref )
 else()
+  make_directory(${CMAKE_CURRENT_BINARY_DIR}/test)
   SET(${stestname}_config_flag "")
   if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${stestname}.config")
     SET(${stestname}_config_flag --config ${stestname}.config )
@@ -21,14 +22,14 @@ else()
     #The first two expressions below are for older clang
     COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/  CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/
       ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
-      --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${stestname}.hpp.include  
+      --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include  
       -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   else()
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
     #The first two expressions below are for older clang
     COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
-      --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${stestname}.hpp.include  
+      --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include  
       -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   endif()
