@@ -113,7 +113,7 @@ void Context::add_insertion_operator(clang::FunctionDecl const *F)
 	insertion_operators[ function_pointer_type(F) ] = F;
 }
 
-/// find gloval insertion operator for given type, return nullptr if not such operator find
+/// find global insertion operator for given type, return nullptr if not such operator find
 clang::FunctionDecl const * Context::global_insertion_operator(clang::CXXRecordDecl const *C)
 {
 	string op_pointer = "std::ostream & (*)(std::ostream &, const " + (C->isStruct() ? string("struct ") : string("class ") ) + class_qualified_name(C) + " &)";
@@ -238,7 +238,7 @@ void Context::bind(Config const &config)
 	}
 }
 
-/// sort vector of binders by dependecy so python imports could work
+/// sort vector of binders by dependency so python imports could work
 void Context::sort_binders()
 {
 	outs() << "Sorting Binders...\n";

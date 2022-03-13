@@ -26,7 +26,7 @@
 
 namespace binder {
 
-// generate classtemplate specialization for ClassTemplateSpecializationDecl or empty string otherwise
+// generate class template specialization for ClassTemplateSpecializationDecl or empty string otherwise
 std::string template_specialization(clang::CXXRecordDecl const *C);
 
 
@@ -34,11 +34,11 @@ std::string template_specialization(clang::CXXRecordDecl const *C);
 std::string class_name(clang::CXXRecordDecl const *C);
 
 
-// generate qualified class name that could be used in bindings code indcluding template specialization if any
+// generate qualified class name that could be used in bindings code including template specialization if any
 std::string class_qualified_name(clang::CXXRecordDecl const *C);
 
 
-// generate vector<QualType> with all types that class uses if it tempalated
+// generate vector<QualType> with all types that class uses if it is templated
 std::vector<clang::QualType> get_type_dependencies(clang::CXXRecordDecl const *C /*, bool include_members=false*/);
 
 
@@ -61,7 +61,7 @@ bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config);
 void add_relevant_includes(clang::CXXRecordDecl const *C, IncludeSet &includes, int level);
 
 
-/// Create forward-binding for given class which consist of only class type without any member, function or constructors
+/// Create forward-binding for forward declared class (no class members given)
 std::string bind_forward_declaration(clang::CXXRecordDecl const *C, Context &);
 
 
@@ -70,7 +70,7 @@ class ClassBinder : public Binder
 public:
 	ClassBinder(clang::CXXRecordDecl const *c) : C(c) {}
 
-	/// Generate string id that uniquly identify C++ binding object. For functions this is function prototype and for classes forward declaration.
+	/// Generate string id that uniquely identify C++ binding object. For functions this is function prototype and for classes forward declaration.
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
@@ -110,7 +110,7 @@ private:
 
 	void generate_prefix_code();
 
-	// do f for each nested public class
+	// do for each nested public class
 	void for_public_nested_classes(std::function<void(clang::CXXRecordDecl const *)> const&f) const;
 
 	// generating bindings for public nested classes
