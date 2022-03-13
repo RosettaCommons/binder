@@ -13,6 +13,7 @@
 #include <config.hpp>
 
 #include <util.hpp>
+#include <binder.hpp>
 
 
 #include <llvm/Support/raw_ostream.h>
@@ -51,6 +52,7 @@ Config &Config::get()
 /// Read config setting from file
 void Config::read(string const &file_name)
 {
+        if( O_verbose ) outs() << "Read config from file " << file_name << "\n";
 	string const _namespace_ {"namespace"};
 	string const _function_  {"function"};
 	string const _class_     {"class"};
