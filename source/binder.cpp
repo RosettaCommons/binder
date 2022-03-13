@@ -241,6 +241,7 @@ public:
 class BinderFrontendAction : public ASTFrontendAction {
 public:
     virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file) {
+        outs() << "Process input file " << file << "\n";
         return std::unique_ptr<ASTConsumer>( new BinderASTConsumer(&ci) );
     }
 };
