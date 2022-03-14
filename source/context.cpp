@@ -250,7 +250,7 @@ void Context::sort_binders()
 		repeat = false;
 		binded = forward;
 		for(auto b=binders.begin(); b!=binders.end(); ++b) {
-			if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( (*b)->named_decl() ) ) { // right not only querry dependency if we dealing with class
+			if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( (*b)->named_decl() ) ) { // right not only query dependency if we dealing with class
 				std::vector<CXXRecordDecl const *> const dependencies = (*b)->dependencies();
 				for(auto & c : dependencies ) {
 					if( is_forward_needed(c) ) {
@@ -460,7 +460,7 @@ void Context::generate(Config const &config)
 				// 	add_to_binded( dynamic_cast<CXXRecordDecl*>( CB->named_decl() ) );
 				// }
 
-				// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only querry dependency if we dealing with class
+				// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only query dependency if we dealing with class
 				// 	std::vector<clang::CXXRecordDecl const *> const dependencies = binders[i]->dependencies();
 				// 	for(auto & c : dependencies ) {
 				// 		if( is_forward_needed(c) ) {
