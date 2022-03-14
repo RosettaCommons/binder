@@ -167,7 +167,7 @@ private:
 	/// array of all binders from translation unit
 	std::vector<BinderOP> binders;
 
-	/// types -> binder
+	/// types → binder
 	std::unordered_map<string, BinderOP> types;
 
 	/// set of items unique id's to keep track of binders being added
