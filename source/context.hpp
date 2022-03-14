@@ -85,17 +85,17 @@ public:
 	/// generate binding code for this object and all its dependencies
 	virtual void bind(Context &) = 0;
 
-	// return true if code was already generate for this object
+	/// return true if code was already generated for this object
 	bool is_binded() const;
 
-	// return binding code
+	/// return binding code
 	string & code() { return code_; }
 	string const & code() const { return code_; }
 
-	/// return true if object declared in system header
+	/// return true if object is declared in system header
 	bool is_in_system_header();
 
-	// return vector of declarations that need to be binded before this one could
+	/// return vector of declarations that need to be binded before this one could
 	virtual std::vector<clang::CXXRecordDecl const *> dependencies() const { return std::vector<clang::CXXRecordDecl const *>(); }
 
 	/// return prefix portion of bindings code
@@ -130,7 +130,7 @@ public:
 
 	void generate(Config const &config);
 
-	// find binder related to given type name and bind it
+	/// find binder related to given type name and bind it
 	void request_bindings(std::string const &type);
 
 	/// generate C++ expression for module variable for namespace_
@@ -138,7 +138,7 @@ public:
 
 	void add_insertion_operator(clang::FunctionDecl const *f);
 
-	/// find gloval insertion operator for given type, return nullptr if not such operator find
+	/// find global insertion operator for given type, otherwise return nullptr
 	clang::FunctionDecl const * global_insertion_operator(clang::CXXRecordDecl const *);
 
 	/// generate unique trace line containing `info` to insert into the code
@@ -146,34 +146,34 @@ public:
 
 private:
 
-	/// bind all objects residing in namespaces and it dependency
+	/// bind all objects residing in namespaces and their dependencies
 	void bind(Config const &config);
 
 	std::set<string> create_all_nested_namespaces();
 
-		/// check if forward declaration for CXXRecordDecl needed
+	/// check if forward declaration for CXXRecordDecl needed
 	bool is_forward_needed(clang::CXXRecordDecl const *);
 
-	/// add given class to 'aleady binded' set
+	/// add given class to 'already binded' set
 	void add_to_binded(clang::CXXRecordDecl const *);
 
-	/// sort vector of binders by dependecy so python imports could work
+	/// sort vector of binders by dependency so python imports could work
 	void sort_binders();
 
 
-	/// map of function-ptr -> Decl* for global instertion operators so we can determent for which types can bind __repr__
+	/// map of function-ptr -> Decl* for global instertion operators so we can determine for which types we can bind __repr__
 	std::map<std::string, clang::FunctionDecl const *> insertion_operators;
 
-	/// array of all binderes from translation unit
+	/// array of all binders from translation unit
 	std::vector<BinderOP> binders;
 
 	/// types → binder
 	std::unordered_map<string, BinderOP> types;
 
-	/// set of items unique id's to keep track of whats binders being added
+	/// set of items unique id's to keep track of binders being added
 	std::unordered_set<string> ids;
 
-	/// set of items unique id's to keep track of whats binded and not
+	/// set of items unique id's to keep track of what is binded and not
 	std::set<string> binded;
 
 	/// counter to generate unique trace lines for debug

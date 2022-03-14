@@ -113,7 +113,7 @@ void Context::add_insertion_operator(clang::FunctionDecl const *F)
 	insertion_operators[ function_pointer_type(F) ] = F;
 }
 
-/// find gloval insertion operator for given type, return nullptr if not such operator find
+/// find global insertion operator for given type, return nullptr if not such operator find
 clang::FunctionDecl const * Context::global_insertion_operator(clang::CXXRecordDecl const *C)
 {
 	string op_pointer = "std::ostream & (*)(std::ostream &, const " + (C->isStruct() ? string("struct ") : string("class ") ) + class_qualified_name(C) + " &)";
@@ -238,7 +238,7 @@ void Context::bind(Config const &config)
 	}
 }
 
-/// sort vector of binders by dependecy so python imports could work
+/// sort vector of binders by dependency so python imports could work
 void Context::sort_binders()
 {
 	outs() << "Sorting Binders...\n";
@@ -250,7 +250,7 @@ void Context::sort_binders()
 		repeat = false;
 		binded = forward;
 		for(auto b=binders.begin(); b!=binders.end(); ++b) {
-			if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( (*b)->named_decl() ) ) { // right not only querry dependency if we dealing with class
+			if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( (*b)->named_decl() ) ) { // right not only query dependency if we dealing with class
 				std::vector<CXXRecordDecl const *> const dependencies = (*b)->dependencies();
 				for(auto & c : dependencies ) {
 					if( is_forward_needed(c) ) {
@@ -460,7 +460,7 @@ void Context::generate(Config const &config)
 				// 	add_to_binded( dynamic_cast<CXXRecordDecl*>( CB->named_decl() ) );
 				// }
 
-				// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only querry dependency if we dealing with class
+				// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only query dependency if we dealing with class
 				// 	std::vector<clang::CXXRecordDecl const *> const dependencies = binders[i]->dependencies();
 				// 	for(auto & c : dependencies ) {
 				// 		if( is_forward_needed(c) ) {

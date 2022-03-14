@@ -29,7 +29,7 @@ namespace binder {
 std::vector<std::string> split(std::string const &buffer, std::string const & separator="\n");
 
 
-/// Replace all occurrences of string inplace
+/// Replace all occurrences of string in-place
 void replace(std::string &r, std::string const & from, std::string const &to);
 
 /// Replace all occurrences of string and return result as new string
@@ -45,7 +45,7 @@ bool ends_with(std::string const &source, std::string const &prefix);
 std::string indent(std::string const &code, std::string const &indentation);
 
 
-/// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
+/// Try to read existing file. If file content does not match given code, overwrite the file with code. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code);
 
 
@@ -74,16 +74,17 @@ std::string expresion_to_string(clang::Expr *e);
 std::string template_argument_to_string(clang::TemplateArgument const &);
 
 
-/// calcualte line in source file for NamedDecl
+/// calculate line in source file for NamedDecl
 std::string line_number(clang::NamedDecl const *decl);
 
-// generate string represetiong class name that could be used in python
+/// generate string represeting class name that could be used in python
 std::string mangle_type_name(std::string const &name, bool mark_template=true);
 
-// generate C++ comment line for given declartion along with file path and line number: // core::scoring::vdwaals::VDWAtom file:core/scoring/vdwaals/VDWTrie.hh line:43
+/// generate C++ comment line for given declaration along with file path and line number
+    // core::scoring::vdwaals::VDWAtom file:core/scoring/vdwaals/VDWTrie.hh line:43
 std::string generate_comment_for_declaration(clang::NamedDecl const *decl);
 
-// extract doc string (Doxygen comments) for given declaration and convert it to C++ source code string
+/// extract doc string (Doxygen comments) for given declaration and convert it to C++ code
 std::string generate_documentation_string_for_declaration(clang::Decl const*);
 
 
