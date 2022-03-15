@@ -228,7 +228,7 @@ void Context::bind(Config const &config)
 		for(auto & sp : binders) {
 			Binder & b( *sp );
 			if( !b.is_binded()  and  b.bindable() and  b.binding_requested() ) {
-				//outs() << "Binding: " << b.id() /*named_decl()->getQualifiedNameAsString()*/ << "\n";
+                            if( O_verbose ) outs() << "Binding: " << b.id() /*named_decl()->getQualifiedNameAsString()*/ << "\n";
 				b.bind(*this);
 				flag=true;
 			}
