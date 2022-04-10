@@ -61,11 +61,19 @@ void foo_p_not_binded(std::tuple<int, int> *) {}
 void foo_cp_not_binded(std::pair<int, int> const *) {}
 void foo_cp_not_binded(std::tuple<int, int> const *) {}
 
-using function_type = void (*)();
+using function_type = void();
+using function_pointer = void (*)();
+using function_reference = void (&)();
 
 void foo_f1(std::function< bool(std::string const &) > const &f) {}
-void foo_f2(std::function< function_type(void) > const &f) {}
-void foo_f3(std::function< bool(function_type*, int (&)[1]) > const &f) {}
+void foo_f2(std::function< function_pointer(void) > const &f) {}
+void foo_f3(std::function< bool(function_pointer*, int (&)[1]) > const &f) {}
 
+void foo_f4_not_binded(function_pointer) {}
+void foo_f5(function_reference) {}
+void foo_f7(function_reference &) {}
+
+void foo_f8(function_type & f) {}
+void foo_f9(function_type * f) {}
 
 #endif // _INCLUDED_T02_function_hpp_

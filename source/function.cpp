@@ -95,6 +95,7 @@ pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *re
 
 	fix_boolean_types(r);
 
+	//outs() << r << " ____ " << a << '\n';
 	return std::make_pair(r, a);
 }
 
@@ -382,6 +383,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	return r;
 }
 
+
 // Generate binding for given function. If function have default arguments generate set of bindings by creating separate bindings for each argument with default.
 // if parent is not nullptr then bind function as-if it a member of that CXXRecordDecl (for handling visibility changes with 'using' directive)
 string bind_function(string const & module, FunctionDecl const *F, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
@@ -391,6 +393,15 @@ string bind_function(string const & module, FunctionDecl const *F, Context &cont
 	int num_params = F->getNumParams();
 
 	int args_to_bind = 0;
+
+	for(int i=0; i<num_params; ++i) {
+		// we want to avoid generating any lambda expression when any of the function arguments have function-type
+		if( is_function_type( F->getParamDecl(i)->getOriginalType().getCanonicalType() ) ) {
+			args_to_bind = num_params;
+			break;
+		}
+ 	}
+
 	for(; args_to_bind < num_params; ++args_to_bind) {
 		if( F->getParamDecl(args_to_bind)->hasDefaultArg() ) break;
 	}

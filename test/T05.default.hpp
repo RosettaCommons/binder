@@ -33,5 +33,9 @@ struct B
 	static double foo_static(int i=1, float f=2.0f, double d=4.16) { return i + f + d; }
 };
 
+using function_type = void();
+void foo_f0(function_type   f, int a=0, float b=1.0) {}
+void foo_f1(function_type & f, int a=0, float b=1.0) {}
+void foo_f2_not_binded(function_type * f, int a=0, float b=1.0) {}
 
 #endif // _INCLUDED_T05_default_hpp_
