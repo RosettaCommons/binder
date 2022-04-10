@@ -2,6 +2,8 @@
 #include <T05.default.hpp> // A
 #include <T05.default.hpp> // B
 #include <T05.default.hpp> // foo
+#include <T05.default.hpp> // foo_f0
+#include <T05.default.hpp> // foo_f1
 #include <sstream> // __str__
 
 #include <pybind11/pybind11.h>
@@ -58,6 +60,12 @@ void bind_T05_default(std::function< pybind11::module &(std::string const &names
 		cl.def_static("foo_static", [](int const & a0, float const & a1) -> double { return B::foo_static(a0, a1); }, "", pybind11::arg("i"), pybind11::arg("f"));
 		cl.def_static("foo_static", (double (*)(int, float, double)) &B::foo_static, "C++: B::foo_static(int, float, double) --> double", pybind11::arg("i"), pybind11::arg("f"), pybind11::arg("d"));
 	}
+	// foo_f0(void (void), int, float) file:T05.default.hpp line:37
+	M("").def("foo_f0", (void (*)(void (void), int, float)) &foo_f0, "C++: foo_f0(void (void), int, float) --> void", pybind11::arg("f"), pybind11::arg("a"), pybind11::arg("b"));
+
+	// foo_f1(void (&)(void), int, float) file:T05.default.hpp line:38
+	M("").def("foo_f1", (void (*)(void (&)(void), int, float)) &foo_f1, "C++: foo_f1(void (&)(void), int, float) --> void", pybind11::arg("f"), pybind11::arg("a"), pybind11::arg("b"));
+
 }
 
 

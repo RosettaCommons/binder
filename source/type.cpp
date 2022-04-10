@@ -66,6 +66,15 @@ bool is_skipping_requested(QualType const &qt, Config const &config)
 	return false;
 }
 
+// check if type some form of function-type (function type, function-pointer, function-reference, ...)
+bool is_function_type(QualType const &qt)
+{
+	if( auto f = dyn_cast<clang::FunctionType>( qt.getTypePtr() ) ) return true;
+	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_function_type( pt->getPointeeType() );
+	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_function_type( rt->getPointeeType() );
+	return false;
+}
+
 
 // extract include path needed for declaration itself (without template dependency if any), return empty string if no include could be found
 string relevant_include(NamedDecl const *decl)

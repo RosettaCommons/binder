@@ -30,6 +30,10 @@ bool is_binding_requested(clang::QualType const &qt, Config const &config);
 bool is_skipping_requested(clang::QualType const &qt, Config const &config);
 
 
+// check if type some form of function-type (function type, function-pointer, function-reference, ...)
+bool is_function_type(clang::QualType const &qt);
+
+
 /// extract include path needed for declaration itself (without template dependency if any), return empty string if no include could be found
 std::string relevant_include(clang::NamedDecl const *decl);
 

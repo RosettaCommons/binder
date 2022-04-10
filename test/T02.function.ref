@@ -5,6 +5,9 @@
 #include <T02.function.hpp> // foo_f1
 #include <T02.function.hpp> // foo_f2
 #include <T02.function.hpp> // foo_f3
+#include <T02.function.hpp> // foo_f5
+#include <T02.function.hpp> // foo_f7
+#include <T02.function.hpp> // foo_f8
 #include <T02.function.hpp> // foo_p
 #include <T02.function.hpp> // foo_r
 #include <functional> // std::function
@@ -123,14 +126,23 @@ void bind_T02_function(std::function< pybind11::module &(std::string const &name
 	// foo_p(class std::shared_ptr<class A> *) file:T02.function.hpp line:57
 	M("").def("foo_p", (void (*)(class std::shared_ptr<class A> *)) &foo_p, "C++: foo_p(class std::shared_ptr<class A> *) --> void", pybind11::arg(""));
 
-	// foo_f1(const class std::function<bool (const std::string &)> &) file:T02.function.hpp line:66
+	// foo_f1(const class std::function<bool (const std::string &)> &) file:T02.function.hpp line:68
 	M("").def("foo_f1", (void (*)(const class std::function<bool (const std::string &)> &)) &foo_f1, "C++: foo_f1(const class std::function<bool (const std::string &)> &) --> void", pybind11::arg("f"));
 
-	// foo_f2(const class std::function<void (*(void))(void)> &) file:T02.function.hpp line:67
+	// foo_f2(const class std::function<void (*(void))(void)> &) file:T02.function.hpp line:69
 	M("").def("foo_f2", (void (*)(const class std::function<void (*(void))(void)> &)) &foo_f2, "C++: foo_f2(const class std::function<void (*(void))(void)> &) --> void", pybind11::arg("f"));
 
-	// foo_f3(const class std::function<bool (void (**)(void), int (&)[1])> &) file:T02.function.hpp line:68
+	// foo_f3(const class std::function<bool (void (**)(void), int (&)[1])> &) file:T02.function.hpp line:70
 	M("").def("foo_f3", (void (*)(const class std::function<bool (void (**)(void), int (&)[1])> &)) &foo_f3, "C++: foo_f3(const class std::function<bool (void (**)(void), int (&)[1])> &) --> void", pybind11::arg("f"));
+
+	// foo_f5(void (&)(void)) file:T02.function.hpp line:73
+	M("").def("foo_f5", (void (*)(void (&)(void))) &foo_f5, "C++: foo_f5(void (&)(void)) --> void", pybind11::arg(""));
+
+	// foo_f7(void (&)(void)) file:T02.function.hpp line:74
+	M("").def("foo_f7", (void (*)(void (&)(void))) &foo_f7, "C++: foo_f7(void (&)(void)) --> void", pybind11::arg(""));
+
+	// foo_f8(void (&)(void)) file:T02.function.hpp line:76
+	M("").def("foo_f8", (void (*)(void (&)(void))) &foo_f8, "C++: foo_f8(void (&)(void)) --> void", pybind11::arg("f"));
 
 }
 
