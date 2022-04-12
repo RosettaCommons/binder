@@ -1,21 +1,20 @@
 FROM ubuntu:20.04 as base
 
-# Build Args
+# Config
+ARG BRANCH="master"
 ARG CLANG_VERSION=14
 
-# Dependencies
+# General dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
  && apt-get install -yq wget gnupg \
  && rm -rf /var/lib/apt/lists/*
 
-# Get LLVM install script
-ENV CLANG_VERSION="${CLANG_VERSION}"
+# Add llvm repo
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${CLANG_VERSION} main" >> /etc/apt/sources.list
 
-# Clang
-ENV DEBIAN_FRONTEND=noninteractive
+# Run dependencies
 RUN apt-get update \
  && apt-get install -yq "clang-${CLANG_VERSION}" \
  && rm -rf /var/lib/apt/lists/*
@@ -24,15 +23,16 @@ RUN apt-get update \
 # Build binder
 FROM base as build
 
-# Build deps
+# Build dependencies
 RUN apt-get update
 RUN apt-get install -yq \
 	"libclang-${CLANG_VERSION}-dev" \
 	cmake \
 	git
 
-# Grab binder source
-RUN git clone "https://github.com/RosettaCommons/binder.git" /binder
+# Clone binder source
+ARG REPO="https://github.com/RosettaCommons/binder.git"
+RUN git clone --depth 1 --branch "${BRANCH}" "${REPO}" /binder
 
 # Build
 WORKDIR "/build"
