@@ -225,7 +225,7 @@ If ``binder`` was build with some older versions of LLVM, one could also set the
 With Docker
 ***********
 
-A `Dockerfile` for building binder can be found in the ``binder`` repository linked here: https://github.com/RosettaCommons/binder/
+An example `Dockerfile` for building binder can be found in the ``binder`` repository linked here: https://github.com/RosettaCommons/binder/examples
 
 
 Building Statically (Linux only)
