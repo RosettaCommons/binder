@@ -84,6 +84,14 @@ Config file directives:
 
 
 
+* ``-field``, specify that particular field should be excluded from bindings.
+
+.. code-block:: bash
+
+  -field MyClass::some_field
+
+
+
 * ``include``, directive to control C++ include directives. Force Binder to either skip adding particular include into generated
   source files (``-`` prefix) or force Binder to always add some include files into each generated file. Normally Binder could
   automatically determine which C++ header files is needed in order to specify type/functions but in some cases it might be
@@ -114,6 +122,21 @@ Config file directives:
 .. code-block:: bash
 
   +include_for_namespace aaaa::bbbb <aaaa/bbbb/namespace_binding.hpp>
+
+* ``include_before``, directive to control C++ include directives to be inserted *before* ``<pybind11/pybind11.h>`` so that you have the
+  opportunity to cleanup defines introduced by other includes before the inclusion of ``<Python.h>``. This is for instance useful when dealing
+  with ``Qt`` libraries, which define ``slots``.
+
+.. code-block:: bash
+
+  +include_before <qtcleanup.hpp>
+
+
+
+.. code-block:: c++
+
+  // qtcleanup.hpp
+  #undef slots
 
 
 
@@ -157,6 +180,33 @@ Config file directives:
 .. code-block:: bash
 
   +add_on_binder_for_namespace aaaa::bbbb binder_for_namespace_aaaa_bbbb
+
+
+
+* ``+primitive``: specify that a given class should be treated as a primitive type like ``std::string``, that is, no bindings should be generated
+  for this class, but functions depending on it as parameters or return value should still be included in class bindings. The developper must then
+  provide appropriate type casters for this class.
+
+.. code-block:: bash
+
+  -class QString
+  +primitive QString
+  +include <qstring_caster.hpp>
+  +include_before <qtcleanup.hpp>
+
+
+.. code-block:: c++
+
+  #include <QtCore/QString>
+
+  class MyClass {
+
+   public:
+    ...
+    void use_some_qstring(QString param);
+    QString get_some_qstring();
+    ...
+  }
 
 
 
