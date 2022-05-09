@@ -612,6 +612,7 @@ bool is_python_builtin(NamedDecl const *C)
 													  "std::__hash_value_type",
 
 													  "std::function",
+                                                                                                          "std::complex"
  	};
 
 	for(auto &k : known_builtin) {
