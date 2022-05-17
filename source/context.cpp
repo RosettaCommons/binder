@@ -27,19 +27,20 @@
 #include <set>
 #include <cstdlib>
 
-// using namespace llvm;
+using clang::CXXRecordDecl;
+
+using llvm::cast;
+using llvm::dyn_cast;
+using llvm::isa;
 using llvm::outs;
 using llvm::errs;
 
-using namespace clang;
 using std::string;
 using std::vector;
 using std::unordered_map;
 using std::make_pair;
 
-using namespace fmt::literals;
-//using fmt::format;
-
+using fmt::literals::operator""_format;
 
 
 namespace binder {
@@ -69,11 +70,11 @@ void IncludeSet::clear()
 /// return true if object declared in system header
 bool Binder::is_in_system_header()
 {
-	NamedDecl const * decl( named_decl() );
-	ASTContext & ast_context( decl->getASTContext() );
-	SourceManager & sm( ast_context.getSourceManager() );
+	clang::NamedDecl const * decl( named_decl() );
+	clang::ASTContext & ast_context( decl->getASTContext() );
+	clang::SourceManager & sm( ast_context.getSourceManager() );
 
-	return FullSourceLoc( decl->getLocation(), sm ).isInSystemHeader();
+	return clang::FullSourceLoc( decl->getLocation(), sm ).isInSystemHeader();
 }
 
 
@@ -105,7 +106,7 @@ void Context::add(BinderOP &b)
 	binders.push_back(b);
 	ids.insert( b->id() );
 
-	if( TypeDecl const * type_decl = dyn_cast<TypeDecl>( b->named_decl() ) ) types[ typename_from_type_decl(type_decl) ] = b;
+	if( auto const * type_decl = dyn_cast<clang::TypeDecl>( b->named_decl() ) ) types[ typename_from_type_decl(type_decl) ] = b;
 }
 
 void Context::add_insertion_operator(clang::FunctionDecl const *F)
@@ -123,7 +124,7 @@ clang::FunctionDecl const * Context::global_insertion_operator(clang::CXXRecordD
 	auto it = insertion_operators.find(op_pointer);
 	if (it != insertion_operators.end()) return it->second;
 
-	if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) { // if operator<< is template it will have different form: std::ostream & (*)(std::ostream &, const A<type-parameter-0-0> &)
+	if( auto t = dyn_cast<clang::ClassTemplateSpecializationDecl>(C) ) { // if operator<< is template it will have different form: std::ostream & (*)(std::ostream &, const A<type-parameter-0-0> &)
 		op_pointer = "std::ostream & (*)(std::ostream &, const " + standard_name(C->getNameAsString()) + "<";  // Note: we do not use `getQualifiedNameAsString` because if argument is templated it string representation will not have namespaces
 		for(uint i=0; i < t->getTemplateArgs().size(); ++i) op_pointer += "type-parameter-0-" + std::to_string(i) + ", ";
 		op_pointer.pop_back();  op_pointer.back() = '>';
