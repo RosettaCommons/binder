@@ -20,11 +20,34 @@
 #include <fmt/format.h>
 
 #include <clang/AST/DeclTemplate.h>
-//#include <clang/AST/TemplateBase.h>
 
+using clang::AS_private;
+using clang::AS_protected;
+using clang::AS_public;
+using clang::CXXConstructorDecl;
+using clang::CXXDestructorDecl;
+using clang::CXXMethodDecl;
+using clang::CXXRecordDecl;
+using clang::ClassTemplateDecl;
+using clang::ClassTemplateSpecializationDecl;
+using clang::EnumDecl;
+using clang::FieldDecl;
+using clang::FinalAttr;
+using clang::FunctionDecl;
+using clang::FunctionProtoType;
+using clang::FunctionTemplateDecl;
+using clang::QualType;
+using clang::RecordType;
+using clang::TemplateArgument;
+using clang::UsingDecl;
+using clang::UsingShadowDecl;
+using clang::ValueDecl;
 
-using namespace llvm;
-using namespace clang;
+using llvm::cast;
+using llvm::dyn_cast;
+using llvm::isa;
+
+using fmt::literals::operator""_format;
 
 using std::string;
 using std::pair;
@@ -32,10 +55,6 @@ using std::tuple;
 using std::make_pair;
 using std::vector;
 using std::set;
-
-//using std::unordered_map;
-
-using namespace fmt::literals;
 
 namespace binder {
 
