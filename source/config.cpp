@@ -15,13 +15,12 @@
 #include <util.hpp>
 #include <binder.hpp>
 
-
 #include <llvm/Support/raw_ostream.h>
 
 #include <stdexcept>
 #include <fstream>
 
-using namespace llvm;
+using llvm::outs;
 
 using std::string;
 
