@@ -20,13 +20,21 @@
 
 #include <clang/AST/ASTContext.h>
 
-using namespace llvm;
-using namespace clang;
+using clang::DeclContext;
+using clang::DecompositionDecl;
+using clang::EnumDecl;
+using clang::NamedDecl;
+
+using llvm::cast;
+using llvm::dyn_cast;
+using llvm::isa;
+using llvm::SmallVector;
+
+using fmt::literals::operator""_format;
 
 using std::string;
 using std::vector;
 
-using namespace fmt::literals;
 
 namespace binder {
 
@@ -72,8 +80,8 @@ std::string getQualifiedNameAsStringLLVM5Fix( NamedDecl const *E) {
 			if ( ED->isScoped() ) {
 				OS<<*ED; OS<<"::";
 				} else continue;
-		} else { 
-			OS << *cast<NamedDecl>(DC);  
+		} else {
+			OS << *cast<NamedDecl>(DC);
 			OS<<"::";
 		}
 	}
@@ -143,7 +151,6 @@ void EnumBinder::bind(Context &context)
 	code()  = "\t" + generate_comment_for_declaration(E);
 	code() += bind_enum(module_variable_name, E) + ";\n\n";
 }
-
 
 
 } // namespace binder
