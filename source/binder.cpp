@@ -261,7 +261,7 @@ int main(int argc, const char **argv)
 	//CommonOptionsParser op(argc, argv, BinderToolCategory);
 	if( llvm::Expected< ct::CommonOptionsParser > eop = ct::CommonOptionsParser::create(argc, argv, BinderToolCategory) ) {
 			ct::ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
-		return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+			return tool.run(ct::newFrontendActionFactory<BinderFrontendAction>().get());
 	}
 	else {
 		auto errs = eop.takeError();
