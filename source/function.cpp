@@ -22,12 +22,19 @@
 
 #include <clang/AST/ExprCXX.h>
 
-
 #include <vector>
 
+using clang::CXXConversionDecl;
+using clang::CXXMethodDecl;
+using clang::CXXRecordDecl;
+using clang::FunctionDecl;
+using clang::QualType;
+using clang::TemplateArgument;
+using clang::TemplateArgumentList;
 
-using namespace llvm;
-using namespace clang;
+using llvm::cast;
+using llvm::dyn_cast;
+using llvm::isa;
 
 using std::string;
 using std::pair;
@@ -35,7 +42,7 @@ using std::tuple;
 using std::vector;
 using std::unordered_map;
 
-using namespace fmt::literals;
+using fmt::literals::operator""_format;
 
 namespace binder {
 
@@ -191,7 +198,7 @@ string python_function_name(FunctionDecl const *F)
 {
 	if( F->isOverloadedOperator() ) return cpp_python_operator_map.at( F->getNameAsString() );
 	else {
-		// if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
+		// if( auto m = llvm::dyn_cast<clang::CXXMethodDecl>(F) ) {
 		// }
 		// else{
 		// 	if( F->getTemplatedKind() == FunctionDecl::TK_MemberSpecialization  or   F->getTemplatedKind() == FunctionDecl::TK_FunctionTemplateSpecialization ) outs() << namespace_from_named_decl(F) << "::" << F->getNameAsString() << "\n";
@@ -208,7 +215,7 @@ string function_pointer_type(FunctionDecl const *F)
 {
 	string r;
 	string prefix, maybe_const;
-	if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
+	if( auto m = llvm::dyn_cast<clang::CXXMethodDecl>(F) ) {
 		prefix = m->isStatic() ? "" : class_qualified_name( cast<CXXRecordDecl>( F->getParent() ) ) + "::";
 	    maybe_const = m->isConst() ? " const" : "";
 	}
@@ -229,7 +236,7 @@ string function_pointer_type(FunctionDecl const *F)
 string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 {
 	string maybe_const;
-	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
+	if( auto m = llvm::dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
 	string r = ( omit_return_type ? "" : F->getReturnType().getCanonicalType().getAsString() + " " ) +
 		       standard_name( F->getQualifiedNameAsString() + template_specialization(F) ) + "(" + function_arguments(F) + ")" + maybe_const;
@@ -290,9 +297,9 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 	// calculating skipping for template classes without template specialization specified as: myclass::member_function_to_skip
 	//outs() << "Checking skipping for function: " << function_qualified_name(F, true) << "...\n";
 
-	if( CXXMethodDecl const *M = dyn_cast<CXXMethodDecl>(F) ) {
+	if( CXXMethodDecl const *M = llvm::dyn_cast<CXXMethodDecl>(F) ) {
 		CXXRecordDecl const *C = M->getParent();
-		if( dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
+		if( llvm::dyn_cast<clang::ClassTemplateSpecializationDecl>(C) ) {
 			//outs() << C->getQualifiedNameAsString() << "::" << F->getNameAsString() << "\n";
 			skip |= config.is_function_skipping_requested( standard_name( C->getQualifiedNameAsString() + "::" + F->getNameAsString() ) );
 		}
@@ -312,7 +319,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 	string function_qualified_name = standard_name( parent ? class_qualified_name(parent) + "::" + F->getNameAsString() : F->getQualifiedNameAsString() );
 
-	CXXMethodDecl const * m = dyn_cast<CXXMethodDecl>(F);
+	CXXMethodDecl const * m = llvm::dyn_cast<CXXMethodDecl>(F);
 	string maybe_static = m and m->isStatic() ? "_static" : "";
 
 	string function, documentation;
@@ -480,7 +487,7 @@ bool is_overloadable(CXXMethodDecl const *M)
 	QualType qt = M->getReturnType().getCanonicalType();
 
 
-	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) {
+	if( ReferenceType const *rt = llvm::dyn_cast<ReferenceType>( qt.getTypePtr() ) ) {
 		if( rt->getPointeeType()->isBuiltinType() ) return false;
 
 		string r = standard_name( qt.getAsString() );
