@@ -23,15 +23,19 @@
 #include <clang/Basic/SourceManager.h>
 #include <llvm/Support/Regex.h>
 
-
-//#include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
 
-//using namespace llvm;
-using llvm::outs;
 
-using namespace clang;
+using clang::CXXRecordDecl;
+using clang::PointerType;
+using clang::ReferenceType;
+using clang::QualType;
+
+using llvm::cast;
+using llvm::dyn_cast;
+using llvm::isa;
+using llvm::outs;
 
 using std::string;
 using std::vector;
@@ -44,7 +48,7 @@ namespace binder {
 /// check if user requested binding for the given QualType
 bool is_binding_requested(clang::QualType const &qt, Config const &config)
 {
-	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
+	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_binding_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_binding_requested(rt->getPointeeType(), config);
 
@@ -57,7 +61,7 @@ bool is_binding_requested(clang::QualType const &qt, Config const &config)
 // check if user requested skipping for the given declaration
 bool is_skipping_requested(QualType const &qt, Config const &config)
 {
-	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
+	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_skipping_requested(pt->getPointeeType(), config);
 
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_skipping_requested(rt->getPointeeType(), config);
 
@@ -70,20 +74,20 @@ bool is_skipping_requested(QualType const &qt, Config const &config)
 bool is_function_type(QualType const &qt)
 {
 	if( auto f = dyn_cast<clang::FunctionType>( qt.getTypePtr() ) ) return true;
-	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) return is_function_type( pt->getPointeeType() );
+	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) return is_function_type( pt->getPointeeType() );
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) return is_function_type( rt->getPointeeType() );
 	return false;
 }
 
 
 // extract include path needed for declaration itself (without template dependency if any), return empty string if no include could be found
-string relevant_include(NamedDecl const *decl)
+string relevant_include(clang::NamedDecl const *decl)
 {
-	ASTContext & ast_context( decl->getASTContext() );
-	SourceManager & sm( ast_context.getSourceManager() );
+	clang::ASTContext & ast_context( decl->getASTContext() );
+	clang::SourceManager & sm( ast_context.getSourceManager() );
 
-	FileID fid = sm.getFileID( decl->getLocation() );
-	SourceLocation include = sm.getIncludeLoc(fid);
+        clang::FileID fid = sm.getFileID( decl->getLocation() );
+        clang::SourceLocation include = sm.getIncludeLoc(fid);
 
 	//outs() << "SL: "; include.dump(sm); outs() << "\n";
 
@@ -106,7 +110,7 @@ string relevant_include(NamedDecl const *decl)
 
 
 // extract include path needed for declaration itself (without template dependency if any), do nothing if include could not be found (ie for build-in's)
-void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*, std::set<clang::NamedDecl const *> &stack*/)
+void add_relevant_include_for_decl(clang::NamedDecl const *decl, IncludeSet &includes/*, std::set<clang::NamedDecl const *> &stack*/)
 {
 	static std::unordered_map<string, string> type_map;
 
@@ -285,9 +289,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 	string name;
 
 	if( decl->isCXXClassMember() ) {
-		NamedDecl const * D = decl;
+            clang::NamedDecl const * D = decl;
 
-		if( auto m = dyn_cast<CXXMethodDecl>(decl) ) {
+            if( auto m = dyn_cast<clang::CXXMethodDecl>(decl) ) {
 			D = cast<CXXRecordDecl>( m->getParent() );
 			name = D->getQualifiedNameAsString();
 			//outs() << "CXXMethodDecl: looking for includes for type: " << name << " (was: " << decl->getQualifiedNameAsString() <<") \n";
@@ -348,10 +352,10 @@ void add_relevant_includes(QualType const &qt, /*const ASTContext &context,*/ In
 {
 	//QualType qt = qt.getDesugaredType(context);
 	//outs() << "add_relevant_includes(qt): " << qt.getAsString() << "\n";
-	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
+	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) add_relevant_includes(pt->getPointeeType(), includes, level);
 	if( ReferenceType const *rt = dyn_cast<ReferenceType>( qt.getTypePtr() ) ) add_relevant_includes(rt->getPointeeType(), includes, level);
 	if( CXXRecordDecl *r = qt->getAsCXXRecordDecl() ) add_relevant_includes(r, includes, level);
-	if( EnumDecl *e = dyn_cast_or_null<EnumDecl>( qt->getAsTagDecl() ) ) add_relevant_includes(e, includes, level);
+	if( auto *e = llvm::dyn_cast_or_null<clang::EnumDecl>( qt->getAsTagDecl() ) ) add_relevant_includes(e, includes, level);
 }
 
 
@@ -362,7 +366,7 @@ bool is_bindable(QualType const &qt)
 
 	r &= !qt->isFunctionPointerType()  and  !qt->isRValueReferenceType()  and  !qt->isInstantiationDependentType()  and  !qt->isArrayType();  //and  !qt->isConstantArrayType()  and  !qt->isIncompleteArrayType()  and  !qt->isVariableArrayType()  and  !qt->isDependentSizedArrayType()
 
-	if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
+	if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
 		QualType pqt = pt->getPointeeType();
 
 		if( pqt->isPointerType() ) return false;  // refuse to bind 'value**...' types
@@ -395,13 +399,13 @@ bool is_bindable(QualType const &qt)
 		r &= is_bindable( pqt/*.getCanonicalType()*/ );
 	}
 
-	if( Type const *tp = qt/*.getCanonicalType()*/.getTypePtrOrNull() ) {
+	if( clang::Type const *tp = qt/*.getCanonicalType()*/.getTypePtrOrNull() ) {
 		if( CXXRecordDecl *rd = tp->getAsCXXRecordDecl() ) {
 			//outs() << "is_bindable qt CXXRecordDecl:" << rd->getQualifiedNameAsString() << " " << is_bindable(rd) << "\n";
 			r &= is_bindable(rd);
 		}
-		if( TagDecl *td = tp->getAsTagDecl() ) {
-			if( td->getAccess() == AS_protected  or  td->getAccess() == AS_private  ) return false;
+		if( clang::TagDecl *td = tp->getAsTagDecl() ) {
+                    if( td->getAccess() == clang::AS_protected  or  td->getAccess() == clang::AS_private  ) return false;
 		}
 	}
 
@@ -415,11 +419,11 @@ void request_bindings(clang::QualType const &qt, Context &context)
 {
 	if( /*is_bindable(qt)  and*/  !is_skipping_requested(qt, Config::get()) ) {
 		//outs() << "request_bindings(clang::QualType,...): " << qt.getAsString() << "\n";
-		if( TagDecl *td = qt->getAsTagDecl() ) {
-			if( td->isCompleteDefinition()  or  dyn_cast<ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
+            if( clang::TagDecl *td = qt->getAsTagDecl() ) {
+                if( td->isCompleteDefinition()  or  dyn_cast<clang::ClassTemplateSpecializationDecl>(td) ) context.request_bindings( typename_from_type_decl(td) );
 		}
 
-		if( clang::PointerType const *pt = dyn_cast<clang::PointerType>( qt.getTypePtr() ) ) {
+		if( PointerType const *pt = dyn_cast<PointerType>( qt.getTypePtr() ) ) {
 			request_bindings( pt->getPointeeType()/*.getCanonicalType()*/, context );
 		}
 
@@ -574,7 +578,7 @@ string simplify_std_class_name(string const &type)
 
 
 /// check if given class/struct is builtin in Python and therefor should not be binded
-bool is_python_builtin(NamedDecl const *C)
+bool is_python_builtin(clang::NamedDecl const *C)
 {
 	//outs() << "Considering: " << C->getQualifiedNameAsString() << "\n";
 	string name = standard_name( C->getQualifiedNameAsString() );
