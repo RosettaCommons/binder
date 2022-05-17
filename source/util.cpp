@@ -22,13 +22,13 @@
 #include <clang/Basic/SourceManager.h>
 #include <clang/AST/Comment.h>
 
-//#include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
 #include <cctype>
 
-using namespace llvm;
-using namespace clang;
+using llvm::isa;
+using llvm::outs;
+
 using std::string;
 using std::vector;
 
@@ -128,7 +128,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 }
 
 
-string namespace_from_named_decl(NamedDecl const *decl)
+string namespace_from_named_decl(clang::NamedDecl const *decl)
 {
 	//return decl->getOuterLexicalRecordContext()->getNameAsString();
 	//outs() << decl->getDeclKindName() << "\n";
@@ -145,7 +145,7 @@ string namespace_from_named_decl(NamedDecl const *decl)
 
 
 /// generate unique string representation of type represented by given declaration
-string typename_from_type_decl(TypeDecl const *decl)
+string typename_from_type_decl(clang::TypeDecl const *decl)
 {
 	return standard_name( decl->getTypeForDecl()->getCanonicalTypeInternal()/*getCanonicalType()*/.getAsString() );
 }
@@ -218,11 +218,11 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 }
 
 
-// calcualte line in source file for NamedDecl
-string line_number(NamedDecl const *decl)
+// calculate line in source file for NamedDecl
+string line_number(clang::NamedDecl const *decl)
 {
-	ASTContext & ast_context( decl->getASTContext() );
-	SourceManager & sm( ast_context.getSourceManager() );
+	clang::ASTContext & ast_context( decl->getASTContext() );
+	clang::SourceManager & sm( ast_context.getSourceManager() );
 
 	return std::to_string( sm.getSpellingLineNumber(decl->getLocation() ) );
 }
@@ -247,7 +247,7 @@ string mangle_type_name(string const &name, bool mark_template)
 }
 
 
-// generate C++ comment line for given declartion along with file path and line number: // core::scoring::vdwaals::VDWAtom file:core/scoring/vdwaals/VDWTrie.hh line:43
+// generate C++ comment line for given declaration along with file path and line number: // core::scoring::vdwaals::VDWAtom file:core/scoring/vdwaals/VDWTrie.hh line:43
 string generate_comment_for_declaration(clang::NamedDecl const *decl)
 {
 	string const include = relevant_include(decl);
@@ -255,16 +255,14 @@ string generate_comment_for_declaration(clang::NamedDecl const *decl)
 }
 
 
-
-
 // extract text from hierarchy of comments
-string get_text(comments::Comment const *C, SourceManager const & SM, SourceLocation previous)
+string get_text(clang::comments::Comment const *C, clang::SourceManager const & SM, clang::SourceLocation previous)
 {
-	if( auto tc = dyn_cast<comments::TextComment>(C) ) return string(tc->getText());
+		if( auto tc = llvm::dyn_cast<clang::comments::TextComment>(C) ) return string(tc->getText());
 	else {
 		string r;
 
-		if( isa<comments::ParagraphComment>(C) ) r += '\n';
+		if( isa<clang::comments::ParagraphComment>(C) ) r += '\n';
 
 		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
 #if  (LLVM_VERSION_MAJOR < 8)
@@ -292,14 +290,14 @@ std::string generate_documentation_string_for_declaration(clang::Decl const* dec
 {
 	string text;
 
-	ASTContext & ast_context( decl->getASTContext() );
+	clang::ASTContext & ast_context( decl->getASTContext() );
 	if( auto comment = ast_context.getLocalCommentForDeclUncached(decl) ) {
 
-		SourceManager & sm( ast_context.getSourceManager() );
+		clang::SourceManager & sm( ast_context.getSourceManager() );
 
 		//comment->dumpColor();
 
-		text = get_text(comment, sm, SourceLocation());
+		text = get_text(comment, sm, clang::SourceLocation());
 
 		uint i=0;
 		for(; i<text.size()  and  (text[i]==' ' or text[i]=='\n'); ++i) {}
