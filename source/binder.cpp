@@ -33,9 +33,15 @@
 #include <class.hpp>
 #include <util.hpp>
 
-using namespace clang::tooling;
-using namespace llvm;
+namespace ct = clang::tooling;
+namespace cl = llvm::cl;
 
+using llvm::outs;
+using llvm::errs;
+
+using std::string;
+
+using binder::Config;
 
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
@@ -44,17 +50,11 @@ static llvm::cl::OptionCategory BinderToolCategory("Binder options");
 // CommonOptionsParser declares HelpMessage with a description of the common
 // command-line options related to the compilation database and input files.
 // It's nice to have this help message in all tools.
-static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
+static llvm::cl::extrahelp CommonHelp(ct::CommonOptionsParser::HelpMessage);
 
 // A help message for this specific tool can be added afterwards.
-static cl::extrahelp MoreHelp("\nMore help text...\n");
+static llvm::cl::extrahelp MoreHelp("\nMore help text...\n");
 
-
-using binder::Config;
-
-using namespace clang;
-
-using std::string;
 
 
 cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"), /*cl::init("example"),*/ cl::cat(BinderToolCategory));
@@ -80,14 +80,14 @@ cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the com
 
 cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc."), cl::init(false), cl::cat(BinderToolCategory));
 
-class ClassVisitor : public RecursiveASTVisitor<ClassVisitor>
+class ClassVisitor : public clang::RecursiveASTVisitor<ClassVisitor>
 {
 public:
-    explicit ClassVisitor(DeclContext *dc) /*: decl_context(dc)*/ {}
+    explicit ClassVisitor(clang::DeclContext *dc) /*: decl_context(dc)*/ {}
 
 	virtual ~ClassVisitor() {}
 
-	virtual bool VisitEnumDecl(EnumDecl *record) {
+		virtual bool VisitEnumDecl(clang::EnumDecl *record) {
 		errs() << "ClassVisitor EnumDecl: " << record->getQualifiedNameAsString() << "\n";
 		record->dump();
         return true;
@@ -97,7 +97,7 @@ private:
     //DeclContext *decl_context;
 };
 
-string wrap_CXXRecordDecl(CXXRecordDecl *R)
+string wrap_CXXRecordDecl(clang::CXXRecordDecl *R)
 {
 	ClassVisitor v{R};
 	v.TraverseDecl( R );
@@ -106,10 +106,10 @@ string wrap_CXXRecordDecl(CXXRecordDecl *R)
 }
 
 
-class BinderVisitor : public RecursiveASTVisitor<BinderVisitor>
+class BinderVisitor : public clang::RecursiveASTVisitor<BinderVisitor>
 {
 public:
-    explicit BinderVisitor(CompilerInstance *ci) : ast_context( &( ci->getASTContext() ) )
+    explicit BinderVisitor(clang::CompilerInstance *ci) : ast_context( &( ci->getASTContext() ) )
 	{
 		Config & config = Config::get();
 
@@ -135,9 +135,9 @@ public:
 
 	bool shouldVisitTemplateInstantiations () const { return true; }
 
-	virtual bool VisitFunctionDecl(FunctionDecl *F)
+	virtual bool VisitFunctionDecl(clang::FunctionDecl *F)
 	{
-		if( F->isCXXInstanceMember() or isa<CXXMethodDecl>(F) ) return true;
+		if( F->isCXXInstanceMember() or clang::isa<clang::CXXMethodDecl>(F) ) return true;
 
 		if( binder::is_bindable(F) ) {
 			binder::BinderOP b = std::make_shared<binder::FunctionBinder>(F);
@@ -150,7 +150,7 @@ public:
         return true;
     }
 
-	virtual bool VisitCXXRecordDecl(CXXRecordDecl *C) {
+	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl *C) {
 		if( C->isCXXInstanceMember()  or  C->isCXXClassMember() ) return true;
 
 		if( binder::is_bindable(C) ) {
@@ -200,7 +200,7 @@ public:
     //     return true;
 	// }
 
-	virtual bool VisitEnumDecl(EnumDecl *E) {
+		virtual bool VisitEnumDecl(clang::EnumDecl *E) {
 		if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return true;
 
 		binder::BinderOP b = std::make_shared<binder::EnumBinder>( E/*->getCanonicalDecl()*/ );
@@ -214,23 +214,23 @@ public:
 	}
 
 private:
-    ASTContext *ast_context;
+    clang::ASTContext *ast_context;
 
 	binder::Context context;
 };
 
 
-class BinderASTConsumer : public ASTConsumer
+class BinderASTConsumer : public clang::ASTConsumer
 {
 private:
     std::unique_ptr<BinderVisitor> visitor;
 
 public:
     // override the constructor in order to pass CI
-    explicit BinderASTConsumer(CompilerInstance *ci) : visitor(new BinderVisitor(ci)) {}
+    explicit BinderASTConsumer(clang::CompilerInstance *ci) : visitor(new BinderVisitor(ci)) {}
 
     // override this to call our ExampleVisitor on the entire source file
-    virtual void HandleTranslationUnit(ASTContext &context)
+    virtual void HandleTranslationUnit(clang::ASTContext &context)
 	{
         visitor->TraverseDecl( context.getTranslationUnitDecl() );
 		visitor->generate();
@@ -238,11 +238,11 @@ public:
 };
 
 
-class BinderFrontendAction : public ASTFrontendAction {
+class BinderFrontendAction : public clang::ASTFrontendAction {
 public:
-    virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file) {
+    virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &ci, clang::StringRef file) {
         outs() << "Process input file " << file << "\n";
-        return std::unique_ptr<ASTConsumer>( new BinderASTConsumer(&ci) );
+        return std::unique_ptr<clang::ASTConsumer>( new BinderASTConsumer(&ci) );
     }
 };
 
@@ -250,17 +250,17 @@ public:
 int main(int argc, const char **argv)
 {
 #if  (LLVM_VERSION_MAJOR < 13)
-	CommonOptionsParser op(argc, argv, BinderToolCategory);
-	ClangTool tool(op.getCompilations(), op.getSourcePathList());
+	ct::CommonOptionsParser op(argc, argv, BinderToolCategory);
+	ct::ClangTool tool(op.getCompilations(), op.getSourcePathList());
 	//outs() << "Root module: " << O_root_module << "\n";
 	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
-	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+	return tool.run(ct::newFrontendActionFactory<BinderFrontendAction>().get());
 
 #else
 	//CommonOptionsParser op(argc, argv, BinderToolCategory);
-	if( llvm::Expected< CommonOptionsParser > eop = CommonOptionsParser::create(argc, argv, BinderToolCategory) ) {
-		ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
+	if( llvm::Expected< ct::CommonOptionsParser > eop = ct::CommonOptionsParser::create(argc, argv, BinderToolCategory) ) {
+			ct::ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
 		return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
 	}
 	else {
