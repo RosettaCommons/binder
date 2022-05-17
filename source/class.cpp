@@ -281,18 +281,17 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 	if( C->getAccess() == AS_protected  or  C->getAccess() == AS_private ) return false;
 
 	if( !C->isCompleteDefinition() ) {
-		if( auto ts = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
-			if( qualified_name == "std::function" ) {
-				if( not is_std_function_bindable(C) ) return false;
-			}
-			else {
-				if( ts->getPointOfInstantiation()/* SourceLocation */.isInvalid()  and  not is_python_builtin(C) ) {
-					//outs() << "is_bindable( " << qualified_name << " " << class_qualified_name(C) << " ): no point of instantiation  found, skipping...\n";
-					return false;
-				}
+		auto ts = dyn_cast<ClassTemplateSpecializationDecl>(C);
+		if(!ts) return false;
+		if( qualified_name == "std::function" ) {
+			if( not is_std_function_bindable(C) ) return false;
+		}
+		else {
+			if( ts->getPointOfInstantiation()/* SourceLocation */.isInvalid()  and  not is_python_builtin(C) ) {
+				//outs() << "is_bindable( " << qualified_name << " " << class_qualified_name(C) << " ): no point of instantiation  found, skipping...\n";
+				return false;
 			}
 		}
-		else return false;
 	}
 
 	// if( auto t = dyn_cast<ClassTemplateSpecializationDecl>(C) ) {
