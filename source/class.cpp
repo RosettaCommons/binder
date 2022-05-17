@@ -680,48 +680,48 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			//outs() << "Class: " << C->getNameAsString() << "Key: " << key << "\n";
 			//c += "// Key: " + key + "\n";
 
-			if( !binded.count(key) ) {
-				binded.insert(key);
+			if( binded.count(key) ) continue;
 
-				// m->hasAttr<OverrideAttr>, attribute list is automatically generated, see <release>/tools/clang/include/clang/Basic/AttrList.inc for attribute list
-				if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be binded by some of the base classes
+			binded.insert(key);
 
-				if( return_type.find(',') != std::string::npos ) {
-					string return_type_alias = "_binder_ret_" + std::to_string(ret_id); ++ret_id;
-					c += "\tusing {} = {};\n"_format(return_type_alias, return_type);
-					return_type = std::move(return_type_alias);
-				}
+			// m->hasAttr<OverrideAttr>, attribute list is automatically generated, see <release>/tools/clang/include/clang/Basic/AttrList.inc for attribute list
+			if( m->hasAttr<FinalAttr>() ) continue; // we can not test this condition in a big if above because we need 'final' function to be marked as 'binded' so they will be binded by some of the base classes
 
-				string python_name = python_function_name(*m);
-
-				string exception_specification;
-				if(FunctionProtoType const *fpt = dyn_cast<FunctionProtoType>( m->getType().getTypePtr() ) ) {
-					if( fpt->getExceptionSpecType() & clang::ExceptionSpecificationType::EST_BasicNoexcept ) exception_specification = "noexcept ";
-					if( fpt->getExceptionSpecType() & (clang::ExceptionSpecificationType::EST_DynamicNone | clang::ExceptionSpecificationType::EST_Dynamic | clang::ExceptionSpecificationType::EST_MSAny) ) exception_specification = "throw() ";
-				}
-
-				c += "\t{} {}({}){} {}override {{"_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
-
-				c += indent( fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */python_name, std::get<1>(args), return_type), "\t\t");
-				if( m->isPure() ) c+= "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
-				else c+= "\t\treturn {}::{}({});\n"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
-				c += "\t}\n";
-
-				// c += string(m->isPure() ? "PYBIND11_OVERLOAD_PURE_NAME" : "PYBIND11_OVERLOAD_NAME") + '(';
-				// c += return_type + ", " + base_type_alias + ", \"" + python_function_name(*m) + "\", " + C->getNameAsString() + "::" + m->getNameAsString();
-				// c += ( args.second.size() ? ", " + args.second : "");
-				// c += "); }\n";
-
-				// Note: does not work when argument is std::shared_ptr passed by-reference...
-				// string python_name = python_function_name(*m);
-				// c += "PYBIND11_OVERLOAD_INT({}, \"{}\"{}); "_format(return_type, python_name, std::get<2>(args).size() ? ", " + std::get<2>(args) : "");
-				// if( m->isPure() ) c+= "pybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");"_format(C->getNameAsString(), python_name);
-				// else c+= "return {}::{}({});"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
-				// c += " }\n";
-
-				prefix_includes.push_back(*m);
-				//add_relevant_includes(*m, prefix_includes, prefix_includes_stack, 0);
+			if( return_type.find(',') != std::string::npos ) {
+				string return_type_alias = "_binder_ret_" + std::to_string(ret_id); ++ret_id;
+				c += "\tusing {} = {};\n"_format(return_type_alias, return_type);
+				return_type = std::move(return_type_alias);
 			}
+
+			string python_name = python_function_name(*m);
+
+			string exception_specification;
+			if(FunctionProtoType const *fpt = dyn_cast<FunctionProtoType>( m->getType().getTypePtr() ) ) {
+				if( fpt->getExceptionSpecType() & clang::ExceptionSpecificationType::EST_BasicNoexcept ) exception_specification = "noexcept ";
+				if( fpt->getExceptionSpecType() & (clang::ExceptionSpecificationType::EST_DynamicNone | clang::ExceptionSpecificationType::EST_Dynamic | clang::ExceptionSpecificationType::EST_MSAny) ) exception_specification = "throw() ";
+			}
+
+			c += "\t{} {}({}){} {}override {{"_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
+
+			c += indent( fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */python_name, std::get<1>(args), return_type), "\t\t");
+			if( m->isPure() ) c+= "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
+			else c+= "\t\treturn {}::{}({});\n"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
+			c += "\t}\n";
+
+			// c += string(m->isPure() ? "PYBIND11_OVERLOAD_PURE_NAME" : "PYBIND11_OVERLOAD_NAME") + '(';
+			// c += return_type + ", " + base_type_alias + ", \"" + python_function_name(*m) + "\", " + C->getNameAsString() + "::" + m->getNameAsString();
+			// c += ( args.second.size() ? ", " + args.second : "");
+			// c += "); }\n";
+
+			// Note: does not work when argument is std::shared_ptr passed by-reference...
+			// string python_name = python_function_name(*m);
+			// c += "PYBIND11_OVERLOAD_INT({}, \"{}\"{}); "_format(return_type, python_name, std::get<2>(args).size() ? ", " + std::get<2>(args) : "");
+			// if( m->isPure() ) c+= "pybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");"_format(C->getNameAsString(), python_name);
+			// else c+= "return {}::{}({});"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
+			// c += " }\n";
+
+			prefix_includes.push_back(*m);
+			//add_relevant_includes(*m, prefix_includes, prefix_includes_stack, 0);
 		}
 	}
 
