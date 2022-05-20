@@ -24,7 +24,4 @@ extern llvm::cl::opt<bool> O_trace;
 extern llvm::cl::opt<bool> O_verbose;
 extern llvm::cl::opt<bool> O_flat;
 
-namespace binder {
-} // namespace binder
-
 #endif // _INCLUDED_binder_hpp_
