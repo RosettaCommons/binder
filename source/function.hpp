@@ -13,7 +13,7 @@
 #ifndef _INCLUDED_function_hpp_
 #define _INCLUDED_function_hpp_
 
-#include <context.hpp>
+#include <binder.hpp>
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
@@ -23,6 +23,8 @@
 
 namespace binder {
 
+
+class Context;
 
 /// Generate function argument list separated by comma
 std::string function_arguments(clang::FunctionDecl const *record);

@@ -8,6 +8,9 @@ set(LLVM_USED_LIBS clangTooling clangBasic clangAST)
 add_clang_executable(binder
   main.cpp
 
+  binder.hpp
+  binder.cpp
+
   context.hpp
   context.cpp
 

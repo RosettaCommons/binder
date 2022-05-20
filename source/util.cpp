@@ -12,9 +12,9 @@
 
 #include <util.hpp>
 
-#include <options.hpp>
 #include <class.hpp>
 #include <enum.hpp>
+#include <options.hpp>
 #include <type.hpp>
 
 #include <clang/AST/ASTContext.h>

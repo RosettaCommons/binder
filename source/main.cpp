@@ -26,11 +26,11 @@
 #include <llvm/Support/CommandLine.h> // Declares llvm::cl::extrahelp
 
 #include <class.hpp>
+#include <config.hpp>
 #include <context.hpp>
 #include <enum.hpp>
 #include <function.hpp>
 #include <options.hpp>
-#include <util.hpp>
 
 using namespace clang::tooling;
 using namespace llvm;

@@ -13,7 +13,7 @@
 #ifndef _INCLUDED_class_hpp_
 #define _INCLUDED_class_hpp_
 
-#include <context.hpp>
+#include <binder.hpp>
 
 #include <clang/AST/DeclCXX.h>
 
