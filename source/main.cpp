@@ -6,7 +6,7 @@
 // All rights reserved. Use of this source code is governed by a
 // MIT license that can be found in the LICENSE file.
 
-/// @file   binder/binder.cpp
+/// @file   binder/main.cpp
 /// @brief  Main
 /// @author Sergey Lyskov
 
