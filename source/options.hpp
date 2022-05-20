@@ -6,13 +6,12 @@
 // All rights reserved. Use of this source code is governed by a
 // MIT license that can be found in the LICENSE file.
 
-/// @file   binder/binder.hpp
+/// @file   binder/options.hpp
 /// @brief  Options
 /// @author Sergey Lyskov
 
-
-#ifndef _INCLUDED_binder_hpp_
-#define _INCLUDED_binder_hpp_
+#ifndef _INCLUDED_options_hpp_
+#define _INCLUDED_options_hpp_
 
 
 #include "llvm/Config/llvm-config.h"
@@ -24,4 +23,4 @@ extern llvm::cl::opt<bool> O_trace;
 extern llvm::cl::opt<bool> O_verbose;
 extern llvm::cl::opt<bool> O_flat;
 
-#endif // _INCLUDED_binder_hpp_
+#endif // _INCLUDED_options_hpp_

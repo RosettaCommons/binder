@@ -10,8 +10,7 @@
 /// @brief  Data structures to represent root context and modules
 /// @author Sergey Lyskov
 
-
-#include <binder.hpp>
+#include <options.hpp>
 #include <context.hpp>
 
 #include <class.hpp>

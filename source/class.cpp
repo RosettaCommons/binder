@@ -10,7 +10,7 @@
 /// @brief  Binding generation for C++ struct and class objects
 /// @author Sergey Lyskov
 
-#include <binder.hpp>
+#include <options.hpp>
 #include <class.hpp>
 #include <enum.hpp>
 #include <function.hpp>

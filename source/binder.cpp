@@ -10,8 +10,6 @@
 /// @brief  Main
 /// @author Sergey Lyskov
 
-#include <binder.hpp>
-
 // Declares clang::SyntaxOnlyAction.
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
@@ -31,6 +29,7 @@
 #include <context.hpp>
 #include <enum.hpp>
 #include <function.hpp>
+#include <options.hpp>
 #include <util.hpp>
 
 using namespace clang::tooling;
