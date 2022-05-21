@@ -338,10 +338,10 @@ bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 // check if user requested skipping for the given declaration
 bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config)
 {
-	bool skip = \
-		config.is_class_skipping_requested( standard_name( C->getQualifiedNameAsString() ) ) or
-		config.is_class_skipping_requested( class_qualified_name(C) ) or
-		config.is_namespace_skipping_requested( namespace_from_named_decl(C) );
+	bool skip = 				//
+		config.is_class_skipping_requested( standard_name( C->getQualifiedNameAsString() ) ) or //
+		config.is_class_skipping_requested( class_qualified_name(C) ) or						//
+		config.is_namespace_skipping_requested( namespace_from_named_decl(C) );					//
 
 	for(auto & t : get_type_dependencies(C) ) skip |= is_skipping_requested(t, config);
 
@@ -653,9 +653,9 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 	string c;
 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-		if( (m->getAccess() != AS_private)  and  is_bindable(*m)  and  is_overloadable(*m)
-			and  !is_skipping_requested(*m, Config::get())
-			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual()
+		if( (m->getAccess() != AS_private)  and  is_bindable(*m)  and  is_overloadable(*m) //
+			and  !is_skipping_requested(*m, Config::get())								   //
+			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)  and  m->isVirtual() //
 			and  !is_const_overload(*m) // was ( !is_const_overload(*m) or m->isPure() ) but now we ignoring this case since it is not possible to overload both const and non-const variants in Python anyway
 			) {
 
@@ -783,11 +783,11 @@ string binding_public_member_functions(CXXRecordDecl const *C, bool callback_str
 		if(FunctionTemplateDecl *ft = dyn_cast<FunctionTemplateDecl>(*d) ) {
 			for(auto s = ft->spec_begin(); s != ft->spec_end(); ++s) {
 				if(CXXMethodDecl *m = dyn_cast<CXXMethodDecl>(*s) ) {
-					if( m->getAccess() == AS_public
+					if( m->getAccess() == AS_public //
 						and  is_bindable(m)  //and  !is_skipping_requested(FunctionDecl const *F, Config const &config)
-						and  !is_skipping_requested(m, Config::get())
-						and  !isa<CXXConstructorDecl>(m)  and   !isa<CXXDestructorDecl>(m)
-						and  !is_const_overload(m) ) {
+						and  !is_skipping_requested(m, Config::get()) //
+						and  !isa<CXXConstructorDecl>(m)  and   !isa<CXXDestructorDecl>(m) //
+						and  !is_const_overload(m) ) {									   //
 						//m->dump();
 
 						c += bind_function("\tcl", m, context);
@@ -798,11 +798,11 @@ string binding_public_member_functions(CXXRecordDecl const *C, bool callback_str
 	}
 
 	for(auto m = C->method_begin(); m != C->method_end(); ++m) {
-		if( m->getAccess() == AS_public
+		if( m->getAccess() == AS_public //
 			and  is_bindable(*m)  //and  !is_skipping_requested(FunctionDecl const *F, Config const &config)
-			and  !is_skipping_requested(*m, Config::get())
-			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m)
-			and  !is_const_overload(*m) ) {
+			and  !is_skipping_requested(*m, Config::get()) //
+			and  !isa<CXXConstructorDecl>(*m)  and   !isa<CXXDestructorDecl>(*m) //
+			and  !is_const_overload(*m) ) {										 //
 			//(*m)->dump();
 
 			c += bind_function("\tcl", *m, context);
