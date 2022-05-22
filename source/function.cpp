@@ -40,25 +40,25 @@ using namespace fmt::literals;
 namespace binder {
 
 static std::map<string, string > const cpp_python_operator_map {
-	{"operator+", "__add__"},
-	{"operator-", "__sub__"},
-	{"operator*", "__mul__"},
-	{"operator/", "__div__"},
+	{"operator+", "__add__"},	   //
+	{"operator-", "__sub__"},	   //
+	{"operator*", "__mul__"},	   //
+	{"operator/", "__div__"},	   //
 
-	{"operator+=", "__iadd__"},
-	{"operator-=", "__isub__"},
-	{"operator*=", "__imul__"},
-	{"operator/=", "__idiv__"},
+	{"operator+=", "__iadd__"},	   //
+	{"operator-=", "__isub__"},	   //
+	{"operator*=", "__imul__"},	   //
+	{"operator/=", "__idiv__"},	   //
 
-	{"operator()", "__call__"},
-	{"operator==", "__eq__"},
-	{"operator!=", "__ne__"},
-	{"operator[]", "__getitem__"},
-	{"operator=",  "assign"},
-	{"operator++", "plus_plus"},
-	{"operator--", "minus_minus"},
+	{"operator()", "__call__"},	   //
+	{"operator==", "__eq__"},	   //
+	{"operator!=", "__ne__"},	   //
+	{"operator[]", "__getitem__"}, //
+	{"operator=",  "assign"},	   //
+	{"operator++", "plus_plus"},   //
+	{"operator--", "minus_minus"}, //
 
-	{"operator->", "arrow"},
+	{"operator->", "arrow"},	   //
 };
 
 // Generate function argument list separate by comma: int, bool, std::string

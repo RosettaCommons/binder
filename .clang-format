@@ -17,6 +17,7 @@ PackConstructorInitializers: CurrentLine
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterClass: true
+    AfterStruct: true
     AfterFunction: true
     BeforeElse: true
 
@@ -27,6 +28,7 @@ SpaceBeforeParensOptions:
 SpacesInParentheses: false
 SpacesInConditionalStatement: true
 SpaceInEmptyParentheses: false
+SpacesInAngles: Leave
 
 IndentAccessModifiers: false
 AccessModifierOffset: -4
