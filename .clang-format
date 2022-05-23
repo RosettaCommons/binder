@@ -35,8 +35,9 @@ AccessModifierOffset: -4
 
 AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortBlocksOnASingleLine: Always
 
-PointerAlignment: Middle
-SpaceAroundPointerQualifiers: Both
-ReferenceAlignment: Middle
+#PointerAlignment: Middle
+#SpaceAroundPointerQualifiers: Both
+#ReferenceAlignment: Middle
 ...
