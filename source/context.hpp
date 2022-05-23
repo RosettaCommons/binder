@@ -19,11 +19,11 @@
 
 #include <llvm/Support/raw_ostream.h>
 
-#include <string>
-#include <vector>
 #include <set>
-#include <unordered_set>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 namespace binder {
 
@@ -62,7 +62,7 @@ public:
 	virtual string id() const = 0;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	virtual clang::NamedDecl const * named_decl() const = 0;
+	virtual clang::NamedDecl const *named_decl() const = 0;
 
 	/// check if generator can create binding
 	virtual bool bindable() const = 0;
@@ -71,10 +71,10 @@ public:
 	bool skipping_requested() const { return skipping_requested_; };
 
 	/// request bindings for this generator
-	void request_bindings() { binding_requested_=true; }
+	void request_bindings() { binding_requested_ = true; }
 
 	/// request skipping for this generator
-	void request_skipping() { skipping_requested_=true; }
+	void request_skipping() { skipping_requested_ = true; }
 
 	/// check if user supplied config requested binding for the given declaration and if so request it
 	virtual void request_bindings_and_skipping(Config const &) = 0;
@@ -89,8 +89,8 @@ public:
 	bool is_binded() const;
 
 	/// return binding code
-	string & code() { return code_; }
-	string const & code() const { return code_; }
+	string &code() { return code_; }
+	string const &code() const { return code_; }
 
 	/// return true if object is declared in system header
 	bool is_in_system_header();
@@ -105,7 +105,7 @@ public:
 	explicit operator std::string() const { return id(); /*named_decl()->getQualifiedNameAsString();*/ }
 
 private:
-	bool binding_requested_=false, skipping_requested_=false;
+	bool binding_requested_ = false, skipping_requested_ = false;
 
 	string code_;
 };
@@ -116,7 +116,7 @@ typedef std::shared_ptr< Binder > BinderOP;
 typedef std::vector<BinderOP> Binders;
 
 
-llvm::raw_ostream & operator << (llvm::raw_ostream & os, Binder const &b);
+llvm::raw_ostream &operator<<(llvm::raw_ostream &os, Binder const &b);
 
 
 /// Context - root, hold bindings info for whole TranslationUnit
@@ -125,7 +125,6 @@ class Context
 	typedef std::string string;
 
 public:
-
 	void add(BinderOP &);
 
 	void generate(Config const &config);
@@ -134,18 +133,17 @@ public:
 	void request_bindings(std::string const &type);
 
 	/// generate C++ expression for module variable for namespace_
-	string module_variable_name(string const & namespace_);
+	string module_variable_name(string const &namespace_);
 
 	void add_insertion_operator(clang::FunctionDecl const *f);
 
 	/// find global insertion operator for given type, otherwise return nullptr
-	clang::FunctionDecl const * global_insertion_operator(clang::CXXRecordDecl const *);
+	clang::FunctionDecl const *global_insertion_operator(clang::CXXRecordDecl const *);
 
 	/// generate unique trace line containing `info` to insert into the code
 	std::string trace_line(std::string const &info);
 
 private:
-
 	/// bind all objects residing in namespaces and their dependencies
 	void bind(Config const &config);
 

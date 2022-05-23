@@ -17,12 +17,12 @@
 
 #include <clang/AST/DeclCXX.h>
 
-#if  (LLVM_VERSION_MAJOR >= 10)
+#if( LLVM_VERSION_MAJOR >= 10 )
 #include <clang/AST/Attr.h>
 #endif
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
 
 namespace binder {
 
@@ -74,10 +74,10 @@ public:
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	clang::NamedDecl const * named_decl() const override { return C; };
+	clang::NamedDecl const *named_decl() const override { return C; };
 
 	/// check if generator can create binding
-    bool bindable() const override;
+	bool bindable() const override;
 
 	/// check if user requested binding for the given declaration
 	virtual void request_bindings_and_skipping(Config const &) override;
@@ -111,7 +111,7 @@ private:
 	void generate_prefix_code();
 
 	// do for each nested public class
-	void for_public_nested_classes(std::function<void(clang::CXXRecordDecl const *)> const&f) const;
+	void for_public_nested_classes(std::function<void(clang::CXXRecordDecl const *)> const &f) const;
 
 	// generating bindings for public nested classes
 	string bind_nested_classes(Context &context);

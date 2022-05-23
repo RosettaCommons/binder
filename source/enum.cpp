@@ -50,51 +50,56 @@ bool is_bindable(EnumDecl const *E)
 	if( E->isCXXInstanceMember() ) return false;
 
 	string name = E->getNameAsString(); // getQualifiedNameAsString(); //
-	//if( name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
-	if( name.empty()  or  name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
+	// if( name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
+	if( name.empty() or name.rfind(')') != string::npos ) return false; // checking that this is not an "(anonymous)" enum
 
 	return true;
 }
 
 // This function takes care about the LLVM/Clang bug which was fixed in LLVM6/Clang6.
 // The body of the function is a backport from LLVM6.
-std::string getQualifiedNameAsStringLLVM5Fix( NamedDecl const *E) {
+std::string getQualifiedNameAsStringLLVM5Fix(NamedDecl const *E)
+{
 	std::string correct;
 	llvm::raw_string_ostream OS(correct);
 	DeclContext const *Ctx = E->getDeclContext();
 	SmallVector<DeclContext const *, 10> Contexts;
-	while (Ctx && isa<NamedDecl>(Ctx)) {
+	while( Ctx && isa<NamedDecl>(Ctx) ) {
 		Contexts.push_back(Ctx);
 		Ctx = Ctx->getParent();
 	}
-	for (const DeclContext *DC : reverse(Contexts)) {
-		if (const auto *ED = dyn_cast<EnumDecl>(DC)) {
-			if ( ED->isScoped() ) {
-				OS<<*ED; OS<<"::";
-				} else continue;
-		} else { 
-			OS << *cast<NamedDecl>(DC);  
-			OS<<"::";
+	for( const DeclContext *DC : reverse(Contexts) ) {
+		if( const auto *ED = dyn_cast<EnumDecl>(DC) ) {
+			if( ED->isScoped() ) {
+				OS << *ED;
+				OS << "::";
+			}
+			else continue;
+		}
+		else {
+			OS << *cast<NamedDecl>(DC);
+			OS << "::";
 		}
 	}
-	if ((E->getDeclName() || isa<DecompositionDecl>(E))) OS<<*E; else  OS<<"(anonymous)";
+	if( (E->getDeclName() || isa<DecompositionDecl>(E)) ) OS << *E;
+	else OS << "(anonymous)";
 	return correct;
 }
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, EnumDecl const *E)
+std::string bind_enum(std::string const &module, EnumDecl const *E)
 {
-	string name { E->getNameAsString() };
-	string qualified_name { E->getQualifiedNameAsString() };
+	string name{E->getNameAsString()};
+	string qualified_name{E->getQualifiedNameAsString()};
 
 	string maybe_arithmetic = E->isScoped() ? "" : ", pybind11::arithmetic()";
 
 	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\")\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E));
 
-	//r += "\t // is_bindable " + E->getNameAsString() + " -> " + std::to_string(is_bindable(E)) + "\n";
+	// r += "\t // is_bindable " + E->getNameAsString() + " -> " + std::to_string(is_bindable(E)) + "\n";
 
-	for(auto e = E->enumerator_begin(); e != E->enumerator_end(); ++e) {
-#if  (LLVM_VERSION_MAJOR > 5)
+	for( auto e = E->enumerator_begin(); e != E->enumerator_end(); ++e ) {
+#if( LLVM_VERSION_MAJOR > 5 )
 		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), e->getQualifiedNameAsString());
 #else
 		r += "\t\t.value(\"{}\", {})\n"_format(e->getNameAsString(), getQualifiedNameAsStringLLVM5Fix(*e));
@@ -102,7 +107,7 @@ std::string bind_enum(std::string const & module, EnumDecl const *E)
 	}
 	r.pop_back();
 
-	return r + ( E->isScopedUsingClassTag() ? ";\n\n" : "\n\t\t.export_values();\n\n" );
+	return r + (E->isScopedUsingClassTag() ? ";\n\n" : "\n\t\t.export_values();\n\n");
 }
 
 
@@ -123,7 +128,7 @@ bool EnumBinder::bindable() const
 /// check if user requested binding for the given declaration
 void EnumBinder::request_bindings_and_skipping(Config const &config)
 {
-	if( config.is_namespace_binding_requested( namespace_from_named_decl(E) ) ) Binder::request_bindings();
+	if( config.is_namespace_binding_requested(namespace_from_named_decl(E)) ) Binder::request_bindings();
 }
 
 
@@ -138,9 +143,9 @@ void EnumBinder::bind(Context &context)
 {
 	if( is_binded() ) return;
 
-	string const module_variable_name = context.module_variable_name( namespace_from_named_decl(E) );
+	string const module_variable_name = context.module_variable_name(namespace_from_named_decl(E));
 
-	code()  = "\t" + generate_comment_for_declaration(E);
+	code() = "\t" + generate_comment_for_declaration(E);
 	code() += bind_enum(module_variable_name, E) + ";\n\n";
 }
 

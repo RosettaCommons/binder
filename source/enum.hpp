@@ -31,7 +31,7 @@ bool is_bindable(clang::EnumDecl const *E);
 
 
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, clang::EnumDecl const *E);
+std::string bind_enum(std::string const &module, clang::EnumDecl const *E);
 
 
 class EnumBinder : public Binder
@@ -43,10 +43,10 @@ public:
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	clang::NamedDecl const * named_decl() const override { return E; };
+	clang::NamedDecl const *named_decl() const override { return E; };
 
 	/// check if generator can create binding
-    bool bindable() const override;
+	bool bindable() const override;
 
 	/// check if user requested binding for the given declaration
 	virtual void request_bindings_and_skipping(Config const &) override;

@@ -14,9 +14,9 @@
 #ifndef _INCLUDED_config_hpp_
 #define _INCLUDED_config_hpp_
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 #ifdef _MSC_VER
 #include <ciso646>
@@ -31,8 +31,14 @@ class Config
 
 	Config() {}
 
-	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_) :
-		root_module(root_module_), namespaces_to_bind(namespaces_to_bind_), namespaces_to_skip(namespaces_to_skip_), prefix(prefix_), maximum_file_length(maximum_file_length_) {}
+	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_)
+		: root_module(root_module_),
+		  namespaces_to_bind(namespaces_to_bind_),
+		  namespaces_to_skip(namespaces_to_skip_),
+		  prefix(prefix_),
+		  maximum_file_length(maximum_file_length_)
+	{
+	}
 
 private:
 	std::map<string, string> binders_, add_on_binders_;
@@ -40,11 +46,11 @@ private:
 
 	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 
-	string default_static_pointer_return_value_policy_          = "pybind11::return_value_policy::automatic";
+	string default_static_pointer_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_static_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_static_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 
-	string default_member_pointer_return_value_policy_          = "pybind11::return_value_policy::automatic";
+	string default_member_pointer_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_member_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_call_guard_ = "";
@@ -57,9 +63,7 @@ public:
 
 	string root_module;
 
-	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind,
-						namespaces_to_skip, classes_to_skip, functions_to_skip,
-						includes_to_add, includes_to_skip;
+	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip;
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
@@ -70,11 +74,11 @@ public:
 	std::map<string, std::vector<string> > const &class_includes() const { return class_includes_; }
 	std::map<string, std::vector<string> > const &namespace_includes() const { return namespace_includes_; }
 
-	string const &default_static_pointer_return_value_policy()          { return default_static_pointer_return_value_policy_; }
+	string const &default_static_pointer_return_value_policy() { return default_static_pointer_return_value_policy_; }
 	string const &default_static_lvalue_reference_return_value_policy() { return default_static_lvalue_reference_return_value_policy_; }
 	string const &default_static_rvalue_reference_return_value_policy() { return default_static_rvalue_reference_return_value_policy_; }
 
-	string const &default_member_pointer_return_value_policy()          { return default_member_pointer_return_value_policy_; }
+	string const &default_member_pointer_return_value_policy() { return default_member_pointer_return_value_policy_; }
 	string const &default_member_lvalue_reference_return_value_policy() { return default_member_lvalue_reference_return_value_policy_; }
 	string const &default_member_rvalue_reference_return_value_policy() { return default_member_rvalue_reference_return_value_policy_; }
 	string const &default_call_guard() { return default_call_guard_; }

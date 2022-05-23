@@ -19,18 +19,18 @@
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
 
+#include <clang/AST/Comment.h>
 #include <clang/AST/RecursiveASTVisitor.h>
+#include <clang/Basic/Diagnostic.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Frontend/CompilerInstance.h>
-#include <clang/AST/Comment.h>
-#include <clang/Basic/Diagnostic.h>
 
 #include <llvm/Support/CommandLine.h> // Declares llvm::cl::extrahelp
 
+#include <class.hpp>
 #include <context.hpp>
 #include <enum.hpp>
 #include <function.hpp>
-#include <class.hpp>
 #include <util.hpp>
 
 using namespace clang::tooling;
@@ -59,7 +59,7 @@ using std::string;
 
 cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"), /*cl::init("example"),*/ cl::cat(BinderToolCategory));
 
-cl::opt<int> O_max_file_size("max-file-size", cl::desc("Specify maximum length of generated source files"), cl::init(1024*16), cl::cat(BinderToolCategory));
+cl::opt<int> O_max_file_size("max-file-size", cl::desc("Specify maximum length of generated source files"), cl::init(1024 * 16), cl::cat(BinderToolCategory));
 
 cl::opt<std::string> O_prefix("prefix", cl::desc("Output path for all generated files. Specified path must exists."), cl::init(""), cl::cat(BinderToolCategory));
 
@@ -70,38 +70,44 @@ cl::opt<std::string> O_config("config", cl::desc("Specify config file from which
 
 cl::opt<bool> O_annotate_includes("annotate-includes", cl::desc("Annotate each includes in generated code with type name that trigger it inclusion"), cl::init(false), cl::cat(BinderToolCategory));
 
-cl::opt<bool> O_single_file("single-file", cl::desc("Concatenate all binder output into single file with name: root-module-name + '.cpp'. Use this for a small projects and for testing."), cl::init(false), cl::cat(BinderToolCategory));
+cl::opt<bool> O_single_file("single-file", cl::desc("Concatenate all binder output into single file with name: root-module-name + '.cpp'. Use this for a small projects and for testing."),
+							cl::init(false), cl::cat(BinderToolCategory));
 
 cl::opt<bool> O_trace("trace", cl::desc("Add tracer output for each binded object (i.e. for debugging)"), cl::init(false), cl::cat(BinderToolCategory));
 
 cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(false), cl::cat(BinderToolCategory));
 
-cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the compilers errors. This option could be useful when you want to tell Binder to ignore non-critical errors (for example due to missing includes) and generate binding for part of code that Binder was able to parse"), cl::init(false), cl::cat(BinderToolCategory));
+cl::opt<bool> O_suppress_errors("suppress-errors",
+								cl::desc("Suppres all the compilers errors. This option could be useful when you want to tell Binder to ignore non-critical errors (for example due to missing "
+										 "includes) and generate binding for part of code that Binder was able to parse"),
+								cl::init(false), cl::cat(BinderToolCategory));
 
-cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc."), cl::init(false), cl::cat(BinderToolCategory));
+cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc."),
+					 cl::init(false), cl::cat(BinderToolCategory));
 
 class ClassVisitor : public RecursiveASTVisitor<ClassVisitor>
 {
 public:
-    explicit ClassVisitor(DeclContext *dc) /*: decl_context(dc)*/ {}
+	explicit ClassVisitor(DeclContext *dc) /*: decl_context(dc)*/ {}
 
 	virtual ~ClassVisitor() {}
 
-	virtual bool VisitEnumDecl(EnumDecl *record) {
+	virtual bool VisitEnumDecl(EnumDecl *record)
+	{
 		errs() << "ClassVisitor EnumDecl: " << record->getQualifiedNameAsString() << "\n";
 		record->dump();
-        return true;
+		return true;
 	}
 
 private:
-    //DeclContext *decl_context;
+	// DeclContext *decl_context;
 };
 
 string wrap_CXXRecordDecl(CXXRecordDecl *R)
 {
 	ClassVisitor v{R};
-	v.TraverseDecl( R );
-	//R->dump();
+	v.TraverseDecl(R);
+	// R->dump();
 	return "";
 }
 
@@ -109,9 +115,9 @@ string wrap_CXXRecordDecl(CXXRecordDecl *R)
 class BinderVisitor : public RecursiveASTVisitor<BinderVisitor>
 {
 public:
-    explicit BinderVisitor(CompilerInstance *ci) : ast_context( &( ci->getASTContext() ) )
+	explicit BinderVisitor(CompilerInstance *ci) : ast_context(&(ci->getASTContext()))
 	{
-		Config & config = Config::get();
+		Config &config = Config::get();
 
 		config.root_module = O_root_module;
 		config.prefix = O_prefix;
@@ -121,9 +127,9 @@ public:
 		config.namespaces_to_skip = O_skip;
 
 		if( O_config.size() ) config.read(O_config);
-		if( O_suppress_errors )	{
-			clang::DiagnosticsEngine& di = ci->getDiagnostics();
-#if  (LLVM_VERSION_MAJOR < 10)
+		if( O_suppress_errors ) {
+			clang::DiagnosticsEngine &di = ci->getDiagnostics();
+#if( LLVM_VERSION_MAJOR < 10 )
 			di.setSuppressAllDiagnostics();
 #else
 			di.setSuppressAllDiagnostics(true);
@@ -131,9 +137,14 @@ public:
 		}
 	}
 
-	virtual ~BinderVisitor() {}
+	virtual ~BinderVisitor()
+	{
+	}
 
-	bool shouldVisitTemplateInstantiations () const { return true; }
+	bool shouldVisitTemplateInstantiations() const
+	{
+		return true;
+	}
 
 	virtual bool VisitFunctionDecl(FunctionDecl *F)
 	{
@@ -142,79 +153,83 @@ public:
 		if( binder::is_bindable(F) ) {
 			binder::BinderOP b = std::make_shared<binder::FunctionBinder>(F);
 			context.add(b);
-		} else if( F->isOverloadedOperator()  and  F->getNameAsString() == "operator<<" ) {
-			//outs() << "Adding insertion operator: " << binder::function_pointer_type(F) << "\n";
+		}
+		else if( F->isOverloadedOperator() and F->getNameAsString() == "operator<<" ) {
+			// outs() << "Adding insertion operator: " << binder::function_pointer_type(F) << "\n";
 			context.add_insertion_operator(F);
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-	virtual bool VisitCXXRecordDecl(CXXRecordDecl *C) {
-		if( C->isCXXInstanceMember()  or  C->isCXXClassMember() ) return true;
+	virtual bool VisitCXXRecordDecl(CXXRecordDecl *C)
+	{
+		if( C->isCXXInstanceMember() or C->isCXXClassMember() ) return true;
 
 		if( binder::is_bindable(C) ) {
 			binder::BinderOP b = std::make_shared<binder::ClassBinder>(C);
 			context.add(b);
 		}
 
-        return true;
-    }
+		return true;
+	}
 
 	// virtual bool VisitClassTemplateSpecializationDecl(ClassTemplateSpecializationDecl *C) {
 	// 	if( FullSourceLoc(C->getLocation(), ast_context->getSourceManager() ).isInSystemHeader() ) return true;
 	// 	errs() << "Visit ClassTemplateSpecializationDecl:" << C->getQualifiedNameAsString() << binder::template_specialization(C) << "\n";
 	// 	C->dump();
-    //     return true;
+	//     return true;
 	// }
 
 	// virtual bool VisitTemplateDecl(TemplateDecl *record) {
 	// 	//if( FullSourceLoc(record->getLocation(), ast_context->getSourceManager() ).isInSystemHeader() ) return true;
 	// 	errs() << "Visit TemplateDecl: " << record->getQualifiedNameAsString() << "\n";
 	// 	//record->dump();
-    //     return true;
+	//     return true;
 	// }
 
 	// virtual bool VisitClassTemplateDecl(ClassTemplateDecl *record) {
 	// 	//if( FullSourceLoc(record->getLocation(), ast_context->getSourceManager() ).isInSystemHeader() ) return true;
 	// 	errs() << "Visit ClassTemplateDecl: " << record->getQualifiedNameAsString() << binder::template_specialization( record->getTemplatedDecl() ) << "\n";
 	// 	//record->dump();
-    //     return true;
+	//     return true;
 	// }
 
 	// virtual bool VisitTypedefDecl(TypedefDecl *T) {
 	// 	if( FullSourceLoc(T->getLocation(), ast_context->getSourceManager() ).isInSystemHeader() ) return true;
 	// 	//errs() << "Visit TypedefDecl: " << T->getQualifiedNameAsString() << "  Type: " << T->getUnderlyingType()->getCanonicalTypeInternal()/*getCanonicalType()*/.getAsString() << "\n";
 	// 	// record->dump();
-    //     return true;
+	//     return true;
 	// }
 
 	// virtual bool VisitNamedDecl(NamedDecl *record) {
 	// 	errs() << "Visit NamedRecord: " << record->getQualifiedNameAsString() << "\n";
-    //     return true;
+	//     return true;
 	// }
 
 	// virtual bool VisitFieldDecl(FieldDecl *record) {
 	// 	errs() << "Visit FieldDecl: " << record->getQualifiedNameAsString() << "\n";
 	// 	record->dump();
-    //     return true;
+	//     return true;
 	// }
 
-	virtual bool VisitEnumDecl(EnumDecl *E) {
-		if( E->isCXXInstanceMember()  or  E->isCXXClassMember() ) return true;
+	virtual bool VisitEnumDecl(EnumDecl *E)
+	{
+		if( E->isCXXInstanceMember() or E->isCXXClassMember() ) return true;
 
-		binder::BinderOP b = std::make_shared<binder::EnumBinder>( E/*->getCanonicalDecl()*/ );
+		binder::BinderOP b = std::make_shared<binder::EnumBinder>(E /*->getCanonicalDecl()*/);
 		context.add(b);
 
-        return true;
+		return true;
 	}
 
-	void generate(void) {
-		context.generate( Config::get() );
+	void generate(void)
+	{
+		context.generate(Config::get());
 	}
 
 private:
-    ASTContext *ast_context;
+	ASTContext *ast_context;
 
 	binder::Context context;
 };
@@ -223,42 +238,44 @@ private:
 class BinderASTConsumer : public ASTConsumer
 {
 private:
-    std::unique_ptr<BinderVisitor> visitor;
+	std::unique_ptr<BinderVisitor> visitor;
 
 public:
-    // override the constructor in order to pass CI
-    explicit BinderASTConsumer(CompilerInstance *ci) : visitor(new BinderVisitor(ci)) {}
+	// override the constructor in order to pass CI
+	explicit BinderASTConsumer(CompilerInstance *ci) : visitor(new BinderVisitor(ci)) {}
 
-    // override this to call our ExampleVisitor on the entire source file
-    virtual void HandleTranslationUnit(ASTContext &context)
+	// override this to call our ExampleVisitor on the entire source file
+	virtual void HandleTranslationUnit(ASTContext &context)
 	{
-        visitor->TraverseDecl( context.getTranslationUnitDecl() );
+		visitor->TraverseDecl(context.getTranslationUnitDecl());
 		visitor->generate();
-    }
+	}
 };
 
 
-class BinderFrontendAction : public ASTFrontendAction {
+class BinderFrontendAction : public ASTFrontendAction
+{
 public:
-    virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file) {
-        outs() << "Process input file " << file << "\n";
-        return std::unique_ptr<ASTConsumer>( new BinderASTConsumer(&ci) );
-    }
+	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(CompilerInstance &ci, StringRef file)
+	{
+		outs() << "Process input file " << file << "\n";
+		return std::unique_ptr<ASTConsumer>(new BinderASTConsumer(&ci));
+	}
 };
 
 
 int main(int argc, const char **argv)
 {
-#if  (LLVM_VERSION_MAJOR < 13)
+#if( LLVM_VERSION_MAJOR < 13 )
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
-	//outs() << "Root module: " << O_root_module << "\n";
-	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
+	// outs() << "Root module: " << O_root_module << "\n";
+	// for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
 	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
 
 #else
-	//CommonOptionsParser op(argc, argv, BinderToolCategory);
+	// CommonOptionsParser op(argc, argv, BinderToolCategory);
 	if( llvm::Expected< CommonOptionsParser > eop = CommonOptionsParser::create(argc, argv, BinderToolCategory) ) {
 		ClangTool tool(eop->getCompilations(), eop->getSourcePathList());
 		return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
@@ -269,5 +286,4 @@ int main(int argc, const char **argv)
 		return 1;
 	}
 #endif
-
 }

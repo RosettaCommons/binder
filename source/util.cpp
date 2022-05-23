@@ -13,19 +13,19 @@
 #include <util.hpp>
 
 #include <binder.hpp>
+#include <class.hpp>
 #include <enum.hpp>
 #include <type.hpp>
-#include <class.hpp>
 
 #include <clang/AST/ASTContext.h>
+#include <clang/AST/Comment.h>
 #include <clang/AST/ExprCXX.h>
 #include <clang/Basic/SourceManager.h>
-#include <clang/AST/Comment.h>
 
 //#include <experimental/filesystem>
+#include <cctype>
 #include <cstdlib>
 #include <fstream>
-#include <cctype>
 
 using namespace llvm;
 using namespace clang;
@@ -36,13 +36,13 @@ namespace binder {
 
 
 /// Split string using given separator
-vector<string> split(string const &buffer, string const & separator)
+vector<string> split(string const &buffer, string const &separator)
 {
 	string line;
 	vector<string> lines;
 
-	for(uint i=0; i<buffer.size(); ++i) {
-		if( buffer.compare(i, separator.size(), separator) ) line.push_back( buffer[i] );
+	for( uint i = 0; i < buffer.size(); ++i ) {
+		if( buffer.compare(i, separator.size(), separator) ) line.push_back(buffer[i]);
 		else {
 			lines.push_back(line);
 			line.resize(0);
@@ -56,18 +56,19 @@ vector<string> split(string const &buffer, string const & separator)
 
 
 /// Replace all occurrences of string
-void replace(string &r, string const & from, string const &to)
+void replace(string &r, string const &from, string const &to)
 {
 	size_t i = r.size();
-	while( ( i = r.rfind(from, i) ) != string::npos) {
+	while( (i = r.rfind(from, i)) != string::npos ) {
 		r.replace(i, from.size(), to);
-		if(i) --i; else break;
+		if( i ) --i;
+		else break;
 	}
 }
 
 
 /// Replace all occurrences of string and return result as new string
-string replace_(string const &s, string const & from, string const &to)
+string replace_(string const &s, string const &from, string const &to)
 {
 	string r{s};
 	replace(r, from, to);
@@ -95,7 +96,7 @@ string indent(string const &code, string const &indentation)
 	auto lines = split(code);
 	string r;
 
-	for(auto & l : lines) r += l.size() ? indentation + l + '\n' : l + '\n';
+	for( auto &l : lines ) r += l.size() ? indentation + l + '\n' : l + '\n';
 
 	return r;
 }
@@ -106,12 +107,13 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 {
 	string path = prefix;
 
-	vector<string> dirs = split(file_name, "/");  dirs.pop_back();
-	for(auto &d : dirs) path += "/" + d;
+	vector<string> dirs = split(file_name, "/");
+	dirs.pop_back();
+	for( auto &d : dirs ) path += "/" + d;
 
-	//std::experimental::filesystem::create_directories(path);
+	// std::experimental::filesystem::create_directories(path);
 	string command_line = "mkdir -p " + path;
-	system( command_line.c_str() );
+	system(command_line.c_str());
 
 	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
@@ -122,7 +124,8 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 		std::ofstream f(full_file_name);
 		if( f.fail() ) throw std::runtime_error("ERROR: Can not open file " + full_file_name + " for writing...");
 		f << code;
-	} else {
+	}
+	else {
 		if( O_verbose ) outs() << "File " << full_file_name << " is up-to-date, skipping...\n";
 	}
 }
@@ -130,15 +133,15 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 
 string namespace_from_named_decl(NamedDecl const *decl)
 {
-	//return decl->getOuterLexicalRecordContext()->getNameAsString();
-	//outs() << decl->getDeclKindName() << "\n";
+	// return decl->getOuterLexicalRecordContext()->getNameAsString();
+	// outs() << decl->getDeclKindName() << "\n";
 
-	string qn = standard_name( decl->getQualifiedNameAsString() );
-	string n  = decl->getNameAsString();
+	string qn = standard_name(decl->getQualifiedNameAsString());
+	string n = decl->getNameAsString();
 
 	int namespace_len = qn.size() - n.size();
 
-	string path = qn.substr(0, namespace_len > 1 ? namespace_len-2 : namespace_len );  // removing trailing '::'
+	string path = qn.substr(0, namespace_len > 1 ? namespace_len - 2 : namespace_len); // removing trailing '::'
 
 	return path;
 }
@@ -147,12 +150,12 @@ string namespace_from_named_decl(NamedDecl const *decl)
 /// generate unique string representation of type represented by given declaration
 string typename_from_type_decl(TypeDecl const *decl)
 {
-	return standard_name( decl->getTypeForDecl()->getCanonicalTypeInternal()/*getCanonicalType()*/.getAsString() );
+	return standard_name(decl->getTypeForDecl()->getCanonicalTypeInternal() /*getCanonicalType()*/.getAsString());
 }
 
 
 /// Calculate base (upper) namespace for given one: core::pose::motif --> core::pose
-string base_namespace(string const & ns)
+string base_namespace(string const &ns)
 {
 	size_t f = ns.rfind("::");
 	if( f == string::npos ) return "";
@@ -161,11 +164,11 @@ string base_namespace(string const & ns)
 
 
 /// Calculate last namespace for given one: core::pose::motif --> motif
-string last_namespace(string const & ns)
+string last_namespace(string const &ns)
 {
 	size_t f = ns.rfind("::");
 	if( f == string::npos ) return ns;
-	else return ns.substr(f+2, ns.size()-f-2);
+	else return ns.substr(f + 2, ns.size() - f - 2);
 }
 
 
@@ -174,9 +177,9 @@ void fix_boolean_types(string &type)
 {
 	string B("_Bool");
 	size_t i = 0;
-	while( ( i = type.find(B, i) ) != string::npos ) {
-		if( ( i==0  or ( !std::isalpha(type[i-1]) and  !std::isdigit(type[i-1]) ) ) and
-			( i+B.size() == type.size()  or ( !std::isalpha(type[i+B.size()]) and  !std::isdigit(type[i+B.size()]) ) ) ) type.replace(i, B.size(), "bool");
+	while( (i = type.find(B, i)) != string::npos ) {
+		if( (i == 0 or (!std::isalpha(type[i - 1]) and !std::isdigit(type[i - 1]))) and (i + B.size() == type.size() or (!std::isalpha(type[i + B.size()]) and !std::isdigit(type[i + B.size()]))) )
+			type.replace(i, B.size(), "bool");
 		++i;
 	}
 }
@@ -188,7 +191,7 @@ string expresion_to_string(clang::Expr *e)
 	std::string _;
 	llvm::raw_string_ostream s(_);
 
-	if(e) {
+	if( e ) {
 		clang::LangOptions lang_opts;
 		lang_opts.CPlusPlus = true;
 		clang::PrintingPolicy Policy(lang_opts);
@@ -209,7 +212,7 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 
 	std::string _;
 	llvm::raw_string_ostream s(_);
-#if  (LLVM_VERSION_MAJOR < 13)
+#if( LLVM_VERSION_MAJOR < 13 )
 	t.print(Policy, s);
 #else
 	t.print(Policy, s, true);
@@ -221,10 +224,10 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 // calcualte line in source file for NamedDecl
 string line_number(NamedDecl const *decl)
 {
-	ASTContext & ast_context( decl->getASTContext() );
-	SourceManager & sm( ast_context.getSourceManager() );
+	ASTContext &ast_context(decl->getASTContext());
+	SourceManager &sm(ast_context.getSourceManager());
 
-	return std::to_string( sm.getSpellingLineNumber(decl->getLocation() ) );
+	return std::to_string(sm.getSpellingLineNumber(decl->getLocation()));
 }
 
 
@@ -235,14 +238,20 @@ string mangle_type_name(string const &name, bool mark_template)
 	bool mangle = true;
 	bool template_ = false;
 
-	for(auto & c : name) {
-		if(c!=' '  and  c!='<'  and  c!='>'  and  c!=','  and  c!=':') { r.push_back(c); mangle=false; }
-		else if(!mangle) { mangle = true; r.push_back('_'); }
+	for( auto &c : name ) {
+		if( c != ' ' and c != '<' and c != '>' and c != ',' and c != ':' ) {
+			r.push_back(c);
+			mangle = false;
+		}
+		else if( !mangle ) {
+			mangle = true;
+			r.push_back('_');
+		}
 
-		if( c=='<'  or  c=='>'  or  c==',') template_ = true;
+		if( c == '<' or c == '>' or c == ',' ) template_ = true;
 	}
 
-	if(template_ and mark_template) r.push_back('t');
+	if( template_ and mark_template ) r.push_back('t');
 	return r;
 }
 
@@ -251,14 +260,14 @@ string mangle_type_name(string const &name, bool mark_template)
 string generate_comment_for_declaration(clang::NamedDecl const *decl)
 {
 	string const include = relevant_include(decl);
-	return "// " + standard_name( decl->getQualifiedNameAsString() ) + " file:" + (include.size() ? include.substr(1, include.size()-2) : "") + " line:" + line_number(decl) + "\n";
+	return "// " + standard_name(decl->getQualifiedNameAsString()) + " file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(decl) + "\n";
 }
 
 
 
 
 // extract text from hierarchy of comments
-string get_text(comments::Comment const *C, SourceManager const & SM, SourceLocation previous)
+string get_text(comments::Comment const *C, SourceManager const &SM, SourceLocation previous)
 {
 	if( auto tc = dyn_cast<comments::TextComment>(C) ) return string(tc->getText());
 	else {
@@ -266,15 +275,15 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 
 		if( isa<comments::ParagraphComment>(C) ) r += '\n';
 
-		for(auto i = C->child_begin(); i!=C->child_end(); ++i) {
-#if  (LLVM_VERSION_MAJOR < 8)
-			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getLocStart() ) ) {  // getBeginLoc
+		for( auto i = C->child_begin(); i != C->child_end(); ++i ) {
+#if( LLVM_VERSION_MAJOR < 8 )
+			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber((*i)->getLocStart()) ) { // getBeginLoc
 				previous = (*i)->getLocStart(); // getBeginLoc();
 				r += '\n';
 			}
 #endif
-#if  (LLVM_VERSION_MAJOR >= 8)
-			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber( (*i)->getBeginLoc() ) ) {  // getBeginLoc
+#if( LLVM_VERSION_MAJOR >= 8 )
+			if( SM.getSpellingLineNumber(previous) != SM.getSpellingLineNumber((*i)->getBeginLoc()) ) { // getBeginLoc
 				previous = (*i)->getBeginLoc(); // getBeginLoc();
 				r += '\n';
 			}
@@ -288,37 +297,37 @@ string get_text(comments::Comment const *C, SourceManager const & SM, SourceLoca
 
 
 // extract doc string (Doxygen comments) for given declaration and convert it to C++ source code string
-std::string generate_documentation_string_for_declaration(clang::Decl const* decl)
+std::string generate_documentation_string_for_declaration(clang::Decl const *decl)
 {
 	string text;
 
-	ASTContext & ast_context( decl->getASTContext() );
+	ASTContext &ast_context(decl->getASTContext());
 	if( auto comment = ast_context.getLocalCommentForDeclUncached(decl) ) {
 
-		SourceManager & sm( ast_context.getSourceManager() );
+		SourceManager &sm(ast_context.getSourceManager());
 
-		//comment->dumpColor();
+		// comment->dumpColor();
 
 		text = get_text(comment, sm, SourceLocation());
 
-		uint i=0;
-		for(; i<text.size()  and  (text[i]==' ' or text[i]=='\n'); ++i) {}
-		if(i) text = text.substr(i);
+		uint i = 0;
+		for( ; i < text.size() and (text[i] == ' ' or text[i] == '\n'); ++i ) {}
+		if( i ) text = text.substr(i);
 
-		//replace(text, "\n\n\n", "\n");
-		//replace(text, "\n\n",   "\n");
+		// replace(text, "\n\n\n", "\n");
+		// replace(text, "\n\n",   "\n");
 
-		//replace(text, "\n\n\n\n", "\n\n");
-		//replace(text, "\n\n\n",   "\n\n");
+		// replace(text, "\n\n\n\n", "\n\n");
+		// replace(text, "\n\n\n",   "\n\n");
 
 		replace(text, "\\", "\\\\");
 		replace(text, "\"", "\\\"");
 		replace(text, "\n", "\\n");
 
-		//outs() << text << "\n";
+		// outs() << text << "\n";
 	}
 
-	//if( auto comment = ast_context->getLocalCommentForDeclUncached(decl) ) comment->dumpColor();
+	// if( auto comment = ast_context->getLocalCommentForDeclUncached(decl) ) comment->dumpColor();
 
 	return text;
 }

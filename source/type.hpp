@@ -13,8 +13,8 @@
 #ifndef _INCLUDED_type_hpp_
 #define _INCLUDED_type_hpp_
 
-#include <context.hpp>
 #include <config.hpp>
+#include <context.hpp>
 
 #include <clang/AST/Decl.h>
 
@@ -70,9 +70,9 @@ bool is_python_builtin(clang::NamedDecl const *C);
 bool is_banned_symbol(clang::NamedDecl const *D);
 
 /// check if class/struct is in banned type lists
-//bool is_banned_type(clang::CXXRecordDecl const *C);
+// bool is_banned_type(clang::CXXRecordDecl const *C);
 
 
 } // namespace binder
 
-#endif  // _INCLUDED_type_hpp_
+#endif // _INCLUDED_type_hpp_
