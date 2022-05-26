@@ -315,11 +315,11 @@ string file_name_prefix_for_binder(BinderOP &b)
 
 
 const char *main_module_header = R"_(#include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 
@@ -360,8 +360,8 @@ PYBIND11_MODULE({1}, root_module) {{
 
 
 const char *module_header = R"_(
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 {}
 #ifndef BINDER_PYBIND11_TYPE_CASTER

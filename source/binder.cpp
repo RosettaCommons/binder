@@ -137,14 +137,9 @@ public:
 		}
 	}
 
-	virtual ~BinderVisitor()
-	{
-	}
+	virtual ~BinderVisitor() {}
 
-	bool shouldVisitTemplateInstantiations() const
-	{
-		return true;
-	}
+	bool shouldVisitTemplateInstantiations() const { return true; }
 
 	virtual bool VisitFunctionDecl(FunctionDecl *F)
 	{
@@ -223,10 +218,7 @@ public:
 		return true;
 	}
 
-	void generate(void)
-	{
-		context.generate(Config::get());
-	}
+	void generate(void) { context.generate(Config::get()); }
 
 private:
 	ASTContext *ast_context;
