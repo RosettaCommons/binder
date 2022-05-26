@@ -13,16 +13,22 @@
 #ifndef _INCLUDED_T50_namespace_binder_hpp_
 #define _INCLUDED_T50_namespace_binder_hpp_
 
-void foo_root() {}
+void foo_root()
+{
+}
 
 namespace aaaa {
-void foo_aaaa() {}
+void foo_aaaa()
+{
 }
+} // namespace aaaa
 
 namespace aaaa {
 namespace bbbb {
-void foo_aaaa_bbbb_not_binded() {}
+void foo_aaaa_bbbb_not_binded()
+{
 }
-}
+} // namespace bbbb
+} // namespace aaaa
 
 #endif // _INCLUDED_T50_namespace_binder_hpp_

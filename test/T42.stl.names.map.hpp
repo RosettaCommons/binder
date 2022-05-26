@@ -20,18 +20,25 @@
 #include <map>
 #include <unordered_map>
 
-#include <string>
-#include <list>
-#include <vector>
 #include <deque>
-#include <vector>
 #include <forward_list>
+#include <list>
+#include <string>
+#include <vector>
 
-void foo(std::map<float,int> ) {}
+void foo(std::map<float, int>)
+{
+}
 
-void foo(std::unordered_map<float,int> ) {}
+void foo(std::unordered_map<float, int>)
+{
+}
 
-void foo(std::map<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >) {}
-void foo(std::unordered_map<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >) {}
+void foo(std::map<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
+void foo(std::unordered_map<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
 
 #endif // _INCLUDED_T42_stl_names_map_hpp_

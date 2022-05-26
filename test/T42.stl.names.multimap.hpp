@@ -16,21 +16,29 @@
 #ifndef _INCLUDED_T42_stl_names_multi_hpp_
 #define _INCLUDED_T42_stl_names_multi_hpp_
 
+#include <forward_list>
 #include <functional>
 #include <map>
-#include <forward_list>
 #include <unordered_map>
 
-#include <list>
 #include <deque>
-#include <vector>
 #include <forward_list>
+#include <list>
+#include <vector>
 
-void foo(std::multimap<float, int> ) {}
+void foo(std::multimap<float, int>)
+{
+}
 
-void foo(std::unordered_multimap<float, int> ) {}
+void foo(std::unordered_multimap<float, int>)
+{
+}
 
-void foo(std::multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > > ) {}
-void foo(std::unordered_multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > > ) {}
+void foo(std::multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
+void foo(std::unordered_multimap<float, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
 
 #endif // _INCLUDED_T42_stl_names_multi_hpp_

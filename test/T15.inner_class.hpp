@@ -33,21 +33,25 @@ struct Base
 	};
 
 
-	template <typename T>
-	struct InnerTemplate
+	template <typename T> struct InnerTemplate
 	{
 		T value;
 	};
-
 };
 
 namespace n1 {
-struct A : public Base {};
+struct A : public Base
+{
+};
 
 namespace n2 {
-struct A: public n1::A {};
-}
+struct A : public n1::A
+{
+};
+} // namespace n2
 
-}
+} // namespace n1
 
-void instantiate_templates(n1::A::InnerTemplate<int>, n1::n2::A::InnerTemplate<float>) {}
+void instantiate_templates(n1::A::InnerTemplate<int>, n1::n2::A::InnerTemplate<float>)
+{
+}

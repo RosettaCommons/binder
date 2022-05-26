@@ -13,43 +13,59 @@
 #pragma once
 
 namespace {
-void foo_not_binded() {}
-
-struct S_not_binded {};
+void foo_not_binded()
+{
 }
 
-struct {
+struct S_not_binded
+{
+};
+} // namespace
+
+struct
+{
 	int a;
 } object;
 
 
 
-void foo() {}
+void foo()
+{
+}
 
-struct S {
+struct S
+{
 	int a;
 
-	struct {
+	struct
+	{
 		int b;
 	};
 
-	typedef struct { float c_not_binded; } FL_not_binded;
+	typedef struct
+	{
+		float c_not_binded;
+	} FL_not_binded;
 	FL_not_binded fl;
 
-	struct {
+	struct
+	{
 		float b4;
 	} B_not_binded[4];
 
-	struct {
+	struct
+	{
 		int c;
 	} C_not_binded;
 
-	typedef struct _D {
+	typedef struct _D
+	{
 		int d;
 	} D;
 };
 
-typedef struct _S2 {
+typedef struct _S2
+{
 	int a;
 } S2;
 
@@ -57,7 +73,8 @@ struct Anonymous
 {
 	union {
 		double coord[2];
-		struct {
+		struct
+		{
 			double x;
 			double y;
 		};

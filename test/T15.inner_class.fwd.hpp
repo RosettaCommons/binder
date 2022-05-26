@@ -7,9 +7,11 @@
 /// @file   binder/test/T15.inner_class.fwd.hpp
 /// @brief  Binder self-test file. Tests for bindings of forward declared inner functions.
 
-struct outer {
+struct outer
+{
 
-	struct inner {
+	struct inner
+	{
 		int a;
 	};
 
@@ -17,14 +19,16 @@ struct outer {
 
 	struct inner3;
 
-	void f( inner *i, inner2 *i2, inner3 *i3 ){};
+	void f(inner *i, inner2 *i2, inner3 *i3){};
 
-	struct inner2 {
+	struct inner2
+	{
 		int b;
 	};
 };
 
-struct outer::inner3 {
+struct outer::inner3
+{
 	int c;
 };
 

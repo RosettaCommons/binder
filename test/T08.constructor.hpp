@@ -13,8 +13,12 @@
 #ifndef _INCLUDED_T08_constructor_hpp_
 #define _INCLUDED_T08_constructor_hpp_
 
-class BaseA {};
-class DerivedA : public BaseA {};
+class BaseA
+{
+};
+class DerivedA : public BaseA
+{
+};
 
 
 class BaseB
@@ -22,17 +26,22 @@ class BaseB
 public:
 	BaseB(int) {}
 };
-class DerivedB : public BaseB {};
+class DerivedB : public BaseB
+{
+};
 
 
 class BaseC
 {
 public:
 	BaseC(int) {}
+
 private:
 	BaseC() {}
 };
-class DerivedC : public BaseC {};
+class DerivedC : public BaseC
+{
+};
 
 
 class BaseD
@@ -41,6 +50,8 @@ public:
 	BaseD() = delete;
 	BaseD(int) {}
 };
-class DerivedD : public BaseD {};
+class DerivedD : public BaseD
+{
+};
 
 #endif // _INCLUDED_T08_constructor_hpp_

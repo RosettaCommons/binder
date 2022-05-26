@@ -16,19 +16,23 @@
 #ifndef _INCLUDED_T42_stl_names_multiset_hpp_
 #define _INCLUDED_T42_stl_names_multiset_hpp_
 
+#include <forward_list>
 #include <functional>
 #include <set>
-#include <forward_list>
 #include <unordered_set>
 
-#include <list>
 #include <deque>
-#include <vector>
 #include <forward_list>
+#include <list>
+#include <vector>
 
-void foo(std::multiset<float> ) {}
+void foo(std::multiset<float>)
+{
+}
 
-void foo(std::unordered_multiset<float> ) {}
+void foo(std::unordered_multiset<float>)
+{
+}
 
 
 #endif // _INCLUDED_T42_stl_names_multiset_hpp_

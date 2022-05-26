@@ -16,21 +16,35 @@
 #ifndef _INCLUDED_T42_stl_names_hpp_
 #define _INCLUDED_T42_stl_names_hpp_
 
+#include <deque>
+#include <forward_list>
 #include <functional>
 #include <list>
-#include <deque>
 #include <vector>
-#include <forward_list>
 
-void foo(std::list<double> ) {}
-void foo(std::forward_list<float> ) {}
-void foo(std::vector<double> ) {}
-void foo(std::deque<int> ) {}
+void foo(std::list<double>)
+{
+}
+void foo(std::forward_list<float>)
+{
+}
+void foo(std::vector<double>)
+{
+}
+void foo(std::deque<int>)
+{
+}
 
-void foo(std::vector< std::vector<double> >) {}
-void foo(std::vector< std::vector< std::vector<double> > >) {}
+void foo(std::vector< std::vector<double> >)
+{
+}
+void foo(std::vector< std::vector< std::vector<double> > >)
+{
+}
 
-void foo(std::vector< std::list< std::forward_list< std::deque<double> > > >) {}
+void foo(std::vector< std::list< std::forward_list< std::deque<double> > > >)
+{
+}
 
 
 #endif // _INCLUDED_T42_stl_names_hpp_
