@@ -762,8 +762,8 @@ string binding_public_member_functions(CXXRecordDecl const *C, bool callback_str
 							if( is_bindable(m) and !is_skipping_requested(m, Config::get()) and !isa<CXXConstructorDecl>(m) and !isa<CXXDestructorDecl>(m) and !is_const_overload(m) ) {
 								// Create a new CXXRecordDecl and insert base method into inherited class so bind_function correctly resolve parent namespace for function as 'child::' instead of
 								// 'base::' CXXRecordDecl NC(*C); CXXMethodDecl *nm = CXXMethodDecl::Create(m->getParentASTContext(), &NC, m->getLocStart(), m->getNameInfo(), m->getType(),
-								// m->getTypeSourceInfo(), 										  m->getStorageClass(), m->isInlineSpecified(), m->isConstexpr() , m->getLocStart()); it looks like LLVM will delete this object when parent
-								// CXXRecordDecl is destroyed so commenting out for now... // delete nm;
+								// m->getTypeSourceInfo(), 										  m->getStorageClass(), m->isInlineSpecified(), m->isConstexpr() , m->getLocStart()); it looks like LLVM will delete this
+								// object when parent CXXRecordDecl is destroyed so commenting out for now... // delete nm;
 								c += bind_function("\tcl", m, context, C, /*always_use_lambda=*/true);
 							}
 						}

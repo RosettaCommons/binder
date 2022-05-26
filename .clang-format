@@ -21,9 +21,14 @@ BraceWrapping:
     AfterFunction: true
     BeforeElse: true
 
-SpaceBeforeParens: Custom
-SpaceBeforeParensOptions:
-    AfterControlStatements: false
+
+SpaceBeforeParens: Never
+
+# require clang-format v14+
+# SpaceBeforeParens: Custom
+# SpaceBeforeParensOptions:
+#     AfterControlStatements: false
+
 
 SpacesInParentheses: false
 SpacesInConditionalStatement: true
