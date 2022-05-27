@@ -12,7 +12,8 @@ AlignTrailingComments: false
 AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 
-PackConstructorInitializers: CurrentLine
+# require clang-format v14+
+# PackConstructorInitializers: CurrentLine
 
 BreakBeforeBraces: Custom
 BraceWrapping:

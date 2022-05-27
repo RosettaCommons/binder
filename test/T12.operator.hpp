@@ -14,23 +14,23 @@
 
 struct T
 {
-	T& operator+(int) { return *this; }
-	T& operator-(int) { return *this; }
-	T& operator*(int) { return *this; }
-	T& operator/(int) { return *this; }
+	T &operator+(int) { return *this; }
+	T &operator-(int) { return *this; }
+	T &operator*(int) { return *this; }
+	T &operator/(int) { return *this; }
 
 	void operator+=(int) {}
 	void operator-=(int) {}
 	void operator*=(int) {}
 	void operator/=(int) {}
 
-	void operator() (int)      {}
+	void operator()(int) {}
 
-	bool operator== (const T&) { return true;  }
-	bool operator!= (const T&) { return false; }
-	bool operator[] (int)      { return true;  }
+	bool operator==(const T &) { return true; }
+	bool operator!=(const T &) { return false; }
+	bool operator[](int) { return true; }
 
-	T&   operator=  (const T&) { return *this; }
-	T&   operator++ ()         { return *this; }
-	T&   operator-- ()         { return *this; }
+	T &operator=(const T &) { return *this; }
+	T &operator++() { return *this; }
+	T &operator--() { return *this; }
 };

@@ -22,35 +22,86 @@ unsigned long global_unsigned_long;
 float global_float;
 double global_double;
 
-void foo() {}
+void foo()
+{
+}
 
-int foo_char(char)   { return 0; }
-int foo_char(char &) { return 0; }
-int foo_char(char *) { return 0; }
+int foo_char(char)
+{
+	return 0;
+}
+int foo_char(char &)
+{
+	return 0;
+}
+int foo_char(char *)
+{
+	return 0;
+}
 
-int foo_int(int)   { return 0; }
-int foo_int(int &) { return 0; }
-int foo_int(int *) { return 0; }
+int foo_int(int)
+{
+	return 0;
+}
+int foo_int(int &)
+{
+	return 0;
+}
+int foo_int(int *)
+{
+	return 0;
+}
 
-float foo_float(float)   { return 0; }
-float foo_float(float &) { return 0; }
-float foo_float(float *) { return 0; }
+float foo_float(float)
+{
+	return 0;
+}
+float foo_float(float &)
+{
+	return 0;
+}
+float foo_float(float *)
+{
+	return 0;
+}
 
-double foo_double(double)   { return 0; }
-double foo_double(double &) { return 0; }
-double foo_double(double *) { return 0; }
+double foo_double(double)
+{
+	return 0;
+}
+double foo_double(double &)
+{
+	return 0;
+}
+double foo_double(double *)
+{
+	return 0;
+}
 
 using VoidP = void *;
 
-VoidP foo_void_p(VoidP) { return nullptr; }
-VoidP foo_void_p(VoidP const &) { return nullptr; }
-VoidP foo_void_p(VoidP &) { return nullptr; }
+VoidP foo_void_p(VoidP)
+{
+	return nullptr;
+}
+VoidP foo_void_p(VoidP const &)
+{
+	return nullptr;
+}
+VoidP foo_void_p(VoidP &)
+{
+	return nullptr;
+}
 
 namespace global {
-void foo() {}
+void foo()
+{
 }
+} // namespace global
 namespace nonlocal {
-void foo() {}
+void foo()
+{
 }
+} // namespace nonlocal
 
 #endif // _INCLUDED_T00_basic_hpp_

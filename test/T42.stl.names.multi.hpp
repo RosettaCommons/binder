@@ -16,25 +16,37 @@
 #ifndef _INCLUDED_T42_stl_names_multi_hpp_
 #define _INCLUDED_T42_stl_names_multi_hpp_
 
+#include <forward_list>
 #include <functional>
-#include <set>
 #include <map>
-#include <forward_list>
-#include <unordered_set>
+#include <set>
 #include <unordered_map>
+#include <unordered_set>
 
-#include <list>
 #include <deque>
-#include <vector>
 #include <forward_list>
+#include <list>
+#include <vector>
 
-void foo(std::multimap<float, int> ) {}
-void foo(std::multiset<float> ) {}
+void foo(std::multimap<float, int>)
+{
+}
+void foo(std::multiset<float>)
+{
+}
 
-void foo(std::unordered_multiset<float> ) {}
-void foo(std::unordered_multimap<float, int> ) {}
+void foo(std::unordered_multiset<float>)
+{
+}
+void foo(std::unordered_multimap<float, int>)
+{
+}
 
-void foo(std::multimap<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >) {}
-void foo(std::unordered_multimap<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >) {}
+void foo(std::multimap<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
+void foo(std::unordered_multimap<std::string, std::list< std::forward_list< std::deque< std::vector<double> > > > >)
+{
+}
 
 #endif // _INCLUDED_T42_stl_names_multi_hpp_
