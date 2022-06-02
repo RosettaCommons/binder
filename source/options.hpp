@@ -17,10 +17,20 @@
 #include "llvm/Config/llvm-config.h"
 #include "llvm/Support/CommandLine.h"
 
+extern llvm::cl::OptionCategory BinderToolCategory;
+
 extern llvm::cl::opt<bool> O_annotate_includes;
 extern llvm::cl::opt<bool> O_single_file;
 extern llvm::cl::opt<bool> O_trace;
 extern llvm::cl::opt<bool> O_verbose;
 extern llvm::cl::opt<bool> O_flat;
+
+extern llvm::cl::opt<std::string> O_root_module;
+extern llvm::cl::opt<int> O_max_file_size;
+extern llvm::cl::opt<std::string> O_prefix;
+extern llvm::cl::list<std::string> O_bind;
+extern llvm::cl::list<std::string> O_skip;
+extern llvm::cl::opt<std::string> O_config;
+extern llvm::cl::opt<bool> O_suppress_errors;
 
 #endif // _INCLUDED_options_hpp_

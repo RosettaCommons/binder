@@ -27,6 +27,7 @@ add_clang_executable(binder
   function.cpp
 
   options.hpp
+  options.cpp
 
   type.hpp
   type.cpp
