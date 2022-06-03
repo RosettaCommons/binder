@@ -13,9 +13,9 @@
 
 #include <type.hpp>
 
-#include <binder.hpp>
 #include <class.hpp>
 #include <enum.hpp>
+#include <options.hpp>
 #include <util.hpp>
 
 #include <clang/AST/ASTContext.h>

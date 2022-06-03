@@ -7,16 +7,15 @@
 // MIT license that can be found in the LICENSE file.
 
 /// @file   binder/context.cpp
-/// @brief  Data structures to represent root context and modules
+/// @brief  Class Context, to hold bindings info for whole TranslationUnit
 /// @author Sergey Lyskov
 
-
-#include <binder.hpp>
 #include <context.hpp>
 
 #include <class.hpp>
 #include <fmt/format.h>
 #include <function.hpp>
+#include <options.hpp>
 #include <type.hpp>
 #include <util.hpp>
 
@@ -27,73 +26,121 @@
 #include <set>
 #include <sstream>
 
-// using namespace llvm;
 using llvm::errs;
 using llvm::outs;
 
 using namespace clang;
-using std::make_pair;
 using std::string;
 using std::unordered_map;
 using std::vector;
 
 using namespace fmt::literals;
-// using fmt::format;
 
 
 
 namespace binder {
 
-// const std::string _module_variable_name_{"M"};
+namespace { // functions and constants that are only used in this translation unit
 
 
-
-// check if declaration is already in stack with level at lease as 'level' or lower and add it if it is not - return true if declaration was added
-bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
+/// Generate file name where binding for given generator should be stored
+string file_name_prefix_for_binder(BinderOP &b)
 {
-	if( stack_.count(D) and stack_[D] <= level ) return false;
+	clang::NamedDecl const *decl = b->named_decl();
 
-	stack_[D] = level;
-	return true;
+	string include = binder::relevant_include(decl);
+
+	string exceptions = "_/<>.";
+	include.erase(std::remove_if(include.begin(), include.end(), [&](unsigned char c) { return not(std::isalnum(c) or std::find(exceptions.begin(), exceptions.end(), c) != exceptions.end()); }),
+				  include.end());
+
+	if( include.size() <= 2 ) {
+		include = "<unknown/unknown.hh>";
+		// outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n";
+	} // throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
+	include = include.substr(1, include.size() - 2);
+
+	if( namespace_from_named_decl(decl) == "std" or begins_with(namespace_from_named_decl(decl), "std::") ) include = "std/" + (begins_with(include, "bits/") ? include.substr(5) : include);
+
+	replace(include, ".hh", "");
+	replace(include, ".hpp", "");
+	replace(include, ".h", "");
+	replace(include, ".", "_");
+	return include;
 }
 
-
-// remove all includes and clear up the stack
-void IncludeSet::clear()
+// generate code for include directives and cleanup the includes vector
+string generate_include_directives(IncludeSet const &include_set)
 {
-	includes_.clear();
-	stack_.clear();
+	string r;
+	for( auto &i : std::set<string>(include_set.includes().begin(), include_set.includes().end()) )
+		if( !Config::get().is_include_skipping_requested(i) ) r += "#include " + i + '\n';
+
+	// includes.resize(0);
+	return r;
 }
 
+const char *main_module_header = R"_(#include <map>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <stdexcept>
+#include <string>
 
-/// return true if object declared in system header
-bool Binder::is_in_system_header()
-{
-	NamedDecl const *decl(named_decl());
-	ASTContext &ast_context(decl->getASTContext());
-	SourceManager &sm(ast_context.getSourceManager());
+#include <pybind11/pybind11.h>
 
-	return FullSourceLoc(decl->getLocation(), sm).isInSystemHeader();
-}
+typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
+{0}
 
-// return true if code was already generate for this object
-bool Binder::is_binded() const
-{
-	return code().size() or is_python_builtin(named_decl());
-}
+PYBIND11_MODULE({1}, root_module) {{
+	root_module.doc() = "{1} module";
 
+	std::map <std::string, pybind11::module> modules;
+	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {{
+		auto it = modules.find(namespace_);
+		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
+		return it->second;
+	}};
 
-llvm::raw_ostream &operator<<(llvm::raw_ostream &os, Binder const &b)
-{
-	clang::NamedDecl const *decl = b.named_decl();
+	modules[""] = root_module;
 
-	string name = decl->getNameAsString();
-	string qualified_name = decl->getQualifiedNameAsString();
-	string path = decl->getQualifiedNameAsString().substr(0, qualified_name.size() - name.size());
+	static std::vector<std::string> const reserved_python_words {{"nonlocal", "global", }};
 
-	return os << "B{name=" << name << ", path=" << path << "\n"; //<< ", include= " code=\n" << b("module") << "\n}
-}
+	auto mangle_namespace_name(
+		[](std::string const &ns) -> std::string {{
+			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
+			else return ns+'_';
+		}}
+	);
+
+	std::vector< std::pair<std::string, std::string> > sub_modules {{
+{2}	}};
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+
+	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+
+{3}
+}}
+)_";
+
+const char *module_header = R"_(
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+{}
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+)_";
+
+const char *module_function_suffix = "(std::function< pybind11::module &(std::string const &namespace_) > &M)";
+
+} // namespace
 
 void Context::add(BinderOP &b)
 {
@@ -184,19 +231,6 @@ std::set<string> Context::create_all_nested_namespaces()
 	return s;
 }
 
-
-// generate code for include directives and cleanup the includes vector
-string generate_include_directives(IncludeSet const &include_set)
-{
-	string r;
-	for( auto &i : std::set<string>(include_set.includes().begin(), include_set.includes().end()) )
-		if( !Config::get().is_include_skipping_requested(i) ) r += "#include " + i + '\n';
-
-	// includes.resize(0);
-	return r;
-}
-
-
 std::string Context::module_variable_name(std::string const &namespace_)
 {
 	return "M(\"" + namespace_ + "\")";
@@ -285,96 +319,6 @@ void Context::sort_binders()
 	binded.clear();
 	outs() << "Sorting Binders... Done.\n";
 }
-
-
-/// Generate file name where binding for given generator should be stored
-string file_name_prefix_for_binder(BinderOP &b)
-{
-	clang::NamedDecl const *decl = b->named_decl();
-
-	string include = relevant_include(decl);
-
-	string exceptions = "_/<>.";
-	include.erase(std::remove_if(include.begin(), include.end(), [&](unsigned char c) { return not(std::isalnum(c) or std::find(exceptions.begin(), exceptions.end(), c) != exceptions.end()); }),
-				  include.end());
-
-	if( include.size() <= 2 ) {
-		include = "<unknown/unknown.hh>";
-		// outs() << "Warning: file_name_prefix_for_binder could not determent file name for decl: " + string(*b) + ", result is too short!\n";
-	} // throw std::runtime_error( "file_name_for_decl failed!!! include name for decl: " + string(*b) + " is too short!");
-	include = include.substr(1, include.size() - 2);
-
-	if( namespace_from_named_decl(decl) == "std" or begins_with(namespace_from_named_decl(decl), "std::") ) include = "std/" + (begins_with(include, "bits/") ? include.substr(5) : include);
-
-	replace(include, ".hh", "");
-	replace(include, ".hpp", "");
-	replace(include, ".h", "");
-	replace(include, ".", "_");
-	return include;
-}
-
-
-const char *main_module_header = R"_(#include <map>
-#include <algorithm>
-#include <functional>
-#include <memory>
-#include <stdexcept>
-#include <string>
-
-#include <pybind11/pybind11.h>
-
-typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
-
-{0}
-
-PYBIND11_MODULE({1}, root_module) {{
-	root_module.doc() = "{1} module";
-
-	std::map <std::string, pybind11::module> modules;
-	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {{
-		auto it = modules.find(namespace_);
-		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
-		return it->second;
-	}};
-
-	modules[""] = root_module;
-
-	static std::vector<std::string> const reserved_python_words {{"nonlocal", "global", }};
-
-	auto mangle_namespace_name(
-		[](std::string const &ns) -> std::string {{
-			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
-			else return ns+'_';
-		}}
-	);
-
-	std::vector< std::pair<std::string, std::string> > sub_modules {{
-{2}	}};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
-
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
-
-{3}
-}}
-)_";
-
-
-const char *module_header = R"_(
-#include <functional>
-#include <pybind11/pybind11.h>
-#include <string>
-{}
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
-#endif
-
-)_";
-
-
-const char *module_function_suffix = "(std::function< pybind11::module &(std::string const &namespace_) > &M)";
 
 void Context::generate(Config const &config)
 {
