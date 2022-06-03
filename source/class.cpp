@@ -1006,16 +1006,24 @@ string bind_copy_constructor(ConstructorBindingInfo const &CBI) // CXXConstructo
 	// 	else return "\tcl.def(pybind11::init<{} const &>());\n"_format( CBI.class_qualified_name );
 	// }
 
+	unsigned typequals;
+	string const_bit;
+
+	CBI.T->isCopyConstructor(typequals);
+	if( typequals == Qualifiers::TQ::Const ) {
+		const_bit += " const";
+	}
+
 	if( CBI.trampoline ) {
-		if( CBI.C->isAbstract() ) return "\tcl.def(pybind11::init<{} const &>());\n"_format(CBI.trampoline_qualified_name);
+		if( CBI.C->isAbstract() ) return "\tcl.def(pybind11::init<{}{} &>());\n"_format(CBI.trampoline_qualified_name, const_bit);
 		else {
 			// not yet supported by Pybind11? return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }}, []({1} const &o){{ return new {1}(o); }} )
 			// );\n"_format(CBI.class_qualified_name, CBI.binding_qualified_name);
-			return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.trampoline_qualified_name) +
-				   (CBI.T->getAccess() == AS_public ? "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name) : "");
+			return "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.trampoline_qualified_name, const_bit) +
+				   (CBI.T->getAccess() == AS_public ? "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit) : "");
 		}
 	}
-	else return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name);
+	else return "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit);
 }
 
 // Generate binding for given constructor. If constructor have default arguments generate set of bindings by creating separate bindings for each argument with default.
