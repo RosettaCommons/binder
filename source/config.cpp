@@ -92,103 +92,101 @@ void Config::read(string const &file_name)
 				if( line.empty() ) continue;
 			}
 
-			if( line[0] == '+' or line[0] == '-' ) {
-				size_t space = line.find(' ');
-				if( space == string::npos )
-					throw std::runtime_error("Invalid line in config file! Each line must have token separated with space from object name. For example: '+function aaa::bb::my_function'. Line: " +
-											 line);
+			if( !(line[0] == '+' or line[0] == '-') )
+				throw std::runtime_error("Invalid token at the begining of line in config file! Each line should begin with ether '+' or '-' or '#'! Line: " + line);
+			size_t space = line.find(' ');
+			if( space == string::npos )
+				throw std::runtime_error("Invalid line in config file! Each line must have token separated with space from object name. For example: '+function aaa::bb::my_function'. Line: " + line);
 
-				bool bind = line[0] == '+' ? true : false;
-				string token = line.substr(1, space - 1);
-				string name = line.substr(space + 1);
-				string name_without_spaces = name;
-				name_without_spaces.erase(std::remove(name_without_spaces.begin(), name_without_spaces.end(), ' '), name_without_spaces.end());
+			bool bind = line[0] == '+' ? true : false;
+			string token = line.substr(1, space - 1);
+			string name = line.substr(space + 1);
+			string name_without_spaces = name;
+			name_without_spaces.erase(std::remove(name_without_spaces.begin(), name_without_spaces.end(), ' '), name_without_spaces.end());
 
-				// outs() << token << " " << name << "\n";
+			// outs() << token << " " << name << "\n";
 
-				if( token == _namespace_ ) {
+			if( token == _namespace_ ) {
 
-					if( bind ) namespaces_to_bind.push_back(name_without_spaces);
-					else namespaces_to_skip.push_back(name_without_spaces);
-				}
-				else if( token == _class_ ) {
-
-					if( bind ) classes_to_bind.push_back(name_without_spaces);
-					else classes_to_skip.push_back(name_without_spaces);
-				}
-				else if( token == _function_ ) {
-
-					if( bind ) functions_to_bind.push_back(name_without_spaces);
-					else functions_to_skip.push_back(name_without_spaces);
-				}
-				else if( token == _include_ ) {
-
-					if( bind ) includes_to_add.push_back(name_without_spaces);
-					else includes_to_skip.push_back(name_without_spaces);
-				}
-				else if( token == _include_for_class_ ) {
-
-					if( bind ) {
-						auto class_and_include = split_in_two(name, "Invalid line for include_for_class specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
-						class_includes_[class_and_include.first].push_back(class_and_include.second);
-					}
-					else {
-						throw std::runtime_error("include_for_class must be '+' configuration.");
-					}
-				}
-				else if( token == _include_for_namespace_ ) {
-
-					if( bind ) {
-						auto namespace_and_include = split_in_two(name, "Invalid line for include_for_namespace specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
-						namespace_includes_[namespace_and_include.first].push_back(namespace_and_include.second);
-					}
-					else {
-						throw std::runtime_error("include_for_namespace must be '+' configuration.");
-					}
-				}
-				else if( token == _binder_ ) {
-
-					if( bind ) {
-						auto binder_function = split_in_two(name, "Invalid line for binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-						binders_[binder_function.first] = binder_function.second;
-					}
-				}
-				else if( token == _add_on_binder_ ) {
-
-					if( bind ) {
-						auto binder_function = split_in_two(name, "Invalid line for add_on_binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-						add_on_binders_[binder_function.first] = binder_function.second;
-					}
-				}
-				else if( token == _binder_for_namespace_ ) {
-
-					if( bind ) {
-						auto binder_function = split_in_two(name, "Invalid line for binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-						binder_for_namespaces_[binder_function.first] = binder_function.second;
-					}
-				}
-				else if( token == _add_on_binder_for_namespace_ ) {
-
-					if( bind ) {
-						auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-						add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
-					}
-				}
-
-				else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;
-				else if( token == _default_static_lvalue_reference_return_value_policy_ ) default_static_lvalue_reference_return_value_policy_ = name_without_spaces;
-				else if( token == _default_static_rvalue_reference_return_value_policy_ ) default_static_rvalue_reference_return_value_policy_ = name_without_spaces;
-
-				else if( token == _default_member_pointer_return_value_policy_ ) default_member_pointer_return_value_policy_ = name_without_spaces;
-				else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
-				else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
-				else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
-
-				else
-					throw std::runtime_error("Invalid token in config file! Each token must be ether: namespace, class or function! For example: '+function aaa::bb::my_function'. Token: '" + token +
-											 "' Line: '" + line + '\'');
+				if( bind ) namespaces_to_bind.push_back(name_without_spaces);
+				else namespaces_to_skip.push_back(name_without_spaces);
 			}
-			else throw std::runtime_error("Invalid token at the begining of line in config file! Each line should begin with ether '+' or '-' or '#'! Line: " + line);
+			else if( token == _class_ ) {
+
+				if( bind ) classes_to_bind.push_back(name_without_spaces);
+				else classes_to_skip.push_back(name_without_spaces);
+			}
+			else if( token == _function_ ) {
+
+				if( bind ) functions_to_bind.push_back(name_without_spaces);
+				else functions_to_skip.push_back(name_without_spaces);
+			}
+			else if( token == _include_ ) {
+
+				if( bind ) includes_to_add.push_back(name_without_spaces);
+				else includes_to_skip.push_back(name_without_spaces);
+			}
+			else if( token == _include_for_class_ ) {
+
+				if( bind ) {
+					auto class_and_include = split_in_two(name, "Invalid line for include_for_class specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
+					class_includes_[class_and_include.first].push_back(class_and_include.second);
+				}
+				else {
+					throw std::runtime_error("include_for_class must be '+' configuration.");
+				}
+			}
+			else if( token == _include_for_namespace_ ) {
+
+				if( bind ) {
+					auto namespace_and_include = split_in_two(name, "Invalid line for include_for_namespace specification! Must be: name_of_type + <space or tab> + include_path. Got: " + line);
+					namespace_includes_[namespace_and_include.first].push_back(namespace_and_include.second);
+				}
+				else {
+					throw std::runtime_error("include_for_namespace must be '+' configuration.");
+				}
+			}
+			else if( token == _binder_ ) {
+
+				if( bind ) {
+					auto binder_function = split_in_two(name, "Invalid line for binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+					binders_[binder_function.first] = binder_function.second;
+				}
+			}
+			else if( token == _add_on_binder_ ) {
+
+				if( bind ) {
+					auto binder_function = split_in_two(name, "Invalid line for add_on_binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+					add_on_binders_[binder_function.first] = binder_function.second;
+				}
+			}
+			else if( token == _binder_for_namespace_ ) {
+
+				if( bind ) {
+					auto binder_function = split_in_two(name, "Invalid line for binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+					binder_for_namespaces_[binder_function.first] = binder_function.second;
+				}
+			}
+			else if( token == _add_on_binder_for_namespace_ ) {
+
+				if( bind ) {
+					auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
+					add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
+				}
+			}
+
+			else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;
+			else if( token == _default_static_lvalue_reference_return_value_policy_ ) default_static_lvalue_reference_return_value_policy_ = name_without_spaces;
+			else if( token == _default_static_rvalue_reference_return_value_policy_ ) default_static_rvalue_reference_return_value_policy_ = name_without_spaces;
+
+			else if( token == _default_member_pointer_return_value_policy_ ) default_member_pointer_return_value_policy_ = name_without_spaces;
+			else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
+			else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
+			else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
+
+			else
+				throw std::runtime_error("Invalid token in config file! Each token must be ether: namespace, class or function! For example: '+function aaa::bb::my_function'. Token: '" + token +
+										 "' Line: '" + line + '\'');
 		}
 	}
 }
