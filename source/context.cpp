@@ -341,102 +341,101 @@ void Context::generate(Config const &config)
 
 	outs() << "Writing code...\n";
 	for( uint i = 0; i < binders.size(); ++i ) {
-		if( /*binders[i]->is_binded()  and*/ binders[i]->code().size() ) {
+		if( !binders[i]->code().size() ) continue;
 
-			string np, file_name;
+		string np, file_name;
 
-			if( O_flat ) {
-				np = config.root_module + "_";
-				file_name = np + std::to_string(file_names[np]);
-			}
-			else {
-				np = file_name_prefix_for_binder(binders[i]);
-				file_name = np + (file_names[np] ? "_" + std::to_string(file_names[np]) : "");
-			}
-			++file_names[np];
-
-			string function_name = "bind_" + replace_(file_name, "/", "_");
-			file_name += ".cpp";
-
-			sources.push_back(file_name);
-			binding_function_names.push_back(function_name);
-			// outs() << string(*binders[i]) << " → " << file_name << "\n";
-
-			string code, prefix_code;
-			string namespace_ = namespace_from_named_decl(binders[i]->named_decl());
-
-			// vector<string> includes;
-			// std::set<NamedDecl const *> stack;
-			IncludeSet includes;
-
-			bool skip = false;
-
-			// outs() << namespace_ << ' ' << namespace_entrance[namespace_] << "\n";
-
-			std::map<string, std::vector<string> > const &namespace_includes = Config::get().namespace_includes();
-			if( namespace_includes.count(namespace_) ) {
-				std::vector<string> const &n_includes = namespace_includes.at(namespace_);
-				for( auto const &i : n_includes ) includes.add_include(i);
-			}
-
-			std::map<string, string> const &binder_for_namespaces = Config::get().binder_for_namespaces();
-			if( binder_for_namespaces.count(namespace_) ) {
-				if( namespace_entrance[namespace_] == 0 ) { code += "\n\t{}(M(\"{}\"));\n"_format(binder_for_namespaces.at(namespace_), namespace_); }
-				skip = true;
-			}
-
-			std::map<string, string> const &add_on_binder_for_namespaces = Config::get().add_on_binder_for_namespaces();
-			if( add_on_binder_for_namespaces.count(namespace_) and code.empty() ) {
-				if( namespace_entrance[namespace_] == 0 ) code += "\n\t{}(M(\"{}\"));\n"_format(add_on_binder_for_namespaces.at(namespace_), namespace_);
-			}
-
-			for( ; code.size() < config.maximum_file_length and i < binders.size() and namespace_ == namespace_from_named_decl(binders[i]->named_decl()); ++i ) {
-				// outs() << "Binding: " << string(*binders[i]) << "\n";
-				//  if( ClassBinder * CB = dynamic_cast<ClassBinder*>( binders[i].get() ) ) {
-				//  	std::vector<clang::CXXRecordDecl const *> const dependencies = CB->dependencies();
-				//  	for(auto & c : dependencies ) {
-				//  		if( is_forward_needed(c) ) {
-				//  			code += bind_forward_declaration(c, *this);
-				//  			add_to_binded(c);
-				//  			outs() << "Adding forward binding for " << class_qualified_name(c) << "\n";
-				//  		}
-				//  	}
-				//  	add_to_binded( dynamic_cast<CXXRecordDecl*>( CB->named_decl() ) );
-				//  }
-
-				// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only query dependency if we dealing with class
-				// 	std::vector<clang::CXXRecordDecl const *> const dependencies = binders[i]->dependencies();
-				// 	for(auto & c : dependencies ) {
-				// 		if( is_forward_needed(c) ) {
-				// 			code += bind_forward_declaration(c, *this);
-				// 			add_to_binded(c);
-				// 			outs() << "Adding forward binding for " << class_qualified_name(c) << "\n";
-				// 		}
-				// 	}
-				// 	add_to_binded(C);
-				// }
-				if( skip ) continue;
-
-				prefix_code += binders[i]->prefix_code();
-
-				if( O_trace ) {
-					code += trace_line(binders[i]->id());
-					includes.add_include(O_annotate_includes ? "<iostream> // --trace" : "<iostream>");
-				}
-
-				code += binders[i]->code();
-				binders[i]->add_relevant_includes(includes);
-			}
-
-			if( i < binders.size() ) --i;
-
-			code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
-
-			if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
-			else update_source_file(config.prefix, file_name, code);
-
-			++namespace_entrance[namespace_];
+		if( O_flat ) {
+			np = config.root_module + "_";
+			file_name = np + std::to_string(file_names[np]);
 		}
+		else {
+			np = file_name_prefix_for_binder(binders[i]);
+			file_name = np + (file_names[np] ? "_" + std::to_string(file_names[np]) : "");
+		}
+		++file_names[np];
+
+		string function_name = "bind_" + replace_(file_name, "/", "_");
+		file_name += ".cpp";
+
+		sources.push_back(file_name);
+		binding_function_names.push_back(function_name);
+		// outs() << string(*binders[i]) << " → " << file_name << "\n";
+
+		string code, prefix_code;
+		string namespace_ = namespace_from_named_decl(binders[i]->named_decl());
+
+		// vector<string> includes;
+		// std::set<NamedDecl const *> stack;
+		IncludeSet includes;
+
+		bool skip = false;
+
+		// outs() << namespace_ << ' ' << namespace_entrance[namespace_] << "\n";
+
+		std::map<string, std::vector<string> > const &namespace_includes = Config::get().namespace_includes();
+		if( namespace_includes.count(namespace_) ) {
+			std::vector<string> const &n_includes = namespace_includes.at(namespace_);
+			for( auto const &i : n_includes ) includes.add_include(i);
+		}
+
+		std::map<string, string> const &binder_for_namespaces = Config::get().binder_for_namespaces();
+		if( binder_for_namespaces.count(namespace_) ) {
+			if( namespace_entrance[namespace_] == 0 ) { code += "\n\t{}(M(\"{}\"));\n"_format(binder_for_namespaces.at(namespace_), namespace_); }
+			skip = true;
+		}
+
+		std::map<string, string> const &add_on_binder_for_namespaces = Config::get().add_on_binder_for_namespaces();
+		if( add_on_binder_for_namespaces.count(namespace_) and code.empty() ) {
+			if( namespace_entrance[namespace_] == 0 ) code += "\n\t{}(M(\"{}\"));\n"_format(add_on_binder_for_namespaces.at(namespace_), namespace_);
+		}
+
+		for( ; code.size() < config.maximum_file_length and i < binders.size() and namespace_ == namespace_from_named_decl(binders[i]->named_decl()); ++i ) {
+			// outs() << "Binding: " << string(*binders[i]) << "\n";
+			//  if( ClassBinder * CB = dynamic_cast<ClassBinder*>( binders[i].get() ) ) {
+			//  	std::vector<clang::CXXRecordDecl const *> const dependencies = CB->dependencies();
+			//  	for(auto & c : dependencies ) {
+			//  		if( is_forward_needed(c) ) {
+			//  			code += bind_forward_declaration(c, *this);
+			//  			add_to_binded(c);
+			//  			outs() << "Adding forward binding for " << class_qualified_name(c) << "\n";
+			//  		}
+			//  	}
+			//  	add_to_binded( dynamic_cast<CXXRecordDecl*>( CB->named_decl() ) );
+			//  }
+
+			// if( CXXRecordDecl const *C = dyn_cast<CXXRecordDecl const >( binders[i]->named_decl() ) ) { // right not only query dependency if we dealing with class
+			// 	std::vector<clang::CXXRecordDecl const *> const dependencies = binders[i]->dependencies();
+			// 	for(auto & c : dependencies ) {
+			// 		if( is_forward_needed(c) ) {
+			// 			code += bind_forward_declaration(c, *this);
+			// 			add_to_binded(c);
+			// 			outs() << "Adding forward binding for " << class_qualified_name(c) << "\n";
+			// 		}
+			// 	}
+			// 	add_to_binded(C);
+			// }
+			if( skip ) continue;
+
+			prefix_code += binders[i]->prefix_code();
+
+			if( O_trace ) {
+				code += trace_line(binders[i]->id());
+				includes.add_include(O_annotate_includes ? "<iostream> // --trace" : "<iostream>");
+			}
+
+			code += binders[i]->code();
+			binders[i]->add_relevant_includes(includes);
+		}
+
+		if( i < binders.size() ) --i;
+
+		code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+
+		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
+		else update_source_file(config.prefix, file_name, code);
+
+		++namespace_entrance[namespace_];
 	}
 	outs() << "Writing code... Done.\n";
 
