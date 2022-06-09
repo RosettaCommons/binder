@@ -84,14 +84,14 @@ void Config::read(string const &file_name)
 	string line;
 
 	while( std::getline(f, line) ) {
-		if( !line.size() or line[0] == '#' ) continue;
+			if( line.empty() or line[0] == '#' ) continue;
 
 		if( line.back() == '\r' ) {
 			line.pop_back();
 			if( line.empty() ) continue;
 		}
 
-		if( !(line[0] == '+' or line[0] == '-') ) throw std::runtime_error("Invalid token at the begining of line in config file! Each line should begin with ether '+' or '-' or '#'! Line: " + line);
+		if( line[0] != '+' and line[0] != '-' ) throw std::runtime_error("Invalid token at the begining of line in config file! Each line should begin with ether '+' or '-' or '#'! Line: " + line);
 		size_t space = line.find(' ');
 		if( space == string::npos )
 			throw std::runtime_error("Invalid line in config file! Each line must have token separated with space from object name. For example: '+function aaa::bb::my_function'. Line: " + line);
@@ -182,9 +182,10 @@ void Config::read(string const &file_name)
 		else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
 
-		else
+		else {
 			throw std::runtime_error("Invalid token in config file! Each token must be either: namespace, class or function! For example: '+function aaa::bb::my_function'. Token: '" + token +
 									 "' Line: '" + line + '\'');
+		}
 	}
 }
 

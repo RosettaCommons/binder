@@ -340,7 +340,7 @@ void Context::generate(Config const &config)
 
 	outs() << "Writing code...\n";
 	for( uint i = 0; i < binders.size(); ++i ) {
-		if( !binders[i]->code().size() ) continue;
+		if( binders[i]->code().empty() ) continue;
 
 		string np, file_name;
 
