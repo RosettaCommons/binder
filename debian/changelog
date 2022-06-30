@@ -1,5 +1,7 @@
-binder (1.2.4-1) UNRELEASED; urgency=low
+binder (1.2.5-1) UNRELEASED; urgency=low
 
+  * Release 1.2.5
+    Adding support for Eigen types.
   * Release 1.2.4
     Nicer documentation of parameters, return types and throw statements.
   * Release 1.2.3

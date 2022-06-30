@@ -138,6 +138,8 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 			 { "<variant>", {"std::variant"} },
 
+			 { "<complex>", {"std::complex"} },
+
 			 { "<cwchar>", {"std::mbstate_t"} },
 
 			 { "<memory>", {"std::uninitialized_copy"} },
@@ -172,8 +174,10 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes/*
 
 		make_pair("std::variant",          "<variant>"),
 
-		make_pair("std::chrono::duration", 	"<chrono>"),
-		make_pair("std::chrono::time_point", 	"<chrono>"),
+		make_pair("std::chrono::duration",   "<chrono>"),
+		make_pair("std::chrono::time_point", "<chrono>"),
+
+		make_pair("std::complex", "<complex>"),
 
 		make_pair("__gnu_cxx::__normal_iterator", "<iterator>"),
 
@@ -625,13 +629,19 @@ bool is_python_builtin(NamedDecl const *C)
 
 													  "std::ratio",
 
-													  "std::chrono::time_point", "std::chrono::duration"
+													  "std::chrono::time_point", "std::chrono::duration",
+
+														"std::complex"
  	};
 
 	for(auto &k : known_builtin) {
 		//if( begins_with(name, k) ) return true;
-		if( name == k ) return true;
+		if( name == k ) { return true; }
 	}
+
+	const bool eigenCustomBind = begins_with(name, "Eigen::Quaternion") ||
+	                          begins_with(name, "Eigen::RotationBase");
+	if( begins_with(name, "Eigen::") && !eigenCustomBind ) { return true; }
 
 	return false;
 }

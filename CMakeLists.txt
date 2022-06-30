@@ -1,7 +1,7 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
 PROJECT(binder CXX C)
-SET(VERSION 1.2.4)
+SET(VERSION 1.2.5)
 option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
 #This actually will work even with C++11
 set(CMAKE_CXX_STANDARD 17)
