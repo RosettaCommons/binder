@@ -38,7 +38,7 @@ header files from our project. For example: suppose that our C++ project contain
 .. Note::
 
    Make sure to specify complete-relative-to-project-root path to includes and use ``#include <file>`` and avoid using ``#include "file"`` form. That
-   way Binder will be able to determine correct include paths for each include which is essential for generating correct include sets on step 2.
+   way Binder will be able to determine correct include paths for each include which is essential for generating correct include sets on step 2. To bulk-convert quote-includes to angle-bracker-include please see https://github.com/shakfu/header_utils project.
 
 
 For small projects such file could be simply typed by-hands and for large project it might be more practical to use a scripts to
