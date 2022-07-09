@@ -46,8 +46,8 @@ To *statically* compile binder, see :ref:`building-static`.
   mkdir $HOME/prefix && cd $HOME/prefix
 
   # Clone  LLVM
-  git clone http://llvm.org/git/llvm.git llvm && cd llvm
-  git checkout release_60
+  git clone https://github.com/llvm/llvm-project.git llvm && cd llvm
+  git checkout llvmorg-6.0.1
 
   # Clone Clang
   cd $HOME/prefix/llvm/tools
