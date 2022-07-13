@@ -298,11 +298,14 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes /
 		make_pair("<bits/types/struct_itimerspec.h>", "<time.h>"),
 
 		make_pair("<bits/pthreadtypes-arch.h>", "<pthread.h>"),
+		make_pair("<bits/pthread_stack_min-dynamic.h>", "<pthread.h>"),
 		make_pair("<bits/thread-shared-types.h>", "<pthread.h>"),
 		make_pair("<bits/struct_mutex.h>", "<pthread.h>"),
 		make_pair("<bits/struct_rwlock.h>", "<pthread.h>"),
 		make_pair("<bits/types/struct_sched_param.h>", "<pthread.h>"),
 
+		make_pair("<bits/setjmp.h>", "<csetjmp>"),
+		make_pair("<bits/types/struct___jmp_buf_tag.h>", "<csetjmp>"),
 	};
 
 	string name;
