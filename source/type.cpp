@@ -455,7 +455,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 
 
 // transform give type name to standard form
-string standard_name(string const &type)
+string standard_name_raw(string const &type)
 {
 	static vector< std::pair<string, string> > const name_map = {
 		make_pair("std::__1::",
@@ -501,6 +501,22 @@ string standard_name(string const &type)
 
 	return r;
 }
+
+// transform give type name to standard form
+string standard_name(string const &type)
+{
+	static std::unordered_map<string, string> cache;
+
+	auto it = cache.find(type);
+
+	if( it != cache.end() ) return it->second;
+	else {
+		string r = standard_name_raw(type);
+		cache.emplace(type, r);
+		return r;
+	}
+}
+
 
 /// Attempt to simplify std:: name by removing unneded template arguments. Function assume that there is no 'std::' namespaces prefix at the beginning of the argument string
 string simplify_std_class_name_raw(string const &type)
