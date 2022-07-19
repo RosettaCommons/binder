@@ -503,7 +503,7 @@ string standard_name(string const &type)
 }
 
 /// Attempt to simplify std:: name by removing unneded template arguments. Function assume that there is no 'std::' namespaces prefix at the beginning of the argument string
-string simplify_std_class_name(string const &type)
+string simplify_std_class_name_raw(string const &type)
 {
 	static std::map<string, string> const std_typedef_map{
 		{"basic_iostream<char,std::char_traits<char>>", "iostream"},
@@ -588,6 +588,21 @@ string simplify_std_class_name(string const &type)
 	}
 
 	return res;
+}
+
+/// Attempt to simplify std:: name by removing unneded template arguments. Function assume that there is no 'std::' namespaces prefix at the beginning of the argument string
+string simplify_std_class_name(string const &type)
+{
+	static std::unordered_map<string, string> cache;
+
+	auto it = cache.find(type);
+
+	if( it != cache.end() ) return it->second;
+	else {
+		string r = simplify_std_class_name_raw(type);
+		cache.emplace(type, r);
+		return r;
+	}
 }
 
 
