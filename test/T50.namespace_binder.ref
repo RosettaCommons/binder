@@ -1,8 +1,8 @@
 // File: T50_namespace_binder.cpp
 #include <T50.namespace_binder.hpp> // foo_root
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -25,8 +25,8 @@ void bind_T50_namespace_binder(std::function< pybind11::module &(std::string con
 #include <T50.namespace_binder.a.2.include>
 #include <T50.namespace_binder.hpp> // aaaa::foo_aaaa
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -40,7 +40,7 @@ void bind_T50_namespace_binder_1(std::function< pybind11::module &(std::string c
 {
 
 	add_on_binder_for_aaaa(M("aaaa"));
-	// aaaa::foo_aaaa() file:T50.namespace_binder.hpp line:19
+	// aaaa::foo_aaaa() file:T50.namespace_binder.hpp line:21
 	M("aaaa").def("foo_aaaa", (void (*)()) &aaaa::foo_aaaa, "C++: aaaa::foo_aaaa() --> void");
 
 }
@@ -49,8 +49,8 @@ void bind_T50_namespace_binder_1(std::function< pybind11::module &(std::string c
 // File: T50_namespace_binder_2.cpp
 #include <T50.namespace_binder.a.b.include>
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -68,11 +68,11 @@ void bind_T50_namespace_binder_2(std::function< pybind11::module &(std::string c
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

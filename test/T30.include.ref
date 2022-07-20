@@ -2,8 +2,8 @@
 #include <T30.include.incl.a.include> // aaaa::A
 #include <sstream> // __str__
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -27,8 +27,8 @@ void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::stri
 #include <T30.include.incl.b.include> // bbbb::B
 #include <sstream> // __str__
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -52,8 +52,8 @@ void bind_T30_include_incl_b_include(std::function< pybind11::module &(std::stri
 #include <T30.include.incl.a.include> // aaaa::A
 #include <T30.include.incl.b.include> // bbbb::B
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -72,11 +72,11 @@ void bind_T30_include(std::function< pybind11::module &(std::string const &names
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

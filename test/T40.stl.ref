@@ -4,8 +4,8 @@
 #include <sstream> // __str__
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 #include <stl_binders.hpp>
 
@@ -31,8 +31,8 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 #include <memory> // std::allocator
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 #include <stl_binders.hpp>
 
@@ -53,11 +53,11 @@ void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 
