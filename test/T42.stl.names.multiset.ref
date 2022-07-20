@@ -1,16 +1,13 @@
 // File: std/stl_function.cpp
-#include <exception> // std::bad_exception
-#include <exception> // std::exception
-#include <exception> // std::terminate
-#include <exception> // std::uncaught_exception
-#include <exception> // std::unexpected
 #include <functional> // std::binary_function
 #include <functional> // std::equal_to
 #include <functional> // std::less
+#include <memory> // std::allocator_arg_t
 #include <sstream> // __str__
+#include <string> // std::char_traits
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -40,13 +37,15 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 // File: std/functional_hash.cpp
 #include <functional> // std::_Manager_operation
 #include <functional> // std::bad_function_call
+#include <functional> // std::equal_to
 #include <functional> // std::hash
 #include <functional> // std::less
 #include <iterator> // __gnu_cxx::__normal_iterator
 #include <map> // std::_Rb_tree_color
 #include <map> // std::_Rb_tree_const_iterator
 #include <memory> // std::allocator
-#include <memory> // std::allocator_arg_t
+#include <memory> // std::auto_ptr
+#include <memory> // std::bad_weak_ptr
 #include <set> // std::multiset
 #include <sstream> // __str__
 #include <stdexcept> // std::domain_error
@@ -62,10 +61,13 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 #include <string> // std::char_traits
 #include <string> // std::hash
 #include <tuple> // std::tuple
+#include <unordered_map> // std::__detail::_Node_const_iterator
+#include <unordered_map> // std::__detail::_Node_iterator
+#include <unordered_set> // std::unordered_multiset
 #include <utility> // std::pair
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -104,32 +106,6 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def("count", (unsigned long (std::multiset<float>::*)(const float &) const) &std::multiset<float>::count, "C++: std::multiset<float>::count(const float &) const --> unsigned long", pybind11::arg("__x"));
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> > (std::multiset<float>::*)(const float &)) &std::multiset<float>::equal_range, "C++: std::multiset<float>::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_const_iterator<float>, struct std::_Rb_tree_const_iterator<float> >", pybind11::arg("__x"));
 	}
-}
-
-
-// File: std/unordered_set.cpp
-#include <functional> // std::equal_to
-#include <functional> // std::hash
-#include <memory> // std::allocator
-#include <sstream> // __str__
-#include <unordered_map> // std::__detail::_Node_const_iterator
-#include <unordered_map> // std::__detail::_Node_iterator
-#include <unordered_set> // std::unordered_multiset
-#include <utility> // std::pair
-
-#include <pybind11/pybind11.h>
-#include <functional>
-#include <string>
-
-#ifndef BINDER_PYBIND11_TYPE_CASTER
-	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
-	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
-#endif
-
-void bind_std_unordered_set(std::function< pybind11::module &(std::string const &namespace_) > &M)
-{
 	{ // std::unordered_multiset file:bits/unordered_set.h line:698
 		pybind11::class_<std::unordered_multiset<float>, std::shared_ptr<std::unordered_multiset<float>>> cl(M("std"), "unordered_multiset_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::unordered_multiset<float>(); } ), "doc" );
@@ -177,8 +153,8 @@ void bind_std_unordered_set(std::function< pybind11::module &(std::string const 
 #include <unordered_set> // std::unordered_multiset
 #include <utility> // std::pair
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -193,18 +169,18 @@ void bind_T42_stl_names_multiset(std::function< pybind11::module &(std::string c
 	// foo(class std::multiset<float, struct std::less<float>, class std::allocator<float> >) file:T42.stl.names.multiset.hpp line:29
 	M("").def("foo", (void (*)(class std::multiset<float, struct std::less<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::multiset<float, struct std::less<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T42.stl.names.multiset.hpp line:31
+	// foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T42.stl.names.multiset.hpp line:33
 	M("").def("foo", (void (*)(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
 }
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 
@@ -212,7 +188,6 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_unordered_set(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T42_stl_names_multiset(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
@@ -246,7 +221,6 @@ PYBIND11_MODULE(T42_stl_names_multiset, root_module) {
 
 	bind_std_stl_function(M);
 	bind_std_functional_hash(M);
-	bind_std_unordered_set(M);
 	bind_T42_stl_names_multiset(M);
 
 }
@@ -255,7 +229,6 @@ PYBIND11_MODULE(T42_stl_names_multiset, root_module) {
 // T42_stl_names_multiset.cpp
 // std/stl_function.cpp
 // std/functional_hash.cpp
-// std/unordered_set.cpp
 // T42_stl_names_multiset.cpp
 
 // Modules list file: TEST/T42_stl_names_multiset.modules

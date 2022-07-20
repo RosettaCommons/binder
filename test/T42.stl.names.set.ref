@@ -14,8 +14,8 @@
 #include <sstream> // __str__
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -73,8 +73,8 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 #include <utility> // std::pair
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -144,8 +144,8 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 #include <unordered_set> // std::unordered_set
 #include <utility> // std::pair
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -209,8 +209,8 @@ void bind_std_unordered_set(std::function< pybind11::module &(std::string const 
 #include <utility> // std::pair
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -222,24 +222,24 @@ void bind_std_unordered_set(std::function< pybind11::module &(std::string const 
 
 void bind_T42_stl_names_set(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo(class std::set<float, struct std::less<float>, class std::allocator<float> >) file:T42.stl.names.set.hpp line:29
+	// foo(class std::set<float, struct std::less<float>, class std::allocator<float> >) file:T42.stl.names.set.hpp line:28
 	M("").def("foo", (void (*)(class std::set<float, struct std::less<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::set<float, struct std::less<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_set<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T42.stl.names.set.hpp line:30
+	// foo(class std::unordered_set<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) file:T42.stl.names.set.hpp line:31
 	M("").def("foo", (void (*)(class std::unordered_set<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >)) &foo, "C++: foo(class std::unordered_set<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::set<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > >) file:T42.stl.names.set.hpp line:32
+	// foo(class std::set<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > >) file:T42.stl.names.set.hpp line:35
 	M("").def("foo", (void (*)(class std::set<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > >)) &foo, "C++: foo(class std::set<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > >) --> void", pybind11::arg(""));
 
 }
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

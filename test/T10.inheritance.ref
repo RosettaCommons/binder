@@ -8,8 +8,8 @@
 #include <T10.inheritance.hpp> // Y
 #include <sstream> // __str__
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -154,7 +154,7 @@ struct PyCallBack_Delete : public Delete {
 	}
 };
 
-// X file:T10.inheritance.hpp line:60
+// X file:T10.inheritance.hpp line:61
 struct PyCallBack_X : public X {
 	using X::X;
 
@@ -214,18 +214,18 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 		cl.def("assign", (class A & (A::*)(const class A &)) &A::operator=, "C++: A::operator=(const class A &) --> class A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // B file:T10.inheritance.hpp line:53
+	{ // B file:T10.inheritance.hpp line:54
 		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
 		cl.def( pybind11::init( [](B const &o){ return new B(o); } ) );
 		cl.def("assign", (class B & (B::*)(const class B &)) &B::operator=, "C++: B::operator=(const class B &) --> class B &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // X file:T10.inheritance.hpp line:60
+	{ // X file:T10.inheritance.hpp line:61
 		pybind11::class_<X, std::shared_ptr<X>, PyCallBack_X, Base> cl(M(""), "X", "");
 		cl.def( pybind11::init( [](){ return new X(); }, [](){ return new PyCallBack_X(); } ) );
 		cl.def("f_v", (void (X::*)()) &X::f_v, "C++: X::f_v() --> void");
 		cl.def("assign", (class X & (X::*)(const class X &)) &X::operator=, "C++: X::operator=(const class X &) --> class X &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // Y file:T10.inheritance.hpp line:66
+	{ // Y file:T10.inheritance.hpp line:67
 		pybind11::class_<Y, std::shared_ptr<Y>, X> cl(M(""), "Y", "");
 		cl.def( pybind11::init( [](){ return new Y(); } ) );
 		cl.def("f_v_2", (void (Y::*)()) &Y::f_v_2, "C++: Y::f_v_2() --> void");
@@ -235,11 +235,11 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

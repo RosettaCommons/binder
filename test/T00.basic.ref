@@ -6,8 +6,8 @@
 #include <T00.basic.hpp> // foo_int
 #include <T00.basic.hpp> // foo_void_p
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -22,49 +22,49 @@ void bind_T00_basic(std::function< pybind11::module &(std::string const &namespa
 	// foo() file:T00.basic.hpp line:25
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
-	// foo_char(char) file:T00.basic.hpp line:27
+	// foo_char(char) file:T00.basic.hpp line:29
 	M("").def("foo_char", (int (*)(char)) &foo_char, "C++: foo_char(char) --> int", pybind11::arg(""));
 
-	// foo_char(char &) file:T00.basic.hpp line:28
+	// foo_char(char &) file:T00.basic.hpp line:33
 	M("").def("foo_char", (int (*)(char &)) &foo_char, "C++: foo_char(char &) --> int", pybind11::arg(""));
 
-	// foo_char(char *) file:T00.basic.hpp line:29
+	// foo_char(char *) file:T00.basic.hpp line:37
 	M("").def("foo_char", (int (*)(char *)) &foo_char, "C++: foo_char(char *) --> int", pybind11::arg(""));
 
-	// foo_int(int) file:T00.basic.hpp line:31
+	// foo_int(int) file:T00.basic.hpp line:42
 	M("").def("foo_int", (int (*)(int)) &foo_int, "C++: foo_int(int) --> int", pybind11::arg(""));
 
-	// foo_int(int &) file:T00.basic.hpp line:32
+	// foo_int(int &) file:T00.basic.hpp line:46
 	M("").def("foo_int", (int (*)(int &)) &foo_int, "C++: foo_int(int &) --> int", pybind11::arg(""));
 
-	// foo_int(int *) file:T00.basic.hpp line:33
+	// foo_int(int *) file:T00.basic.hpp line:50
 	M("").def("foo_int", (int (*)(int *)) &foo_int, "C++: foo_int(int *) --> int", pybind11::arg(""));
 
-	// foo_float(float) file:T00.basic.hpp line:35
+	// foo_float(float) file:T00.basic.hpp line:55
 	M("").def("foo_float", (float (*)(float)) &foo_float, "C++: foo_float(float) --> float", pybind11::arg(""));
 
-	// foo_float(float &) file:T00.basic.hpp line:36
+	// foo_float(float &) file:T00.basic.hpp line:59
 	M("").def("foo_float", (float (*)(float &)) &foo_float, "C++: foo_float(float &) --> float", pybind11::arg(""));
 
-	// foo_float(float *) file:T00.basic.hpp line:37
+	// foo_float(float *) file:T00.basic.hpp line:63
 	M("").def("foo_float", (float (*)(float *)) &foo_float, "C++: foo_float(float *) --> float", pybind11::arg(""));
 
-	// foo_double(double) file:T00.basic.hpp line:39
+	// foo_double(double) file:T00.basic.hpp line:68
 	M("").def("foo_double", (double (*)(double)) &foo_double, "C++: foo_double(double) --> double", pybind11::arg(""));
 
-	// foo_double(double &) file:T00.basic.hpp line:40
+	// foo_double(double &) file:T00.basic.hpp line:72
 	M("").def("foo_double", (double (*)(double &)) &foo_double, "C++: foo_double(double &) --> double", pybind11::arg(""));
 
-	// foo_double(double *) file:T00.basic.hpp line:41
+	// foo_double(double *) file:T00.basic.hpp line:76
 	M("").def("foo_double", (double (*)(double *)) &foo_double, "C++: foo_double(double *) --> double", pybind11::arg(""));
 
-	// foo_void_p(void *) file:T00.basic.hpp line:45
+	// foo_void_p(void *) file:T00.basic.hpp line:83
 	M("").def("foo_void_p", (void * (*)(void *)) &foo_void_p, "C++: foo_void_p(void *) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *const &) file:T00.basic.hpp line:46
+	// foo_void_p(void *const &) file:T00.basic.hpp line:87
 	M("").def("foo_void_p", (void * (*)(void *const &)) &foo_void_p, "C++: foo_void_p(void *const &) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *&) file:T00.basic.hpp line:47
+	// foo_void_p(void *&) file:T00.basic.hpp line:91
 	M("").def("foo_void_p", (void * (*)(void *&)) &foo_void_p, "C++: foo_void_p(void *&) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
 }
@@ -73,8 +73,8 @@ void bind_T00_basic(std::function< pybind11::module &(std::string const &namespa
 // File: T00_basic_1.cpp
 #include <T00.basic.hpp> // global::foo
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -86,7 +86,7 @@ void bind_T00_basic(std::function< pybind11::module &(std::string const &namespa
 
 void bind_T00_basic_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// global::foo() file:T00.basic.hpp line:50
+	// global::foo() file:T00.basic.hpp line:97
 	M("global").def("foo", (void (*)()) &global::foo, "C++: global::foo() --> void");
 
 }
@@ -95,8 +95,8 @@ void bind_T00_basic_1(std::function< pybind11::module &(std::string const &names
 // File: T00_basic_2.cpp
 #include <T00.basic.hpp> // nonlocal::foo
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -108,18 +108,18 @@ void bind_T00_basic_1(std::function< pybind11::module &(std::string const &names
 
 void bind_T00_basic_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// nonlocal::foo() file:T00.basic.hpp line:53
+	// nonlocal::foo() file:T00.basic.hpp line:102
 	M("nonlocal").def("foo", (void (*)()) &nonlocal::foo, "C++: nonlocal::foo() --> void");
 
 }
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

@@ -6,8 +6,8 @@
 #include <string> // std::basic_string
 #include <string> // std::char_traits
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -106,11 +106,11 @@ void bind_T11_override(std::function< pybind11::module &(std::string const &name
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 

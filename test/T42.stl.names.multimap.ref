@@ -1,16 +1,20 @@
 // File: std/stl_function.cpp
-#include <exception> // std::bad_exception
-#include <exception> // std::exception
-#include <exception> // std::terminate
-#include <exception> // std::uncaught_exception
-#include <exception> // std::unexpected
+#include <deque> // std::deque
+#include <forward_list> // std::forward_list
 #include <functional> // std::binary_function
 #include <functional> // std::equal_to
 #include <functional> // std::less
+#include <list> // std::list
+#include <memory> // std::allocator
+#include <memory> // std::allocator_arg_t
 #include <sstream> // __str__
+#include <string> // std::char_traits
+#include <utility> // std::pair
+#include <utility> // std::tuple_element
+#include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -51,9 +55,8 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 #include <map> // std::_Rb_tree_iterator
 #include <map> // std::multimap
 #include <memory> // std::allocator
-#include <memory> // std::allocator_arg_t
-#include <memory> // std::allocator_traits
-#include <memory> // std::pointer_traits
+#include <memory> // std::auto_ptr
+#include <memory> // std::bad_weak_ptr
 #include <sstream> // __str__
 #include <stdexcept> // std::domain_error
 #include <stdexcept> // std::invalid_argument
@@ -71,8 +74,8 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 #include <utility> // std::pair
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -146,8 +149,8 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 #include <utility> // std::pair
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -242,8 +245,8 @@ void bind_std_unordered_map(std::function< pybind11::module &(std::string const 
 #include <utility> // std::pair
 #include <vector> // std::vector
 
-#include <pybind11/pybind11.h>
 #include <functional>
+#include <pybind11/pybind11.h>
 #include <string>
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
@@ -258,24 +261,24 @@ void bind_T42_stl_names_multimap(std::function< pybind11::module &(std::string c
 	// foo(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) file:T42.stl.names.multimap.hpp line:29
 	M("").def("foo", (void (*)(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::multimap<float, int, struct std::less<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) file:T42.stl.names.multimap.hpp line:31
+	// foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) file:T42.stl.names.multimap.hpp line:33
 	M("").def("foo", (void (*)(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >)) &foo, "C++: foo(class std::unordered_multimap<float, int, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, int> > >) --> void", pybind11::arg(""));
 
-	// foo(class std::multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) file:T42.stl.names.multimap.hpp line:33
+	// foo(class std::multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) file:T42.stl.names.multimap.hpp line:37
 	M("").def("foo", (void (*)(class std::multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >)) &foo, "C++: foo(class std::multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::less<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) --> void", pybind11::arg(""));
 
-	// foo(class std::unordered_multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) file:T42.stl.names.multimap.hpp line:34
+	// foo(class std::unordered_multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) file:T42.stl.names.multimap.hpp line:40
 	M("").def("foo", (void (*)(class std::unordered_multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >)) &foo, "C++: foo(class std::unordered_multimap<float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > >, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<struct std::pair<const float, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > >) --> void", pybind11::arg(""));
 
 }
 
 
 #include <map>
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <stdexcept>
-#include <functional>
 #include <string>
-#include <algorithm>
 
 #include <pybind11/pybind11.h>
 
