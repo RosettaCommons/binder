@@ -14,6 +14,7 @@
 #define _INCLUDED_binder_hpp_
 
 #include <clang/AST/Decl.h>
+#include <clang/AST/DeclCXX.h>
 
 #include <llvm/Support/raw_ostream.h>
 
@@ -29,9 +30,6 @@ class Context;
 // structure to hold include set information and set of NamedDecl objects that was already queried for includes
 class IncludeSet
 {
-	std::vector<std::string> includes_;
-
-	std::unordered_map<clang::NamedDecl const *, int> stack_;
 
 public:
 	// add include to the set
@@ -44,6 +42,14 @@ public:
 
 	// remove all includes and clear up the stack
 	void clear();
+
+private:
+	std::vector<std::string> includes_;
+
+	using StackType = std::unordered_map<clang::NamedDecl const *, int>;
+	StackType stack_;
+
+	friend void add_relevant_includes_cached(clang::CXXRecordDecl const *C, IncludeSet &includes);
 };
 
 /// Bindings Generator - represent object that can generate binding info for function, class, enum or data variable

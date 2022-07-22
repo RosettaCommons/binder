@@ -100,7 +100,7 @@ private:
 	clang::CXXRecordDecl const *C;
 
 	std::string prefix_code_;
-	std::vector<clang::FunctionDecl const *> prefix_includes;
+	std::vector<clang::FunctionDecl const *> prefix_includes_;
 
 	// vector of classes in which current class depend to be binded (usually base classes)
 	std::vector<clang::CXXRecordDecl const *> dependencies_;

@@ -220,7 +220,7 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C);
 /// check if generator can create binding
 bool is_bindable(clang::CXXRecordDecl const *C)
 {
-	static std::unordered_map<CXXRecordDecl const *, bool> cache;
+	static std::map<CXXRecordDecl const *, bool> cache;
 
 	auto it = cache.find(C);
 
@@ -419,6 +419,27 @@ void add_relevant_includes(clang::CXXRecordDecl const *C, IncludeSet &includes, 
 	}
 }
 
+inline void add_includes_to_set(std::vector<std::string> const &from, IncludeSet &to)
+{
+	for(auto const &i : from) to.add_include(i);
+}
+
+void add_relevant_includes_cached(clang::CXXRecordDecl const *C, IncludeSet &includes)
+{
+	static std::unordered_map<clang::CXXRecordDecl const *, std::vector<std::string> > cache;
+
+	auto it = cache.find(C);
+
+	if( it != cache.end() ) add_includes_to_set(it->second, includes);
+	else {
+		IncludeSet is;
+		add_relevant_includes(C, is, 1);
+		add_includes_to_set(is.includes(), includes);
+		cache.emplace(C, is.includes_);
+	}
+}
+
+
 
 /// DEPRECATED Check if all bases have public default constructors
 // bool is_default_default_constructor_available(CXXRecordDecl const *C)
@@ -502,7 +523,7 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 
 	for_public_nested_classes([&includes](CXXRecordDecl const *innerC) { ClassBinder(innerC).add_relevant_includes(includes); });
 
-	for( auto &m : prefix_includes ) binder::add_relevant_includes(m, includes, 0);
+	for( auto &m : prefix_includes_ ) binder::add_relevant_includes(m, includes, 0);
 	binder::add_relevant_includes(C, includes, 0);
 
 	includes.add_include("<sstream> // __str__");
@@ -634,7 +655,7 @@ if (overload) {{
 
 // generate call-back overloads for all public virtual functions in C including it bases
 string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const &class_name, /*string const & base_type_alias,*/ set<string> &binded, int &ret_id,
-										   std::vector<clang::FunctionDecl const *> &prefix_includes /*, std::set<clang::NamedDecl const *> &prefix_includes_stack*/)
+										   std::vector<clang::FunctionDecl const *> &prefix_includes_ /*, std::set<clang::NamedDecl const *> &prefix_includes_stack*/)
 {
 	string c;
 
@@ -712,8 +733,8 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 				// else c+= "return {}::{}({});"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
 				// c += " }\n";
 
-				prefix_includes.push_back(*m);
 				// add_relevant_includes(*m, prefix_includes, prefix_includes_stack, 0);
+				prefix_includes_.push_back(*m);
 			}
 		}
 	}
@@ -722,8 +743,8 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 		if( b->getAccessSpecifier() != AS_private ) {
 			if( auto rt = dyn_cast<RecordType>(b->getType().getCanonicalType().getTypePtr()) ) {
 				if( CXXRecordDecl *R = cast<CXXRecordDecl>(rt->getDecl()) ) {
-					c += bind_member_functions_for_call_back(R, class_name, /*base_type_alias,*/ binded, ret_id, prefix_includes);
 					// add_relevant_includes(R, prefix_includes, prefix_includes_stack, 0);
+					c += bind_member_functions_for_call_back(R, class_name, /*base_type_alias,*/ binded, ret_id, prefix_includes_);
 				}
 			}
 		}
@@ -745,7 +766,7 @@ void ClassBinder::generate_prefix_code()
 
 	set<string> binded;
 	int ret_id = 0;
-	prefix_code_ += bind_member_functions_for_call_back(C, class_qualified_name(C), /*base_type_alias,*/ binded, ret_id, prefix_includes);
+	prefix_code_ += bind_member_functions_for_call_back(C, class_qualified_name(C), /*base_type_alias,*/ binded, ret_id, prefix_includes_);
 	prefix_code_ += "};\n\n";
 }
 
@@ -1053,7 +1074,7 @@ std::string ClassBinder::bind_repr(Context &context)
 
 		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; s << o; return s.str(); }} );\n"_format(qualified_name);
 
-		prefix_includes.push_back(F);
+		prefix_includes_.push_back(F);
 	}
 
 	return c;
