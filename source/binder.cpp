@@ -27,29 +27,10 @@ namespace binder {
 
 bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 {
-	// auto it_inserted = stack_.insert( {D, level} );
-	// auto & it = it_inserted.first;
-	// auto & inserted = it_inserted.second;
-	// if(inserted) return true;
-	// else {
-	// 	if( it->second <= level ) return false;
-	// 	else {
-	// 		it->second = level;
-	// 		return true;
-	// 	}
-	// }
-
-	// StackType::iterator it;
-	// bool inserted;
-	// std::tie(it, inserted) = stack_.insert( StackType::value_type(D, level) );
-
-
-	auto it = stack_.find(D);
-
-	if( it == stack_.end() ) {
-		 stack_[D] = level;
-		 return true;
-	}
+	auto it_inserted = stack_.insert( {D, level} );
+	auto & it = it_inserted.first;
+	auto & inserted = it_inserted.second;
+	if(inserted) return true;
 	else {
 		if( it->second <= level ) return false;
 		else {
@@ -57,6 +38,24 @@ bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 			return true;
 		}
 	}
+
+	// StackType::iterator it;
+	// bool inserted;
+	// std::tie(it, inserted) = stack_.insert( StackType::value_type(D, level) );
+
+
+	// auto it = stack_.find(D);
+	// if( it == stack_.end() ) {
+	// 	 stack_[D] = level;
+	// 	 return true;
+	// }
+	// else {
+	// 	if( it->second <= level ) return false;
+	// 	else {
+	// 		it->second = level;
+	// 		return true;
+	// 	}
+	// }
 
 	// auto &l = stack_[D];
 	// if( l.value and l.value <= level.value ) return false;

@@ -21,7 +21,7 @@
 #include <clang/AST/ExprCXX.h>
 #include <clang/Basic/SourceManager.h>
 #include <llvm/Support/Regex.h>
-
+#include <llvm/ADT/StringMap.h>
 
 //#include <experimental/filesystem>
 #include <cstdlib>
@@ -505,14 +505,21 @@ string standard_name_raw(string const &type)
 // transform give type name to standard form
 string standard_name(string const &type)
 {
-	static std::unordered_map<string, string> cache;
+	// static std::unordered_map<string, string> cache;
+	// auto it = cache.find(type);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	string r = standard_name_raw(type);
+	// 	cache.emplace(type, r);
+	// 	return r;
+	// }
 
+	static llvm::StringMap<string> cache;
 	auto it = cache.find(type);
-
 	if( it != cache.end() ) return it->second;
 	else {
 		string r = standard_name_raw(type);
-		cache.emplace(type, r);
+		cache.try_emplace(type, r);
 		return r;
 	}
 }
@@ -610,15 +617,22 @@ string simplify_std_class_name_raw(string const &type)
 string simplify_std_class_name(string const &type)
 {
 	static std::unordered_map<string, string> cache;
-
 	auto it = cache.find(type);
-
 	if( it != cache.end() ) return it->second;
 	else {
 		string r = simplify_std_class_name_raw(type);
 		cache.emplace(type, r);
 		return r;
 	}
+
+	// static llvm::StringMap<string> cache;
+	// auto it = cache.find(type);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	string r = simplify_std_class_name_raw(type);
+	// 	cache.try_emplace(type, r);
+	// 	return r;
+	// }
 }
 
 
