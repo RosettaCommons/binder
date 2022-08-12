@@ -18,6 +18,7 @@
 
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/ADT/DenseMap.h>
+//#include <tsl/robin_map.h>
 
 #include <string>
 #include <unordered_map>
@@ -49,6 +50,8 @@ private:
 
 	//using StackType = std::unordered_map<clang::NamedDecl const *, int>;
 	using StackType = llvm::DenseMap<clang::NamedDecl const *, int>;
+	//using StackType = tsl::robin_map<clang::NamedDecl const *, int>;
+
 	StackType stack_;
 
 	friend void add_relevant_includes_cached(clang::CXXRecordDecl const *C, IncludeSet &includes);

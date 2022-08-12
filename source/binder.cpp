@@ -35,9 +35,19 @@ bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 		if( it->second <= level ) return false;
 		else {
 			it->second = level;
+			//it.value() = level;
 			return true;
 		}
 	}
+
+	// {
+	// 	std::unordered_map<int, int> mp;
+	// 	//tsl::robin_map<int, int> mp;
+	// 	mp[0] = 0;
+	// 	mp.find(0)->second = 1;
+	// 	mp.insert({0, 1}).first->second = 2;
+	// }
+
 
 	// StackType::iterator it;
 	// bool inserted;

@@ -220,15 +220,6 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C);
 /// check if generator can create binding
 bool is_bindable(clang::CXXRecordDecl const *C)
 {
-	// static std::map<CXXRecordDecl const *, bool> cache;
-	// auto it = cache.find(C);
-	// if( it != cache.end() ) return it->second;
-	// else {
-	// 	bool r = is_bindable_raw(C);
-	// 	cache.emplace(C, r);
-	// 	return r;
-	// }
-
 	static llvm::DenseMap<CXXRecordDecl const *, bool> cache;
 	auto it = cache.find(C);
 	if( it != cache.end() ) return it->second;
@@ -237,6 +228,15 @@ bool is_bindable(clang::CXXRecordDecl const *C)
 		cache.insert( {C, r} );
 		return r;
 	}
+
+	// static std::map<CXXRecordDecl const *, bool> cache;
+	// auto it = cache.find(C);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	bool r = is_bindable_raw(C);
+	// 	cache.emplace(C, r);
+	// 	return r;
+	// }
 }
 
 /// check if generator can create binding

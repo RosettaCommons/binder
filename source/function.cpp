@@ -22,6 +22,7 @@
 
 #include <clang/AST/ExprCXX.h>
 
+//#include <tsl/robin_map.h>
 
 #include <vector>
 
@@ -445,7 +446,7 @@ string FunctionBinder::id() const
 
 
 /// check if generator can create binding
-bool is_bindable(FunctionDecl const *F)
+bool is_bindable_raw(FunctionDecl const *F)
 {
 	// outs() << "is_bindable: " << F->getQualifiedNameAsString() << "\n";
 	// if( F->getQualifiedNameAsString() == "utility::foo" ) {
@@ -482,6 +483,38 @@ bool is_bindable(FunctionDecl const *F)
 	if( r && is_banned_symbol(F) ) return false;
 	return r;
 }
+
+/// check if generator can create binding
+bool is_bindable(FunctionDecl const *F)
+{
+	static llvm::DenseMap<FunctionDecl const *, bool> cache;
+	auto it = cache.find(F);
+	if( it != cache.end() ) return it->second;
+	else {
+		bool r = is_bindable_raw(F);
+		cache.insert( {F, r} );
+		return r;
+	}
+
+	// static std::map<CXXRecordDecl const *, bool> cache;
+	// auto it = cache.find(C);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	bool r = is_bindable_raw(C);
+	// 	cache.emplace(C, r);
+	// 	return r;
+	// }
+
+	// static tsl::robin_map<FunctionDecl const *, bool> cache;
+	// auto it = cache.find(F);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	bool r = is_bindable_raw(F);
+	// 	cache.insert( {F, r} );
+	// 	return r;
+	// }
+}
+
 
 
 /// check if methods could be overload in Python

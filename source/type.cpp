@@ -23,6 +23,8 @@
 #include <llvm/Support/Regex.h>
 #include <llvm/ADT/StringMap.h>
 
+//#include <tsl/robin_map.h>
+
 //#include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
@@ -437,7 +439,6 @@ bool is_bindable(QualType const &qt)
 }
 
 
-
 /// extract type info from QualType if any and bind relative type
 void request_bindings(clang::QualType const &qt, Context &context)
 {
@@ -505,6 +506,15 @@ string standard_name_raw(string const &type)
 // transform give type name to standard form
 string standard_name(string const &type)
 {
+	static llvm::StringMap<string> cache;
+	auto it = cache.find(type);
+	if( it != cache.end() ) return it->second;
+	else {
+		string r = standard_name_raw(type);
+		cache.try_emplace(type, r);
+		return r;
+	}
+
 	// static std::unordered_map<string, string> cache;
 	// auto it = cache.find(type);
 	// if( it != cache.end() ) return it->second;
@@ -514,14 +524,14 @@ string standard_name(string const &type)
 	// 	return r;
 	// }
 
-	static llvm::StringMap<string> cache;
-	auto it = cache.find(type);
-	if( it != cache.end() ) return it->second;
-	else {
-		string r = standard_name_raw(type);
-		cache.try_emplace(type, r);
-		return r;
-	}
+	// static tsl::robin_map<string, string> cache;
+	// auto it = cache.find(type);
+	// if( it != cache.end() ) return it->second;
+	// else {
+	// 	string r = standard_name_raw(type);
+	// 	cache.emplace(type, r);
+	// 	return r;
+	// }
 }
 
 

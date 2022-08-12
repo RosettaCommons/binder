@@ -183,7 +183,7 @@ string last_namespace(string const &ns)
 // replace all _Bool types with bool
 void fix_boolean_types(string &type)
 {
-	string B("_Bool");
+	static string const B("_Bool");
 	size_t i = 0;
 	while( (i = type.find(B, i)) != string::npos ) {
 		if( (i == 0 or (!std::isalpha(type[i - 1]) and !std::isdigit(type[i - 1]))) and (i + B.size() == type.size() or (!std::isalpha(type[i + B.size()]) and !std::isdigit(type[i + B.size()]))) )
