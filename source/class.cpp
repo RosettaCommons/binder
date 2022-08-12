@@ -51,7 +51,10 @@ string template_specialization(clang::CXXRecordDecl const *C)
 			// if( t->getTemplateArgs()[i].isInstantiationDependent() ) break;  // avoid explicitly specifying SFINAE related arguments
 
 			// outs() << " template argument: " << template_argument_to_string(t->getTemplateArgs()[i]) << "\n";
-			templ += template_argument_to_string(t->getTemplateArgs()[i]) + ",";
+			// templ += template_argument_to_string(t->getTemplateArgs()[i]) + ",";
+			std::string template_arg = template_argument_to_string(t->getTemplateArgs()[i]);
+			if ((template_arg[0] == '<') and (template_arg[template_arg.size()-1]=='>')) template_arg = template_arg.substr(1, template_arg.size()-2);
+			if (template_arg.size()>0) templ += template_arg + ",";
 
 			// if( t->getTemplateArgs()[i].ArgKind() == TemplateArgument::ArgKind::Integral ) outs() << " template arg:" << t->getTemplateArgs()[i].<< "\n";
 			// outs() << expresion_to_string( t->getTemplateArgs()[i].getAsExpr() ) << "\n";
