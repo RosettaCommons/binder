@@ -868,12 +868,25 @@ string bind_forward_declaration(CXXRecordDecl const *C, Context &context)
 
 	string const include = relevant_include(C);
 
+	bool use_custom_shared = Config::get().use_custom_shared();
+	string const custom_shared = Config::get().custom_shared();
+
+	// Do not use custom_shared pointer if std:: class
+	if( qualified_name.rfind("std::", 0) == 0 ) use_custom_shared = false;
+
 	string c = "\t// Forward declaration for: " + qualified_name + " file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(C) + "\n";
 
 	string maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name);
-	if( is_inherited_from_enable_shared_from_this(C) ) maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name);
-	else if( CXXDestructorDecl *d = C->getDestructor() ) {
-		if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
+	if( use_custom_shared ) {
+		//Check if the type is a custom shared pointer:
+		if( qualified_name.rfind(custom_shared, 0) == 0 ) maybe_holder_type = "";
+		else maybe_holder_type = ", {}<{}>"_format(custom_shared, qualified_name);
+	}
+	else {
+		if( is_inherited_from_enable_shared_from_this(C) ) maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name);
+		else if( CXXDestructorDecl *d = C->getDestructor() ) {
+			if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
+		}
 	}
 
 	c += '\t' + R"(pybind11::class_<{}{}>({}, "{}");)"_format(qualified_name, maybe_holder_type, module_variable_name, python_class_name(C)) + "\n\n";
@@ -1172,12 +1185,24 @@ void ClassBinder::bind(Context &context)
 	string const trampoline_name = callback_structure_constructible ? callback_structure_name(C) : "";
 	string const binding_qualified_name = callback_structure_constructible ? callback_structure_name(C) : qualified_name;
 
-	string maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name); // for now enable std::shared_ptr by default
-	if( is_inherited_from_enable_shared_from_this(C) ) maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name);
-	else if( CXXDestructorDecl *d = C->getDestructor() ) {
-		if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
-	}
+	bool use_custom_shared = Config::get().use_custom_shared();
+	string const custom_shared = Config::get().custom_shared();
 
+	// Do not use custom_shared pointer if std:: class
+	if( qualified_name.rfind("std::", 0) == 0 ) use_custom_shared = false;
+
+	string maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name); // for now enable std::shared_ptr by default
+	if( use_custom_shared ) {
+		//Check if the type is a custom shared pointer:
+		if( qualified_name.rfind(custom_shared, 0) == 0 ) maybe_holder_type = "";
+		else maybe_holder_type = ", {}<{}>"_format(custom_shared, qualified_name);
+	}
+	else {
+		if( is_inherited_from_enable_shared_from_this(C) ) maybe_holder_type = ", std::shared_ptr<{}>"_format(qualified_name);
+		else if( CXXDestructorDecl *d = C->getDestructor() ) {
+			if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
+		}
+	}
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
 	if( named_class )

@@ -131,6 +131,7 @@ const char *module_header = R"_(
 {}
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
+	{}
 	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
 	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
@@ -429,7 +430,14 @@ void Context::generate(Config const &config)
 
 		if( i < binders.size() ) --i;
 
-		code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code()) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+		string const custom_shared = Config::get().custom_shared();
+		bool use_custom_shared = Config::get().use_custom_shared();
+
+		string custom_shared_declare = "";
+		if( use_custom_shared )
+			custom_shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+custom_shared+"<T>)";
+
+		code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code(), custom_shared_declare) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 		else update_source_file(config.prefix, file_name, code);
