@@ -61,6 +61,8 @@ void Config::read(string const &file_name)
 	string const _include_for_class_{"include_for_class"};
 	string const _include_for_namespace_{"include_for_namespace"};
 
+	string const _buffer_protocol_{"buffer_protocol"};
+
 	string const _binder_{"binder"};
 	string const _add_on_binder_{"add_on_binder"};
 
@@ -142,6 +144,11 @@ void Config::read(string const &file_name)
 			}
 			else {
 				throw std::runtime_error("include_for_namespace must be '+' configuration.");
+			}
+		}
+		else if( token == _buffer_protocol_ ) {
+			if(bind) {
+				buffer_protocols.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _binder_ ) {
