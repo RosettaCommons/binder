@@ -333,7 +333,6 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 {
-	if( dyn_cast<ClassTemplateSpecializationDecl>(C) ) return false;
 	bool bind = config.is_class_binding_requested(standard_name(C->getQualifiedNameAsString())) or config.is_class_binding_requested(class_qualified_name(C)) or
 				config.is_namespace_binding_requested(namespace_from_named_decl(C));
 	for( auto &t : get_type_dependencies(C) ) bind &= !is_skipping_requested(t, config);
