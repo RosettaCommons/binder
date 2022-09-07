@@ -186,7 +186,7 @@ Config file directives:
 * ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <http://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
 
 
-
+* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
 
 
 .. code-block:: bash
