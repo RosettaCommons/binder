@@ -50,7 +50,7 @@ private:
 	string default_member_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_call_guard_ = "";
-	string custom_shared_ = "";
+	string holder_type_ = "std::shared_ptr";
 
 public:
 	static Config &get();
@@ -80,8 +80,7 @@ public:
 	string const &default_member_rvalue_reference_return_value_policy() { return default_member_rvalue_reference_return_value_policy_; }
 	string const &default_call_guard() { return default_call_guard_; }
 
-	string const &custom_shared() const { return custom_shared_; }
-	bool use_custom_shared() const { return !custom_shared_.empty(); }
+	string const &holder_type() const { return holder_type_; }
 
 	string prefix;
 

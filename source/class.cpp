@@ -868,21 +868,14 @@ string bind_forward_declaration(CXXRecordDecl const *C, Context &context)
 
 	string const include = relevant_include(C);
 
-	string shared_ptr = "std::shared_ptr";
-	bool use_custom_shared = Config::get().use_custom_shared();
-	if( use_custom_shared )
-		shared_ptr = Config::get().custom_shared();
-
+	string holder_type = Config::get().holder_type();
 
 	string c = "\t// Forward declaration for: " + qualified_name + " file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(C) + "\n";
 
-	string maybe_holder_type = ", {}<{}>"_format(shared_ptr, qualified_name);
+	string maybe_holder_type = ", {}<{}>"_format(holder_type, qualified_name);
 	//Check if the type is a custom shared pointer:
-	if( use_custom_shared && qualified_name.rfind(shared_ptr, 0) == 0 ) {
-		maybe_holder_type = "";
-	}
-	else if( is_inherited_from_enable_shared_from_this(C) ) {
-		maybe_holder_type = ", {}<{}>"_format(shared_ptr, qualified_name);
+	if( is_inherited_from_enable_shared_from_this(C) ) {
+		maybe_holder_type = ", {}<{}>"_format(holder_type, qualified_name);
 	}
 	else if( CXXDestructorDecl *d = C->getDestructor() ) {
 		if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
@@ -1184,19 +1177,12 @@ void ClassBinder::bind(Context &context)
 	string const trampoline_name = callback_structure_constructible ? callback_structure_name(C) : "";
 	string const binding_qualified_name = callback_structure_constructible ? callback_structure_name(C) : qualified_name;
 
-	string shared_ptr = "std::shared_ptr";
-	bool use_custom_shared = Config::get().use_custom_shared();
-	if( use_custom_shared )
-		shared_ptr = Config::get().custom_shared();
+	string holder_type = Config::get().holder_type();
 
+	string maybe_holder_type = ", {}<{}>"_format(holder_type, qualified_name);
 
-	string maybe_holder_type = ", {}<{}>"_format(shared_ptr, qualified_name);
-	//Check if the type is a custom shared pointer:
-	if( use_custom_shared && qualified_name.rfind(shared_ptr, 0) == 0 ) {
-		maybe_holder_type = "";
-	}
-	else if( is_inherited_from_enable_shared_from_this(C) ) {
-		maybe_holder_type = ", {}<{}>"_format(shared_ptr, qualified_name);
+	if( is_inherited_from_enable_shared_from_this(C) ) {
+		maybe_holder_type = ", {}<{}>"_format(holder_type, qualified_name);
 	}
 	else if( CXXDestructorDecl *d = C->getDestructor() ) {
 		if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
