@@ -333,7 +333,10 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 {
-	if( dyn_cast<ClassTemplateSpecializationDecl>(C) ) return false;
+	static bool bind_class_template_specialization = O_bind_class_template_specialization;
+
+	if( (not bind_class_template_specialization) and dyn_cast<ClassTemplateSpecializationDecl>(C) ) return false;
+
 	bool bind = config.is_class_binding_requested(standard_name(C->getQualifiedNameAsString())) or config.is_class_binding_requested(class_qualified_name(C)) or
 				config.is_namespace_binding_requested(namespace_from_named_decl(C));
 	for( auto &t : get_type_dependencies(C) ) bind &= !is_skipping_requested(t, config);
@@ -1074,12 +1077,13 @@ string bind_constructor(ConstructorBindingInfo const &CBI)
 
 
 /// generate (if any) bindings for Python __str__ by using appropriate global operator<<
-std::string ClassBinder::bind_repr(Context &context)
+std::string ClassBinder::bind_repr(Context &context, Config const &config)
 {
 	string c;
+	string qualified_name = class_qualified_name(C);
+	if( config.is_function_skipping_requested(qualified_name + "::__str__") or config.is_function_skipping_requested( standard_name(C->getQualifiedNameAsString() + "::__str__" ) ) ) return c;
 
 	if( FunctionDecl const *F = context.global_insertion_operator(C) ) {
-		string qualified_name = class_qualified_name(C);
 		// outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
 
 		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; s << o; return s.str(); }} );\n"_format(qualified_name);
@@ -1271,7 +1275,7 @@ void ClassBinder::bind(Context &context)
 
 	c += binding_template_bases(C, callback_structure, callback_structure_constructible, context);
 
-	c += bind_repr(context);
+	c += bind_repr(context, Config::get());
 
 	std::map<string, string> const &external_add_on_binders = Config::get().add_on_binders();
 	if( external_add_on_binders.count(qualified_name_without_template) ) c += "\n\t{}(cl);\n"_format(external_add_on_binders.at(qualified_name_without_template));

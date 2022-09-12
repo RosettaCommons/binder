@@ -117,7 +117,7 @@ private:
 	string bind_nested_classes(Context &context);
 
 	/// generate (if any) bindings for Python __str__ by using appropriate global operator<<
-	std::string bind_repr(Context &);
+	std::string bind_repr(Context &, Config const &);
 };
 
 

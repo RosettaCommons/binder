@@ -76,5 +76,11 @@ void instantiate()
 }
 
 
+template<typename T>
+class TemplateSpecialization {
+public:
+    T data;
+};
+template class TemplateSpecialization<float>;
 
 #endif // _INCLUDED_T20_template_hpp_

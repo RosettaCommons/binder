@@ -1,5 +1,6 @@
 // File: T20_template.cpp
 #include <T20.template.hpp> // A
+#include <T20.template.hpp> // TemplateSpecialization
 #include <T20.template.hpp> // add
 #include <T20.template.hpp> // fi
 #include <T20.template.hpp> // fi_instantiated_by_use_in_function
@@ -65,6 +66,11 @@ void bind_T20_template(std::function< pybind11::module &(std::string const &name
 	// instantiate() file:T20.template.hpp line:68
 	M("").def("instantiate", (void (*)()) &instantiate, "C++: instantiate() --> void");
 
+	{ // TemplateSpecialization file:T20.template.hpp line:84
+		pybind11::class_<TemplateSpecialization<float>, std::shared_ptr<TemplateSpecialization<float>>> cl(M(""), "TemplateSpecialization_float_t", "");
+		cl.def( pybind11::init( [](){ return new TemplateSpecialization<float>(); } ) );
+		cl.def_readwrite("data", &TemplateSpecialization<float>::data);
+	}
 }
 
 

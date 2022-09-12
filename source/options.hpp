@@ -33,4 +33,6 @@ extern llvm::cl::list<std::string> O_skip;
 extern llvm::cl::opt<std::string> O_config;
 extern llvm::cl::opt<bool> O_suppress_errors;
 
+extern llvm::cl::opt<bool> O_bind_class_template_specialization;
+
 #endif // _INCLUDED_options_hpp_

@@ -259,7 +259,11 @@ string mangle_type_name(string const &name, bool mark_template)
 		if( c == '<' or c == '>' or c == ',' ) template_ = true;
 	}
 
-	if( template_ and mark_template ) r.push_back('t');
+	if( template_ and mark_template ) {
+		replace(r, "*", "_star_");
+		r.push_back('t');
+	}
+
 	return r;
 }
 

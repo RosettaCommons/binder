@@ -52,6 +52,35 @@ void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace
 }
 
 
+// File: std/T40_stl.cpp
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <iterator> // std::move_iterator
+#include <iterator> // std::reverse_iterator
+#include <memory> // std::allocator
+#include <sstream> // __str__
+#include <vector> // std::vector
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+#include <stl_binders.hpp>
+
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_std_T40_stl(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	// std::vector file:T40.stl.hpp line:22
+	binder::vector_binder<float,std::allocator<float>>(M("std"), "float", "std_allocator_float_t");
+
+}
+
+
 #include <map>
 #include <algorithm>
 #include <functional>
@@ -65,6 +94,7 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_std_T40_stl(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(T40_stl, root_module) {
@@ -97,6 +127,7 @@ PYBIND11_MODULE(T40_stl, root_module) {
 
 	bind_std_stl_vector(M);
 	bind_T40_stl(M);
+	bind_std_T40_stl(M);
 
 }
 
@@ -104,6 +135,7 @@ PYBIND11_MODULE(T40_stl, root_module) {
 // T40_stl.cpp
 // std/stl_vector.cpp
 // T40_stl.cpp
+// std/T40_stl.cpp
 
 // Modules list file: TEST/T40_stl.modules
 // std 
