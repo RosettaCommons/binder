@@ -225,7 +225,16 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 #else
 	t.print(Policy, s, true);
 #endif
-	return s.str();
+
+    string r = s.str();
+
+	// // simplify result if argument is a small number, taking care of cases like 1L or 1UL
+	// if( r.size() < 5 and std::isdigit(r[0]) ) {
+	// 	if( ends_with(r, "UL" ) ) r.resize( r.size() - 2 );
+	// 	else if( ends_with(r, "L" ) ) r.resize( r.size() - 1 );
+	// }
+
+	return r;
 }
 
 
