@@ -93,6 +93,7 @@ public:
 
 	bool is_class_binding_requested(string const &class_) const;
 	bool is_class_skipping_requested(string const &class_) const;
+	bool is_buffer_protocol_requested(string const &class_) const;
 
 	bool is_include_skipping_requested(string const &include) const;
 

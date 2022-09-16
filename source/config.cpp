@@ -324,6 +324,20 @@ bool Config::is_class_skipping_requested(string const &class__) const
 	return false;
 }
 
+bool Config::is_buffer_protocol_requested(string const &class__) const
+{
+	string class_{class__};
+	class_.erase(std::remove(class_.begin(), class_.end(), ' '), class_.end());
+
+	auto buffer_protocol = std::find(buffer_protocols.begin(), buffer_protocols.end(), class_);
+
+	if( buffer_protocol != buffer_protocols.end() ) {
+		// outs() << "Using buffer protocol for class : " << class_ << "\n";
+		return true;
+	}
+
+	return false;
+}
 
 bool Config::is_include_skipping_requested(string const &include) const
 {

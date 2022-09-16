@@ -1184,11 +1184,9 @@ void ClassBinder::bind(Context &context)
 
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
-	// Add buffer protocol
-	auto bp = Config::get().buffer_protocols;
-	bool has_buffer_protocol = std::find(bp.begin(), bp.end(), qualified_name_without_template) != bp.end();
+	// Add buffer protocol if requested
 	std::string buffer_protocol_annotation = "";
-	if (has_buffer_protocol)
+	if (Config::get().is_buffer_protocol_requested(qualified_name_without_template))
 		buffer_protocol_annotation = ", pybind11::buffer_protocol()";
 
 	if( named_class )
