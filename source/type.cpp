@@ -682,7 +682,10 @@ bool is_python_builtin(NamedDecl const *C)
 
 		"std::__hash_value_type",
 
-		"std::function", "std::complex"};
+		"std::function", "std::complex",
+
+		"pybind11::dict",
+	};
 
 	for( auto &k : known_builtin ) {
 		// if( begins_with(name, k) ) return true;
