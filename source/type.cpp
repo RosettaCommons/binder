@@ -684,6 +684,8 @@ bool is_python_builtin(NamedDecl const *C)
 
 		"std::function", "std::complex",
 
+		"std::optional",
+
 		"pybind11::dict",
 	};
 
