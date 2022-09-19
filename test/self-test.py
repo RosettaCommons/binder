@@ -73,12 +73,15 @@ def run_test(test_path, build_dir):
     config = test_path[:-len('.hpp')] + '.config'
     if not os.path.isfile(config): config = ''
 
-    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/..'.format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, source=source_include,
-                                                                                                                                                                                                            config='--config {}'.format(config) if config else '')
+    python_includes = '-I/usr/include/python2.7'
+
+    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
+        .format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, source=source_include,
+                config='--config {}'.format(config) if config else '', pybind11=Options.pybind11, python_includes=python_includes)
 
     execute('{} Running test...'.format(test), command_line);
 
-    command_line = 'cd {build_dir} && clang++ -O3 -shared -std=c++11 -isystem {pybind11} -I/usr/include/python2.7 -I./.. -I./../.. -I./../../source {root_module}.cpp -o {root_module}.so -fPIC'.format(pybind11=Options.pybind11, root_module=root_module, build_dir=build_dir)
+    command_line = 'cd {build_dir} && clang++ -O3 -shared -std=c++11 -isystem {pybind11} {python_includes} -I./.. -I./../.. -I./../../source {root_module}.cpp -o {root_module}.so -fPIC'.format(pybind11=Options.pybind11, root_module=root_module, build_dir=build_dir, python_includes=python_includes)
     execute('{} Compiling binding results...'.format(test), command_line);
 
     command_line = "cd {build_dir} && python2.7 -c 'import {root_module}'".format(root_module=root_module, build_dir=build_dir)
