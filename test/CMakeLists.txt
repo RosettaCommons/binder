@@ -98,6 +98,7 @@ set( binder_tests
          T30.include
          T31.include_for_class
          T32.call_guard
+         T33.buffer_protocol
          T40.stl
          T42.stl.names
          T42.stl.names.map

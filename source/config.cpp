@@ -61,6 +61,8 @@ void Config::read(string const &file_name)
 	string const _include_for_class_{"include_for_class"};
 	string const _include_for_namespace_{"include_for_namespace"};
 
+	string const _buffer_protocol_{"buffer_protocol"};
+
 	string const _binder_{"binder"};
 	string const _add_on_binder_{"add_on_binder"};
 
@@ -142,6 +144,11 @@ void Config::read(string const &file_name)
 			}
 			else {
 				throw std::runtime_error("include_for_namespace must be '+' configuration.");
+			}
+		}
+		else if( token == _buffer_protocol_ ) {
+			if(bind) {
+				buffer_protocols.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _binder_ ) {
@@ -317,6 +324,20 @@ bool Config::is_class_skipping_requested(string const &class__) const
 	return false;
 }
 
+bool Config::is_buffer_protocol_requested(string const &class__) const
+{
+	string class_{class__};
+	class_.erase(std::remove(class_.begin(), class_.end(), ' '), class_.end());
+
+	auto buffer_protocol = std::find(buffer_protocols.begin(), buffer_protocols.end(), class_);
+
+	if( buffer_protocol != buffer_protocols.end() ) {
+		// outs() << "Using buffer protocol for class : " << class_ << "\n";
+		return true;
+	}
+
+	return false;
+}
 
 bool Config::is_include_skipping_requested(string const &include) const
 {
