@@ -686,7 +686,43 @@ bool is_python_builtin(NamedDecl const *C)
 
 		"std::optional",
 
+		// pybind11 types
+		// https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
+		// https://pybind11.readthedocs.io/en/stable/reference.html
+		"pybind11::handle",
+		"pybind11::object",
+		"pybind11::module_",
+		"pybind11::iterator",
+		"pybind11::type",
+		"pybind11::iterable",
+		"pybind11::str",
+		"pybind11::bytes",
+		"pybind11::bytesarray",
+		"pybind11::none",
+		"pybind11::ellipsis",
+		"pybind11::bool_",
+		"pybind11::int_",
+		"pybind11::float_",
+		"pybind11::weakref",
+		"pybind11::slice",
+		"pybind11::capsule",
+		"pybind11::tuple",
+		"pybind11::args",
 		"pybind11::dict",
+		"pybind11::kwargs",
+		"pybind11::sequence",
+		"pybind11::list",
+		"pybind11::anyset",
+		"pybind11::frozenset",
+		"pybind11::set",
+		"pybind11::function",
+		"pybind11::function",
+		"pybind11::cpp_function",
+		"pybind11::staticmethod",
+		"pybind11::buffer",
+		"pybind11::memoryview",
+		"pybind11::array",
+		"pybind11::array_t",
 	};
 
 	for( auto &k : known_builtin ) {
