@@ -78,6 +78,18 @@ Config file directives:
 
 
 
+* ``python_builtin``, specify if particular class/struct should be considered a python builtin and assume existing bindings for it already exist.
+  The purpose of this directive is to allow developer to allow developers to toggle if bindings for types like ``std::optional`` or ``pybind11::dict`` should be
+  generated, or if binder should assume such bindings already exist somewhere else. Alternatively, a developer could declare a type as not-builtin if they
+  would prefer to force binder to generate bindings for it. Note that ``-python_builtin ab`c` always overrides ``+python_builtin abc``.
+
+.. code-block:: bash
+
+  -python_builtin std::less
+  +python_builtin std::vector
+
+
+
 * ``function``, specify if particular function should be bound. This could be used for both template and normal function.
 
 .. code-block:: bash
