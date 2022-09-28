@@ -14,6 +14,7 @@
 #ifndef _INCLUDED_config_hpp_
 #define _INCLUDED_config_hpp_
 
+#include <set>
 #include <map>
 #include <string>
 #include <vector>
@@ -67,6 +68,8 @@ public:
 
 	std::map<string, string> const &binder_for_namespaces() const { return binder_for_namespaces_; }
 	std::map<string, string> const &add_on_binder_for_namespaces() const { return add_on_binder_for_namespaces_; }
+
+	std::set<string> python_builtins, not_python_builtins;
 
 	std::map<string, std::vector<string> > const &class_includes() const { return class_includes_; }
 	std::map<string, std::vector<string> > const &namespace_includes() const { return namespace_includes_; }

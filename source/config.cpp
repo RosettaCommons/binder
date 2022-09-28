@@ -57,6 +57,8 @@ void Config::read(string const &file_name)
 	string const _function_{"function"};
 	string const _class_{"class"};
 
+	string const _python_builtin_{"python_builtin"};
+
 	string const _include_{"include"};
 	string const _include_for_class_{"include_for_class"};
 	string const _include_for_namespace_{"include_for_namespace"};
@@ -115,6 +117,11 @@ void Config::read(string const &file_name)
 
 			if( bind ) classes_to_bind.push_back(name_without_spaces);
 			else classes_to_skip.push_back(name_without_spaces);
+		}
+		else if( token == _python_builtin_ ) {
+
+			if (bind) python_builtins.insert(name_without_spaces);
+			else not_python_builtins.insert(name_without_spaces);
 		}
 		else if( token == _function_ ) {
 
