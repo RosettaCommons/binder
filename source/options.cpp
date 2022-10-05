@@ -30,7 +30,7 @@ cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(
 cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc."),
 					 cl::init(false), cl::cat(BinderToolCategory));
 
-cl::opt<bool> O_stl("stl", cl::desc("When specified bindings for STL classes in <pybind11/stl.h> will be used instead of generating custom STL bindings."),
+cl::opt<bool> O_include_pybind11_stl("include-pybind11-stl", cl::desc("When specified bindings for STL classes in <pybind11/stl.h> will be used instead of generating custom STL bindings."),
 					 cl::init(false), cl::cat(BinderToolCategory));
 
 

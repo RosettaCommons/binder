@@ -746,7 +746,7 @@ bool is_python_builtin(NamedDecl const *C)
 	if (Config::get().python_builtins.count(name) || known_builtin.count(name))
 		return true;
 	// STL
-	if (O_stl && Config::get().stl_builtin.count(name))
+	if (O_include_pybind11_stl && Config::get().stl_builtin.count(name))
 		return true;
 
 	return false;
