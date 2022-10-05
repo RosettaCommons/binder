@@ -725,8 +725,15 @@ bool is_python_builtin(NamedDecl const *C)
 		"pybind11::array_t",
 	};
 
-	for( auto &k : known_builtin ) {
-		// if( begins_with(name, k) ) return true;
+	// Not builtin's
+	for ( const auto &k : Config::get().not_python_builtins ) {
+		if ( name == k ) return false;
+	}
+	// Builtins
+	for( const auto &k : known_builtin ) {
+		if( name == k ) return true;
+	}
+	for( const auto &k : Config::get().python_builtins ) {
 		if( name == k ) return true;
 	}
 
