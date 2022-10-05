@@ -40,7 +40,7 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 ``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
 
-``--include-pybind11-stl`` "if specified bindings for STL classes in ``<pybind11/stl.h>`` will be used instead of generating custom STL bindings. Note, STL bindings may be overkill and have potential preformance implications if data does not need to be copied between ``C++`` and ``python``. For more information, see `pybind11 documentation <https://pybind11.readthedocs.io/en/stable/advanced/cast/stl.html>`_.
+``--include-pybind11-stl`` "if specified bindings for STL classes in ``<pybind11/stl.h>`` will be used instead of generating custom STL bindings. Note, STL bindings may be overkill and have potential preformance implications if data does not need to be copied between ``C++`` and ``python``. For more information, see `pybind11 STL documentation <https://pybind11.readthedocs.io/en/stable/advanced/cast/stl.html>`_.
 
 
 ``--annotate-includes`` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
