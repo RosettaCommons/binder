@@ -18,6 +18,7 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include <sstream>
 #include <fstream>
 #include <stdexcept>
 
@@ -357,9 +358,11 @@ bool Config::is_include_skipping_requested(string const &include) const
 
 string Config::includes_code() const
 {
-	string c;
-	for( auto &i : includes_to_add ) c += "#include " + i + "\n";
-	return c.size() ? c + '\n' : c;
+	std::ostringstream s;
+	for( auto &i : includes_to_add ) s << "#include " << i << "\n";
+	if (O_include_pybind11_stl) s << "#include <pybind11/stl.h>\n";
+	if (s.tellp() != std::streampos(0)) s << '\n';
+	return s.str();
 }
 
 } // namespace binder

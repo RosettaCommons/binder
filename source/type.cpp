@@ -653,7 +653,7 @@ bool is_python_builtin(NamedDecl const *C)
 	string name = standard_name(C->getQualifiedNameAsString());
 	// if( begins_with(name, "class ") ) name = name.substr(6); // len("class ")
 
-	static std::vector<string> const known_builtin = {
+	static std::set<string> const known_builtin = {
 		//"std::nullptr_t", "nullptr_t",
 		"std::basic_string", "std::initializer_list", "std::__1::basic_string",
 
@@ -683,8 +683,6 @@ bool is_python_builtin(NamedDecl const *C)
 		"std::__hash_value_type",
 
 		"std::function", "std::complex",
-
-		"std::optional",
 
 		// pybind11 types
 		// https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
@@ -716,7 +714,6 @@ bool is_python_builtin(NamedDecl const *C)
 		"pybind11::frozenset",
 		"pybind11::set",
 		"pybind11::function",
-		"pybind11::function",
 		"pybind11::cpp_function",
 		"pybind11::staticmethod",
 		"pybind11::buffer",
@@ -725,17 +722,32 @@ bool is_python_builtin(NamedDecl const *C)
 		"pybind11::array_t",
 	};
 
+	static std::set<string> const stl_builtin = {
+		"std::vector",
+		"std::deque",
+		"std::list",
+		"std::array",
+		"std::valarray",
+		"std::set",
+		"std::unordered_set",
+		"std::map",
+		"std::unordered_map",
+		// C++14
+		"std::experimental::optional",
+		// C++17
+		"std::optional",
+		"std::variant",
+	};
+
 	// Not builtin's
-	for ( const auto &k : Config::get().not_python_builtins ) {
-		if ( name == k ) return false;
-	}
+	if (Config::get().not_python_builtins.count(name))
+		return false;
 	// Builtins
-	for( const auto &k : known_builtin ) {
-		if( name == k ) return true;
-	}
-	for( const auto &k : Config::get().python_builtins ) {
-		if( name == k ) return true;
-	}
+	if (Config::get().python_builtins.count(name) || known_builtin.count(name))
+		return true;
+	// STL
+	if (O_include_pybind11_stl && stl_builtin.count(name))
+		return true;
 
 	return false;
 }
