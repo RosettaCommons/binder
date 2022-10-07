@@ -21,11 +21,11 @@ void bind_T12_operator(std::function< pybind11::module &(std::string const &name
 		cl.def("__add__", (struct T & (T::*)(int)) &T::operator+, "C++: T::operator+(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__sub__", (struct T & (T::*)(int)) &T::operator-, "C++: T::operator-(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__mul__", (struct T & (T::*)(int)) &T::operator*, "C++: T::operator*(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
-		cl.def("__div__", (struct T & (T::*)(int)) &T::operator/, "C++: T::operator/(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__truediv__", (struct T & (T::*)(int)) &T::operator/, "C++: T::operator/(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__iadd__", (void (T::*)(int)) &T::operator+=, "C++: T::operator+=(int) --> void", pybind11::arg(""));
 		cl.def("__isub__", (void (T::*)(int)) &T::operator-=, "C++: T::operator-=(int) --> void", pybind11::arg(""));
 		cl.def("__imul__", (void (T::*)(int)) &T::operator*=, "C++: T::operator*=(int) --> void", pybind11::arg(""));
-		cl.def("__idiv__", (void (T::*)(int)) &T::operator/=, "C++: T::operator/=(int) --> void", pybind11::arg(""));
+		cl.def("__itruediv__", (void (T::*)(int)) &T::operator/=, "C++: T::operator/=(int) --> void", pybind11::arg(""));
 		cl.def("__call__", (void (T::*)(int)) &T::operator(), "C++: T::operator()(int) --> void", pybind11::arg(""));
 		cl.def("__eq__", (bool (T::*)(const struct T &)) &T::operator==, "C++: T::operator==(const struct T &) --> bool", pybind11::arg(""));
 		cl.def("__ne__", (bool (T::*)(const struct T &)) &T::operator!=, "C++: T::operator!=(const struct T &) --> bool", pybind11::arg(""));
@@ -87,4 +87,4 @@ PYBIND11_MODULE(T12_operator, root_module) {
 // T12_operator.cpp
 
 // Modules list file: TEST/T12_operator.modules
-// 
+//
