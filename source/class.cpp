@@ -1191,7 +1191,7 @@ void ClassBinder::bind(Context &context)
 
 	if( named_class )
 		c += '\t' +
-			 R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}" {});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
+			 R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}"{});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
 																		generate_documentation_string_for_declaration(C), buffer_protocol_annotation) +
 			 '\n';
 	// c += "\tpybind11::handle cl_type = cl;\n\n";

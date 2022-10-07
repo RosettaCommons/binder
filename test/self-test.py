@@ -70,13 +70,19 @@ def run_test(test_path, build_dir):
     with open(source_include, 'w') as f: f.write( '#include <{}>\n'.format(test) )
 
     root_module = test[:-len('.hpp')].replace('.', '_')
+
     config = test_path[:-len('.hpp')] + '.config'
     if not os.path.isfile(config): config = ''
 
+    cli_file_name = test_path[:-len('.hpp')] + '.cli'
+    try:
+        with open(cli_file_name) as f: cli = ' ' + f.read()
+    except FileNotFoundError as e: cli = ''
+
     python_includes = '-I/usr/include/python2.7'
 
-    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
-        .format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, source=source_include,
+    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config}{cli} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
+        .format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, cli=cli, source=source_include,
                 config='--config {}'.format(config) if config else '', pybind11=Options.pybind11, python_includes=python_includes)
 
     execute('{} Running test...'.format(test), command_line);

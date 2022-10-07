@@ -34,12 +34,8 @@
 
 void bind_T43_stl_pybind11_include_stl(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// test_include_stl(class std::vector<int>, class std::deque<int>, class std::list<int>, struct std::array<int, 5>, class std::valarray<int>, class std::set<int>, class std::unordered_set<int>, class std::map<int, int>, class 
-std::unordered_map<int, int>) file:T43.stl.pybind11_include_stl.hpp line:22
-	M("").def("test_include_stl", (void (*)(class std::vector<int>, class std::deque<int>, class std::list<int>, struct std::array<int, 5>, class std::valarray<int>, class std::set<int>, class std::unordered_set<int>, class std::map<int, int>, 
-class std::unordered_map<int, int>)) &test_include_stl, "C++: test_include_stl(class std::vector<int>, class std::deque<int>, class std::list<int>, struct std::array<int, 5>, class std::valarray<int>, class std::set<int>, class 
-std::unordered_set<int>, class std::map<int, int>, class std::unordered_map<int, int>) --> void", pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), 
-pybind11::arg(""));
+	// test_include_stl(class std::vector<int, class std::allocator<int> >, class std::deque<int, class std::allocator<int> >, class std::list<int, class std::allocator<int> >, struct std::array<int, 5>, class std::valarray<int>, class std::set<int, struct std::less<int>, class std::allocator<int> >, class std::unordered_set<int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<int> >, class std::map<int, int, struct std::less<int>, class std::allocator<struct std::pair<const int, int> > >, class std::unordered_map<int, int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<struct std::pair<const int, int> > >) file:T43.stl.pybind11_include_stl.hpp line:22
+	M("").def("test_include_stl", (void (*)(class std::vector<int, class std::allocator<int> >, class std::deque<int, class std::allocator<int> >, class std::list<int, class std::allocator<int> >, struct std::array<int, 5>, class std::valarray<int>, class std::set<int, struct std::less<int>, class std::allocator<int> >, class std::unordered_set<int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<int> >, class std::map<int, int, struct std::less<int>, class std::allocator<struct std::pair<const int, int> > >, class std::unordered_map<int, int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<struct std::pair<const int, int> > >)) &test_include_stl, "C++: test_include_stl(class std::vector<int, class std::allocator<int> >, class std::deque<int, class std::allocator<int> >, class std::list<int, class std::allocator<int> >, struct std::array<int, 5>, class std::valarray<int>, class std::set<int, struct std::less<int>, class std::allocator<int> >, class std::unordered_set<int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<int> >, class std::map<int, int, struct std::less<int>, class std::allocator<struct std::pair<const int, int> > >, class std::unordered_map<int, int, struct std::hash<int>, struct std::equal_to<int>, class std::allocator<struct std::pair<const int, int> > >) --> void", pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""), pybind11::arg(""));
 
 }
 
@@ -89,9 +85,9 @@ PYBIND11_MODULE(T43_stl_pybind11_include_stl, root_module) {
 
 }
 
-// Source list file: /build/test//T43_stl_pybind11_include_stl.sources
+// Source list file: TEST/T43_stl_pybind11_include_stl.sources
 // T43_stl_pybind11_include_stl.cpp
 // T43_stl_pybind11_include_stl.cpp
 
-// Modules list file: /build/test//T43_stl_pybind11_include_stl.modules
-//
+// Modules list file: TEST/T43_stl_pybind11_include_stl.modules
+// 

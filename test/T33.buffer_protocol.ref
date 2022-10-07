@@ -16,7 +16,7 @@
 void bind_T33_buffer_protocol(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // A file:T33.buffer_protocol.hpp line:11
-		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "" , pybind11::buffer_protocol());
+		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "", pybind11::buffer_protocol());
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 	}
 }
@@ -67,9 +67,9 @@ PYBIND11_MODULE(T33_buffer_protocol, root_module) {
 
 }
 
-// Source list file: /home/kkrissian/devel/binder2/_build/test//T33_buffer_protocol.sources
+// Source list file: TEST/T33_buffer_protocol.sources
 // T33_buffer_protocol.cpp
 // T33_buffer_protocol.cpp
 
-// Modules list file: /home/kkrissian/devel/binder2/_build/test//T33_buffer_protocol.modules
+// Modules list file: TEST/T33_buffer_protocol.modules
 // 

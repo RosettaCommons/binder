@@ -10,46 +10,35 @@
 
 #include <string>
 #include <pybind11/stl.h>
+#include <pybind11/numpy.h>
 
-#define TEST_PY_FN(TYPE) \
-	void test_py_##TYPE(pybind11::TYPE &) {}
-
-TEST_PY_FN(handle);
-TEST_PY_FN(object);
-TEST_PY_FN(module);
-TEST_PY_FN(iterator);
-TEST_PY_FN(type);
-TEST_PY_FN(module_);
-TEST_PY_FN(iterator);
-TEST_PY_FN(type);
-TEST_PY_FN(iterable);
-TEST_PY_FN(str);
-TEST_PY_FN(bytes);
-TEST_PY_FN(bytesarray);
-TEST_PY_FN(none);
-TEST_PY_FN(ellipsis);
-TEST_PY_FN(bool_);
-TEST_PY_FN(int_);
-TEST_PY_FN(float_);
-TEST_PY_FN(weakref);
-TEST_PY_FN(slice);
-TEST_PY_FN(capsule);
-TEST_PY_FN(tuple);
-TEST_PY_FN(args);
-TEST_PY_FN(dict);
-TEST_PY_FN(kwargs);
-TEST_PY_FN(sequence);
-TEST_PY_FN(list);
-TEST_PY_FN(anyset);
-TEST_PY_FN(frozenset);
-TEST_PY_FN(set);
-TEST_PY_FN(function);
-TEST_PY_FN(function);
-TEST_PY_FN(cpp_function);
-TEST_PY_FN(staticmethod);
-TEST_PY_FN(buffer);
-TEST_PY_FN(memoryview);
-TEST_PY_FN(array);
-TEST_PY_FN(array_t);
-
-#undef TEST_PY_FN
+void foo(pybind11::handle &) {}
+void foo(pybind11::object &) {}
+void foo(pybind11::module &) {}
+void foo(pybind11::iterator &) {}
+//void foo(pybind11::type &) {}
+void foo(pybind11::iterable &) {}
+void foo(pybind11::str &) {}
+void foo(pybind11::bytes &) {}
+//void foo(pybind11::bytesarray &) {}
+void foo(pybind11::none &) {}
+void foo(pybind11::ellipsis &) {}
+void foo(pybind11::bool_ &) {}
+void foo(pybind11::int_ &) {}
+void foo(pybind11::float_ &) {}
+void foo(pybind11::weakref &) {}
+void foo(pybind11::slice &) {}
+void foo(pybind11::capsule &) {}
+void foo(pybind11::tuple &) {}
+//void foo(pybind11::args &) {}
+//void foo(pybind11::kwargs &) {}
+void foo(pybind11::dict &) {}
+void foo(pybind11::sequence &) {}
+void foo(pybind11::list &) {}
+//void foo(pybind11::anyset &) {}
+//void foo(pybind11::frozenset &) {}
+void foo(pybind11::set &) {}
+void foo(pybind11::function &) {}
+void foo(pybind11::buffer &) {}
+//void foo(pybind11::memoryview &) {}
+void foo(pybind11::array &) {}
