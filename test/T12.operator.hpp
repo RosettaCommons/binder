@@ -18,11 +18,13 @@ struct T
 	T &operator-(int) { return *this; }
 	T &operator*(int) { return *this; }
 	T &operator/(int) { return *this; }
+	T &operator%(int) { return *this; }
 
 	void operator+=(int) {}
 	void operator-=(int) {}
 	void operator*=(int) {}
 	void operator/=(int) {}
+	void operator%=(int) {}
 
 	void operator()(int) {}
 
