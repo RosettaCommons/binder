@@ -19,6 +19,9 @@ void bind_T12_operator(std::function< pybind11::module &(std::string const &name
 		pybind11::class_<T, std::shared_ptr<T>> cl(M(""), "T", "");
 		cl.def( pybind11::init( [](){ return new T(); } ) );
 		cl.def("__invert__", (struct T & (T::*)()) &T::operator~, "C++: T::operator~() --> struct T &", pybind11::return_value_policy::automatic);
+		cl.def("__pos__", (struct T & (T::*)()) &T::operator+, "C++: T::operator+() --> struct T &", pybind11::return_value_policy::automatic);
+		cl.def("__neg__", (struct T & (T::*)()) &T::operator-, "C++: T::operator-() --> struct T &", pybind11::return_value_policy::automatic);
+		cl.def("dereference", (struct T & (T::*)()) &T::operator*, "C++: T::operator*() --> struct T &", pybind11::return_value_policy::automatic);
 		cl.def("__add__", (struct T & (T::*)(int)) &T::operator+, "C++: T::operator+(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__sub__", (struct T & (T::*)(int)) &T::operator-, "C++: T::operator-(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__mul__", (struct T & (T::*)(int)) &T::operator*, "C++: T::operator*(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -100,4 +103,4 @@ PYBIND11_MODULE(T12_operator, root_module) {
 // T12_operator.cpp
 
 // Modules list file: TEST/T12_operator.modules
-// 
+//

@@ -40,40 +40,54 @@ using namespace fmt::literals;
 
 namespace binder {
 
-static std::map<string, string > const cpp_python_operator_map{
-	{"operator+", "__add__"}, //
-	{"operator-", "__sub__"}, //
-	{"operator*", "__mul__"}, //
-	{"operator/", "__truediv__"}, //
-	{"operator%", "__mod__"}, //
-	{"operator~", "__invert__"}, //
-	{"operator|", "__or__"}, //
-	{"operator&", "__and__"}, //
-	{"operator^", "__xor__"}, //
-	{"operator<<", "__lshift__"}, //
-	{"operator>>", "__rshift__"}, //
+// Return the python operator that maps to the C++ operator; returns "" if no mapping exists
+string cpp_python_operator(const FunctionDecl & F) {
+	static std::map<string, vector<string>> const m {
+		{"operator+", {"__pos__", "__add__"}}, //
+		{"operator-", {"__neg__", "__sub__"}}, //
+		{"operator*", {"dereference", "__mul__"}}, //
+		{"operator/", {"__truediv__"}}, //
+		{"operator%", {"__mod__"}}, //
+		{"operator~", {"__invert__"}}, //
+		{"operator|", {"__or__"}}, //
+		{"operator&", {"__and__"}}, //
+		{"operator^", {"__xor__"}}, //
+		{"operator<<", {"__lshift__"}}, //
+		{"operator>>", {"__rshift__"}}, //
 
-	{"operator+=", "__iadd__"}, //
-	{"operator-=", "__isub__"}, //
-	{"operator*=", "__imul__"}, //
-	{"operator/=", "__itruediv__"}, //
-	{"operator%=", "__imod__"}, //
-	{"operator|=", "__ior__"}, //
-	{"operator&=", "__iand__"}, //
-	{"operator^=", "__ixor__"}, //
-	{"operator<<=", "__ilshift__"}, //
-	{"operator>>=", "__irshift__"}, //
+		{"operator+=", {"__iadd__"}}, //
+		{"operator-=", {"__isub__"}}, //
+		{"operator*=", {"__imul__"}}, //
+		{"operator/=", {"__itruediv__"}}, //
+		{"operator%=", {"__imod__"}}, //
+		{"operator|=", {"__ior__"}}, //
+		{"operator&=", {"__iand__"}}, //
+		{"operator^=", {"__ixor__"}}, //
+		{"operator<<=", {"__ilshift__"}}, //
+		{"operator>>=", {"__irshift__"}}, //
 
-	{"operator()", "__call__"}, //
-	{"operator==", "__eq__"}, //
-	{"operator!=", "__ne__"}, //
-	{"operator[]", "__getitem__"}, //
-	{"operator=", "assign"}, //
-	{"operator++", "plus_plus"}, //
-	{"operator--", "minus_minus"}, //
+		{"operator()", {"__call__"}}, //
+		{"operator==", {"__eq__"}}, //
+		{"operator!=", {"__ne__"}}, //
+		{"operator[]", {"__getitem__"}}, //
+		{"operator=", {"assign"}}, //
+		{"operator++", {"pre_increment", "pre_increment"}}, //
+		{"operator--", {"pre_decrement", "post_decrement"}}, //
 
-	{"operator->", "arrow"}, //
-};
+		{"operator->", {"arrow"}} //
+  };
+	const auto & found = m.find(F.getNameAsString());
+	if (found != m.end()) {
+		const auto & vec { found->second };
+		if (vec.size() == 1) { return vec[0]; }
+		const auto n = F.getNumParams();
+		if (vec.size() > n) {
+			return vec[n];
+		}
+	}
+	return {};
+}
+
 
 // Generate function argument list separate by comma: int, bool, std::string
 string function_arguments(clang::FunctionDecl const *record)
@@ -211,7 +225,9 @@ string template_specialization(FunctionDecl const *F)
 // generate string represetiong class name that could be used in python
 string python_function_name(FunctionDecl const *F)
 {
-	if( F->isOverloadedOperator() ) return cpp_python_operator_map.at(F->getNameAsString());
+	if( F->isOverloadedOperator() ) {
+		return cpp_python_operator(*F);
+	}
 	else {
 		// if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
 		// }
@@ -481,7 +497,7 @@ bool is_bindable_raw(FunctionDecl const *F)
 
 	if( F->isOverloadedOperator() ) {
 		// outs() << "Operator: " << F->getNameAsString() << '\n';
-		if( !isa<CXXMethodDecl>(F) or !cpp_python_operator_map.count(F->getNameAsString()) ) return false;
+		if( !isa<CXXMethodDecl>(F) or (cpp_python_operator(*F).size() == 0) ) return false;
 	}
 
 	r &= F->getTemplatedKind() != FunctionDecl::TK_FunctionTemplate /*and  !F->isOverloadedOperator()*/ and !isa<CXXConversionDecl>(F) and !F->isDeleted();
