@@ -15,6 +15,7 @@ Contents:
     install
     basics
     config
+    limitations
     examples
     debugging
     testing
