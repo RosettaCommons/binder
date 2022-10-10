@@ -1086,7 +1086,7 @@ std::string ClassBinder::bind_repr(Context &context, Config const &config)
 	if( FunctionDecl const *F = context.global_insertion_operator(C) ) {
 		// outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
 
-		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; s << o; return s.str(); }} );\n"_format(qualified_name);
+		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; {}(s, o); return s.str(); }} );\n"_format(qualified_name, F->getQualifiedNameAsString());
 
 		prefix_includes_.push_back(F);
 	}

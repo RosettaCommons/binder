@@ -1,6 +1,12 @@
 // File: T31_include_for_class_incl_a_include.cpp
 #include <T31.include_for_class.incl.a.include> // aaaa::A
+#include <T31.include_for_class.incl.c.include> // aaaa::cccc::operator<<
+#include <ios> // std::_Ios_Seekdir
+#include <locale> // std::locale
+#include <ostream> // std::basic_ostream
 #include <sstream> // __str__
+#include <streambuf> // std::basic_streambuf
+#include <string> // std::char_traits
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -18,6 +24,8 @@ void bind_T31_include_for_class_incl_a_include(std::function< pybind11::module &
 	{ // aaaa::A file:T31.include_for_class.incl.a.include line:6
 		pybind11::class_<aaaa::A, std::shared_ptr<aaaa::A>> cl(M("aaaa"), "A", "");
 		cl.def( pybind11::init( [](){ return new aaaa::A(); } ) );
+
+		cl.def("__str__", [](aaaa::A const &o) -> std::string { std::ostringstream s; aaaa::cccc::operator<<(s, o); return s.str(); } );
 	}
 }
 
