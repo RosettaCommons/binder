@@ -45,11 +45,13 @@ static std::map<string, string > const cpp_python_operator_map{
 	{"operator-", "__sub__"}, //
 	{"operator*", "__mul__"}, //
 	{"operator/", "__truediv__"}, //
+	{"operator%", "__mod__"}, //
 
 	{"operator+=", "__iadd__"}, //
 	{"operator-=", "__isub__"}, //
 	{"operator*=", "__imul__"}, //
 	{"operator/=", "__itruediv__"}, //
+	{"operator%=", "__imod__"}, //
 
 	{"operator()", "__call__"}, //
 	{"operator==", "__eq__"}, //
