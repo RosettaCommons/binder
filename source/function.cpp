@@ -44,7 +44,7 @@ static std::map<string, string > const cpp_python_operator_map{
 	{"operator+", "__add__"}, //
 	{"operator-", "__sub__"}, //
 	{"operator*", "__mul__"}, //
-	{"operator/", "__div__"}, //
+	{"operator/", "__truediv__"}, //
 
 	{"operator+=", "__iadd__"}, //
 	{"operator-=", "__isub__"}, //
