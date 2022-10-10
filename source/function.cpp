@@ -46,12 +46,23 @@ static std::map<string, string > const cpp_python_operator_map{
 	{"operator*", "__mul__"}, //
 	{"operator/", "__truediv__"}, //
 	{"operator%", "__mod__"}, //
+	{"operator~", "__invert__"}, //
+	{"operator|", "__or__"}, //
+	{"operator&", "__and__"}, //
+	{"operator^", "__xor__"}, //
+	{"operator<<", "__lshift__"}, //
+	{"operator>>", "__rshift__"}, //
 
 	{"operator+=", "__iadd__"}, //
 	{"operator-=", "__isub__"}, //
 	{"operator*=", "__imul__"}, //
 	{"operator/=", "__itruediv__"}, //
 	{"operator%=", "__imod__"}, //
+	{"operator|=", "__ior__"}, //
+	{"operator&=", "__iand__"}, //
+	{"operator^=", "__ixor__"}, //
+	{"operator<<=", "__ilshift__"}, //
+	{"operator>>=", "__irshift__"}, //
 
 	{"operator()", "__call__"}, //
 	{"operator==", "__eq__"}, //

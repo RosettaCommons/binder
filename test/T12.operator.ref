@@ -18,16 +18,27 @@ void bind_T12_operator(std::function< pybind11::module &(std::string const &name
 	{ // T file:T12.operator.hpp line:15
 		pybind11::class_<T, std::shared_ptr<T>> cl(M(""), "T", "");
 		cl.def( pybind11::init( [](){ return new T(); } ) );
+		cl.def("__invert__", (struct T & (T::*)()) &T::operator~, "C++: T::operator~() --> struct T &", pybind11::return_value_policy::automatic);
 		cl.def("__add__", (struct T & (T::*)(int)) &T::operator+, "C++: T::operator+(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__sub__", (struct T & (T::*)(int)) &T::operator-, "C++: T::operator-(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__mul__", (struct T & (T::*)(int)) &T::operator*, "C++: T::operator*(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__div__", (struct T & (T::*)(int)) &T::operator/, "C++: T::operator/(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__mod__", (struct T & (T::*)(int)) &T::operator%, "C++: T::operator%(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__or__", (struct T & (T::*)(int)) &T::operator|, "C++: T::operator|(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__and__", (struct T & (T::*)(int)) &T::operator&, "C++: T::operator&(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__xor__", (struct T & (T::*)(int)) &T::operator^, "C++: T::operator^(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__lshift__", (struct T & (T::*)(int)) &T::operator<<, "C++: T::operator<<(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+		cl.def("__rshift__", (struct T & (T::*)(int)) &T::operator>>, "C++: T::operator>>(int) --> struct T &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("__iadd__", (void (T::*)(int)) &T::operator+=, "C++: T::operator+=(int) --> void", pybind11::arg(""));
 		cl.def("__isub__", (void (T::*)(int)) &T::operator-=, "C++: T::operator-=(int) --> void", pybind11::arg(""));
 		cl.def("__imul__", (void (T::*)(int)) &T::operator*=, "C++: T::operator*=(int) --> void", pybind11::arg(""));
 		cl.def("__idiv__", (void (T::*)(int)) &T::operator/=, "C++: T::operator/=(int) --> void", pybind11::arg(""));
 		cl.def("__imod__", (void (T::*)(int)) &T::operator%=, "C++: T::operator%=(int) --> void", pybind11::arg(""));
+		cl.def("__ior__", (void (T::*)(int)) &T::operator|=, "C++: T::operator|=(int) --> void", pybind11::arg(""));
+		cl.def("__iand__", (void (T::*)(int)) &T::operator&=, "C++: T::operator&=(int) --> void", pybind11::arg(""));
+		cl.def("__ixor__", (void (T::*)(int)) &T::operator^=, "C++: T::operator^=(int) --> void", pybind11::arg(""));
+		cl.def("__ilshift__", (void (T::*)(int)) &T::operator<<=, "C++: T::operator<<=(int) --> void", pybind11::arg(""));
+		cl.def("__irshift__", (void (T::*)(int)) &T::operator>>=, "C++: T::operator>>=(int) --> void", pybind11::arg(""));
 		cl.def("__call__", (void (T::*)(int)) &T::operator(), "C++: T::operator()(int) --> void", pybind11::arg(""));
 		cl.def("__eq__", (bool (T::*)(const struct T &)) &T::operator==, "C++: T::operator==(const struct T &) --> bool", pybind11::arg(""));
 		cl.def("__ne__", (bool (T::*)(const struct T &)) &T::operator!=, "C++: T::operator!=(const struct T &) --> bool", pybind11::arg(""));
