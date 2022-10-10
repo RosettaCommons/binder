@@ -49,7 +49,7 @@ static std::map<string, string > const cpp_python_operator_map{
 	{"operator+=", "__iadd__"}, //
 	{"operator-=", "__isub__"}, //
 	{"operator*=", "__imul__"}, //
-	{"operator/=", "__idiv__"}, //
+	{"operator/=", "__itruediv__"}, //
 
 	{"operator()", "__call__"}, //
 	{"operator==", "__eq__"}, //
