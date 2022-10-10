@@ -18,11 +18,13 @@ These operators include, but are not necessarily limited to:
     operator- (__sub__)
     operator* (__mul__)
     operator/ (__div__)
+    operator% (__mod__)
 
-    operator+ (__iadd__)
-    operator- (__isub__)
-    operator* (__imul__)
-    operator/ (__idiv__)
+    operator+= (__iadd__)
+    operator-= (__isub__)
+    operator*= (__imul__)
+    operator/= (__idiv__)
+    operator%= (__imod__)
 
     operator() (__call__)
     operator== (__eq__)
@@ -39,10 +41,6 @@ Ignored Operators
 The following operators will be ignored by binder:
 
 .. code-block:: console
-
-    // Arithmetic
-    %
-    %=
 
     // Bitwise
     ~
