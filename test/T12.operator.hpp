@@ -51,4 +51,6 @@ struct T
 	T &operator=(const T &) { return *this; }
 	T &operator++() { return *this; }
 	T &operator--() { return *this; }
+	T &operator++(int) { return *this; }
+	T &operator--(int) { return *this; }
 };
