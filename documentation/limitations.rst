@@ -74,14 +74,6 @@ The following operators will be ignored by binder:
 Miscellaneous
 -------------
 
-1.   The pre/post increment operators both map to ``plus_plus`, with the pre-increment operator being invoked via ``a.plus_plus()`` and post-increment via ``.plus_plus(0)``; just as the operators are technically defined in C++. The same is true for the pre/post decrement operators, both called ``minus_minus``.
+1.   The pre/post increment operators both map to ``plus_plus``, with the pre-increment operator being invoked via ``a.plus_plus()`` and post-increment via ``.plus_plus(0)``; just as the operators are technically defined in C++. The same is true for the pre/post decrement operators, both called ``minus_minus``.
 
 2.   User defined literals ``operator"" _foo`` end up being named as ``operator_foo``.
-
-----------
-Known Bugs
-----------
-
-1.   The unary ``operator+`` and unary ``operator-`` currently map to ``__add__`` and ``__sub__`` rather than ``__pos__`` and ``__neg__``.
-
-2.   The unary ``operator*`` (dereference operator) will currently map to ``__mul__``.

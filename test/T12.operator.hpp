@@ -16,6 +16,10 @@ struct T
 {
 	T &operator~() { return *this; }
 
+	T &operator+() { return *this; }
+	T &operator-() { return *this; }
+	T &operator*() { return *this; }
+
 	T &operator+(int) { return *this; }
 	T &operator-(int) { return *this; }
 	T &operator*(int) { return *this; }
