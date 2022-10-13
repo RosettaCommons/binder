@@ -41,6 +41,8 @@ using namespace fmt::literals;
 namespace binder {
 
 // Return the python operator that maps to the C++ operator; returns "" if no mapping exists
+// This correctly handles operators that have multiple meanings depending on their argument count
+// For example, operator_(this, other) maps to __sub__ while operator-(this) maps to __neg__
 string cpp_python_operator(const FunctionDecl & F) {
 	static std::map<string, vector<string>> const m {
 		{"operator+", {"__pos__", "__add__"}}, //
@@ -71,6 +73,7 @@ string cpp_python_operator(const FunctionDecl & F) {
 		{"operator!=", {"__ne__"}}, //
 		{"operator[]", {"__getitem__"}}, //
 		{"operator=", {"assign"}}, //
+
 		{"operator++", {"pre_increment", "pre_increment"}}, //
 		{"operator--", {"pre_decrement", "post_decrement"}}, //
 
@@ -79,11 +82,8 @@ string cpp_python_operator(const FunctionDecl & F) {
 	const auto & found = m.find(F.getNameAsString());
 	if (found != m.end()) {
 		const auto & vec { found->second };
-		if (vec.size() == 1) { return vec[0]; }
 		const auto n = F.getNumParams();
-		if (vec.size() > n) {
-			return vec[n];
-		}
+		return n < vec.size() ? vec[n] : vec.back();
 	}
 	return {};
 }
