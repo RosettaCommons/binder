@@ -659,7 +659,7 @@ bool is_python_builtin(NamedDecl const *C)
 
 		"std::allocator", "std::__allocator_destructor",
 
-		"std::shared_ptr", "std::enable_shared_from_this", "std::__shared_ptr", // "std::weak_ptr",  "std::__weak_ptr"
+		Config::get().holder_type(), "std::shared_ptr", "std::enable_shared_from_this", "std::__shared_ptr", // "std::weak_ptr",  "std::__weak_ptr"
 		"std::unique_ptr",
 		//"std::__1::shared_ptr", "std::__1::weak_ptr", "std::__1::allocator",
 

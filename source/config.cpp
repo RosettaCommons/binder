@@ -72,6 +72,8 @@ void Config::read(string const &file_name)
 	string const _binder_for_namespace_{"binder_for_namespace"};
 	string const _add_on_binder_for_namespace_{"add_on_binder_for_namespace"};
 
+	string const _custom_shared_{"custom_shared"};
+
 	string const _default_static_pointer_return_value_policy_{"default_static_pointer_return_value_policy"};
 	string const _default_static_lvalue_reference_return_value_policy_{"default_static_lvalue_reference_return_value_policy"};
 	string const _default_static_rvalue_reference_return_value_policy_{"default_static_rvalue_reference_return_value_policy"};
@@ -187,6 +189,7 @@ void Config::read(string const &file_name)
 				add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
 			}
 		}
+		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
 
 		else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;
 		else if( token == _default_static_lvalue_reference_return_value_policy_ ) default_static_lvalue_reference_return_value_policy_ = name_without_spaces;
