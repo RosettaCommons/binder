@@ -845,7 +845,7 @@ string binding_template_bases(CXXRecordDecl const *C, bool callback_structure, b
 
 	if( dyn_cast<ClassTemplateSpecializationDecl>(C) ) { // for template classes explicitly bind data members and member functions from public base classes
 		for( auto b = C->bases_begin(); b != C->bases_end(); ++b ) {
-			if( b->getAccessSpecifier() == AS_public ) {
+			if( b->getAccessSpecifier() == AS_public and !b->isVirtual() ) {
 				if( auto rt = dyn_cast<RecordType>(b->getType().getCanonicalType().getTypePtr()) ) {
 					if( CXXRecordDecl *R = cast<CXXRecordDecl>(rt->getDecl()) ) {
 						if( !is_skipping_requested(R, Config::get()) ) {

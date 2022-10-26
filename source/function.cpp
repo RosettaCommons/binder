@@ -80,7 +80,7 @@ string cpp_python_operator(const FunctionDecl & F) {
   };
 	const auto & found = m.find(F.getNameAsString());
 	if (found != m.end()) {
-		const auto & vec { found->second };
+		const auto & vec = found->second;
 		const auto n = F.getNumParams();
 		return n < vec.size() ? vec[n] : vec.back();
 	}

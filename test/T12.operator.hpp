@@ -7,7 +7,7 @@
 // MIT license that can be found in the LICENSE file.
 
 /// @file   binder/test/T12.operator.hpp
-/// @brief  Binder self-test file. Bindings of class operator member functions.
+/// @brief  Binder self-test file. Bindings for various operators.
 /// @author Sergey Lyskov
 
 #pragma once
