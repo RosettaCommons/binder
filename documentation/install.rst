@@ -209,13 +209,13 @@ If ``binder`` was build with some older versions of LLVM, one could also set the
 
 
 
-.. _building-static:
-
 With Docker
 ***********
 
 An example `Dockerfile` for building binder can be found in the ``binder`` repository linked here: https://github.com/RosettaCommons/binder/examples
 
+
+.. _building-static:
 
 Building Statically (Linux only)
 ********************************
