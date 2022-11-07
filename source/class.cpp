@@ -141,7 +141,7 @@ bool is_bindable(FieldDecl *f)
 {
 	if( f->getType()->isAnyPointerType() or f->getType()->isReferenceType() or f->getType()->isArrayType() ) return false;
 
-	if( !is_field_assignable(f) ) return false;
+	//if( !is_field_assignable(f) ) return false;
 
 	if( f->isAnonymousStructOrUnion() ) return false;
 
@@ -162,7 +162,7 @@ string bind_data_member(FieldDecl const *d, string const &class_qualified_name_)
 		if( ends_with(class_qualified_name, anonymous) ) class_qualified_name.resize(class_qualified_name.size() - anonymous.size());
 	}
 
-	if( d->getType().isConstQualified() ) return ".def_readonly(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
+	if( d->getType().isConstQualified() or !is_field_assignable(d) ) return ".def_readonly(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 	else return ".def_readwrite(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 }
 
@@ -563,6 +563,7 @@ string binding_public_data_members(CXXRecordDecl const *C)
 
 	for( auto d = C->decls_begin(); d != C->decls_end(); ++d ) {
 		if( FieldDecl *f = dyn_cast<FieldDecl>(*d) ) {
+			//outs() << "Class: " << class_qualified_name(C); f->dump(); outs() << "\n";
 			if( f->getAccess() == AS_public and is_bindable(f) ) c += "\tcl" + bind_data_member(f, class_qualified_name(C)) + ";\n";
 		}
 	}

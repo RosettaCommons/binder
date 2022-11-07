@@ -47,6 +47,24 @@ struct Pointers_and_References
 };
 
 
+class Consts
+{
+private:
+	int const private_int_not_binded = 1;
+	static int const private_static_not_binded;
+
+public:
+	Integral const public_Integral = Integral();
+	static Integral const static_public_Integral;
+
+	int const public_int = 1;
+	static int const public_static;
+
+	const int *ip_not_binded = nullptr;
+	const float *fp_not_binded = nullptr;
+};
+
+
 class Enums
 {
 public:
