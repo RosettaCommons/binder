@@ -65,6 +65,7 @@ void Config::read(string const &file_name)
 	string const _include_for_namespace_{"include_for_namespace"};
 
 	string const _buffer_protocol_{"buffer_protocol"};
+	string const _module_local_{"module_local"};
 
 	string const _binder_{"binder"};
 	string const _add_on_binder_{"add_on_binder"};
@@ -159,6 +160,11 @@ void Config::read(string const &file_name)
 		else if( token == _buffer_protocol_ ) {
 			if(bind) {
 				buffer_protocols.push_back(name_without_spaces);
+			}
+		}
+		else if( token == _module_local_) {
+			if(bind) {
+				module_local_namespaces.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _binder_ ) {
@@ -344,6 +350,20 @@ bool Config::is_buffer_protocol_requested(string const &class__) const
 
 	if( buffer_protocol != buffer_protocols.end() ) {
 		// outs() << "Using buffer protocol for class : " << class_ << "\n";
+		return true;
+	}
+
+	return false;
+}
+
+bool Config::is_module_local_requested(string const &namespace_) const
+{
+	const string namespace_all = "ALL";
+	auto module_local_all = std::find(module_local_namespaces.begin(), module_local_namespaces.end(), namespace_all);
+	auto module_local = std::find(module_local_namespaces.begin(), module_local_namespaces.end(), namespace_);
+
+	if( module_local != module_local_namespaces.end() || module_local_all != module_local_namespaces.end()) {
+		// outs() << "Using module local for namespace : " << namespace_ << "\n";
 		return true;
 	}
 

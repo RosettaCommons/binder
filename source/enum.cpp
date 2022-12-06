@@ -94,7 +94,12 @@ std::string bind_enum(std::string const &module, EnumDecl const *E)
 
 	string maybe_arithmetic = E->isScoped() ? "" : ", pybind11::arithmetic()";
 
-	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\")\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E));
+	// Add module local if requested for the namespace
+	std::string module_local_annotation = "";
+	if (Config::get().is_module_local_requested(namespace_from_named_decl(E)))
+		module_local_annotation = ", pybind11::module_local()";
+
+	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\"{})\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E), module_local_annotation);
 
 	// r += "\t // is_bindable " + E->getNameAsString() + " -> " + std::to_string(is_bindable(E)) + "\n";
 
