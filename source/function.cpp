@@ -310,8 +310,9 @@ vector<QualType> get_type_dependencies(FunctionDecl const *F)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(FunctionDecl const *F, Config const &config)
 {
-	bool bind = config.is_function_binding_requested(F->getQualifiedNameAsString()) or config.is_function_binding_requested(function_qualified_name(F)) or
-				config.is_namespace_binding_requested(namespace_from_named_decl(F));
+	if( config.is_function_binding_requested(F->getQualifiedNameAsString()) or config.is_function_binding_requested(function_qualified_name(F, true)) ) return true;
+
+	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(F));
 
 	for( auto &t : get_type_dependencies(F) ) bind |= binder::is_binding_requested(t, config);
 
@@ -322,12 +323,19 @@ bool is_binding_requested(FunctionDecl const *F, Config const &config)
 /// check if user requested skipping for the given declaration
 bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 {
-	string name = standard_name(F->getQualifiedNameAsString());
-	bool skip =
-		config.is_function_skipping_requested(name) or config.is_function_skipping_requested(function_qualified_name(F, true)) or config.is_namespace_skipping_requested(namespace_from_named_decl(F));
+	string qualified_name = standard_name(F->getQualifiedNameAsString());
+	string qualified_name_with_args_info_and_template_specialization = function_qualified_name(F, true);
 
-	// moved to config -> name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
-	skip |= config.is_function_skipping_requested(name);
+	if( config.is_function_skipping_requested(qualified_name_with_args_info_and_template_specialization) ) return true; // qualified function name + parameter and template info was requested for skipping
+	if( config.is_function_binding_requested(qualified_name_with_args_info_and_template_specialization) ) return false; // qualified function name + parameter and template info was requested for binding
+
+	if( config.is_function_skipping_requested(qualified_name) ) return true; // qualified function name was requested for skipping
+	if( config.is_function_binding_requested(qualified_name) ) return false; // qualified function name was requested for binding
+
+	bool skip = config.is_namespace_skipping_requested(namespace_from_named_decl(F));
+
+	// moved to config -> qualified_name.erase(std::remove(name.begin(), name.end(), ' '), name.end());
+	skip |= config.is_function_skipping_requested(qualified_name);
 
 	// calculating skipping for template classes without template specialization specified as: myclass::member_function_to_skip
 	// outs() << "Checking skipping for function: " << function_qualified_name(F, true) << "...\n";

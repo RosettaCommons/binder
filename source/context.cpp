@@ -423,8 +423,11 @@ void Context::generate(Config const &config)
 				includes.add_include(O_annotate_includes ? "<iostream> // --trace" : "<iostream>");
 			}
 
-			code += binders[i]->code();
-			binders[i]->add_relevant_includes(includes);
+			string generated_code = binders[i]->code();
+			if( generated_code.size() ) {
+				code += generated_code;
+				binders[i]->add_relevant_includes(includes);
+			}
 		}
 
 		if( i < binders.size() ) --i;

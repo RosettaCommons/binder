@@ -333,12 +333,13 @@ bool is_bindable_raw(clang::CXXRecordDecl const *C)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 {
+	if( config.is_class_binding_requested(class_qualified_name(C)) or config.is_class_binding_requested(standard_name(C->getQualifiedNameAsString())) ) return true;
+
 	static bool bind_class_template_specialization = O_bind_class_template_specialization;
 
 	if( (not bind_class_template_specialization) and dyn_cast<ClassTemplateSpecializationDecl>(C) ) return false;
 
-	bool bind = config.is_class_binding_requested(standard_name(C->getQualifiedNameAsString())) or config.is_class_binding_requested(class_qualified_name(C)) or
-				config.is_namespace_binding_requested(namespace_from_named_decl(C));
+	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(C));
 	for( auto &t : get_type_dependencies(C) ) bind &= !is_skipping_requested(t, config);
 	return bind;
 }
@@ -346,10 +347,16 @@ bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 // check if user requested skipping for the given declaration
 bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config)
 {
-	bool skip = //
-		config.is_class_skipping_requested(standard_name(C->getQualifiedNameAsString())) or //
-		config.is_class_skipping_requested(class_qualified_name(C)) or //
-		config.is_namespace_skipping_requested(namespace_from_named_decl(C)); //
+	string qualified_name = standard_name(C->getQualifiedNameAsString());
+	string qualified_name_with_template_specialization = class_qualified_name(C);
+
+	if( config.is_class_skipping_requested(qualified_name_with_template_specialization) ) return true;
+	if( config.is_class_binding_requested(qualified_name_with_template_specialization) ) return false;
+
+	if( config.is_class_skipping_requested(qualified_name) ) return true;
+	if( config.is_class_binding_requested(qualified_name) ) return false;
+
+	bool skip = config.is_namespace_skipping_requested(namespace_from_named_decl(C));
 
 	for( auto &t : get_type_dependencies(C) ) skip |= is_skipping_requested(t, config);
 
