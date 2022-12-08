@@ -1,5 +1,5 @@
-// File: T70_module_local.cpp
-#include <T70.module_local.hpp> // aaa::A
+// File: T71_module_local.cpp
+#include <T71.module_local.hpp> // aaa::A
 #include <sstream> // __str__
 
 #include <functional>
@@ -13,9 +13,9 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-void bind_T70_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_T71_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T70.module_local.hpp line:16
+	{ // aaa::A file:T71.module_local.hpp line:16
 		pybind11::class_<aaa::A, std::shared_ptr<aaa::A>> cl(M("aaa"), "A", "", pybind11::module_local());
 		cl.def( pybind11::init( [](){ return new aaa::A(); } ) );
 		cl.def("foo", (void (aaa::A::*)()) &aaa::A::foo, "C++: aaa::A::foo() --> void");
@@ -23,8 +23,8 @@ void bind_T70_module_local(std::function< pybind11::module &(std::string const &
 }
 
 
-// File: T70_module_local_1.cpp
-#include <T70.module_local.hpp> // bbb::B
+// File: T71_module_local_1.cpp
+#include <T71.module_local.hpp> // bbb::B
 #include <sstream> // __str__
 
 #include <functional>
@@ -38,9 +38,9 @@ void bind_T70_module_local(std::function< pybind11::module &(std::string const &
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-void bind_T70_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_T71_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbb::B file:T70.module_local.hpp line:24
+	{ // bbb::B file:T71.module_local.hpp line:24
 		pybind11::class_<bbb::B, std::shared_ptr<bbb::B>> cl(M("bbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbb::B(); } ) );
 		cl.def("foo", (void (bbb::B::*)()) &bbb::B::foo, "C++: bbb::B::foo() --> void");
@@ -59,12 +59,12 @@ void bind_T70_module_local_1(std::function< pybind11::module &(std::string const
 
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
-void bind_T70_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_T70_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T71_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T71_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
-PYBIND11_MODULE(T70_module_local, root_module) {
-	root_module.doc() = "T70_module_local module";
+PYBIND11_MODULE(T71_module_local, root_module) {
+	root_module.doc() = "T71_module_local module";
 
 	std::map <std::string, pybind11::module> modules;
 	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
@@ -92,15 +92,15 @@ PYBIND11_MODULE(T70_module_local, root_module) {
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
-	bind_T70_module_local(M);
-	bind_T70_module_local_1(M);
+	bind_T71_module_local(M);
+	bind_T71_module_local_1(M);
 
 }
 
-// Source list file: TEST/T70_module_local.sources
-// T70_module_local.cpp
-// T70_module_local.cpp
-// T70_module_local_1.cpp
+// Source list file: TEST/T71_module_local.sources
+// T71_module_local.cpp
+// T71_module_local.cpp
+// T71_module_local_1.cpp
 
-// Modules list file: TEST/T70_module_local.modules
+// Modules list file: TEST/T71_module_local.modules
 // aaa bbb 

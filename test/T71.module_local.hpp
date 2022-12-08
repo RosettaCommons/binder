@@ -6,11 +6,11 @@
 // All rights reserved. Use of this source code is governed by a
 // MIT license that can be found in the LICENSE file.
 
-/// @file   binder/test/T70.module_local.hpp
+/// @file   binder/test/T71.module_local.hpp
 /// @author Sergey Lyskov
 
-#ifndef _INCLUDED_T70_module_local_hpp_
-#define _INCLUDED_T70_module_local_hpp_
+#ifndef _INCLUDED_T71_module_local_hpp_
+#define _INCLUDED_T71_module_local_hpp_
 
 namespace aaa {
 	class A 
@@ -28,4 +28,4 @@ namespace bbb {
 	};
 }
 
-#endif // _INCLUDED_T70_module_local_hpp_
+#endif // _INCLUDED_T71_module_local_hpp_
