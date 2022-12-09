@@ -1201,15 +1201,22 @@ void ClassBinder::bind(Context &context)
 	}
 	string maybe_trampoline = callback_structure_constructible ? ", " + binding_qualified_name : "";
 
+	// Add module local if requested for the namespace
+	std::string module_local_annotation = "";
+	if (Config::get().is_module_local_requested(namespace_from_named_decl(C)))
+		module_local_annotation = ", pybind11::module_local()";
+
 	// Add buffer protocol if requested
 	std::string buffer_protocol_annotation = "";
 	if (Config::get().is_buffer_protocol_requested(qualified_name_without_template))
 		buffer_protocol_annotation = ", pybind11::buffer_protocol()";
 
+	std::string extra_annotation = module_local_annotation + buffer_protocol_annotation;
+
 	if( named_class )
 		c += '\t' +
 			 R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}"{});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
-																		generate_documentation_string_for_declaration(C), buffer_protocol_annotation) +
+																		generate_documentation_string_for_declaration(C), extra_annotation) +
 			 '\n';
 	// c += "\tpybind11::handle cl_type = cl;\n\n";
 

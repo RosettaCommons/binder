@@ -62,7 +62,7 @@ public:
 	string root_module;
 
 	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip;
-	std::vector<string> buffer_protocols;
+	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip;
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
@@ -93,6 +93,7 @@ public:
 	/// check if user requested binding for given declaration
 	bool is_namespace_binding_requested(string const &namespace_) const;
 	bool is_namespace_skipping_requested(string const &namespace_) const;
+	bool is_module_local_requested(string const &namespace_) const;
 
 	bool is_function_binding_requested(string const &function) const;
 	bool is_function_skipping_requested(string const &function) const;

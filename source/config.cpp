@@ -65,6 +65,7 @@ void Config::read(string const &file_name)
 	string const _include_for_namespace_{"include_for_namespace"};
 
 	string const _buffer_protocol_{"buffer_protocol"};
+	string const _module_local_namespace_{"module_local_namespace"};
 
 	string const _binder_{"binder"};
 	string const _add_on_binder_{"add_on_binder"};
@@ -159,6 +160,14 @@ void Config::read(string const &file_name)
 		else if( token == _buffer_protocol_ ) {
 			if(bind) {
 				buffer_protocols.push_back(name_without_spaces);
+			}
+		}
+		else if( token == _module_local_namespace_) {
+			if(bind) {
+				module_local_namespaces_to_add.push_back(name_without_spaces);
+			}
+			else {
+				module_local_namespaces_to_skip.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _binder_ ) {
@@ -344,6 +353,30 @@ bool Config::is_buffer_protocol_requested(string const &class__) const
 
 	if( buffer_protocol != buffer_protocols.end() ) {
 		// outs() << "Using buffer protocol for class : " << class_ << "\n";
+		return true;
+	}
+
+	return false;
+}
+
+bool Config::is_module_local_requested(string const &namespace_) const
+{
+	const string namespace_all = "@all_namespaces";
+	auto module_local_all = std::find(module_local_namespaces_to_add.begin(), module_local_namespaces_to_add.end(), namespace_all);
+	if( module_local_all != module_local_namespaces_to_add.end() ) {
+		auto module_local_to_skip = std::find(module_local_namespaces_to_skip.begin(), module_local_namespaces_to_skip.end(), namespace_);
+		if( module_local_to_skip != module_local_namespaces_to_skip.end()) {
+			return false;
+		}
+		return true;
+	}
+
+	auto module_local_to_add = std::find(module_local_namespaces_to_add.begin(), module_local_namespaces_to_add.end(), namespace_);
+	if( module_local_to_add != module_local_namespaces_to_add.end()) {
+		auto module_local_to_skip = std::find(module_local_namespaces_to_skip.begin(), module_local_namespaces_to_skip.end(), namespace_);
+		if( module_local_to_skip != module_local_namespaces_to_skip.end()) {
+			throw std::runtime_error("Could not determent if namespace '" + namespace_ + "' should use module_local or not... please resolve the conlficting options +module_local_namespace and -module_local_namespace!!!");
+		}
 		return true;
 	}
 
