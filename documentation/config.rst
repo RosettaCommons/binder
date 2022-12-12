@@ -202,19 +202,26 @@ Config file directives:
 
 * ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <https://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
 
-
-* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
-
-* ``module_local_namespace``: use to add (or remove) the extra argument module_local to the pybind11 classes and enum of a namespace. This option can be used for all the namaspaces of a given project using `+module_local_namespace @all_namespaces`
-
-.. code-block:: bash
-
-  +module_local_namespace @all_namespaces
-  -module_local_namespace std
-
 .. code-block:: bash
 
   +default_member_pointer_return_value_policy           pybind11::return_value_policy::reference
   +default_member_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference_internal
   +default_member_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
   +default_call_guard pybind11::gil_scoped_release
+
+* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
+
+* ``module_local_namespace``: use to add (or remove) the extra argument module_local to the pybind11 classes and enum of a namespace. This option can be used for all the namaspaces of a given project using `+module_local_namespace @all_namespaces`.
+
+.. code-block:: bash
+
+  +module_local_namespace @all_namespaces
+  -module_local_namespace std
+
+* ``trampoline_member_function_binder``: use to specify a custom trampoline member function defined by the user in a given header file.
+
+.. code-block:: bash
+
+  +include_for_class aaa::A <T81.custom_trampoline_with_args.include>
+  +trampoline_member_function_binder aaa::A::foo myFoo
+

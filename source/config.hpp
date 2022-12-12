@@ -39,7 +39,7 @@ class Config
 
 private:
 	std::map<string, string> binders_, add_on_binders_;
-	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_;
+	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_, custom_trampoline_function_;
 
 	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 
@@ -103,6 +103,8 @@ public:
 	bool is_buffer_protocol_requested(string const &class_) const;
 
 	bool is_include_skipping_requested(string const &include) const;
+
+	std::tuple<bool, string> is_custom_trampoline_function_requested(string const &function__) const;
 
 	string includes_code() const;
 };
