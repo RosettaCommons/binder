@@ -205,7 +205,12 @@ Config file directives:
 
 * ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
 
+* ``module_local_namespace``: use to add (or remove) the extra argument module_local to the pybind11 classes and enum of a namespace. This option can be used for all the namaspaces of a given project using `+module_local_namespace @all_namespaces`
 
+.. code-block:: bash
+
+  +module_local_namespace @all_namespaces
+  -module_local_namespace std
 
 .. code-block:: bash
 
