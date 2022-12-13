@@ -73,7 +73,7 @@ string cpp_python_operator(const FunctionDecl & F) {
 		{"operator!=", {"__ne__"}}, //
 		{"operator[]", {"__getitem__"}}, //
 		{"operator=", {"assign"}}, //
-		{"operator++", {"pre_increment", "pre_increment"}}, //
+		{"operator++", {"pre_increment", "post_increment"}}, //
 		{"operator--", {"pre_decrement", "post_decrement"}}, //
 
 		{"operator->", {"arrow"}} //
