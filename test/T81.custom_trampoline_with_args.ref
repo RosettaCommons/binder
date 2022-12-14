@@ -1,7 +1,11 @@
 // File: T81_custom_trampoline_with_args.cpp
 #include <T81.custom_trampoline_with_args.hpp> // aaa::A
 #include <T81.custom_trampoline_with_args.include> // +include_for_class
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
 #include <sstream> // __str__
+#include <string> // std::basic_string
+#include <string> // std::char_traits
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -14,21 +18,21 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// aaa::A file:T81.custom_trampoline_with_args.hpp line:24
+// aaa::A file:T81.custom_trampoline_with_args.hpp line:26
 struct PyCallBack_aaa_A_double_t : public aaa::A<double> {
 	using aaa::A<double>::A;
 
-	void foo(int a0) override {
-		return myFoo<A,PyCallBack_aaa_A_double_t>(this, "foo",a0);
+	void foo(int a0, std::string a1, float a2) override {
+		return myFoo<A,PyCallBack_aaa_A_double_t>(this, "aaa::A<double>", "foo", a0, a1, a2);
 	}
 };
 
 void bind_T81_custom_trampoline_with_args(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T81.custom_trampoline_with_args.hpp line:24
+	{ // aaa::A file:T81.custom_trampoline_with_args.hpp line:26
 		pybind11::class_<aaa::A<double>, std::shared_ptr<aaa::A<double>>, PyCallBack_aaa_A_double_t> cl(M("aaa"), "A_double_t", "");
 		cl.def( pybind11::init( [](){ return new aaa::A<double>(); }, [](){ return new PyCallBack_aaa_A_double_t(); } ) );
-		cl.def("foo", (void (aaa::A<double>::*)(int)) &aaa::A<double>::foo, "C++: aaa::A<double>::foo(int) --> void", pybind11::arg("a"));
+		cl.def("foo", (void (aaa::A<double>::*)(int, std::string, float)) &aaa::A<double>::foo, "C++: aaa::A<double>::foo(int, std::string, float) --> void", pybind11::arg("a"), pybind11::arg("b"), pybind11::arg("d"));
 		cl.def("assign", (class aaa::A<double> & (aaa::A<double>::*)(const class aaa::A<double> &)) &aaa::A<double>::operator=, "C++: aaa::A<double>::operator=(const class aaa::A<double> &) --> class aaa::A<double> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 }

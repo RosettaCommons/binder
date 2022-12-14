@@ -14,21 +14,23 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// aaa::A file:T80.custom_trampoline.hpp line:24
+// aaa::A file:T80.custom_trampoline.hpp line:26
 struct PyCallBack_aaa_A_double_t : public aaa::A<double> {
 	using aaa::A<double>::A;
 
-	void foo() override {
-		return myFoo<A,PyCallBack_aaa_A_double_t>(this, "foo");
+	class aaa::A<double> foo() override {
+		return myFoo<A,PyCallBack_aaa_A_double_t>(this, "aaa::A<double>", "foo");
 	}
 };
 
 void bind_T80_custom_trampoline(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T80.custom_trampoline.hpp line:24
+	{ // aaa::A file:T80.custom_trampoline.hpp line:26
 		pybind11::class_<aaa::A<double>, std::shared_ptr<aaa::A<double>>, PyCallBack_aaa_A_double_t> cl(M("aaa"), "A_double_t", "");
 		cl.def( pybind11::init( [](){ return new aaa::A<double>(); }, [](){ return new PyCallBack_aaa_A_double_t(); } ) );
-		cl.def("foo", (void (aaa::A<double>::*)()) &aaa::A<double>::foo, "C++: aaa::A<double>::foo() --> void");
+		cl.def( pybind11::init( [](PyCallBack_aaa_A_double_t const &o){ return new PyCallBack_aaa_A_double_t(o); } ) );
+		cl.def( pybind11::init( [](aaa::A<double> const &o){ return new aaa::A<double>(o); } ) );
+		cl.def("foo", (class aaa::A<double> (aaa::A<double>::*)()) &aaa::A<double>::foo, "C++: aaa::A<double>::foo() --> class aaa::A<double>");
 		cl.def("assign", (class aaa::A<double> & (aaa::A<double>::*)(const class aaa::A<double> &)) &aaa::A<double>::operator=, "C++: aaa::A<double>::operator=(const class aaa::A<double> &) --> class aaa::A<double> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 }

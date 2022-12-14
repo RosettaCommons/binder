@@ -354,19 +354,15 @@ bool Config::is_class_skipping_requested(string const &class__) const
 }
 
 
-std::tuple<bool, string> Config::is_custom_trampoline_function_requested(string const &function__) const
+string Config::is_custom_trampoline_function_requested(string const &function_) const
 {
-	
-	string function_{function__};
-	function_.erase(std::remove(function_.begin(), function_.end(), ' '), function_.end());
-
 	bool is_custom = !(custom_trampoline_function_.find(function_) == custom_trampoline_function_.end());
 
 	if( is_custom ) {
-		return std::make_tuple(is_custom, custom_trampoline_function_.at(function_));
+		return custom_trampoline_function_.at(function_);
 	}
 
-	return std::make_tuple(is_custom, "@Null");
+	return "";
 }
 
 

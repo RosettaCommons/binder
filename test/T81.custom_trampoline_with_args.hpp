@@ -12,12 +12,14 @@
 #ifndef _INCLUDED_T81_custom_trampoline_with_args_hpp_
 #define _INCLUDED_T81_custom_trampoline_with_args_hpp_
 
+#include<string>
+
 namespace aaa {
 	template <typename T>
 	class A 
 	{
 		public:
-			virtual void foo(int a){};
+			virtual void foo(int a, std::string b, float d){};
 	};
 }
 

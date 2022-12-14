@@ -104,7 +104,7 @@ public:
 
 	bool is_include_skipping_requested(string const &include) const;
 
-	std::tuple<bool, string> is_custom_trampoline_function_requested(string const &function__) const;
+	string is_custom_trampoline_function_requested(string const &function__) const;
 
 	string includes_code() const;
 };

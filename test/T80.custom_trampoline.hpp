@@ -17,7 +17,9 @@ namespace aaa {
 	class A 
 	{
 		public:
-			virtual void foo(){};
+			virtual A<T> foo(){
+				return A<T>();
+			};
 	};
 }
 
