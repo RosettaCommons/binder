@@ -39,7 +39,7 @@ class Config
 
 private:
 	std::map<string, string> binders_, add_on_binders_;
-	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_, custom_trampoline_function_;
+	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_, custom_trampoline_functions_;
 
 	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 

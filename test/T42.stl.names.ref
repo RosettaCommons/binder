@@ -1,13 +1,7 @@
 // File: std/stl_deque.cpp
 #include <deque> // std::deque
-#include <iterator> // __gnu_cxx::__normal_iterator
 #include <memory> // std::allocator
 #include <sstream> // __str__
-#include <string> // std::basic_string
-#include <string> // std::char_traits
-#include <typeinfo> // std::bad_cast
-#include <typeinfo> // std::bad_typeid
-#include <typeinfo> // std::type_info
 
 #include <functional>
 #include <pybind11/pybind11.h>

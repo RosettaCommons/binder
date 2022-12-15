@@ -214,7 +214,7 @@ void Config::read(string const &file_name)
 		else if( token == _trampoline_member_function_binder_ ) {
 			if( bind ) {
 				auto member_function_name_and_function_name = split_in_two(name, "Invalid line for trampoline_member_function_binder specification! Must be: qualified_class_name::member_funtion_name + <space or tab> + name_of_function. Got: " + line);
-				custom_trampoline_function_[member_function_name_and_function_name.first] = member_function_name_and_function_name.second;
+				custom_trampoline_functions_[member_function_name_and_function_name.first] = member_function_name_and_function_name.second;
 			}
 		}
 
@@ -356,8 +356,8 @@ bool Config::is_class_skipping_requested(string const &class__) const
 
 string Config::is_custom_trampoline_function_requested(string const &function_) const
 {
-	auto it = custom_trampoline_function_.find(function_);
-	if( it == custom_trampoline_function_.end() ) return "";
+	auto it = custom_trampoline_functions_.find(function_);
+	if( it == custom_trampoline_functions_.end() ) return "";
 	else return it->second;
 }
 

@@ -63,6 +63,34 @@ void bind_T70_options_1(std::function< pybind11::module &(std::string const &nam
 }
 
 
+// File: T70_options_2.cpp
+#include <T70.options.hpp> // aaaa::bbbb::BBBB
+#include <T70.options.hpp> // aaaa::bbbb::foo_bbbb
+#include <sstream> // __str__
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T70_options_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // aaaa::bbbb::BBBB file:T70.options.hpp line:28
+		pybind11::class_<aaaa::bbbb::BBBB, std::shared_ptr<aaaa::bbbb::BBBB>> cl(M("aaaa::bbbb"), "BBBB", "");
+		cl.def( pybind11::init( [](){ return new aaaa::bbbb::BBBB(); } ) );
+	}
+	// aaaa::bbbb::foo_bbbb() file:T70.options.hpp line:29
+	M("aaaa::bbbb").def("foo_bbbb", (void (*)()) &aaaa::bbbb::foo_bbbb, "C++: aaaa::bbbb::foo_bbbb() --> void");
+
+}
+
+
 #include <map>
 #include <algorithm>
 #include <functional>
@@ -76,6 +104,7 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_T70_options(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T70_options_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T70_options_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(T70_options, root_module) {
@@ -101,6 +130,7 @@ PYBIND11_MODULE(T70_options, root_module) {
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 		{"", "aaaa"},
+		{"aaaa", "bbbb"},
 		{"aaaa", "cccc"},
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
@@ -109,6 +139,7 @@ PYBIND11_MODULE(T70_options, root_module) {
 
 	bind_T70_options(M);
 	bind_T70_options_1(M);
+	bind_T70_options_2(M);
 
 }
 
@@ -116,6 +147,7 @@ PYBIND11_MODULE(T70_options, root_module) {
 // T70_options.cpp
 // T70_options.cpp
 // T70_options_1.cpp
+// T70_options_2.cpp
 
 // Modules list file: TEST/T70_options.modules
-// aaaa aaaa.cccc 
+// aaaa aaaa.bbbb aaaa.cccc 
