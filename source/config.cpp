@@ -83,6 +83,8 @@ void Config::read(string const &file_name)
 	string const _default_member_lvalue_reference_return_value_policy_{"default_member_lvalue_reference_return_value_policy"};
 	string const _default_member_rvalue_reference_return_value_policy_{"default_member_rvalue_reference_return_value_policy"};
 
+	string const _trampoline_member_function_binder_{"trampoline_member_function_binder"};
+
 	string const _default_call_guard_{"default_call_guard"};
 
 	std::ifstream f(file_name);
@@ -208,6 +210,13 @@ void Config::read(string const &file_name)
 		else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
+
+		else if( token == _trampoline_member_function_binder_ ) {
+			if( bind ) {
+				auto member_function_name_and_function_name = split_in_two(name, "Invalid line for trampoline_member_function_binder specification! Must be: qualified_class_name::member_funtion_name + <space or tab> + name_of_function. Got: " + line);
+				custom_trampoline_function_[member_function_name_and_function_name.first] = member_function_name_and_function_name.second;
+			}
+		}
 
 		else {
 			throw std::runtime_error("Invalid token in config file! Each token must be either: namespace, class or function! For example: '+function aaa::bb::my_function'. Token: '" + token +
@@ -343,6 +352,15 @@ bool Config::is_class_skipping_requested(string const &class__) const
 
 	return false;
 }
+
+
+string Config::is_custom_trampoline_function_requested(string const &function_) const
+{
+	auto it = custom_trampoline_function_.find(function_);
+	if( it == custom_trampoline_function_.end() ) return "";
+	else return it->second;
+}
+
 
 bool Config::is_buffer_protocol_requested(string const &class__) const
 {

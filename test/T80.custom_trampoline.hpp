@@ -9,25 +9,20 @@
 /// @file   binder/test/T71.module_local.hpp
 /// @author Sergey Lyskov
 
-#ifndef _INCLUDED_T71_module_local_hpp_
-#define _INCLUDED_T71_module_local_hpp_
+#ifndef _INCLUDED_T80_custom_trampoline_hpp_
+#define _INCLUDED_T80_custom_trampoline_hpp_
 
 namespace aaa {
+	template <typename T>
 	class A 
 	{
 		public:
-			void foo(){};
-	};
-
-	enum E1 { E1_V0, E1_V1 };
-}
-
-namespace bbb {
-	class B 
-	{
-		public:
-			void foo(){};
+			virtual A<T> foo(){
+				return A<T>();
+			};
 	};
 }
 
-#endif // _INCLUDED_T71_module_local_hpp_
+template class aaa::A<double>;
+
+#endif // _INCLUDED_T80_custom_trampoline_hpp_

@@ -737,9 +737,22 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 
 				c += "\t{} {}({}){} {}override {{"_format(return_type, m->getNameAsString(), std::get<0>(args), m->isConst() ? " const" : "", exception_specification);
 
-				c += indent(fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */ python_name, std::get<1>(args), return_type), "\t\t");
-				if( m->isPure() ) c += "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
-				else c += "\t\treturn {}::{}({});\n"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
+				string member_function_name = namespace_from_named_decl(C);
+				if ( member_function_name.length() > 0 ) member_function_name += "::";
+				member_function_name +=  C->getNameAsString() + "::" + m->getNameAsString();
+				string custom_function_info = Config::get().is_custom_trampoline_function_requested(member_function_name);
+				if( custom_function_info == "" ) {
+					c += indent(fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */ python_name, std::get<1>(args), return_type), "\t\t");
+					if( m->isPure() ) c += "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
+					else c += "\t\treturn {}::{}({});\n"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
+				}
+				else {
+					string input_args = std::get<1>(args);
+					c += "\n\t\treturn {}<{},{}>(this, \"{}\", \"{}\""_format(custom_function_info, C->getNameAsString(), callback_structure_name(C), class_name, m->getNameAsString());
+					if ( input_args.length() > 0 )
+						c += ", {}"_format(std::get<1>(args));
+					c += ");\n";
+				}
 				c += "\t}\n";
 
 				// c += string(m->isPure() ? "PYBIND11_OVERLOAD_PURE_NAME" : "PYBIND11_OVERLOAD_NAME") + '(';

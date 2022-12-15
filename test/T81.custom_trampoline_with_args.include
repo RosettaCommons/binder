@@ -1,0 +1,4 @@
+#include<string>
+
+template <typename A, typename trampoline_A>
+void myFoo(const trampoline_A *ptr_to_this, const std::string &class_name, const std::string &function_name, int a, std::string b, float c) { };
