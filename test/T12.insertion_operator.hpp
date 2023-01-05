@@ -27,3 +27,9 @@ struct T
 
 inline std::ostream & operator<<(std::ostream & s, T const &) { return s << "hi..."; }
 }
+
+// https://github.com/RosettaCommons/binder/issues/236
+struct B { int b; };
+namespace C {
+	std::ostream & operator<<(std::ostream & s, const B & b) { return s; }
+}

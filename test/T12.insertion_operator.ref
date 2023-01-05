@@ -25,7 +25,7 @@ void bind_T12_insertion_operator(std::function< pybind11::module &(std::string c
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
-		cl.def("__str__", [](A const &o) -> std::string { std::ostringstream s; operator<<(s, o); return s.str(); } );
+		cl.def("__str__", [](A const &o) -> std::string { std::ostringstream s; s << o; return s.str(); } );
 	}
 }
 
@@ -58,7 +58,40 @@ void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string
 		cl.def( pybind11::init( [](){ return new aaaa::T(); } ) );
 		cl.def( pybind11::init( [](aaaa::T const &o){ return new aaaa::T(o); } ) );
 
-		cl.def("__str__", [](aaaa::T const &o) -> std::string { std::ostringstream s; aaaa::operator<<(s, o); return s.str(); } );
+		cl.def("__str__", [](aaaa::T const &o) -> std::string { std::ostringstream s; using aaaa::operator<<; s << o; return s.str(); } );
+	}
+}
+
+
+// File: T12_insertion_operator_2.cpp
+#include <T12.insertion_operator.hpp> // B
+#include <T12.insertion_operator.hpp> // C::operator<<
+#include <ios> // std::_Ios_Seekdir
+#include <locale> // std::locale
+#include <ostream> // std::basic_ostream
+#include <sstream> // __str__
+#include <streambuf> // std::basic_streambuf
+#include <string> // std::char_traits
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // B file:T12.insertion_operator.hpp line:32
+		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
+		cl.def( pybind11::init( [](){ return new B(); } ) );
+		cl.def_readwrite("b", &B::b);
+
+		cl.def("__str__", [](B const &o) -> std::string { std::ostringstream s; using C::operator<<; s << o; return s.str(); } );
 	}
 }
 
@@ -76,6 +109,7 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_T12_insertion_operator(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(T12_insertion_operator, root_module) {
@@ -108,6 +142,7 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 
 	bind_T12_insertion_operator(M);
 	bind_T12_insertion_operator_1(M);
+	bind_T12_insertion_operator_2(M);
 
 }
 
@@ -115,6 +150,7 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 // T12_insertion_operator.cpp
 // T12_insertion_operator.cpp
 // T12_insertion_operator_1.cpp
+// T12_insertion_operator_2.cpp
 
 // Modules list file: TEST/T12_insertion_operator.modules
 // aaaa 
