@@ -58,14 +58,14 @@ void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string
 		cl.def( pybind11::init( [](){ return new aaaa::T(); } ) );
 		cl.def( pybind11::init( [](aaaa::T const &o){ return new aaaa::T(o); } ) );
 
-		cl.def("__str__", [](aaaa::T const &o) -> std::string { std::ostringstream s; using aaaa::operator<<; s << o; return s.str(); } );
+		cl.def("__str__", [](aaaa::T const &o) -> std::string { std::ostringstream s; using namespace aaaa; s << o; return s.str(); } );
 	}
 }
 
 
 // File: T12_insertion_operator_2.cpp
-#include <T12.insertion_operator.hpp> // B
-#include <T12.insertion_operator.hpp> // C::operator<<
+#include <T12.insertion_operator.hpp> // A1
+#include <T12.insertion_operator.hpp> // bbbb::operator<<
 #include <ios> // std::_Ios_Seekdir
 #include <locale> // std::locale
 #include <ostream> // std::basic_ostream
@@ -86,12 +86,76 @@ void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // B file:T12.insertion_operator.hpp line:32
-		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
-		cl.def( pybind11::init( [](){ return new B(); } ) );
-		cl.def_readwrite("b", &B::b);
+	{ // A1 file:T12.insertion_operator.hpp line:32
+		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
+		cl.def( pybind11::init( [](){ return new A1(); } ) );
+		cl.def_readwrite("a", &A1::a);
 
-		cl.def("__str__", [](B const &o) -> std::string { std::ostringstream s; using C::operator<<; s << o; return s.str(); } );
+		cl.def("__str__", [](A1 const &o) -> std::string { std::ostringstream s; using namespace bbbb; s << o; return s.str(); } );
+	}
+}
+
+
+// File: T12_insertion_operator_3.cpp
+#include <T12.insertion_operator.hpp> // bbbb::B
+#include <T12.insertion_operator.hpp> // bbbb::operator<<
+#include <ios> // std::_Ios_Seekdir
+#include <locale> // std::locale
+#include <ostream> // std::basic_ostream
+#include <sstream> // __str__
+#include <streambuf> // std::basic_streambuf
+#include <string> // std::char_traits
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // bbbb::B file:T12.insertion_operator.hpp line:39
+		pybind11::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
+		cl.def( pybind11::init( [](){ return new bbbb::B(); } ) );
+
+		cl.def("__str__", [](bbbb::B const &o) -> std::string { std::ostringstream s; using namespace bbbb; s << o; return s.str(); } );
+	}
+}
+
+
+// File: T12_insertion_operator_4.cpp
+#include <T12.insertion_operator.hpp> // bbbb::cccc::C
+#include <T12.insertion_operator.hpp> // bbbb::cccc::operator<<
+#include <ios> // std::_Ios_Seekdir
+#include <locale> // std::locale
+#include <ostream> // std::basic_ostream
+#include <sstream> // __str__
+#include <streambuf> // std::basic_streambuf
+#include <string> // std::char_traits
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T12_insertion_operator_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:47
+		pybind11::class_<bbbb::cccc::C, std::shared_ptr<bbbb::cccc::C>> cl(M("bbbb::cccc"), "C", "");
+		cl.def( pybind11::init( [](){ return new bbbb::cccc::C(); } ) );
+
+		cl.def("__str__", [](bbbb::cccc::C const &o) -> std::string { std::ostringstream s; using namespace bbbb::cccc; s << o; return s.str(); } );
 	}
 }
 
@@ -110,6 +174,8 @@ typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 void bind_T12_insertion_operator(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T12_insertion_operator_4(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(T12_insertion_operator, root_module) {
@@ -135,6 +201,8 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 		{"", "aaaa"},
+		{"", "bbbb"},
+		{"bbbb", "cccc"},
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
@@ -143,6 +211,8 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 	bind_T12_insertion_operator(M);
 	bind_T12_insertion_operator_1(M);
 	bind_T12_insertion_operator_2(M);
+	bind_T12_insertion_operator_3(M);
+	bind_T12_insertion_operator_4(M);
 
 }
 
@@ -151,6 +221,8 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 // T12_insertion_operator.cpp
 // T12_insertion_operator_1.cpp
 // T12_insertion_operator_2.cpp
+// T12_insertion_operator_3.cpp
+// T12_insertion_operator_4.cpp
 
 // Modules list file: TEST/T12_insertion_operator.modules
-// aaaa 
+// aaaa bbbb bbbb.cccc 

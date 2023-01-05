@@ -1110,12 +1110,13 @@ std::string ClassBinder::bind_repr(Context &context, Config const &config)
 	if( config.is_function_skipping_requested(qualified_name + "::__str__") or config.is_function_skipping_requested( standard_name(C->getQualifiedNameAsString() + "::__str__" ) ) ) return c;
 
 	if( FunctionDecl const *F = context.global_insertion_operator(C) ) {
-		// outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
+		//outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
+		//outs() << "insertion operator: " << F->getNameInfo().getAsString() << " qn: " << F->getQualifiedNameAsString() << " dn:" << F->getDeclName() << "\n";
 
 		string maybe_using_decl;
 
 		string ns = namespace_from_named_decl(F);
-		if(ns.size()) maybe_using_decl = " using {};"_format(F->getQualifiedNameAsString());
+		if(ns.size()) maybe_using_decl = " using namespace {};"_format(ns);
 
 		//c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; {}(s, o); return s.str(); }} );\n"_format(qualified_name, F->getQualifiedNameAsString());
 		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s;{} s << o; return s.str(); }} );\n"_format(qualified_name, maybe_using_decl);

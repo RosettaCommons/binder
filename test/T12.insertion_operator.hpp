@@ -29,7 +29,26 @@ inline std::ostream & operator<<(std::ostream & s, T const &) { return s << "hi.
 }
 
 // https://github.com/RosettaCommons/binder/issues/236
-struct B { int b; };
-namespace C {
-	std::ostream & operator<<(std::ostream & s, const B & b) { return s; }
-}
+struct A1 { int a; };
+
+namespace bbbb {
+
+std::ostream & operator<<(std::ostream & s, const A1 & a1) { return s; }
+
+
+struct B
+{
+	friend std::ostream & operator <<(std::ostream & os, B const &) { return os; }
+};
+
+
+namespace cccc {
+
+struct C
+{
+	friend std::ostream & operator <<(std::ostream & os, C const &) { return os; }
+};
+
+} // namespace cccc
+
+} // namespace bbbb
