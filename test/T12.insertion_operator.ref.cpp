@@ -98,6 +98,8 @@ void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string
 
 // File: T12_insertion_operator_3.cpp
 #include <T12.insertion_operator.hpp> // bbbb::B
+#include <T12.insertion_operator.hpp> // bbbb::B2
+#include <T12.insertion_operator.hpp> // bbbb::cccc::operator<<
 #include <T12.insertion_operator.hpp> // bbbb::operator<<
 #include <ios> // std::_Ios_Seekdir
 #include <locale> // std::locale
@@ -119,11 +121,18 @@ void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::B file:T12.insertion_operator.hpp line:39
+	{ // bbbb::B file:T12.insertion_operator.hpp line:46
 		pybind11::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B(); } ) );
+		cl.def( pybind11::init( [](bbbb::B const &o){ return new bbbb::B(o); } ) );
 
-		cl.def("__str__", [](bbbb::B const &o) -> std::string { std::ostringstream s; using namespace bbbb; s << o; return s.str(); } );
+		cl.def("__str__", [](bbbb::B const &o) -> std::string { std::ostringstream s; using namespace bbbb::cccc; s << o; return s.str(); } );
+	}
+	{ // bbbb::B2 file:T12.insertion_operator.hpp line:54
+		pybind11::class_<bbbb::B2, std::shared_ptr<bbbb::B2>> cl(M("bbbb"), "B2", "");
+		cl.def( pybind11::init( [](){ return new bbbb::B2(); } ) );
+
+		cl.def("__str__", [](bbbb::B2 const &o) -> std::string { std::ostringstream s; using namespace bbbb; s << o; return s.str(); } );
 	}
 }
 
@@ -151,7 +160,7 @@ void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:47
+	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:63
 		pybind11::class_<bbbb::cccc::C, std::shared_ptr<bbbb::cccc::C>> cl(M("bbbb::cccc"), "C", "");
 		cl.def( pybind11::init( [](){ return new bbbb::cccc::C(); } ) );
 
