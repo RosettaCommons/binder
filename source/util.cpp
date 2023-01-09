@@ -270,6 +270,7 @@ string mangle_type_name(string const &name, bool mark_template)
 
 	if( template_ and mark_template ) {
 		replace(r, "*", "_star_");
+		replace(r, "&", "_ref_");
 		r.push_back('t');
 	}
 
