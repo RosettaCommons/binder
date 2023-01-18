@@ -148,7 +148,7 @@ Config file directives:
 
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
   generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
-  operators, etc.)
+  operators, etc.) The expected type signature of specified function should be `void f(pybind11::class_<T, std::shared_ptr<T> > &)`
 
 .. code-block:: bash
 
@@ -160,7 +160,7 @@ Config file directives:
 
 
 * ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
-  _instead_ of generating bindings for namaspace.
+  _instead_ of generating bindings for namaspace. Where expected type signature of specified function should be `void f(pybind11::module &)`
 
 .. code-block:: bash
 
