@@ -87,6 +87,8 @@ void Config::read(string const &file_name)
 
 	string const _default_call_guard_{"default_call_guard"};
 
+	string const _prefix_for_static_member_functions_{"prefix_for_static_member_functions"};
+
 	std::ifstream f(file_name);
 
 	if( not f.good() ) { throw std::runtime_error("can not open file " + file_name + " for reading..."); }
@@ -210,6 +212,8 @@ void Config::read(string const &file_name)
 		else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
+
+		else if( token == _prefix_for_static_member_functions_ ) prefix_for_static_member_functions_ = name_without_spaces;
 
 		else if( token == _trampoline_member_function_binder_ ) {
 			if( bind ) {

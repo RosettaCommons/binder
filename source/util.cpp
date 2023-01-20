@@ -252,18 +252,11 @@ string line_number(NamedDecl const *decl)
 string mangle_type_name(string const &name, bool mark_template)
 {
 	string r;
-	bool mangle = true;
 	bool template_ = false;
 
 	for( auto &c : name ) {
-		if( c != ' ' and c != '<' and c != '>' and c != ',' and c != ':' ) {
-			r.push_back(c);
-			mangle = false;
-		}
-		else if( !mangle ) {
-			mangle = true;
-			r.push_back('_');
-		}
+		if( c == ' ' or c == '<' or c == '>' or c == ',' or c == ':' ) r.push_back('_');
+		else r.push_back(c);
 
 		if( c == '<' or c == '>' or c == ',' ) template_ = true;
 	}

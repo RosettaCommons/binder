@@ -218,10 +218,12 @@ Config file directives:
   +module_local_namespace @all_namespaces
   -module_local_namespace std
 
-* ``trampoline_member_function_binder``: use to specify a custom trampoline member function defined by the user in a given header file.
+* ``trampoline_member_function_binder``: use to specify a custom trampoline member function defined by the user in a given header file
 
 .. code-block:: bash
 
   +include_for_class aaa::A <T81.custom_trampoline_with_args.include>
   +trampoline_member_function_binder aaa::A::foo myFoo
 
+
+* ``+prefix_for_static_member_functions``: specify name prefix to use for static member functions, could be useful as workaround Pybind11 limitation restricting having both virtual and static member functions having the same name

@@ -363,7 +363,12 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	string function_qualified_name = standard_name(parent ? class_qualified_name(parent) + "::" + F->getNameAsString() : F->getQualifiedNameAsString());
 
 	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
-	string maybe_static = m and m->isStatic() ? "_static" : "";
+
+	string maybe_static;
+	if( m and m->isStatic() ) {
+		maybe_static = "_static";
+		function_name = Config::get().prefix_for_static_member_functions() + function_name;
+	}
 
 	string function, documentation;
 	if( args_to_bind == F->getNumParams() and (not always_use_lambda) ) {
