@@ -209,7 +209,7 @@ Config file directives:
   +default_member_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
   +default_call_guard pybind11::gil_scoped_release
 
-* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
+* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of ``std::shared_ptr``.
 
 * ``module_local_namespace``: use to add (or remove) the extra argument module_local to the pybind11 classes and enum of a namespace. This option can be used for all the namaspaces of a given project using `+module_local_namespace @all_namespaces`.
 
