@@ -13,7 +13,7 @@ namespace aaaa {
 struct AAAA
 {
 	void foo() {}
-	static foo() {}
+	static void foo(int) {}
 };
 
 void foo_aaaa() {}
