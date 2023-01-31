@@ -126,7 +126,7 @@ string EnumBinder::id() const
 /// check if generator can create binding
 bool EnumBinder::bindable() const
 {
-	return is_bindable(E);
+	return is_bindable(E)  and !is_banned_symbol(E);
 }
 
 
