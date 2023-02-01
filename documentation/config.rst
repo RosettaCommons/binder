@@ -69,6 +69,15 @@ Config file directives:
   +namespace utility
 
 
+* ``enum``, specify if particular enum should be bound. Purpose of this directive is to allow developer to cherry-pick
+  particular enum from otherwise binded/skipped namespaces and mark it for binding/skipping.
+
+.. code-block:: bash
+
+  -enum utility::pointer::State
+  +enum protocols::CDR_Type
+
+
 
 * ``class``, specify if particular class/struct should be bound. Purpose of this directive is to allow developer to cherry-pick
   particular class from otherwise binded/skipped namespaces and mark it for binding/skipping.
