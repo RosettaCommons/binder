@@ -65,6 +65,32 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 }
 
 
+// File: T01_enum_1.cpp
+#include <T01.enum.hpp> // aaaa::E7_class
+
+#include <functional>
+#include <pybind11/pybind11.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
+#endif
+
+void bind_T01_enum_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	// aaaa::E7_class file:T01.enum.hpp line:43
+	pybind11::enum_<aaaa::E7_class>(M("aaaa"), "E7_class", "")
+		.value("V0", aaaa::E7_class::V0)
+		.value("V1", aaaa::E7_class::V1);
+
+;
+
+}
+
+
 #include <map>
 #include <algorithm>
 #include <functional>
@@ -77,6 +103,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
 void bind_T01_enum(std::function< pybind11::module &(std::string const &namespace_) > &M);
+void bind_T01_enum_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
 
 PYBIND11_MODULE(T01_enum, root_module) {
@@ -101,18 +128,21 @@ PYBIND11_MODULE(T01_enum, root_module) {
 	);
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
+		{"", "aaaa"},
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T01_enum(M);
+	bind_T01_enum_1(M);
 
 }
 
 // Source list file: TEST/T01_enum.sources
 // T01_enum.cpp
 // T01_enum.cpp
+// T01_enum_1.cpp
 
 // Modules list file: TEST/T01_enum.modules
-// 
+// aaaa 

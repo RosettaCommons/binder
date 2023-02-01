@@ -54,6 +54,8 @@ private:
 	string holder_type_ = "std::shared_ptr";
 	string prefix_for_static_member_functions_ = "";
 
+	std::vector<string> enums_to_bind, enums_to_skip;
+
 public:
 	static Config &get();
 
@@ -103,6 +105,10 @@ public:
 
 	bool is_class_binding_requested(string const &class_) const;
 	bool is_class_skipping_requested(string const &class_) const;
+
+	bool is_enum_binding_requested(string const &enum_) const;
+	bool is_enum_skipping_requested(string const &enum_) const;
+
 	bool is_buffer_protocol_requested(string const &class_) const;
 
 	bool is_include_skipping_requested(string const &include) const;

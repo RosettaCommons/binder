@@ -30,6 +30,14 @@ void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int l
 bool is_bindable(clang::EnumDecl const *E);
 
 
+/// check if user requested binding for the given declaration
+bool is_binding_requested(clang::EnumDecl const *E, Config const &config);
+
+
+/// check if user requested skipping for the given declaration
+bool is_skipping_requested(clang::EnumDecl const *E, Config const &config);
+
+
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
 std::string bind_enum(std::string const &module, clang::EnumDecl const *E);
 

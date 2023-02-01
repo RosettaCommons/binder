@@ -57,6 +57,7 @@ void Config::read(string const &file_name)
 	string const _namespace_{"namespace"};
 	string const _function_{"function"};
 	string const _class_{"class"};
+	string const _enum_{"enum"};
 
 	string const _python_builtin_{"python_builtin"};
 
@@ -125,6 +126,11 @@ void Config::read(string const &file_name)
 
 			if( bind ) classes_to_bind.push_back(name_without_spaces);
 			else classes_to_skip.push_back(name_without_spaces);
+		}
+		else if( token == _enum_ ) {
+
+			if( bind ) enums_to_bind.push_back(name_without_spaces);
+			else enums_to_skip.push_back(name_without_spaces);
 		}
 		else if( token == _python_builtin_ ) {
 
@@ -356,6 +362,27 @@ bool Config::is_class_skipping_requested(string const &class__) const
 
 	return false;
 }
+
+
+bool Config::is_enum_binding_requested(string const &enum_) const
+{
+	auto bind = std::find(enums_to_bind.begin(), enums_to_bind.end(), enum_);
+
+	if( bind != enums_to_bind.end() ) return true;
+
+	return false;
+}
+
+
+bool Config::is_enum_skipping_requested(string const &enum_) const
+{
+	auto bind = std::find(enums_to_skip.begin(), enums_to_skip.end(), enum_);
+
+	if( bind != enums_to_skip.end() ) return true;
+
+	return false;
+}
+
 
 
 string Config::is_custom_trampoline_function_requested(string const &function_) const

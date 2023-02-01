@@ -35,4 +35,13 @@ private:
 	enum class AE6_not_binded { AE6_V0_not_binded, AE6_V1_not_binded };
 };
 
+
+enum class E6_class_not_binded { V0, V1 };
+
+
+namespace aaaa {
+enum class E7_class { V0, V1 };
+enum class E8_class_not_binded { V0, V1 };
+}
+
 #endif // _INCLUDED_T01_enum_hpp_
