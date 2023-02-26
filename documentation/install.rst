@@ -57,7 +57,7 @@ To *statically* compile binder, see :ref:`building-static`.
 
   # Build Binder
   mkdir $HOME/prefix/build && cd $HOME/prefix/build
-  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON ../llvm && ninja
+  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang  ../llvm/llvm && ninja
 
   # At this point, if all above steps is successful, binder should be at
   # $HOME/prefix/build/bin/binder
