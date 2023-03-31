@@ -1191,7 +1191,7 @@ void ClassBinder::bind(Context &context)
 	string const qualified_name = class_qualified_name(C);
 	string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
 
-	prefix_code_ += generate_opaque_declaration_if_needed(qualified_name, qualified_name_without_template);
+	//prefix_code_ += generate_opaque_declaration_if_needed(qualified_name, qualified_name_without_template);
 
 	std::map<string, string> const &external_binders = Config::get().binders();
 	if( external_binders.count(qualified_name_without_template) ) {
