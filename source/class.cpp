@@ -555,7 +555,7 @@ string generate_opaque_declaration_if_needed(string const & qualified_name, stri
 	static vector<string> stl_containers {"std::vector", "std::deque", "std::list", "std::array", "std::valarray", "std::set", "std::unordered_set", "std::map", "std::unordered_map"};
 
 	if( begins_with(qualified_name_without_template, "std::") ) {
-		auto it = stl_containers.find(qualified_name_without_template);
+		auto it = std::find(stl_containers.begin(), stl_containers.end(), qualified_name_without_template);
 		if( it != stl_containers.end() ) {
 			return "PYBIND11_MAKE_OPAQUE(" + qualified_name + ");\n";
 		}
