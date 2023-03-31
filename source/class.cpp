@@ -549,6 +549,21 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 	includes.add_include("<sstream> // __str__");
 }
 
+string generate_opaque_declaration_if_needed(string const & qualified_name, string const & qualified_name_without_template)
+{
+	// pybind11 container lists https://pybind11.readthedocs.io/en/stable/advanced/cast/stl.html
+	static vector<string> stl_containers {"std::vector", "std::deque", "std::list", "std::array", "std::valarray", "std::set", "std::unordered_set", "std::map", "std::unordered_map"};
+
+	if( begins_with(qualified_name_without_template, "std::") ) {
+		auto it = stl_containers.find(qualified_name_without_template);
+		if( it != stl_containers.end() ) {
+			return "PYBIND11_MAKE_OPAQUE(" + qualified_name + ");\n";
+		}
+	}
+
+	return "";
+}
+
 string binding_public_data_members(CXXRecordDecl const *C)
 {
 	string c;
@@ -1173,7 +1188,11 @@ void ClassBinder::bind(Context &context)
 {
 	if( is_binded() ) return;
 
+	string const qualified_name = class_qualified_name(C);
 	string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
+
+	prefix_code_ += generate_opaque_declaration_if_needed(qualified_name, qualified_name_without_template);
+
 	std::map<string, string> const &external_binders = Config::get().binders();
 	if( external_binders.count(qualified_name_without_template) ) {
 		bind_with(external_binders.at(qualified_name_without_template), context);
@@ -1187,8 +1206,6 @@ void ClassBinder::bind(Context &context)
 	bool trampoline = callback_structure and callback_structure_constructible;
 
 	if( trampoline ) generate_prefix_code();
-
-	string const qualified_name{class_qualified_name(C)};
 
 	bool named_class = not C->isAnonymousStructOrUnion();
 

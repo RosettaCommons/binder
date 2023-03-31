@@ -184,28 +184,28 @@ void Config::read(string const &file_name)
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				binders_[binder_function.first] = binder_function.second;
+				binders_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _add_on_binder_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				add_on_binders_[binder_function.first] = binder_function.second;
+				add_on_binders_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _binder_for_namespace_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				binder_for_namespaces_[binder_function.first] = binder_function.second;
+				binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _add_on_binder_for_namespace_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
+				add_on_binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
