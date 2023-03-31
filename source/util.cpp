@@ -110,6 +110,20 @@ string indent(string const &code, string const &indentation)
 }
 
 
+/// remove leading and trailing tabs and spaces
+std::string trim(std::string const &s)
+{
+	static std::string const whitespaces = " \t";
+
+    auto begin = s.find_first_not_of(whitespaces);
+    if(begin == std::string::npos) return "";
+
+	auto end = s.find_last_not_of(whitespaces);
+
+    return s.substr(begin, end - begin + 1);
+}
+
+
 /// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code)
 {
