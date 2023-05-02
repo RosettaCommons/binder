@@ -372,14 +372,7 @@ bool Config::is_class_skipping_requested(string const &class__) const
 
 bool Config::is_field_skipping_requested(string const &field_) const
 {
-	string field {field_};
-	field.erase(std::remove(field.begin(), field.end(), ' '), field.end());
-
-	auto bind = std::find(fields_to_skip.begin(), fields_to_skip.end(), field);
-
-	if( bind != fields_to_skip.end() ) return true;
-
-	return false;
+	return std::find(fields_to_skip.begin(), fields_to_skip.end(), field_) != fields_to_skip.end();
 }
 
 
