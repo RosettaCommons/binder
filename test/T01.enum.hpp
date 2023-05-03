@@ -26,6 +26,9 @@ public:
 	enum struct AE2_struct { AE3_V0, AE3_V1 };
 	enum class AE3_class { AE2_V0, AE2_V1 };
 
+	int field1 = 0;
+	int field2 = 0;
+
 protected:
 	enum AE3_not_binded { AE3_V0_not_binded, AE3_V1_not_binded };
 	enum class AE4_not_binded { AE4_V0_not_binded, AE4_V1_not_binded };
