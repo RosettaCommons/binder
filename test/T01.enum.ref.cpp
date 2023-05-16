@@ -61,6 +61,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 			.value("AE2_V0", A::AE3_class::AE2_V0)
 			.value("AE2_V1", A::AE3_class::AE2_V1);
 
+		cl.def_readwrite("field2", &A::field2);
 	}
 }
 
@@ -81,7 +82,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 
 void bind_T01_enum_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// aaaa::E7_class file:T01.enum.hpp line:43
+	// aaaa::E7_class file:T01.enum.hpp line:46
 	pybind11::enum_<aaaa::E7_class>(M("aaaa"), "E7_class", "")
 		.value("V0", aaaa::E7_class::V0)
 		.value("V1", aaaa::E7_class::V1);

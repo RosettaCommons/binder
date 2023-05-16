@@ -372,6 +372,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	if( m and m->isStatic() ) {
 		maybe_static = "_static";
 		function_name = Config::get().prefix_for_static_member_functions() + function_name;
+		//outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
 	}
 
 	string function, documentation;

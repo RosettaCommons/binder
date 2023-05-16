@@ -87,6 +87,11 @@ Config file directives:
   -class utility::pointer::ReferenceCount
   -class std::__weak_ptr
 
+* ``field``, specify if a particular field should be bound.
+
+.. code-block:: bash
+
+  -field MyClass::some_field
 
 
 * ``python_builtin``, specify if particular class/struct should be considered a python builtin and assume existing bindings for it already exist.

@@ -57,6 +57,7 @@ void Config::read(string const &file_name)
 	string const _namespace_{"namespace"};
 	string const _function_{"function"};
 	string const _class_{"class"};
+	string const _field_{"field"};
 	string const _enum_{"enum"};
 
 	string const _python_builtin_{"python_builtin"};
@@ -206,6 +207,11 @@ void Config::read(string const &file_name)
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
 				add_on_binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
+			}
+		} else if ( token == _field_ ) {
+
+			if (!bind) {
+				fields_to_skip.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
@@ -361,6 +367,12 @@ bool Config::is_class_skipping_requested(string const &class__) const
 	}
 
 	return false;
+}
+
+
+bool Config::is_field_skipping_requested(string const &field_) const
+{
+	return std::find(fields_to_skip.begin(), fields_to_skip.end(), field_) != fields_to_skip.end();
 }
 
 
