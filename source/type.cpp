@@ -464,7 +464,7 @@ std::string standard_name(clang::QualType const &qt)
 
 	// if( begins_with(r, "std::") ) return r; //standard_name(r);
 	static std::set<string> standard_names;
-
+	
 	if (standard_names.empty())
 	{
 		standard_names =
@@ -485,6 +485,9 @@ std::string standard_name(clang::QualType const &qt)
 			"uint8_t", "uint16_t", "uint32_t", "uint64_t",
 			"intmax_t", "uintmax_t", "intptr_t", "uintptr_t",
 		};
+		
+		for (const auto &t : Config::get().standard_types)
+			standard_names.insert(t);
 	}
 
 	if( standard_names.count(r) ) return r;

@@ -64,7 +64,7 @@ public:
 
 	string root_module;
 
-	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip, fields_to_skip;
+	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip, fields_to_skip, standard_types;
 	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip;
 
 	std::map<string, string> const &binders() const { return binders_; }
