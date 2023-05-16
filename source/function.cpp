@@ -94,7 +94,8 @@ string function_arguments(clang::FunctionDecl const *record)
 	string r;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		//r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		r += standard_name(record->getParamDecl(i)->getOriginalType());
 		if( i + 1 != record->getNumParams() ) r += ", ";
 	}
 
@@ -244,6 +245,7 @@ string python_function_name(FunctionDecl const *F)
 // Generate function pointer type string for given function: void (*)(int, doule)_ or  void (ClassName::*)(int, doule)_ for memeber function
 string function_pointer_type(FunctionDecl const *F)
 {
+	//F->dump();
 	string r;
 	string prefix, maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
@@ -251,7 +253,9 @@ string function_pointer_type(FunctionDecl const *F)
 		maybe_const = m->isConst() ? " const" : "";
 	}
 
-	r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	//r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	r += standard_name(F->getReturnType());
+
 	r += " ({}*)("_format(prefix);
 
 	r += function_arguments(F);
@@ -377,7 +381,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		documentation = generate_documentation_string_for_declaration(F);
 		if( documentation.size() ) documentation += "\\n\\n";
 		documentation += "C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " +
-												 F->getReturnType().getCanonicalType().getAsString());
+												 standard_name(F->getReturnType() ) );
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);

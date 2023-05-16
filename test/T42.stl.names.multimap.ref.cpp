@@ -62,7 +62,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def( pybind11::init( [](std::hash<float> const &o){ return new std::hash<float>(o); } ) );
-		cl.def("__call__", (unsigned long (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> unsigned long", pybind11::arg("__val"));
+		cl.def("__call__", (std::size_t (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> std::size_t", pybind11::arg("__val"));
 		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::multimap file:bits/stl_multimap.h line:95
