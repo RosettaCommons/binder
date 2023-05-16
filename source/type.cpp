@@ -463,7 +463,29 @@ std::string standard_name(clang::QualType const &qt)
 
 
 	// if( begins_with(r, "std::") ) return r; //standard_name(r);
-	static std::set<string> standard_names {"std::size_t"};
+	static std::set<string> standard_names;
+
+	if (standard_names.empty())
+	{
+		standard_names =
+		{
+			// <cstddef>
+			"std::size_t", "std::ptrdiff_t",
+
+			// <stddef.h>
+			"size_t", "ptrdiff_t",
+
+			// <cstdint> (most common ones only)
+			"std::int8_t", "std::int16_t", "std::int32_t", "std::int64_t",
+			"std::uint8_t", "std::uint16_t", "std::uint32_t", "std::uint64_t",
+			"std::intmax_t", "std::uintmax_t", "std::intptr_t", "std::uintptr_t",
+
+			// <stdint.h> (most common ones only)
+			"int8_t", "int16_t", "int32_t", "int64_t",
+			"uint8_t", "uint16_t", "uint32_t", "uint64_t",
+			"intmax_t", "uintmax_t", "intptr_t", "uintptr_t",
+		};
+	}
 
 	if( standard_names.count(r) ) return r;
 	else return standard_name(qt.getCanonicalType().getAsString());
@@ -474,26 +496,29 @@ std::string standard_name(clang::QualType const &qt)
 string standard_name_raw(string const &type)
 {
 	static vector< std::pair<string, string> > const name_map = {
-		make_pair("std::__1::",
-				  "std::"), // Mac libc++ put all STD objects into std::__1::  // WARNING: order is important here: we want to first replace std::__1:: so later we can change basic_string into string
-		make_pair("std::__cxx11::", "std::"), // GCC libstdc++ 5.0+ puts all STD objects into std::__cxx11::
+		{"std::__1::", "std::"}, // Mac libc++ put all STD objects into std::__1::  // WARNING: order is important here: we want to first replace std::__1:: so later we can change basic_string into string
+		{"std::__cxx11::", "std::"}, // GCC libstdc++ 5.0+ puts all STD objects into std::__cxx11::
 
-		// make_pair("class std::", "std::"),
-		// make_pair("struct std::", "std::"),
+		// {"class std::", "std::"},
+		// {"struct std::", "std::"},
 
-		make_pair("std::basic_string<char>", "std::string"), make_pair("std::basic_string<char, std::char_traits<char>, std::allocator<char> >", "std::string"),
-		make_pair("class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char> >", "std::string"),
+		{"std::basic_string<char>", "std::string"},
+		{"std::basic_string<char, std::char_traits<char>, std::allocator<char> >", "std::string"},
+		{"class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char> >", "std::string"},
 
-		make_pair("std::basic_ostream<char>", "std::ostream"), make_pair("std::basic_istream<char>", "std::istream"),
+		{"std::basic_ostream<char>", "std::ostream"},
+		{"std::basic_istream<char>", "std::istream"},
+		{"class std::string", "std::string"},
+		{"class std::ostream", "std::ostream"},
+		{"class std::istream", "std::istream"},
 
-		make_pair("class std::string", "std::string"), make_pair("class std::ostream", "std::ostream"), make_pair("class std::istream", "std::istream"),
+		{"class std::__thread_id", "std::thread::id"},
+		{"std::__thread_id", "std::thread::id"},
 
-		make_pair("class std::__thread_id", "std::thread::id"), make_pair("std::__thread_id", "std::thread::id"),
+		{"nullptr_t", "std::nullptr_t"},
 
-		make_pair("nullptr_t", "std::nullptr_t"),
-
-		// make_pair("const class ", "const "),
-		// make_pair("const struct ", "const "),
+		// {"const class ", "const "},
+		// {"const struct ", "const "},
 	};
 
 	string r(type);
