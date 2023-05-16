@@ -461,11 +461,6 @@ std::string standard_name(clang::QualType const &qt)
 	//qt.dump();
 	string r = qt.getAsString();
 
-	// if( r == "std::array::size_type" ) {
-	// //if( begins_with(r, "std::array<" ) ) {
-	// 	outs() << "--> " << r << '\n';
-	// 	qt.dump();
-	// }
 
 	// if( begins_with(r, "std::") ) return r; //standard_name(r);
 	static std::set<string> standard_names {"std::size_t"};
