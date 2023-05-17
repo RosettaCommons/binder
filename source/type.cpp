@@ -486,7 +486,7 @@ std::string standard_name(clang::QualType const &qt)
 			"intmax_t", "uintmax_t", "intptr_t", "uintptr_t",
 		};
 		
-		for (const auto &t : Config::get().standard_types)
+		for (auto const &t : Config::get().standard_types)
 			standard_names.insert(t);
 	}
 
