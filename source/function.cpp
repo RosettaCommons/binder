@@ -113,8 +113,8 @@ pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *re
 	string r, a;
 
 	for( uint i = 0; i < record->getNumParams() and i < n; ++i ) {
-		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += standard_name(qt.getAsString()) + ' ';
+		QualType qt = record->getParamDecl(i)->getOriginalType();
+		r += standard_name(qt) + ' ';
 		if( !qt->isReferenceType() and !qt->isPointerType() ) r += !qt.isConstQualified() ? "const & " : "& ";
 		r += "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
@@ -138,8 +138,8 @@ tuple<string, string, string> function_arguments_for_py_overload(clang::Function
 	string r, a, p;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += standard_name(qt.getAsString()) + ' ' + "a" + std::to_string(i);
+		QualType qt = record->getParamDecl(i)->getOriginalType();
+		r += standard_name(qt) + ' ' + "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
 		p += string(qt->isLValueReferenceType() ? "&" : "") + "a" + std::to_string(i);
 		if( i + 1 != record->getNumParams() ) {
@@ -274,7 +274,7 @@ string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 	string maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
-	string r = (omit_return_type ? "" : F->getReturnType().getCanonicalType().getAsString() + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
+	string r = (omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
 			   function_arguments(F) + ")" + maybe_const;
 
 	fix_boolean_types(r);
@@ -388,7 +388,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);
 		// string args; for(uint i=0; i<args_to_bind; ++i) args += "a" + std::to_string(i) + ( i+1 == args_to_bind ? "" : ", " );
 
-		string return_type = standard_name(F->getReturnType().getCanonicalType().getAsString());
+		string return_type = standard_name(F->getReturnType());
 
 		// workaround of GCC bug during lambda specification: replace enum/struct/class/const_* from begining of the lambda return type with //const*
 		static vector< std::pair<string, string> > const name_map = {

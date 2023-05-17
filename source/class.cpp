@@ -716,7 +716,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			//  	(*m)->dump();
 			//  }
 
-			string return_type = standard_name(m->getReturnType().getCanonicalType().getAsString());
+			string return_type = standard_name(m->getReturnType());
 			fix_boolean_types(return_type);
 
 			// check if we need to fix return class to be 'derived-class &' or 'derived-class *'
