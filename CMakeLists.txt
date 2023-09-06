@@ -112,10 +112,9 @@ MESSAGE(STATUS  "binder: LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MINOR=${LLVM_VERSION_MINOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_PATCH=${LLVM_VERSION_PATCH}")
 if( ${LLVM_VERSION_MAJOR} GREATER_EQUAL 16 )
-#This actually will work even with C++11
+# LLVM 16 introduces the use of C++ features from C++17
 set(CMAKE_CXX_STANDARD 17)
 else()
-#This actually will work even with C++11
 set(CMAKE_CXX_STANDARD 14)
 endif()
 macro(add_clang_executable name)
