@@ -1229,7 +1229,7 @@ void ClassBinder::bind(Context &context)
 	if( named_class ) {
 		if (Config::get().is_smart_holder_requested(qualified_name_without_template)) {
 			c += '\t' +
-				R"(PYBIND11_TYPE_CASTER_BASE_HOLDER({}, {})"_format(qualified_name, maybe_holder_type) +
+				R"(PYBIND11_TYPE_CASTER_BASE_HOLDER({} {}))"_format(qualified_name, maybe_holder_type) +
 				'\n';
 		}
 		c += '\t' +
