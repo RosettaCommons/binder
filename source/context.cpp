@@ -87,14 +87,14 @@ const char *main_module_header = R"_(#include <map>
 #include <stdexcept>
 #include <string>
 
-#include <pybind11/pybind11.h>
+{0}
 
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
-{0}
+{1}
 
-PYBIND11_MODULE({1}, root_module) {{
-	root_module.doc() = "{1} module";
+PYBIND11_MODULE({2}, root_module) {{
+	root_module.doc() = "{2} module";
 
 	std::map <std::string, pybind11::module> modules;
 	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {{
@@ -115,25 +115,25 @@ PYBIND11_MODULE({1}, root_module) {{
 	);
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {{
-{2}	}};
+{3}	}};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
-{3}
+{4}
 }}
 )_";
 
 const char *module_header = R"_(
 #include <functional>
-#include <pybind11/pybind11.h>
+{0}
 #include <string>
-{}
+{1}
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
-	{}
+	{2}
 	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
-	{}
+	{3}
 #endif
 
 )_";
@@ -437,7 +437,8 @@ void Context::generate(Config const &config)
 		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>)";
 		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
 
-		code = generate_include_directives(includes) + fmt::format(module_header, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+		string const pybind11_include = "#include <" + Config::get().include_file() + ">";
+		code = generate_include_directives(includes) + fmt::format(module_header, pybind11_include, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 		else update_source_file(config.prefix, file_name, code);
@@ -462,8 +463,10 @@ void Context::generate(Config const &config)
 		binding_function_calls += "\t" + f + "(M);\n";
 	}
 
+	string const pybind11_include = "#include <" + Config::get().include_file() + ">";
+
 	std::stringstream s;
-	s << fmt::format(main_module_header, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);
+	s << fmt::format(main_module_header, pybind11_include, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);
 
 	root_module_file_handle << s.str();
 

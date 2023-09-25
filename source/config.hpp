@@ -52,6 +52,7 @@ private:
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_call_guard_ = "";
 	string holder_type_ = "std::shared_ptr";
+	string include_file_ = "pybind11/pybind11.h";
 
 public:
 	static Config &get();
@@ -62,7 +63,7 @@ public:
 	string root_module;
 
 	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip;
-	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip;
+	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip, smart_held_classes;
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
@@ -85,6 +86,7 @@ public:
 	string const &default_call_guard() { return default_call_guard_; }
 
 	string const &holder_type() const { return holder_type_; }
+	string const &include_file() const { return include_file_; }
 
 	string prefix;
 
@@ -101,6 +103,8 @@ public:
 	bool is_class_binding_requested(string const &class_) const;
 	bool is_class_skipping_requested(string const &class_) const;
 	bool is_buffer_protocol_requested(string const &class_) const;
+
+	bool is_smart_holder_requested(string const &class_) const;
 
 	bool is_include_skipping_requested(string const &include) const;
 

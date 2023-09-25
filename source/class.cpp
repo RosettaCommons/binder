@@ -1226,11 +1226,17 @@ void ClassBinder::bind(Context &context)
 
 	std::string extra_annotation = module_local_annotation + buffer_protocol_annotation;
 
-	if( named_class )
+	if( named_class ) {
+		if (Config::get().is_smart_holder_requested(qualified_name_without_template)) {
+			c += '\t' +
+				R"(PYBIND11_TYPE_CASTER_BASE_HOLDER({}, {})"_format(qualified_name, maybe_holder_type) +
+				'\n';
+		}
 		c += '\t' +
 			 R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}"{});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
 																		generate_documentation_string_for_declaration(C), extra_annotation) +
 			 '\n';
+	}
 	// c += "\tpybind11::handle cl_type = cl;\n\n";
 
 	// if( C->isAbstract()  and  callback_structure) c += "\tcl.def(pybind11::init<>());\n";
