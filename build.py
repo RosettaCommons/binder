@@ -81,10 +81,10 @@ def get_compiler_family():
     return 'unknown'
 
 
-def get_cmake_compiler_options():
+def get_cmake_compiler_options(compiler):
     ''' Get cmake compiler flags from Options.compiler '''
-    if Platform == "linux" and Options.compiler == 'clang': return ' -DCMAKE_C_COMPILER=`which clang` -DCMAKE_CXX_COMPILER=`which clang++`'
-    if Platform == "linux" and Options.compiler == 'gcc': return ' -DCMAKE_C_COMPILER=`which gcc` -DCMAKE_CXX_COMPILER=`which g++`'
+    if Platform == "linux" and compiler == 'clang': return ' -DCMAKE_C_COMPILER=`which clang` -DCMAKE_CXX_COMPILER=`which clang++`'
+    if Platform == "linux" and compiler == 'gcc': return ' -DCMAKE_C_COMPILER=`which gcc` -DCMAKE_CXX_COMPILER=`which g++`'
 
     return ''
 
@@ -175,7 +175,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             with open(cmake_lists, 'w') as f: f.write(tool_build_line + '\n')
 
         config = '-DCMAKE_BUILD_TYPE={build_type}'.format(build_type='Debug' if debug else 'Release')
-        config += get_cmake_compiler_options()
+        config += get_cmake_compiler_options(compiler)
 
         if not os.path.isdir(build_dir): os.makedirs(build_dir)
         execute(
