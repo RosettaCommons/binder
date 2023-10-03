@@ -128,6 +128,17 @@ Config file directives:
 
 
 
+* ``standard_type``, directive to declare C++ types which are to be retained as is without further resolution into underlying
+  native types. By default, most types in the standard headers ``<cstdef>`` and ``<cstdint>`` (e.g. ``uint8_t``, ``std::size_t``, etc.)
+  are already accounted for as "standard types" to prevent them to be mapped into elemental types (e.g. ``unsigned char``, ``long int``, etc.).
+  With this option, you can add more custom types to this list.
+
+.. code-block:: bash
+
+  +standard_type int_fast8_t
+
+
+
 * ``include_for_class``, directive to control C++ include directives on a per-class basis. Force Binder to add particular include
   into generated source files when a given target class is present. This allows the inclusion of custom binding code, which may
   then be referenced with either ``+binder`` or ``+add_on_binder`` directives.

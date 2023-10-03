@@ -60,6 +60,8 @@ void Config::read(string const &file_name)
 	string const _field_{"field"};
 	string const _enum_{"enum"};
 
+	string const _standard_type_{"standard_type"};
+
 	string const _python_builtin_{"python_builtin"};
 
 	string const _include_{"include"};
@@ -213,6 +215,15 @@ void Config::read(string const &file_name)
 			if (!bind) {
 				fields_to_skip.push_back(name_without_spaces);
 			}
+		} else if ( token == _standard_type_ ) {
+
+			if (bind) {
+				standard_types.push_back(name_without_spaces);
+			}
+			else {
+				throw std::runtime_error("standard_type must be '+' configuration.");
+			}
+
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
 
