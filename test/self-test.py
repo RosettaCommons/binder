@@ -93,7 +93,7 @@ def run_test(test_path, build_dir):
     command_line = "cd {build_dir} && python2.7 -c 'import {root_module}'".format(root_module=root_module, build_dir=build_dir)
     execute('{} Testing imports...'.format(test), command_line);
 
-    ref = source_dir + '/' + test_name + '.ref'
+    ref = source_dir + '/' + test_name + '.ref.cpp'
     new = build_dir + '/' + root_module + '.cpp'
     command_line = 'diff {ref} {new}'.format(**vars())
 

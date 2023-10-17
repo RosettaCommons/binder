@@ -44,6 +44,8 @@ bool ends_with(std::string const &source, std::string const &prefix);
 /// indent given code
 std::string indent(std::string const &code, std::string const &indentation);
 
+/// remove leading and trailing tabs and spaces
+std::string trim(std::string const &s);
 
 /// Try to read existing file. If file content does not match given code, overwrite the file with code. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code);

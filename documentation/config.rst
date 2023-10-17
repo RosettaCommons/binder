@@ -69,6 +69,15 @@ Config file directives:
   +namespace utility
 
 
+* ``enum``, specify if particular enum should be bound. Purpose of this directive is to allow developer to cherry-pick
+  particular enum from otherwise binded/skipped namespaces and mark it for binding/skipping.
+
+.. code-block:: bash
+
+  -enum utility::pointer::State
+  +enum protocols::CDR_Type
+
+
 
 * ``class``, specify if particular class/struct should be bound. Purpose of this directive is to allow developer to cherry-pick
   particular class from otherwise binded/skipped namespaces and mark it for binding/skipping.
@@ -78,6 +87,11 @@ Config file directives:
   -class utility::pointer::ReferenceCount
   -class std::__weak_ptr
 
+* ``field``, specify if a particular field should be bound.
+
+.. code-block:: bash
+
+  -field MyClass::some_field
 
 
 * ``python_builtin``, specify if particular class/struct should be considered a python builtin and assume existing bindings for it already exist.
@@ -148,7 +162,7 @@ Config file directives:
 
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
   generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
-  operators, etc.)
+  operators, etc.) The expected type signature of specified function should be `void f(pybind11::class_<T, std::shared_ptr<T> > &)`
 
 .. code-block:: bash
 
@@ -160,7 +174,7 @@ Config file directives:
 
 
 * ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
-  _instead_ of generating bindings for namaspace.
+  _instead_ of generating bindings for namaspace. Where expected type signature of specified function should be `void f(pybind11::module &)`
 
 .. code-block:: bash
 
@@ -209,7 +223,7 @@ Config file directives:
   +default_member_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
   +default_call_guard pybind11::gil_scoped_release
 
-* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of std::shared_ptr.
+* ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of ``std::shared_ptr``.
 
 * ``module_local_namespace``: use to add (or remove) the extra argument module_local to the pybind11 classes and enum of a namespace. This option can be used for all the namaspaces of a given project using `+module_local_namespace @all_namespaces`.
 
@@ -218,10 +232,12 @@ Config file directives:
   +module_local_namespace @all_namespaces
   -module_local_namespace std
 
-* ``trampoline_member_function_binder``: use to specify a custom trampoline member function defined by the user in a given header file.
+* ``trampoline_member_function_binder``: use to specify a custom trampoline member function defined by the user in a given header file
 
 .. code-block:: bash
 
   +include_for_class aaa::A <T81.custom_trampoline_with_args.include>
   +trampoline_member_function_binder aaa::A::foo myFoo
 
+
+* ``+prefix_for_static_member_functions``: specify name prefix to use for static member functions, could be useful as workaround Pybind11 limitation restricting having both virtual and static member functions having the same name

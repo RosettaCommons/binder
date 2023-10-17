@@ -57,6 +57,8 @@ void Config::read(string const &file_name)
 	string const _namespace_{"namespace"};
 	string const _function_{"function"};
 	string const _class_{"class"};
+	string const _field_{"field"};
+	string const _enum_{"enum"};
 
 	string const _python_builtin_{"python_builtin"};
 
@@ -88,6 +90,8 @@ void Config::read(string const &file_name)
 	string const _trampoline_member_function_binder_{"trampoline_member_function_binder"};
 
 	string const _default_call_guard_{"default_call_guard"};
+
+	string const _prefix_for_static_member_functions_{"prefix_for_static_member_functions"};
 
 	std::ifstream f(file_name);
 
@@ -125,6 +129,11 @@ void Config::read(string const &file_name)
 
 			if( bind ) classes_to_bind.push_back(name_without_spaces);
 			else classes_to_skip.push_back(name_without_spaces);
+		}
+		else if( token == _enum_ ) {
+
+			if( bind ) enums_to_bind.push_back(name_without_spaces);
+			else enums_to_skip.push_back(name_without_spaces);
 		}
 		else if( token == _python_builtin_ ) {
 
@@ -178,28 +187,33 @@ void Config::read(string const &file_name)
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				binders_[binder_function.first] = binder_function.second;
+				binders_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _add_on_binder_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				add_on_binders_[binder_function.first] = binder_function.second;
+				add_on_binders_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _binder_for_namespace_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				binder_for_namespaces_[binder_function.first] = binder_function.second;
+				binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
 			}
 		}
 		else if( token == _add_on_binder_for_namespace_ ) {
 
 			if( bind ) {
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
-				add_on_binder_for_namespaces_[binder_function.first] = binder_function.second;
+				add_on_binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
+			}
+		} else if ( token == _field_ ) {
+
+			if (!bind) {
+				fields_to_skip.push_back(name_without_spaces);
 			}
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
@@ -219,6 +233,8 @@ void Config::read(string const &file_name)
 		else if( token == _default_member_lvalue_reference_return_value_policy_ ) default_member_lvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_member_rvalue_reference_return_value_policy_ ) default_member_rvalue_reference_return_value_policy_ = name_without_spaces;
 		else if( token == _default_call_guard_ ) default_call_guard_ = name_without_spaces;
+
+		else if( token == _prefix_for_static_member_functions_ ) prefix_for_static_member_functions_ = name_without_spaces;
 
 		else if( token == _trampoline_member_function_binder_ ) {
 			if( bind ) {
@@ -361,6 +377,33 @@ bool Config::is_class_skipping_requested(string const &class__) const
 
 	return false;
 }
+
+
+bool Config::is_field_skipping_requested(string const &field_) const
+{
+	return std::find(fields_to_skip.begin(), fields_to_skip.end(), field_) != fields_to_skip.end();
+}
+
+
+bool Config::is_enum_binding_requested(string const &enum_) const
+{
+	auto bind = std::find(enums_to_bind.begin(), enums_to_bind.end(), enum_);
+
+	if( bind != enums_to_bind.end() ) return true;
+
+	return false;
+}
+
+
+bool Config::is_enum_skipping_requested(string const &enum_) const
+{
+	auto bind = std::find(enums_to_skip.begin(), enums_to_skip.end(), enum_);
+
+	if( bind != enums_to_skip.end() ) return true;
+
+	return false;
+}
+
 
 
 string Config::is_custom_trampoline_function_requested(string const &function_) const

@@ -10,7 +10,12 @@
 
 namespace aaaa {
 
-struct AAAA {};
+struct AAAA
+{
+	void foo() {}
+	static void foo(int) {}
+};
+
 void foo_aaaa() {}
 
 enum E1 { E1_V0, E1_V1 };

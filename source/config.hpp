@@ -53,6 +53,9 @@ private:
 	string default_call_guard_ = "";
 	string holder_type_ = "std::shared_ptr";
 	string include_file_ = "pybind11/pybind11.h";
+	string prefix_for_static_member_functions_ = "";
+
+	std::vector<string> enums_to_bind, enums_to_skip;
 
 public:
 	static Config &get();
@@ -62,7 +65,7 @@ public:
 
 	string root_module;
 
-	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip;
+	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip, fields_to_skip;
 	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip, smart_held_classes;
 
 	std::map<string, string> const &binders() const { return binders_; }
@@ -85,6 +88,8 @@ public:
 	string const &default_member_rvalue_reference_return_value_policy() { return default_member_rvalue_reference_return_value_policy_; }
 	string const &default_call_guard() { return default_call_guard_; }
 
+	string const &prefix_for_static_member_functions() { return prefix_for_static_member_functions_; }
+
 	string const &holder_type() const { return holder_type_; }
 	string const &include_file() const { return include_file_; }
 
@@ -102,6 +107,10 @@ public:
 
 	bool is_class_binding_requested(string const &class_) const;
 	bool is_class_skipping_requested(string const &class_) const;
+
+	bool is_enum_binding_requested(string const &enum_) const;
+	bool is_enum_skipping_requested(string const &enum_) const;
+
 	bool is_buffer_protocol_requested(string const &class_) const;
 
 	bool is_smart_holder_requested(string const &class_) const;
@@ -111,6 +120,8 @@ public:
 	string is_custom_trampoline_function_requested(string const &function__) const;
 
 	string includes_code() const;
+
+	bool is_field_skipping_requested(string const &name) const;
 };
 
 

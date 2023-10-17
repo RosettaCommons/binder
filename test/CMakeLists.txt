@@ -36,6 +36,7 @@ else()
       -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   endif()
+  add_dependencies(target${stestnamenodot}cpp binder)
 endif()
 endmacro( binder_src  stestname)
 

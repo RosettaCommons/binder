@@ -110,6 +110,20 @@ string indent(string const &code, string const &indentation)
 }
 
 
+/// remove leading and trailing tabs and spaces
+std::string trim(std::string const &s)
+{
+	static std::string const whitespaces = " \t";
+
+    auto begin = s.find_first_not_of(whitespaces);
+    if(begin == std::string::npos) return "";
+
+	auto end = s.find_last_not_of(whitespaces);
+
+    return s.substr(begin, end - begin + 1);
+}
+
+
 /// Try to read exisitng file and if content does not match to code - write a new version. Also create nested dirs starting from prefix if nessesary.
 void update_source_file(std::string const &prefix, std::string const &file_name, std::string const &code)
 {
@@ -252,24 +266,20 @@ string line_number(NamedDecl const *decl)
 string mangle_type_name(string const &name, bool mark_template)
 {
 	string r;
-	bool mangle = true;
 	bool template_ = false;
 
 	for( auto &c : name ) {
-		if( c != ' ' and c != '<' and c != '>' and c != ',' and c != ':' ) {
-			r.push_back(c);
-			mangle = false;
+		if( c == ' ' or c == '<' or c == '>' or c == ',' or c == ':' ) {
+			if( r.empty() or r.back() != '_' ) r.push_back('_');
 		}
-		else if( !mangle ) {
-			mangle = true;
-			r.push_back('_');
-		}
+		else r.push_back(c);
 
 		if( c == '<' or c == '>' or c == ',' ) template_ = true;
 	}
 
 	if( template_ and mark_template ) {
 		replace(r, "*", "_star_");
+		replace(r, "&", "_ref_");
 		r.push_back('t');
 	}
 

@@ -54,6 +54,10 @@ bool is_bindable(clang::QualType const &qt);
 void request_bindings(clang::QualType const &qt, Context &context);
 
 
+/// return standard string representation of a given type
+std::string standard_name(clang::QualType const &qt);
+
+
 /// transform give type name to standard form
 std::string standard_name(std::string const &type);
 

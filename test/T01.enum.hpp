@@ -26,6 +26,9 @@ public:
 	enum struct AE2_struct { AE3_V0, AE3_V1 };
 	enum class AE3_class { AE2_V0, AE2_V1 };
 
+	int field1 = 0;
+	int field2 = 0;
+
 protected:
 	enum AE3_not_binded { AE3_V0_not_binded, AE3_V1_not_binded };
 	enum class AE4_not_binded { AE4_V0_not_binded, AE4_V1_not_binded };
@@ -34,5 +37,14 @@ private:
 	enum AE5_not_binded { AE5_V0_not_binded, AE5_V1_not_binded };
 	enum class AE6_not_binded { AE6_V0_not_binded, AE6_V1_not_binded };
 };
+
+
+enum class E6_class_not_binded { V0, V1 };
+
+
+namespace aaaa {
+enum class E7_class { V0, V1 };
+enum class E8_class_not_binded { V0, V1 };
+}
 
 #endif // _INCLUDED_T01_enum_hpp_

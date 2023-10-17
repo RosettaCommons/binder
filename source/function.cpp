@@ -94,7 +94,8 @@ string function_arguments(clang::FunctionDecl const *record)
 	string r;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		//r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		r += standard_name(record->getParamDecl(i)->getOriginalType());
 		if( i + 1 != record->getNumParams() ) r += ", ";
 	}
 
@@ -112,8 +113,8 @@ pair<string, string> function_arguments_for_lambda(clang::FunctionDecl const *re
 	string r, a;
 
 	for( uint i = 0; i < record->getNumParams() and i < n; ++i ) {
-		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += standard_name(qt.getAsString()) + ' ';
+		QualType qt = record->getParamDecl(i)->getOriginalType();
+		r += standard_name(qt) + ' ';
 		if( !qt->isReferenceType() and !qt->isPointerType() ) r += !qt.isConstQualified() ? "const & " : "& ";
 		r += "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
@@ -137,8 +138,8 @@ tuple<string, string, string> function_arguments_for_py_overload(clang::Function
 	string r, a, p;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		QualType qt = record->getParamDecl(i)->getOriginalType().getCanonicalType();
-		r += standard_name(qt.getAsString()) + ' ' + "a" + std::to_string(i);
+		QualType qt = record->getParamDecl(i)->getOriginalType();
+		r += standard_name(qt) + ' ' + "a" + std::to_string(i);
 		a += "a" + std::to_string(i);
 		p += string(qt->isLValueReferenceType() ? "&" : "") + "a" + std::to_string(i);
 		if( i + 1 != record->getNumParams() ) {
@@ -244,6 +245,7 @@ string python_function_name(FunctionDecl const *F)
 // Generate function pointer type string for given function: void (*)(int, doule)_ or  void (ClassName::*)(int, doule)_ for memeber function
 string function_pointer_type(FunctionDecl const *F)
 {
+	//F->dump();
 	string r;
 	string prefix, maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
@@ -251,7 +253,9 @@ string function_pointer_type(FunctionDecl const *F)
 		maybe_const = m->isConst() ? " const" : "";
 	}
 
-	r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	//r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	r += standard_name(F->getReturnType());
+
 	r += " ({}*)("_format(prefix);
 
 	r += function_arguments(F);
@@ -270,7 +274,7 @@ string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 	string maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
-	string r = (omit_return_type ? "" : F->getReturnType().getCanonicalType().getAsString() + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
+	string r = (omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
 			   function_arguments(F) + ")" + maybe_const;
 
 	fix_boolean_types(r);
@@ -363,7 +367,13 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	string function_qualified_name = standard_name(parent ? class_qualified_name(parent) + "::" + F->getNameAsString() : F->getQualifiedNameAsString());
 
 	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
-	string maybe_static = m and m->isStatic() ? "_static" : "";
+
+	string maybe_static;
+	if( m and m->isStatic() ) {
+		maybe_static = "_static";
+		function_name = Config::get().prefix_for_static_member_functions() + function_name;
+		//outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
+	}
 
 	string function, documentation;
 	if( args_to_bind == F->getNumParams() and (not always_use_lambda) ) {
@@ -372,13 +382,13 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		documentation = generate_documentation_string_for_declaration(F);
 		if( documentation.size() ) documentation += "\\n\\n";
 		documentation += "C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " +
-												 F->getReturnType().getCanonicalType().getAsString());
+												 standard_name(F->getReturnType() ) );
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);
 		// string args; for(uint i=0; i<args_to_bind; ++i) args += "a" + std::to_string(i) + ( i+1 == args_to_bind ? "" : ", " );
 
-		string return_type = standard_name(F->getReturnType().getCanonicalType().getAsString());
+		string return_type = standard_name(F->getReturnType());
 
 		// workaround of GCC bug during lambda specification: replace enum/struct/class/const_* from begining of the lambda return type with //const*
 		static vector< std::pair<string, string> > const name_map = {

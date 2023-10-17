@@ -56,6 +56,33 @@ bool is_bindable(EnumDecl const *E)
 	return true;
 }
 
+/// check if user requested binding for the given declaration
+bool is_binding_requested(clang::EnumDecl const *E, Config const &config)
+{
+	if( config.is_enum_binding_requested( E->getQualifiedNameAsString() ) ) return true;
+
+	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(E));
+	//for( auto &t : get_type_dependencies(E) ) bind &= !is_skipping_requested(t, config);
+	return bind;
+}
+
+// check if user requested skipping for the given declaration
+bool is_skipping_requested(clang::EnumDecl const *E, Config const &config)
+{
+	string qualified_name = standard_name(E->getQualifiedNameAsString());
+
+	if( config.is_enum_skipping_requested(qualified_name) ) return true;
+	if( config.is_enum_binding_requested(qualified_name) ) return false;
+
+	bool skip = config.is_namespace_skipping_requested(namespace_from_named_decl(E));
+
+	//for( auto &t : get_type_dependencies(E) ) skip |= is_skipping_requested(t, config);
+
+	return skip;
+}
+
+
+
 // This function takes care about the LLVM/Clang bug which was fixed in LLVM6/Clang6.
 // The body of the function is a backport from LLVM6.
 std::string getQualifiedNameAsStringLLVM5Fix(NamedDecl const *E)
@@ -126,14 +153,15 @@ string EnumBinder::id() const
 /// check if generator can create binding
 bool EnumBinder::bindable() const
 {
-	return is_bindable(E);
+	return is_bindable(E) and !is_banned_symbol(E);
 }
 
 
 /// check if user requested binding for the given declaration
 void EnumBinder::request_bindings_and_skipping(Config const &config)
 {
-	if( config.is_namespace_binding_requested(namespace_from_named_decl(E)) ) Binder::request_bindings();
+	if( is_skipping_requested(E, config) ) Binder::request_skipping();
+    else if( is_binding_requested(E, config) ) Binder::request_bindings();
 }
 
 

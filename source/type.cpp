@@ -455,6 +455,26 @@ void request_bindings(clang::QualType const &qt, Context &context)
 }
 
 
+/// return standard string representation of a given type
+std::string standard_name(clang::QualType const &qt)
+{
+	//qt.dump();
+	string r = qt.getAsString();
+
+	// if( r == "std::array::size_type" ) {
+	// //if( begins_with(r, "std::array<" ) ) {
+	// 	outs() << "--> " << r << '\n';
+	// 	qt.dump();
+	// }
+
+	// if( begins_with(r, "std::") ) return r; //standard_name(r);
+	static std::set<string> standard_names {"std::size_t"};
+
+	if( standard_names.count(r) ) return r;
+	else return standard_name(qt.getCanonicalType().getAsString());
+}
+
+
 // transform give type name to standard form
 string standard_name_raw(string const &type)
 {

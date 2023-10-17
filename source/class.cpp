@@ -549,6 +549,21 @@ void ClassBinder::add_relevant_includes(IncludeSet &includes) const
 	includes.add_include("<sstream> // __str__");
 }
 
+string generate_opaque_declaration_if_needed(string const & qualified_name, string const & qualified_name_without_template)
+{
+	// pybind11 container lists https://pybind11.readthedocs.io/en/stable/advanced/cast/stl.html
+	static vector<string> stl_containers {"std::vector", "std::deque", "std::list", "std::array", "std::valarray", "std::set", "std::unordered_set", "std::map", "std::unordered_map"};
+
+	if( begins_with(qualified_name_without_template, "std::") ) {
+		auto it = std::find(stl_containers.begin(), stl_containers.end(), qualified_name_without_template);
+		if( it != stl_containers.end() ) {
+			return "PYBIND11_MAKE_OPAQUE(" + qualified_name + ");\n";
+		}
+	}
+
+	return "";
+}
+
 string binding_public_data_members(CXXRecordDecl const *C)
 {
 	string c;
@@ -560,6 +575,10 @@ string binding_public_data_members(CXXRecordDecl const *C)
 				for( auto s = u->shadow_begin(); s != u->shadow_end(); ++s ) {
 					if( UsingShadowDecl *us = dyn_cast<UsingShadowDecl>(*s) ) {
 						if( FieldDecl *f = dyn_cast<FieldDecl>(us->getTargetDecl()) ) {
+							auto config = Config::get();
+							if ( config.is_field_skipping_requested(f->getQualifiedNameAsString())) {
+								continue;
+							}
 							if( is_bindable(f) ) c += "\tcl" + bind_data_member(f, class_qualified_name(C)) + ";\n";
 						}
 					}
@@ -571,6 +590,10 @@ string binding_public_data_members(CXXRecordDecl const *C)
 	for( auto d = C->decls_begin(); d != C->decls_end(); ++d ) {
 		if( FieldDecl *f = dyn_cast<FieldDecl>(*d) ) {
 			//outs() << "Class: " << class_qualified_name(C); f->dump(); outs() << "\n";
+			auto config = Config::get();
+			if ( config.is_field_skipping_requested(f->getQualifiedNameAsString()) ) {
+				continue;
+			}
 			if( f->getAccess() == AS_public and is_bindable(f) ) c += "\tcl" + bind_data_member(f, class_qualified_name(C)) + ";\n";
 		}
 	}
@@ -581,7 +604,7 @@ string binding_public_data_members(CXXRecordDecl const *C)
 inline string callback_structure_name(CXXRecordDecl const *C)
 {
 	string ns = replace_(namespace_from_named_decl(C), "::", "_");
-	return "PyCallBack_" + (ns.empty() ? "" : ns + '_') + python_class_name(C);
+	return mangle_type_name( "PyCallBack_" + (ns.empty() ? "" : ns + '_') + python_class_name(C), false );
 }
 
 
@@ -693,7 +716,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 			//  	(*m)->dump();
 			//  }
 
-			string return_type = standard_name(m->getReturnType().getCanonicalType().getAsString());
+			string return_type = standard_name(m->getReturnType());
 			fix_boolean_types(return_type);
 
 			// check if we need to fix return class to be 'derived-class &' or 'derived-class *'
@@ -1110,9 +1133,16 @@ std::string ClassBinder::bind_repr(Context &context, Config const &config)
 	if( config.is_function_skipping_requested(qualified_name + "::__str__") or config.is_function_skipping_requested( standard_name(C->getQualifiedNameAsString() + "::__str__" ) ) ) return c;
 
 	if( FunctionDecl const *F = context.global_insertion_operator(C) ) {
-		// outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
+		//outs() << "Found insertion operator for: " << class_qualified_name(C) << "\n";
+		//outs() << "insertion operator: " << F->getNameInfo().getAsString() << " qn: " << F->getQualifiedNameAsString() << " dn:" << F->getDeclName() << "\n";
 
-		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; {}(s, o); return s.str(); }} );\n"_format(qualified_name, F->getQualifiedNameAsString());
+		string maybe_using_decl;
+
+		string ns = namespace_from_named_decl(F);
+		if(ns.size()) maybe_using_decl = " using namespace {};"_format(ns);
+
+		//c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s; {}(s, o); return s.str(); }} );\n"_format(qualified_name, F->getQualifiedNameAsString());
+		c += "\n\tcl.def(\"__str__\", []({} const &o) -> std::string {{ std::ostringstream s;{} s << o; return s.str(); }} );\n"_format(qualified_name, maybe_using_decl);
 
 		prefix_includes_.push_back(F);
 	}
@@ -1166,7 +1196,11 @@ void ClassBinder::bind(Context &context)
 {
 	if( is_binded() ) return;
 
+	string const qualified_name = class_qualified_name(C);
 	string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
+
+	//prefix_code_ += generate_opaque_declaration_if_needed(qualified_name, qualified_name_without_template);
+
 	std::map<string, string> const &external_binders = Config::get().binders();
 	if( external_binders.count(qualified_name_without_template) ) {
 		bind_with(external_binders.at(qualified_name_without_template), context);
@@ -1180,8 +1214,6 @@ void ClassBinder::bind(Context &context)
 	bool trampoline = callback_structure and callback_structure_constructible;
 
 	if( trampoline ) generate_prefix_code();
-
-	string const qualified_name{class_qualified_name(C)};
 
 	bool named_class = not C->isAnonymousStructOrUnion();
 
