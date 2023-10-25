@@ -437,7 +437,7 @@ void Context::generate(Config const &config)
 		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>)";
 		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
 
-		string const pybind11_include = "#include <" + Config::get().include_file() + ">";
+		string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
 		code = generate_include_directives(includes) + fmt::format(module_header, pybind11_include, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
@@ -463,7 +463,7 @@ void Context::generate(Config const &config)
 		binding_function_calls += "\t" + f + "(M);\n";
 	}
 
-	string const pybind11_include = "#include <" + Config::get().include_file() + ">";
+	string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
 
 	std::stringstream s;
 	s << fmt::format(main_module_header, pybind11_include, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);

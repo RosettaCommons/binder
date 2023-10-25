@@ -79,6 +79,8 @@ void Config::read(string const &file_name)
 
 	string const _smart_holder_{"smart_holder"};
 
+	string const _pybind11_include_file_{"pybind11_include_file"};
+
 	string const _default_static_pointer_return_value_policy_{"default_static_pointer_return_value_policy"};
 	string const _default_static_lvalue_reference_return_value_policy_{"default_static_lvalue_reference_return_value_policy"};
 	string const _default_static_rvalue_reference_return_value_policy_{"default_static_rvalue_reference_return_value_policy"};
@@ -219,10 +221,13 @@ void Config::read(string const &file_name)
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
 
 		else if( token == _smart_holder_ ) {
-			include_file_ = "pybind11/smart_holder.h";
 			if(bind) {
 				smart_held_classes.push_back(name_without_spaces);
 			}
+		}
+
+		else if( token == _pybind11_include_file_ ) {
+			pybind11_include_file_ = name_without_spaces;
 		}
 
 		else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;

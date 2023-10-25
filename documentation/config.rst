@@ -247,3 +247,10 @@ Config file directives:
 .. code-block:: bash
 
   +smart_holder example::class
+
+* ``pybind11_include_file``: use to specify which header file of pybind11 should be included. The header pybind11/pybind11.h is used by default.
+
+.. code-block:: bash
+
+  +pybind11_include_file pybind11/smart_holder.h
+

@@ -52,7 +52,7 @@ private:
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_call_guard_ = "";
 	string holder_type_ = "std::shared_ptr";
-	string include_file_ = "pybind11/pybind11.h";
+	string pybind11_include_file_ = "pybind11/pybind11.h";
 	string prefix_for_static_member_functions_ = "";
 
 	std::vector<string> enums_to_bind, enums_to_skip;
@@ -91,7 +91,7 @@ public:
 	string const &prefix_for_static_member_functions() { return prefix_for_static_member_functions_; }
 
 	string const &holder_type() const { return holder_type_; }
-	string const &include_file() const { return include_file_; }
+	string const &pybind11_include_file() const { return pybind11_include_file_; }
 
 	string prefix;
 
