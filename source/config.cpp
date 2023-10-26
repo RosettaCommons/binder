@@ -77,6 +77,10 @@ void Config::read(string const &file_name)
 
 	string const _custom_shared_{"custom_shared"};
 
+	string const _smart_holder_{"smart_holder"};
+
+	string const _pybind11_include_file_{"pybind11_include_file"};
+
 	string const _default_static_pointer_return_value_policy_{"default_static_pointer_return_value_policy"};
 	string const _default_static_lvalue_reference_return_value_policy_{"default_static_lvalue_reference_return_value_policy"};
 	string const _default_static_rvalue_reference_return_value_policy_{"default_static_rvalue_reference_return_value_policy"};
@@ -215,6 +219,16 @@ void Config::read(string const &file_name)
 			}
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
+
+		else if( token == _smart_holder_ ) {
+			if(bind) {
+				smart_held_classes.push_back(name_without_spaces);
+			}
+		}
+
+		else if( token == _pybind11_include_file_ ) {
+			pybind11_include_file_ = name_without_spaces;
+		}
 
 		else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;
 		else if( token == _default_static_lvalue_reference_return_value_policy_ ) default_static_lvalue_reference_return_value_policy_ = name_without_spaces;
@@ -438,6 +452,21 @@ bool Config::is_module_local_requested(string const &namespace_) const
 		if( module_local_to_skip != module_local_namespaces_to_skip.end()) {
 			throw std::runtime_error("Could not determent if namespace '" + namespace_ + "' should use module_local or not... please resolve the conlficting options +module_local_namespace and -module_local_namespace!!!");
 		}
+		return true;
+	}
+
+	return false;
+}
+
+bool Config::is_smart_holder_requested(string const &class__) const
+{
+	string class_{class__};
+	class_.erase(std::remove(class_.begin(), class_.end(), ' '), class_.end());
+
+	auto smart_held_class = std::find(smart_held_classes.begin(), smart_held_classes.end(), class_);
+
+	if( smart_held_class != smart_held_classes.end() ) {
+		// outs() << "Using smart holder for class : " << class_ << "\n";
 		return true;
 	}
 

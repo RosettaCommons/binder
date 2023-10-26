@@ -241,3 +241,16 @@ Config file directives:
 
 
 * ``+prefix_for_static_member_functions``: specify name prefix to use for static member functions, could be useful as workaround Pybind11 limitation restricting having both virtual and static member functions having the same name
+
+* ``smart_holder``: use to specify that a class requires the usage of the progressive mode of the pybind11 smart_holder branch (https://github.com/pybind/pybind11/tree/smart_holder). As discussed in https://github.com/pybind/pybind11/blob/smart_holder/README_smart_holder.rst, the smart_holder branch is a strict superset of the pybind11 master branch that supports safely passing trampoline objects back to C++: associated Python objects are automatically kept alive for the lifetime of the smart-pointer. This config file directive has been added to fulfil https://github.com/RosettaCommons/binder/issues/263.
+
+.. code-block:: bash
+
+  +smart_holder example::class
+
+* ``pybind11_include_file``: use to specify which header file of pybind11 should be included. The header pybind11/pybind11.h is used by default.
+
+.. code-block:: bash
+
+  +pybind11_include_file pybind11/smart_holder.h
+
