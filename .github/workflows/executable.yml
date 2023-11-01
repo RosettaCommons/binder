@@ -1,0 +1,33 @@
+name: Build executable
+
+on:
+  pull_request:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: cpp-actions/setup-llvm@v1
+        with:
+          llvm-version: "6"
+      - name: Build
+        run: |
+            mkdir build
+            cd build
+            cmake ..
+            cmake --build .
+            make binder
+      - name: Upload binder
+        uses: actions/upload-artifact@v2
+        with:
+          name: binder-${{ matrix.os }}
+          path: build/source/binder
