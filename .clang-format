@@ -9,7 +9,6 @@ ColumnLimit:     200
 MaxEmptyLinesToKeep: 4
 
 AlignTrailingComments: false
-AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 
 # require clang-format v14+
