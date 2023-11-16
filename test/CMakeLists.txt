@@ -3,6 +3,36 @@ if("0" STREQUAL ${BINDER_TEST_PYTHON_VERSIONS})
 else()
   find_package(pybind11 CONFIG REQUIRED)
   message(STATUS "Found pybind11 v${pybind11_VERSION}: ${pybind11_INCLUDE_DIRS}   and ${pybind11_INCLUDE_DIR}")
+  string(REGEX REPLACE "^v" "" _pybind11_VERSION "${pybind11_VERSION}")
+  if(_pybind11_VERSION VERSION_LESS "2.10") # 2.9 was the last version to support Python 2
+    set(TEST_PYTHON_2 TRUE)
+  else()
+    message(WARNING "pybind11 version ${pybind11_VERSION} does not have support for Python 2. Python 2 tests will be disabled." )
+    set(TEST_PYTHON_2 FALSE)
+  endif()
+endif()
+
+# set up the include paths for macos if necessary
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+  # try running xcrun --show-sdk-path to get the SDK path
+  execute_process(COMMAND xcrun --show-sdk-path
+    RESULT_VARIABLE _XCRUN_RESULT
+    OUTPUT_VARIABLE _XCRUN_OUTPUT
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (NOT _XCRUN_RESULT EQUAL 0)
+    set(APPLE_ISYSROOT_DIR "/Library/Developer/CommandLineTools")
+  else()
+    set(APPLE_ISYSROOT_DIR ${_XCRUN_OUTPUT})
+  endif()
+  set(APPLE_BASE_C_INCLUDE_PATH "/usr/include/")
+  set(APPLE_BASE_CPP_INCLUDE_PATH "/usr/include/c++/v1/")
+  set(APPLE_BASE_SYSTEM_HEADERS "/System/Library/Frameworks/Kernel.framework/Headers")
+  set(APPLE_C_AND_CPP_INCLUDE_PATH "${APPLE_ISYSROOT_DIR}/${APPLE_BASE_CPP_INCLUDE_PATH}:${APPLE_ISYSROOT_DIR}/${APPLE_BASE_C_INCLUDE_PATH}:${LibClang_INCLUDE_DIR}")
+  string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" _CLANG_COMPILER_VERSION ${CMAKE_CXX_COMPILER_VERSION})
+  message(STATUS "CLANG_COMPILER_VERSION: ${_CLANG_COMPILER_VERSION}")
+  message(STATUS "APPLE_ISYSROOT_DIR: ${APPLE_ISYSROOT_DIR}")
+  message(STATUS "APPLE_C_AND_CPP_INCLUDE_PATH: ${APPLE_C_AND_CPP_INCLUDE_PATH}")
 endif()
 
 macro( binder_src stestname)
@@ -23,10 +53,10 @@ else()
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
     #The first two expressions below are for older clang
-    COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/  CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}:/Library/Developer/CommandLineTools/usr/include/c++/v1/
+    COMMAND C_INCLUDE_PATH=${APPLE_C_AND_CPP_INCLUDE_PATH}  CPLUS_INCLUDE_PATH=${APPLE_C_AND_CPP_INCLUDE_PATH}
       ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
       --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include ${${stestname}_cli_flags}
-      -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
+      -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -isysroot${APPLE_ISYSROOT_DIR} -iwithsysroot${APPLE_BASE_CPP_INCLUDE_PATH} -iwithsysroot${APPLE_BASE_C_INCLUDE_PATH} -isystem${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   else()
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
@@ -137,6 +167,13 @@ foreach ( tests ${binder_tests} )
 endforeach ( tests ${binder_tests} )
 
 foreach( pver ${TESTVERSIONS} )
+  string(SUBSTRING ${pver} 0 1 FIRSTCHAR)
+  if (${FIRSTCHAR} STREQUAL "2")
+    if (NOT TEST_PYTHON_2)
+      message(STATUS "Skipping Python ${pver} tests.")
+      continue()
+    endif()
+  endif()
   string(REPLACE "." ";" MAJMIN "${pver}.X.Y")
   list(GET MAJMIN 0 MAJ)
   list(GET MAJMIN 1 MIN)
