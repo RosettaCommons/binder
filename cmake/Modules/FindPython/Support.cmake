@@ -259,7 +259,7 @@ if ("Interpreter" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS)
   # try more generic names
   if (NOT ${_PYTHON_PREFIX}_EXECUTABLE)
     find_program (${_PYTHON_PREFIX}_EXECUTABLE
-                  NAMES python${${_PYTHON_PREFIX}_VERSION_MAJOR} python
+                  NAMES python${${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR} python
                         ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
                   HINTS ${_${_PYTHON_PREFIX}_HINTS}
                   PATH_SUFFIXES bin)
