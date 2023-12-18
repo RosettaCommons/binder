@@ -13,6 +13,7 @@ In line with this, ``binder`` will only bind (most) C++ operators if they are me
 These operators include, but are not necessarily limited to:
 
 .. code-block:: console
+
     operator~ (__invert__)
 
     operator+ (__add__)
