@@ -223,6 +223,7 @@ public:
 
 int main(int argc, const char **argv)
 {
+	llvm::cl::SetVersionPrinter([](llvm::raw_ostream &OS) { OS << "binder " << BINDER_VERSION_STRING << "\nLLVM " << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR << "." << LLVM_VERSION_PATCH << "\n"; });
 #if( LLVM_VERSION_MAJOR < 13 )
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
