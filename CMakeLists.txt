@@ -10,7 +10,6 @@ set(USE_EXTERNAL_LLVM ON)
 include("GNUInstallDirs")
 set(LLVM_DIR_ORIG ${LLVM_DIR})
 set(Clang_DIR_ORIG ${Clang_DIR})
-add_definitions(-DBINDER_VERSION_STRING=\"${VERSION}\")
 # cmake version >= 3.19 includes all our modules
 if(${CMAKE_VERSION} VERSION_LESS "3.19")
   set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
