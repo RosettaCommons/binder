@@ -29,6 +29,7 @@
 #include <enum.hpp>
 #include <function.hpp>
 #include <options.hpp>
+#include <iostream>
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -223,7 +224,11 @@ public:
 
 int main(int argc, const char **argv)
 {
+#if( LLVM_VERSION_MAJOR < 6 )
+	llvm::cl::SetVersionPrinter([]() { std::cout<< "binder " << BINDER_VERSION_STRING << "\nLLVM " << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR << "." << LLVM_VERSION_PATCH << "\n"; });
+#else
 	llvm::cl::SetVersionPrinter([](llvm::raw_ostream &OS) { OS << "binder " << BINDER_VERSION_STRING << "\nLLVM " << LLVM_VERSION_MAJOR << "." << LLVM_VERSION_MINOR << "." << LLVM_VERSION_PATCH << "\n"; });
+#endif
 #if( LLVM_VERSION_MAJOR < 13 )
 	CommonOptionsParser op(argc, argv, BinderToolCategory);
 	ClangTool tool(op.getCompilations(), op.getSourcePathList());
