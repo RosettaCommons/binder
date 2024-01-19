@@ -40,6 +40,10 @@ add_clang_executable(binder
   fmt/os.cc
   fmt/os.h
   )
+if (NOT VERSION)
+  set(VERSION 1.4.1)
+endif()  
+target_compile_definitions(binder PUBLIC BINDER_VERSION_STRING=\"${VERSION}\")
 if(USE_EXTERNAL_LLVM)
   if(STATIC)
     find_library(lib_llvm_path NAMES libclang_static_bundled.a
