@@ -28,6 +28,7 @@ extern llvm::cl::opt<bool> O_include_pybind11_stl;
 
 extern llvm::cl::opt<std::string> O_root_module;
 extern llvm::cl::opt<int> O_max_file_size;
+extern llvm::cl::opt<bool> O_skip_line_number;
 extern llvm::cl::opt<std::string> O_prefix;
 extern llvm::cl::list<std::string> O_bind;
 extern llvm::cl::list<std::string> O_skip;
