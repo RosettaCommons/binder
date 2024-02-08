@@ -33,9 +33,9 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 
 ``--flat`` if specified instruct Binder to write generate code files into single directory. Generated files will be named as ``<root-module>.cpp``, ``<root-module>_1.cpp``, ``<root-module>_2.cpp``, ... etc.
 
+``--skip-line-number`` if specified prevents Binder from writing the line numbers in the comments to the generated code.
 
 ``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default
-
 
 ``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
