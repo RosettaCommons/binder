@@ -38,6 +38,8 @@ cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"
 
 cl::opt<int> O_max_file_size("max-file-size", cl::desc("Specify maximum length of generated source files"), cl::init(1024 * 16), cl::cat(BinderToolCategory));
 
+cl::opt<bool> O_skip_line_number("skip-line-number", cl::desc("Do not print line number in the comment to the generated code"), cl::init(false), cl::cat(BinderToolCategory));
+
 cl::opt<std::string> O_prefix("prefix", cl::desc("Output path for all generated files. Specified path must exists."), cl::init(""), cl::cat(BinderToolCategory));
 
 cl::list<std::string> O_bind("bind", cl::desc("Namespace to bind, could be specified more then once. Specify \"\" to bind all namespaces."), cl::cat(BinderToolCategory)); // , cl::OneOrMore

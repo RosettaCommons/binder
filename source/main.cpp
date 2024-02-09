@@ -88,6 +88,7 @@ public:
 		config.root_module = O_root_module;
 		config.prefix = O_prefix;
 		config.maximum_file_length = O_max_file_size;
+		config.skip_line_number = O_skip_line_number;
 
 		config.namespaces_to_bind = O_bind;
 		config.namespaces_to_skip = O_skip;

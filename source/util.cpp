@@ -255,6 +255,8 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 // calcualte line in source file for NamedDecl
 string line_number(NamedDecl const *decl)
 {
+	bool l_skip_line_number = Config::get().skip_line_number;
+	if (l_skip_line_number) return std::string("");
 	ASTContext &ast_context(decl->getASTContext());
 	SourceManager &sm(ast_context.getSourceManager());
 

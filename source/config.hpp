@@ -32,8 +32,8 @@ class Config
 
 	Config() {}
 
-	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_)
-		: root_module(root_module_), namespaces_to_bind(namespaces_to_bind_), namespaces_to_skip(namespaces_to_skip_), prefix(prefix_), maximum_file_length(maximum_file_length_)
+	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_, bool skip_line_number_)
+		: root_module(root_module_), namespaces_to_bind(namespaces_to_bind_), namespaces_to_skip(namespaces_to_skip_), prefix(prefix_), maximum_file_length(maximum_file_length_), skip_line_number(skip_line_number_)
 	{
 	}
 
@@ -96,6 +96,8 @@ public:
 	string prefix;
 
 	std::size_t maximum_file_length;
+
+	bool skip_line_number = false;
 
 	/// check if user requested binding for given declaration
 	bool is_namespace_binding_requested(string const &namespace_) const;
