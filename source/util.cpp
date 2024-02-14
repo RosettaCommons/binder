@@ -135,7 +135,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 
 	// std::experimental::filesystem::create_directories(path);
 	string command_line = "mkdir -p " + path;
-	system(command_line.c_str());
+	if (system(command_line.c_str()) != 0) throw std::runtime_error("ERROR: Command \"" + command_line + "\" failed");
 
 	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
