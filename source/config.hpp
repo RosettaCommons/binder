@@ -32,8 +32,8 @@ class Config
 
 	Config() {}
 
-	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_)
-		: root_module(root_module_), namespaces_to_bind(namespaces_to_bind_), namespaces_to_skip(namespaces_to_skip_), prefix(prefix_), maximum_file_length(maximum_file_length_)
+	Config(string const &root_module_, std::vector<string> namespaces_to_bind_, std::vector<string> namespaces_to_skip_, string const &prefix_, std::size_t maximum_file_length_, bool skip_line_number_)
+		: root_module(root_module_), namespaces_to_bind(namespaces_to_bind_), namespaces_to_skip(namespaces_to_skip_), prefix(prefix_), maximum_file_length(maximum_file_length_), skip_line_number(skip_line_number_)
 	{
 	}
 
@@ -52,6 +52,7 @@ private:
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_call_guard_ = "";
 	string holder_type_ = "std::shared_ptr";
+	string pybind11_include_file_ = "pybind11/pybind11.h";
 	string prefix_for_static_member_functions_ = "";
 
 	std::vector<string> enums_to_bind, enums_to_skip;
@@ -65,7 +66,7 @@ public:
 	string root_module;
 
 	std::vector<string> namespaces_to_bind, classes_to_bind, functions_to_bind, namespaces_to_skip, classes_to_skip, functions_to_skip, includes_to_add, includes_to_skip, fields_to_skip;
-	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip;
+	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip, smart_held_classes;
 
 	std::map<string, string> const &binders() const { return binders_; }
 	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
@@ -90,10 +91,13 @@ public:
 	string const &prefix_for_static_member_functions() { return prefix_for_static_member_functions_; }
 
 	string const &holder_type() const { return holder_type_; }
+	string const &pybind11_include_file() const { return pybind11_include_file_; }
 
 	string prefix;
 
 	std::size_t maximum_file_length;
+
+	bool skip_line_number = false;
 
 	/// check if user requested binding for given declaration
 	bool is_namespace_binding_requested(string const &namespace_) const;
@@ -110,6 +114,8 @@ public:
 	bool is_enum_skipping_requested(string const &enum_) const;
 
 	bool is_buffer_protocol_requested(string const &class_) const;
+
+	bool is_smart_holder_requested(string const &class_) const;
 
 	bool is_include_skipping_requested(string const &include) const;
 

@@ -1,0 +1,126 @@
+// File: T61_smart_holder.cpp
+#include <T61.smart_holder.hpp> // A
+#include <T61.smart_holder.hpp> // E1
+#include <T61.smart_holder.hpp> // E2_struct
+#include <T61.smart_holder.hpp> // E3_class
+#include <T61.smart_holder.hpp> // fi
+#include <T61.smart_holder.hpp> // fi_instantiated_by_use_in_function
+#include <sstream> // __str__
+
+#include <functional>
+#include <pybind11/smart_holder.h>
+#include <string>
+
+#ifndef BINDER_PYBIND11_TYPE_CASTER
+	#define BINDER_PYBIND11_TYPE_CASTER
+	PYBIND11_DECLARE_HOLDER_TYPE(T, my_shared_ptr<T>)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_MAKE_OPAQUE(my_shared_ptr<void>)
+#endif
+
+void bind_T61_smart_holder(std::function< pybind11::module &(std::string const &namespace_) > &M)
+{
+	// E1 file:T61.smart_holder.hpp line:21
+	pybind11::enum_<E1>(M(""), "E1", pybind11::arithmetic(), "")
+		.value("E1_V0", E1_V0)
+		.value("E1_V1", E1_V1)
+		.export_values();
+
+;
+
+	// E2_struct file:T61.smart_holder.hpp line:23
+	pybind11::enum_<E2_struct>(M(""), "E2_struct", "")
+		.value("V0", E2_struct::V0)
+		.value("V1", E2_struct::V1)
+		.export_values();
+
+;
+
+	// E3_class file:T61.smart_holder.hpp line:24
+	pybind11::enum_<E3_class>(M(""), "E3_class", "")
+		.value("V0", E3_class::V0)
+		.value("V1", E3_class::V1);
+
+;
+
+	{ // A file:T61.smart_holder.hpp line:28
+		PYBIND11_TYPE_CASTER_BASE_HOLDER(A<int> , my_shared_ptr<A<int>>)
+		pybind11::class_<A<int>, my_shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
+		cl.def( pybind11::init( [](){ return new A<int>(); } ) );
+
+		pybind11::enum_<A<int>::AE1>(cl, "AE1", pybind11::arithmetic(), "")
+			.value("AE1_V0", A<int>::AE1_V0)
+			.value("AE1_V1", A<int>::AE1_V1)
+			.export_values();
+
+
+		pybind11::enum_<A<int>::AE2_struct>(cl, "AE2_struct", "")
+			.export_values();
+
+
+		pybind11::enum_<A<int>::AE3_class>(cl, "AE3_class", "");
+
+	}
+	// fi_instantiated_by_use_in_function(class A<int>) file:T61.smart_holder.hpp line:44
+	M("").def("fi_instantiated_by_use_in_function", (void (*)(class A<int>)) &fi_instantiated_by_use_in_function, "C++: fi_instantiated_by_use_in_function(class A<int>) --> void", pybind11::arg(""));
+
+	// fi(class A<int> &) file:T61.smart_holder.hpp line:47
+	M("").def("fi", (void (*)(class A<int> &)) &fi, "C++: fi(class A<int> &) --> void", pybind11::arg(""));
+
+	// fi(class A<int> *) file:T61.smart_holder.hpp line:50
+	M("").def("fi", (void (*)(class A<int> *)) &fi, "C++: fi(class A<int> *) --> void", pybind11::arg(""));
+
+}
+
+
+#include <map>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
+#include <pybind11/smart_holder.h>
+
+typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+
+void bind_T61_smart_holder(std::function< pybind11::module &(std::string const &namespace_) > &M);
+
+
+PYBIND11_MODULE(T61_smart_holder, root_module) {
+	root_module.doc() = "T61_smart_holder module";
+
+	std::map <std::string, pybind11::module> modules;
+	ModuleGetter M = [&](std::string const &namespace_) -> pybind11::module & {
+		auto it = modules.find(namespace_);
+		if( it == modules.end() ) throw std::runtime_error("Attempt to access pybind11::module for namespace " + namespace_ + " before it was created!!!");
+		return it->second;
+	};
+
+	modules[""] = root_module;
+
+	static std::vector<std::string> const reserved_python_words {"nonlocal", "global", };
+
+	auto mangle_namespace_name(
+		[](std::string const &ns) -> std::string {
+			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
+			else return ns+'_';
+		}
+	);
+
+	std::vector< std::pair<std::string, std::string> > sub_modules {
+	};
+	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+
+	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+
+	bind_T61_smart_holder(M);
+
+}
+
+// Source list file: TEST/T61_smart_holder.sources
+// T61_smart_holder.cpp
+// T61_smart_holder.cpp
+
+// Modules list file: TEST/T61_smart_holder.modules
+// 

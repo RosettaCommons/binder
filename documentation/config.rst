@@ -33,9 +33,9 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 
 ``--flat`` if specified instruct Binder to write generate code files into single directory. Generated files will be named as ``<root-module>.cpp``, ``<root-module>_1.cpp``, ``<root-module>_2.cpp``, ... etc.
 
+``--skip-line-number`` if specified prevents Binder from writing the line numbers in the comments to the generated code.
 
 ``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default
-
 
 ``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
@@ -241,3 +241,16 @@ Config file directives:
 
 
 * ``+prefix_for_static_member_functions``: specify name prefix to use for static member functions, could be useful as workaround Pybind11 limitation restricting having both virtual and static member functions having the same name
+
+* ``smart_holder``: use to specify that a class requires the usage of the progressive mode of the pybind11 smart_holder branch (https://github.com/pybind/pybind11/tree/smart_holder). As discussed in https://github.com/pybind/pybind11/blob/smart_holder/README_smart_holder.rst, the smart_holder branch is a strict superset of the pybind11 master branch that supports safely passing trampoline objects back to C++: associated Python objects are automatically kept alive for the lifetime of the smart-pointer. This config file directive has been added to fulfil https://github.com/RosettaCommons/binder/issues/263.
+
+.. code-block:: bash
+
+  +smart_holder example::class
+
+* ``pybind11_include_file``: use to specify which header file of pybind11 should be included. The header pybind11/pybind11.h is used by default.
+
+.. code-block:: bash
+
+  +pybind11_include_file pybind11/smart_holder.h
+

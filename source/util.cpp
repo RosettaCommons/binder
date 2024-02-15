@@ -135,7 +135,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 
 	// std::experimental::filesystem::create_directories(path);
 	string command_line = "mkdir -p " + path;
-	system(command_line.c_str());
+	if (system(command_line.c_str()) != 0) throw std::runtime_error("ERROR: Command \"" + command_line + "\" failed");
 
 	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
@@ -255,6 +255,8 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 // calcualte line in source file for NamedDecl
 string line_number(NamedDecl const *decl)
 {
+	bool l_skip_line_number = Config::get().skip_line_number;
+	if (l_skip_line_number) return std::string("");
 	ASTContext &ast_context(decl->getASTContext());
 	SourceManager &sm(ast_context.getSourceManager());
 

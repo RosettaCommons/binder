@@ -9,5 +9,9 @@ export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
 cmake CMakeLists.txt
 make
 otool -L source/binder
-ctest . --output-on-failure 
+ctest . --output-on-failure
+out=$?
 cat Testing/Temporary/LastTest.log
+if [ $out -ne 0 ]; then
+    exit $out
+fi

@@ -142,10 +142,18 @@ For MacOSX:
   add the location of llvm config to the $PATH:
 
   .. code-block:: console
-
-    wget --no-verbose https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
-    tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
-    export PATH=$PATH:$(pwd)/clang+llvm-11.0.0-x86_64-apple-darwin/bin
+    mkdir -p deps
+    cd deps
+    arch=`uname -m`
+    if [[ "$arch" == "arm64" ]]; then 
+        wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang+llvm-14.0.6-arm64-apple-darwin22.3.0.tar.xz -O clang_llvm_stock.tar.xz
+    else
+        wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz -O clang_llvm_stock.tar.xz
+    fi
+    tar -xJf clang_llvm_stock.tar.xz
+    mv clang+llvm-* clang+llvm_stock
+    # Make sure to add to the END of the path
+    export PATH="$PATH:$(pwd)/clang+llvm_stock/bin"
 
 
 Building
