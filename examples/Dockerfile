@@ -1,8 +1,11 @@
-FROM ubuntu:20.04 as base
-
 # Config
 ARG BRANCH="master"
 ARG CLANG_VERSION=14
+
+
+FROM ubuntu:20.04 as base
+ARG BRANCH
+ARG CLANG_VERSION
 
 # General dependencies
 ENV DEBIAN_FRONTEND=noninteractive
@@ -22,6 +25,8 @@ RUN apt-get update \
 
 # Build binder
 FROM base as build
+ARG BRANCH
+ARG CLANG_VERSION
 
 # Build dependencies
 RUN apt-get update
