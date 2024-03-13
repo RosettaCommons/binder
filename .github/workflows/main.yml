@@ -24,7 +24,7 @@ jobs:
              uname -a 
              cat /etc/issue
              yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static \
-             libcxx-devel cmake make gcc gcc-c++ \
+             libcxx-devel cmake make gcc gcc-c++  \
              pybind11-devel python3 python3-devel python2 python2-devel  && yum -y cleanall
    - name: Compile
       run: |
