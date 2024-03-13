@@ -26,7 +26,7 @@ jobs:
              yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static \
              libcxx-devel cmake make gcc gcc-c++  \
              pybind11-devel python3 python3-devel python2 python2-devel  && yum -y cleanall
-   - name: Compile
+    - name: Compile
       run: |
              cmake CMakeLists.txt
              make
@@ -49,8 +49,8 @@ jobs:
              tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
              export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
 
-     - name: Compile
-       run: |
+    - name: Compile
+      run: |
              cmake CMakeLists.txt
              make
              otool -L source/binder
