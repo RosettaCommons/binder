@@ -9,6 +9,7 @@ on:
 jobs:
   compilejobFedora:
     strategy:
+      fail-fast: false    
       matrix:
         version: [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
     runs-on: ubuntu-latest
@@ -38,7 +39,8 @@ jobs:
     runs-on: macos-latest
     name: Binder_on_OSX
     steps:
-
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Install 
       run: |
              set -x
@@ -47,8 +49,6 @@ jobs:
              ls
              tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
              export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Compile
       run: |
              export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
