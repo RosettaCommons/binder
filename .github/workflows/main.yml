@@ -16,8 +16,6 @@ jobs:
     container:
       image: fedora:${{ matrix.version }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Install 
       run: |
              set -x
@@ -26,6 +24,8 @@ jobs:
              yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static \
              libcxx-devel cmake make gcc gcc-c++  \
              pybind11-devel python3 python3-devel python2 python2-devel  && yum -y cleanall
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Compile
       run: |
              cmake CMakeLists.txt
@@ -38,19 +38,20 @@ jobs:
     runs-on: macos-latest
     name: Binder_on_OSX
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+
     - name: Install 
       run: |
              set -x
-             brew install wget coreutils xz pybind11
+             brew install wget coreutils xz pybind11 git
              wget --no-verbose https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
              ls
              tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
              export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
-
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Compile
       run: |
+             export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
              cmake CMakeLists.txt
              make
              otool -L source/binder
