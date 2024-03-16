@@ -19,7 +19,7 @@
 
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// std::vector file:bits/stl_vector.h line:210
+	// std::vector file:bits/stl_vector.h line:
 	binder::vector_binder<int,std::allocator<int>>(M("std"), "int", "std_allocator_int_t");
 
 }
@@ -46,7 +46,7 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 
 void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo(class std::vector<int, class std::allocator<int> >) file:T40.stl.hpp line:18
+	// foo(class std::vector<int, class std::allocator<int> >) file:T40.stl.hpp line:
 	M("").def("foo", (void (*)(class std::vector<int, class std::allocator<int> >)) &foo, "C++: foo(class std::vector<int, class std::allocator<int> >) --> void", pybind11::arg(""));
 
 }
@@ -75,7 +75,7 @@ void bind_T40_stl(std::function< pybind11::module &(std::string const &namespace
 
 void bind_std_T40_stl(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// std::vector file:T40.stl.hpp line:22
+	// std::vector file:T40.stl.hpp line:
 	binder::vector_binder<float,std::allocator<float>>(M("std"), "float", "std_allocator_float_t");
 
 }

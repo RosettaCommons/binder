@@ -16,7 +16,7 @@
 
 void bind_std_stl_deque(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::deque file:bits/stl_deque.h line:730
+	{ // std::deque file:bits/stl_deque.h line:
 		pybind11::class_<std::deque<int>, std::shared_ptr<std::deque<int>>> cl(M("std"), "deque_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::deque<int>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<int> &>(), pybind11::arg("__a") );
@@ -71,7 +71,7 @@ void bind_std_stl_deque(std::function< pybind11::module &(std::string const &nam
 
 void bind_std_forward_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::forward_list file:bits/forward_list.h line:408
+	{ // std::forward_list file:bits/forward_list.h line:
 		pybind11::class_<std::forward_list<float>, std::shared_ptr<std::forward_list<float>>> cl(M("std"), "forward_list_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::forward_list<float>(); } ), "doc" );
 		cl.def( pybind11::init<const class std::allocator<float> &>(), pybind11::arg("__al") );
@@ -103,7 +103,7 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 		cl.def("sort", (void (std::forward_list<float>::*)()) &std::forward_list<float>::sort, "C++: std::forward_list<float>::sort() --> void");
 		cl.def("reverse", (void (std::forward_list<float>::*)()) &std::forward_list<float>::reverse, "C++: std::forward_list<float>::reverse() --> void");
 	}
-	{ // std::list file:bits/stl_list.h line:438
+	{ // std::list file:bits/stl_list.h line:
 		pybind11::class_<std::list<double>, std::shared_ptr<std::list<double>>> cl(M("std"), "list_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::list<double>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
@@ -136,7 +136,7 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 		cl.def("reverse", (void (std::list<double>::*)()) &std::list<double>::reverse, "C++: std::list<double>::reverse() --> void");
 		cl.def("sort", (void (std::list<double>::*)()) &std::list<double>::sort, "C++: std::list<double>::sort() --> void");
 	}
-	{ // std::vector file:bits/stl_vector.h line:210
+	{ // std::vector file:bits/stl_vector.h line:
 		pybind11::class_<std::vector<double>, std::shared_ptr<std::vector<double>>> cl(M("std"), "vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<double>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<double> &>(), pybind11::arg("__a") );
@@ -200,7 +200,7 @@ void bind_std_forward_list(std::function< pybind11::module &(std::string const &
 
 void bind_std_stl_vector(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::vector file:bits/stl_vector.h line:210
+	{ // std::vector file:bits/stl_vector.h line:
 		pybind11::class_<std::vector<std::vector<double>>, std::shared_ptr<std::vector<std::vector<double>>>> cl(M("std"), "vector_std_vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<std::vector<double>>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<class std::vector<double, class std::allocator<double> > > &>(), pybind11::arg("__a") );
@@ -242,7 +242,7 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 		cl.def("swap", (void (std::vector<std::vector<double>>::*)(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > &)) &std::vector<std::vector<double>>::swap, "C++: std::vector<std::vector<double>>::swap(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > &) --> void", pybind11::arg("__x"));
 		cl.def("clear", (void (std::vector<std::vector<double>>::*)()) &std::vector<std::vector<double>>::clear, "C++: std::vector<std::vector<double>>::clear() --> void");
 	}
-	{ // std::vector file:bits/stl_vector.h line:210
+	{ // std::vector file:bits/stl_vector.h line:
 		pybind11::class_<std::vector<std::vector<std::vector<double>>>, std::shared_ptr<std::vector<std::vector<std::vector<double>>>>> cl(M("std"), "vector_std_vector_std_vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<std::vector<std::vector<double>>>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > &>(), pybind11::arg("__a") );
@@ -309,7 +309,7 @@ void bind_std_stl_vector(std::function< pybind11::module &(std::string const &na
 
 void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::vector file:bits/stl_vector.h line:210
+	{ // std::vector file:bits/stl_vector.h line:
 		pybind11::class_<std::vector<std::list<std::forward_list<std::deque<double>>>>, std::shared_ptr<std::vector<std::list<std::forward_list<std::deque<double>>>>>> cl(M("std"), "vector_std_list_std_forward_list_std_deque_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::vector<std::list<std::forward_list<std::deque<double>>>>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > > > &>(), pybind11::arg("__a") );
@@ -367,25 +367,25 @@ void bind_std_stl_vector_1(std::function< pybind11::module &(std::string const &
 
 void bind_T42_stl_names(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo(class std::list<double, class std::allocator<double> >) file:T42.stl.names.hpp line:25
+	// foo(class std::list<double, class std::allocator<double> >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::list<double, class std::allocator<double> >)) &foo, "C++: foo(class std::list<double, class std::allocator<double> >) --> void", pybind11::arg(""));
 
-	// foo(class std::forward_list<float, class std::allocator<float> >) file:T42.stl.names.hpp line:28
+	// foo(class std::forward_list<float, class std::allocator<float> >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::forward_list<float, class std::allocator<float> >)) &foo, "C++: foo(class std::forward_list<float, class std::allocator<float> >) --> void", pybind11::arg(""));
 
-	// foo(class std::vector<double, class std::allocator<double> >) file:T42.stl.names.hpp line:31
+	// foo(class std::vector<double, class std::allocator<double> >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::vector<double, class std::allocator<double> >)) &foo, "C++: foo(class std::vector<double, class std::allocator<double> >) --> void", pybind11::arg(""));
 
-	// foo(class std::deque<int, class std::allocator<int> >) file:T42.stl.names.hpp line:34
+	// foo(class std::deque<int, class std::allocator<int> >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::deque<int, class std::allocator<int> >)) &foo, "C++: foo(class std::deque<int, class std::allocator<int> >) --> void", pybind11::arg(""));
 
-	// foo(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >) file:T42.stl.names.hpp line:38
+	// foo(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >)) &foo, "C++: foo(class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >) --> void", pybind11::arg(""));
 
-	// foo(class std::vector<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >) file:T42.stl.names.hpp line:41
+	// foo(class std::vector<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::vector<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >)) &foo, "C++: foo(class std::vector<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::vector<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >) --> void", pybind11::arg(""));
 
-	// foo(class std::vector<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > > > >) file:T42.stl.names.hpp line:45
+	// foo(class std::vector<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > > > >) file:T42.stl.names.hpp line:
 	M("").def("foo", (void (*)(class std::vector<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > > > >)) &foo, "C++: foo(class std::vector<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > >, class std::allocator<class std::list<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > >, class std::allocator<class std::forward_list<class std::deque<double, class std::allocator<double> >, class std::allocator<class std::deque<double, class std::allocator<double> > > > > > > >) --> void", pybind11::arg(""));
 
 }

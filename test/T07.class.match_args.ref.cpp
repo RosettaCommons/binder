@@ -15,7 +15,7 @@
 
 void bind_T07_class_match_args(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // MatchArgs file:T07.class.match_args.hpp line:14
+	{ // MatchArgs file:T07.class.match_args.hpp line:
 		pybind11::class_<MatchArgs, std::shared_ptr<MatchArgs>> cl(M(""), "MatchArgs", "");
 		cl.def( pybind11::init( [](){ return new MatchArgs(); } ) );
 		cl.def( pybind11::init( [](MatchArgs const &o){ return new MatchArgs(o); } ) );

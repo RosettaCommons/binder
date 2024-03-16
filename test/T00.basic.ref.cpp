@@ -19,52 +19,52 @@
 
 void bind_T00_basic(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo() file:T00.basic.hpp line:25
+	// foo() file:T00.basic.hpp line:
 	M("").def("foo", (void (*)()) &foo, "C++: foo() --> void");
 
-	// foo_char(char) file:T00.basic.hpp line:29
+	// foo_char(char) file:T00.basic.hpp line:
 	M("").def("foo_char", (int (*)(char)) &foo_char, "C++: foo_char(char) --> int", pybind11::arg(""));
 
-	// foo_char(char &) file:T00.basic.hpp line:33
+	// foo_char(char &) file:T00.basic.hpp line:
 	M("").def("foo_char", (int (*)(char &)) &foo_char, "C++: foo_char(char &) --> int", pybind11::arg(""));
 
-	// foo_char(char *) file:T00.basic.hpp line:37
+	// foo_char(char *) file:T00.basic.hpp line:
 	M("").def("foo_char", (int (*)(char *)) &foo_char, "C++: foo_char(char *) --> int", pybind11::arg(""));
 
-	// foo_int(int) file:T00.basic.hpp line:42
+	// foo_int(int) file:T00.basic.hpp line:
 	M("").def("foo_int", (int (*)(int)) &foo_int, "C++: foo_int(int) --> int", pybind11::arg(""));
 
-	// foo_int(int &) file:T00.basic.hpp line:46
+	// foo_int(int &) file:T00.basic.hpp line:
 	M("").def("foo_int", (int (*)(int &)) &foo_int, "C++: foo_int(int &) --> int", pybind11::arg(""));
 
-	// foo_int(int *) file:T00.basic.hpp line:50
+	// foo_int(int *) file:T00.basic.hpp line:
 	M("").def("foo_int", (int (*)(int *)) &foo_int, "C++: foo_int(int *) --> int", pybind11::arg(""));
 
-	// foo_float(float) file:T00.basic.hpp line:55
+	// foo_float(float) file:T00.basic.hpp line:
 	M("").def("foo_float", (float (*)(float)) &foo_float, "C++: foo_float(float) --> float", pybind11::arg(""));
 
-	// foo_float(float &) file:T00.basic.hpp line:59
+	// foo_float(float &) file:T00.basic.hpp line:
 	M("").def("foo_float", (float (*)(float &)) &foo_float, "C++: foo_float(float &) --> float", pybind11::arg(""));
 
-	// foo_float(float *) file:T00.basic.hpp line:63
+	// foo_float(float *) file:T00.basic.hpp line:
 	M("").def("foo_float", (float (*)(float *)) &foo_float, "C++: foo_float(float *) --> float", pybind11::arg(""));
 
-	// foo_double(double) file:T00.basic.hpp line:68
+	// foo_double(double) file:T00.basic.hpp line:
 	M("").def("foo_double", (double (*)(double)) &foo_double, "C++: foo_double(double) --> double", pybind11::arg(""));
 
-	// foo_double(double &) file:T00.basic.hpp line:72
+	// foo_double(double &) file:T00.basic.hpp line:
 	M("").def("foo_double", (double (*)(double &)) &foo_double, "C++: foo_double(double &) --> double", pybind11::arg(""));
 
-	// foo_double(double *) file:T00.basic.hpp line:76
+	// foo_double(double *) file:T00.basic.hpp line:
 	M("").def("foo_double", (double (*)(double *)) &foo_double, "C++: foo_double(double *) --> double", pybind11::arg(""));
 
-	// foo_void_p(void *) file:T00.basic.hpp line:83
+	// foo_void_p(void *) file:T00.basic.hpp line:
 	M("").def("foo_void_p", (void * (*)(void *)) &foo_void_p, "C++: foo_void_p(void *) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *const &) file:T00.basic.hpp line:87
+	// foo_void_p(void *const &) file:T00.basic.hpp line:
 	M("").def("foo_void_p", (void * (*)(void *const &)) &foo_void_p, "C++: foo_void_p(void *const &) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-	// foo_void_p(void *&) file:T00.basic.hpp line:91
+	// foo_void_p(void *&) file:T00.basic.hpp line:
 	M("").def("foo_void_p", (void * (*)(void *&)) &foo_void_p, "C++: foo_void_p(void *&) --> void *", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
 }
@@ -86,7 +86,7 @@ void bind_T00_basic(std::function< pybind11::module &(std::string const &namespa
 
 void bind_T00_basic_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// global::foo() file:T00.basic.hpp line:97
+	// global::foo() file:T00.basic.hpp line:
 	M("global").def("foo", (void (*)()) &global::foo, "C++: global::foo() --> void");
 
 }
@@ -108,7 +108,7 @@ void bind_T00_basic_1(std::function< pybind11::module &(std::string const &names
 
 void bind_T00_basic_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// nonlocal::foo() file:T00.basic.hpp line:102
+	// nonlocal::foo() file:T00.basic.hpp line:
 	M("nonlocal").def("foo", (void (*)()) &nonlocal::foo, "C++: nonlocal::foo() --> void");
 
 }

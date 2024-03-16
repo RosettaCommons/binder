@@ -458,7 +458,11 @@ void request_bindings(clang::QualType const &qt, Context &context)
 /// return standard string representation of a given type
 std::string standard_name(clang::QualType const &qt)
 {
-	//qt.dump();
+	//qt.getUnqualifiedType().dump();
+	//qt->getCanonicalTypeInternal().dump();
+	//qt.getTypePtr()->dump();
+	//outs() << qt->getTypeClassName() << '\n';
+
 	string r = qt.getAsString();
 
 	// if( r == "std::array::size_type" ) {
@@ -468,9 +472,18 @@ std::string standard_name(clang::QualType const &qt)
 	// }
 
 	// if( begins_with(r, "std::") ) return r; //standard_name(r);
-	static std::set<string> standard_names {"std::size_t"};
 
-	if( standard_names.count(r) ) return r;
+	// static std::set<string> standard_names {"std::size_t"};
+	// if( standard_names.count(r) ) return r;
+	// else return standard_name(qt.getCanonicalType().getAsString());
+
+
+	// static std::set<string> standard_names {"std::size_t"};
+	// if( standard_names.count(r) ) return r;
+	// else return standard_name(qt.getCanonicalType().getAsString());
+
+	static std::set<string> standard_names_to_ignore {"std::size_t", }; // "std::array::size_type",
+	if( standard_names_to_ignore.count(r) ) return r;
 	else return standard_name(qt.getCanonicalType().getAsString());
 }
 

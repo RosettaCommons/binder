@@ -21,7 +21,7 @@
 
 void bind_T12_insertion_operator(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // A file:T12.insertion_operator.hpp line:17
+	{ // A file:T12.insertion_operator.hpp line:
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
@@ -53,7 +53,7 @@ void bind_T12_insertion_operator(std::function< pybind11::module &(std::string c
 
 void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::T file:T12.insertion_operator.hpp line:23
+	{ // aaaa::T file:T12.insertion_operator.hpp line:
 		pybind11::class_<aaaa::T, std::shared_ptr<aaaa::T>> cl(M("aaaa"), "T", "");
 		cl.def( pybind11::init( [](){ return new aaaa::T(); } ) );
 		cl.def( pybind11::init( [](aaaa::T const &o){ return new aaaa::T(o); } ) );
@@ -86,7 +86,7 @@ void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // A1 file:T12.insertion_operator.hpp line:32
+	{ // A1 file:T12.insertion_operator.hpp line:
 		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		cl.def( pybind11::init( [](){ return new A1(); } ) );
 		cl.def_readwrite("a", &A1::a);
@@ -121,14 +121,14 @@ void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::B file:T12.insertion_operator.hpp line:46
+	{ // bbbb::B file:T12.insertion_operator.hpp line:
 		pybind11::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B(); } ) );
 		cl.def( pybind11::init( [](bbbb::B const &o){ return new bbbb::B(o); } ) );
 
 		cl.def("__str__", [](bbbb::B const &o) -> std::string { std::ostringstream s; using namespace bbbb::cccc; s << o; return s.str(); } );
 	}
-	{ // bbbb::B2 file:T12.insertion_operator.hpp line:54
+	{ // bbbb::B2 file:T12.insertion_operator.hpp line:
 		pybind11::class_<bbbb::B2, std::shared_ptr<bbbb::B2>> cl(M("bbbb"), "B2", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B2(); } ) );
 
@@ -160,7 +160,7 @@ void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string
 
 void bind_T12_insertion_operator_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:63
+	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:
 		pybind11::class_<bbbb::cccc::C, std::shared_ptr<bbbb::cccc::C>> cl(M("bbbb::cccc"), "C", "");
 		cl.def( pybind11::init( [](){ return new bbbb::cccc::C(); } ) );
 

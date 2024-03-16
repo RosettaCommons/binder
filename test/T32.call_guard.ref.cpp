@@ -16,10 +16,10 @@
 
 void bind_T32_call_guard(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// free(int) file:T32.call_guard.hpp line:16
+	// free(int) file:T32.call_guard.hpp line:
 	M("").def("free", (void (*)(int)) &free, "C++: free(int) --> void", pybind11::arg(""), pybind11::call_guard<pybind11::gil_scoped_release>());
 
-	{ // Methods file:T32.call_guard.hpp line:20
+	{ // Methods file:T32.call_guard.hpp line:
 		pybind11::class_<Methods, std::shared_ptr<Methods>> cl(M(""), "Methods", "");
 		cl.def( pybind11::init( [](){ return new Methods(); } ) );
 		cl.def("foo", (void (Methods::*)(int)) &Methods::foo, "C++: Methods::foo(int) --> void", pybind11::arg(""), pybind11::call_guard<pybind11::gil_scoped_release>());

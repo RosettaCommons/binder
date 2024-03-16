@@ -18,7 +18,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// Animal file:T10.virtual_inheritance.hpp line:20
+// Animal file:T10.virtual_inheritance.hpp line:
 struct PyCallBack_Animal_1_t : public Animal<1> {
 	using Animal<1>::Animal;
 
@@ -50,7 +50,7 @@ struct PyCallBack_Animal_1_t : public Animal<1> {
 	}
 };
 
-// Mammal file:T10.virtual_inheritance.hpp line:34
+// Mammal file:T10.virtual_inheritance.hpp line:
 struct PyCallBack_Mammal_1_t : public Mammal<1> {
 	using Mammal<1>::Mammal;
 
@@ -95,7 +95,7 @@ struct PyCallBack_Mammal_1_t : public Mammal<1> {
 	}
 };
 
-// Dog file:T10.virtual_inheritance.hpp line:40
+// Dog file:T10.virtual_inheritance.hpp line:
 struct PyCallBack_Dog_1_t : public Dog<1> {
 	using Dog<1>::Dog;
 
@@ -142,7 +142,7 @@ struct PyCallBack_Dog_1_t : public Dog<1> {
 
 void bind_T10_virtual_inheritance(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // Animal file:T10.virtual_inheritance.hpp line:20
+	{ // Animal file:T10.virtual_inheritance.hpp line:
 		pybind11::class_<Animal<1>, std::shared_ptr<Animal<1>>, PyCallBack_Animal_1_t> cl(M(""), "Animal_1_t", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Animal_1_t(); } ) );
 		cl.def(pybind11::init<PyCallBack_Animal_1_t const &>());
@@ -151,14 +151,14 @@ void bind_T10_virtual_inheritance(std::function< pybind11::module &(std::string 
 		cl.def("isDog", (bool (Animal<1>::*)() const) &Animal<1>::isDog, "C++: Animal<1>::isDog() const --> bool");
 		cl.def("assign", (class Animal<1> & (Animal<1>::*)(const class Animal<1> &)) &Animal<1>::operator=, "C++: Animal<1>::operator=(const class Animal<1> &) --> class Animal<1> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // Mammal file:T10.virtual_inheritance.hpp line:34
+	{ // Mammal file:T10.virtual_inheritance.hpp line:
 		pybind11::class_<Mammal<1>, std::shared_ptr<Mammal<1>>, PyCallBack_Mammal_1_t, Animal<1>> cl(M(""), "Mammal_1_t", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Mammal_1_t(); } ) );
 		cl.def(pybind11::init<PyCallBack_Mammal_1_t const &>());
 		cl.def("Breathe", (void (Mammal<1>::*)() const) &Mammal<1>::Breathe, "C++: Mammal<1>::Breathe() const --> void");
 		cl.def("assign", (class Mammal<1> & (Mammal<1>::*)(const class Mammal<1> &)) &Mammal<1>::operator=, "C++: Mammal<1>::operator=(const class Mammal<1> &) --> class Mammal<1> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // Dog file:T10.virtual_inheritance.hpp line:40
+	{ // Dog file:T10.virtual_inheritance.hpp line:
 		pybind11::class_<Dog<1>, std::shared_ptr<Dog<1>>, PyCallBack_Dog_1_t, Mammal<1>> cl(M(""), "Dog_1_t", "");
 		cl.def( pybind11::init( [](){ return new Dog<1>(); }, [](){ return new PyCallBack_Dog_1_t(); } ) );
 		cl.def( pybind11::init( [](PyCallBack_Dog_1_t const &o){ return new PyCallBack_Dog_1_t(o); } ) );
@@ -168,10 +168,10 @@ void bind_T10_virtual_inheritance(std::function< pybind11::module &(std::string 
 		cl.def("isDog", (bool (Dog<1>::*)() const) &Dog<1>::isDog, "C++: Dog<1>::isDog() const --> bool");
 		cl.def("assign", (class Dog<1> & (Dog<1>::*)(const class Dog<1> &)) &Dog<1>::operator=, "C++: Dog<1>::operator=(const class Dog<1> &) --> class Dog<1> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	// isThisAnimalADog(const class std::shared_ptr<class Animal<1> > &) file:T10.virtual_inheritance.hpp line:54
+	// isThisAnimalADog(const class std::shared_ptr<class Animal<1> > &) file:T10.virtual_inheritance.hpp line:
 	M("").def("isThisAnimalADog", (bool (*)(const class std::shared_ptr<class Animal<1> > &)) &isThisAnimalADog<1>, "C++: isThisAnimalADog(const class std::shared_ptr<class Animal<1> > &) --> bool", pybind11::arg("a"));
 
-	// initiate(class Dog<1>) file:T10.virtual_inheritance.hpp line:56
+	// initiate(class Dog<1>) file:T10.virtual_inheritance.hpp line:
 	M("").def("initiate", (void (*)(class Dog<1>)) &initiate, "C++: initiate(class Dog<1>) --> void", pybind11::arg("p"));
 
 }

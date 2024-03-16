@@ -16,12 +16,12 @@
 
 void bind_T71_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T71.module_local.hpp line:16
+	{ // aaa::A file:T71.module_local.hpp line:
 		pybind11::class_<aaa::A, std::shared_ptr<aaa::A>> cl(M("aaa"), "A", "", pybind11::module_local());
 		cl.def( pybind11::init( [](){ return new aaa::A(); } ) );
 		cl.def("foo", (void (aaa::A::*)()) &aaa::A::foo, "C++: aaa::A::foo() --> void");
 	}
-	// aaa::E1 file:T71.module_local.hpp line:22
+	// aaa::E1 file:T71.module_local.hpp line:
 	pybind11::enum_<aaa::E1>(M("aaa"), "E1", pybind11::arithmetic(), "", pybind11::module_local())
 		.value("E1_V0", aaa::E1_V0)
 		.value("E1_V1", aaa::E1_V1)
@@ -49,7 +49,7 @@ void bind_T71_module_local(std::function< pybind11::module &(std::string const &
 
 void bind_T71_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbb::B file:T71.module_local.hpp line:26
+	{ // bbb::B file:T71.module_local.hpp line:
 		pybind11::class_<bbb::B, std::shared_ptr<bbb::B>> cl(M("bbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbb::B(); } ) );
 		cl.def("foo", (void (bbb::B::*)()) &bbb::B::foo, "C++: bbb::B::foo() --> void");

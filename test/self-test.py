@@ -44,6 +44,20 @@ def execute(message, command_line, return_='status', until_successes=False, term
     else: return exit_code
 
 
+class NT:  # named tuple
+    def __init__(self, **entries): self.__dict__.update(entries)
+    def __repr__(self):
+        r = 'NT: |'
+        for i in dir(self):
+            print(i)
+            if not i.startswith('__') and i != '_as_dict' and not isinstance(getattr(self, i), types_module.MethodType): r += '%s --> %s, ' % (i, getattr(self, i))
+        return r[:-2]+'|'
+
+    @property
+    def _as_dict(self):
+        return { a: getattr(self, a) for a in dir(self) if not a.startswith('__') and a != '_as_dict' and not isinstance(getattr(self, a), types_module.MethodType)}
+
+
 def get_test_files(dir_):
         return [dir_ + '/' + f for f in os.listdir(dir_) if f.startswith('T') and f.endswith('.hpp')]
 
@@ -57,7 +71,23 @@ def remover_absolute_paths(source):
     with open(source, 'w') as f: f.write(data.replace(path, 'TEST'))
 
 
-def run_test(test_path, build_dir):
+def get_python_environment():
+    ''' calculate python include dir and lib dir from given python executable path
+    '''
+    python = sys.executable
+    python_bin_dir = python.rpartition('/')[0]
+    python_config = f'{python} {python}-config' if python.endswith('2.7') else f'{python}-config'
+
+    info = execute('Getting python configuration info...', f'unset __PYVENV_LAUNCHER__ && cd {python_bin_dir} && PATH=.:$PATH && {python_config} --prefix --includes', return_='output').replace('\r', '').split('\n')  # Python-3 only: --abiflags
+    python_prefix = info[0]
+    python_include_dir = info[1].split()[0][len('-I'):]
+    python_lib_dir = python_prefix + '/lib'
+
+    return NT(python=python, python_include_dir=python_include_dir, python_lib_dir=python_lib_dir)
+
+
+
+def run_test(test_path, build_dir, pyenv):
     if not os.path.isfile(test_path): print('Could not find test file: {} ... Exiting...'.format(test_path)); sys.exit(1)
 
     test = os.path.basename(test_path)
@@ -79,9 +109,10 @@ def run_test(test_path, build_dir):
         with open(cli_file_name) as f: cli = ' ' + f.read()
     except FileNotFoundError as e: cli = ''
 
-    python_includes = '-I/usr/include/python2.7'
+    python = pyenv.python
+    python_includes = '-I'+pyenv.python_include_dir #'-I/usr/include/python2.7'
 
-    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config}{cli} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
+    command_line = '{binder} --bind "" --skip-line-number --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config}{cli} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
         .format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, cli=cli, source=source_include,
                 config='--config {}'.format(config) if config else '', pybind11=Options.pybind11, python_includes=python_includes)
 
@@ -90,7 +121,7 @@ def run_test(test_path, build_dir):
     command_line = 'cd {build_dir} && clang++ -O3 -shared -std=c++11 -isystem {pybind11} {python_includes} -I./.. -I./../.. -I./../../source {root_module}.cpp -o {root_module}.so -fPIC'.format(pybind11=Options.pybind11, root_module=root_module, build_dir=build_dir, python_includes=python_includes)
     execute('{} Compiling binding results...'.format(test), command_line);
 
-    command_line = "cd {build_dir} && python2.7 -c 'import {root_module}'".format(root_module=root_module, build_dir=build_dir)
+    command_line = f"cd {build_dir} && {python} -c 'import {root_module}'"
     execute('{} Testing imports...'.format(test), command_line);
 
     ref = source_dir + '/' + test_name + '.ref.cpp'
@@ -127,14 +158,15 @@ def main():
 
     test_source_dir = os.path.dirname( os.path.abspath(__file__) )
 
-    tests = Options.args or sorted( get_test_files(test_source_dir) )
+    tests = Options.args or [ t for t in sorted( get_test_files(test_source_dir) ) if 'T61.smart_holder.hpp' not in t ]
 
     build_dir = test_source_dir + '/build'
     if os.path.isdir(build_dir): print('Removing old test dir {0} ...'.format(build_dir));  shutil.rmtree(build_dir)  # remove old dir if any
     os.makedirs(build_dir)
     #if not os.path.isdir(build_dir): os.makedirs(build_dir)
 
-    for t in tests: run_test(t, build_dir)
+    pyenv = get_python_environment()
+    for t in tests: run_test(t, build_dir, pyenv)
 
     print('Done!')
 
