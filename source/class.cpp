@@ -662,7 +662,7 @@ bool is_callback_structure_constructible(CXXRecordDecl const *C)
 	return true;
 }
 
-
+/*
 // call_back_function_body_template is almost like PYBIND11_OVERLOAD_INT but specify pybind11::return_value_policy::reference
 // #define PYBIND11_OVERLOAD_INT(ret_type, cname, name, ...) { \
 //         pybind11::gil_scoped_acquire gil; \
@@ -681,7 +681,7 @@ bool is_callback_structure_constructible(CXXRecordDecl const *C)
 // 			else return pybind11::detail::cast_safe<ret_type>(std::move(o)); \
 // 		} \
 // 	}
-
+*/
 
 const char *call_back_function_body_template = R"_(
 pybind11::gil_scoped_acquire gil;
