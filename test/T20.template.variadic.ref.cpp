@@ -16,7 +16,7 @@
 
 void bind_std_array(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::array file:array line:81
+	{ // std::array file:array line:
 		pybind11::class_<std::array<variadic_template::Array<int, 2>,2>, std::shared_ptr<std::array<variadic_template::Array<int, 2>,2>>> cl(M("std"), "array_variadic_template_Array_int_2_2_t", "");
 		cl.def( pybind11::init( [](){ return new std::array<variadic_template::Array<int, 2>,2>(); } ) );
 		cl.def("fill", (void (std::array<variadic_template::Array<int, 2>,2>::*)(const struct variadic_template::Array<int, 2> &)) &std::array<variadic_template::Array<int, 2>, 2>::fill, "C++: std::array<variadic_template::Array<int, 2>, 2>::fill(const struct variadic_template::Array<int, 2> &) --> void", pybind11::arg("__u"));
@@ -34,7 +34,7 @@ void bind_std_array(std::function< pybind11::module &(std::string const &namespa
 		cl.def("back", (struct variadic_template::Array<int, 2> & (std::array<variadic_template::Array<int, 2>,2>::*)()) &std::array<variadic_template::Array<int, 2>, 2>::back, "C++: std::array<variadic_template::Array<int, 2>, 2>::back() --> struct variadic_template::Array<int, 2> &", pybind11::return_value_policy::automatic);
 		cl.def("data", (struct variadic_template::Array<int, 2> * (std::array<variadic_template::Array<int, 2>,2>::*)()) &std::array<variadic_template::Array<int, 2>, 2>::data, "C++: std::array<variadic_template::Array<int, 2>, 2>::data() --> struct variadic_template::Array<int, 2> *", pybind11::return_value_policy::automatic);
 	}
-	{ // std::array file:array line:81
+	{ // std::array file:array line:
 		pybind11::class_<std::array<int,2>, std::shared_ptr<std::array<int,2>>> cl(M("std"), "array_int_2_t", "");
 		cl.def( pybind11::init( [](){ return new std::array<int,2>(); } ) );
 		cl.def("fill", (void (std::array<int,2>::*)(const int &)) &std::array<int, 2>::fill, "C++: std::array<int, 2>::fill(const int &) --> void", pybind11::arg("__u"));
@@ -73,7 +73,7 @@ void bind_std_array(std::function< pybind11::module &(std::string const &namespa
 
 void bind_T20_template_variadic(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // variadic_template::Array file:T20.template.variadic.hpp line:20
+	{ // variadic_template::Array file:T20.template.variadic.hpp line:
 		pybind11::class_<variadic_template::Array<int,2,2>, std::shared_ptr<variadic_template::Array<int,2,2>>, std::array<variadic_template::Array<int, 2>,2>> cl(M("variadic_template"), "Array_int_2_2_t", "");
 		cl.def( pybind11::init( [](){ return new variadic_template::Array<int,2,2>(); } ) );
 		cl.def("fill", (void (std::array<variadic_template::Array<int, 2>,2>::*)(const struct variadic_template::Array<int, 2> &)) &std::array<variadic_template::Array<int, 2>, 2>::fill, "C++: std::array<variadic_template::Array<int, 2>, 2>::fill(const struct variadic_template::Array<int, 2> &) --> void", pybind11::arg("__u"));
@@ -91,7 +91,7 @@ void bind_T20_template_variadic(std::function< pybind11::module &(std::string co
 		cl.def("back", (struct variadic_template::Array<int, 2> & (std::array<variadic_template::Array<int, 2>,2>::*)()) &std::array<variadic_template::Array<int, 2>, 2>::back, "C++: std::array<variadic_template::Array<int, 2>, 2>::back() --> struct variadic_template::Array<int, 2> &", pybind11::return_value_policy::automatic);
 		cl.def("data", (struct variadic_template::Array<int, 2> * (std::array<variadic_template::Array<int, 2>,2>::*)()) &std::array<variadic_template::Array<int, 2>, 2>::data, "C++: std::array<variadic_template::Array<int, 2>, 2>::data() --> struct variadic_template::Array<int, 2> *", pybind11::return_value_policy::automatic);
 	}
-	{ // variadic_template::Array file:T20.template.variadic.hpp line:22
+	{ // variadic_template::Array file:T20.template.variadic.hpp line:
 		pybind11::class_<variadic_template::Array<int,2>, std::shared_ptr<variadic_template::Array<int,2>>, std::array<int,2>> cl(M("variadic_template"), "Array_int_2_t", "");
 		cl.def( pybind11::init( [](){ return new variadic_template::Array<int,2>(); } ) );
 		cl.def("fill", (void (std::array<int,2>::*)(const int &)) &std::array<int, 2>::fill, "C++: std::array<int, 2>::fill(const int &) --> void", pybind11::arg("__u"));
@@ -109,7 +109,7 @@ void bind_T20_template_variadic(std::function< pybind11::module &(std::string co
 		cl.def("back", (int & (std::array<int,2>::*)()) &std::array<int, 2>::back, "C++: std::array<int, 2>::back() --> int &", pybind11::return_value_policy::automatic);
 		cl.def("data", (int * (std::array<int,2>::*)()) &std::array<int, 2>::data, "C++: std::array<int, 2>::data() --> int *", pybind11::return_value_policy::automatic);
 	}
-	{ // variadic_template::st2 file:T20.template.variadic.hpp line:25
+	{ // variadic_template::st2 file:T20.template.variadic.hpp line:
 		pybind11::class_<variadic_template::st2, std::shared_ptr<variadic_template::st2>, variadic_template::Array<int,2,2>> cl(M("variadic_template"), "st2", "");
 		cl.def( pybind11::init( [](){ return new variadic_template::st2(); } ) );
 	}

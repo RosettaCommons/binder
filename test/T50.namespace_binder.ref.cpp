@@ -14,7 +14,7 @@
 
 void bind_T50_namespace_binder(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo_root() file:T50.namespace_binder.hpp line:16
+	// foo_root() file:T50.namespace_binder.hpp line:
 	M("").def("foo_root", (void (*)()) &foo_root, "C++: foo_root() --> void");
 
 }
@@ -40,7 +40,7 @@ void bind_T50_namespace_binder_1(std::function< pybind11::module &(std::string c
 {
 
 	add_on_binder_for_aaaa(M("aaaa"));
-	// aaaa::foo_aaaa() file:T50.namespace_binder.hpp line:21
+	// aaaa::foo_aaaa() file:T50.namespace_binder.hpp line:
 	M("aaaa").def("foo_aaaa", (void (*)()) &aaaa::foo_aaaa, "C++: aaaa::foo_aaaa() --> void");
 
 }

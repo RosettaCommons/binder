@@ -17,16 +17,16 @@
 
 void bind_T70_options(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::AAAA file:T70.options.hpp line:13
+	{ // aaaa::AAAA file:T70.options.hpp line:
 		pybind11::class_<aaaa::AAAA, std::shared_ptr<aaaa::AAAA>> cl(M("aaaa"), "AAAA", "");
 		cl.def( pybind11::init( [](){ return new aaaa::AAAA(); } ) );
 		cl.def("foo", (void (aaaa::AAAA::*)()) &aaaa::AAAA::foo, "C++: aaaa::AAAA::foo() --> void");
 		cl.def_static("static_foo", (void (*)(int)) &aaaa::AAAA::foo, "C++: aaaa::AAAA::foo(int) --> void", pybind11::arg(""));
 	}
-	// aaaa::foo_aaaa() file:T70.options.hpp line:19
+	// aaaa::foo_aaaa() file:T70.options.hpp line:
 	M("aaaa").def("foo_aaaa", (void (*)()) &aaaa::foo_aaaa, "C++: aaaa::foo_aaaa() --> void");
 
-	// aaaa::E1 file:T70.options.hpp line:21
+	// aaaa::E1 file:T70.options.hpp line:
 	pybind11::enum_<aaaa::E1>(M("aaaa"), "E1", pybind11::arithmetic(), "")
 		.value("E1_V0", aaaa::E1_V0)
 		.value("E1_V1", aaaa::E1_V1)
@@ -55,11 +55,11 @@ void bind_T70_options(std::function< pybind11::module &(std::string const &names
 
 void bind_T70_options_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::cccc::CCCC file:T70.options.hpp line:25
+	{ // aaaa::cccc::CCCC file:T70.options.hpp line:
 		pybind11::class_<aaaa::cccc::CCCC, std::shared_ptr<aaaa::cccc::CCCC>> cl(M("aaaa::cccc"), "CCCC", "");
 		cl.def( pybind11::init( [](){ return new aaaa::cccc::CCCC(); } ) );
 	}
-	// aaaa::cccc::foo_CCCC() file:T70.options.hpp line:26
+	// aaaa::cccc::foo_CCCC() file:T70.options.hpp line:
 	M("aaaa::cccc").def("foo_CCCC", (void (*)()) &aaaa::cccc::foo_CCCC, "C++: aaaa::cccc::foo_CCCC() --> void");
 
 }
@@ -83,11 +83,11 @@ void bind_T70_options_1(std::function< pybind11::module &(std::string const &nam
 
 void bind_T70_options_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::bbbb::BBBB file:T70.options.hpp line:33
+	{ // aaaa::bbbb::BBBB file:T70.options.hpp line:
 		pybind11::class_<aaaa::bbbb::BBBB, std::shared_ptr<aaaa::bbbb::BBBB>> cl(M("aaaa::bbbb"), "BBBB", "");
 		cl.def( pybind11::init( [](){ return new aaaa::bbbb::BBBB(); } ) );
 	}
-	// aaaa::bbbb::foo_bbbb() file:T70.options.hpp line:34
+	// aaaa::bbbb::foo_bbbb() file:T70.options.hpp line:
 	M("aaaa::bbbb").def("foo_bbbb", (void (*)()) &aaaa::bbbb::foo_bbbb, "C++: aaaa::bbbb::foo_bbbb() --> void");
 
 }

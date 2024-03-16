@@ -18,7 +18,7 @@
 
 void bind_T60_custom_shared(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// E1 file:T60.custom_shared.hpp line:21
+	// E1 file:T60.custom_shared.hpp line:
 	pybind11::enum_<E1>(M(""), "E1", pybind11::arithmetic(), "")
 		.value("E1_V0", E1_V0)
 		.value("E1_V1", E1_V1)
@@ -26,7 +26,7 @@ void bind_T60_custom_shared(std::function< pybind11::module &(std::string const 
 
 ;
 
-	// E2_struct file:T60.custom_shared.hpp line:23
+	// E2_struct file:T60.custom_shared.hpp line:
 	pybind11::enum_<E2_struct>(M(""), "E2_struct", "")
 		.value("V0", E2_struct::V0)
 		.value("V1", E2_struct::V1)
@@ -34,14 +34,14 @@ void bind_T60_custom_shared(std::function< pybind11::module &(std::string const 
 
 ;
 
-	// E3_class file:T60.custom_shared.hpp line:24
+	// E3_class file:T60.custom_shared.hpp line:
 	pybind11::enum_<E3_class>(M(""), "E3_class", "")
 		.value("V0", E3_class::V0)
 		.value("V1", E3_class::V1);
 
 ;
 
-	{ // A file:T60.custom_shared.hpp line:27
+	{ // A file:T60.custom_shared.hpp line:
 		pybind11::class_<A, my_shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 

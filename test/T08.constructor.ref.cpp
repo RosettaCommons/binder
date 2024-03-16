@@ -22,36 +22,36 @@
 
 void bind_T08_constructor(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // BaseA file:T08.constructor.hpp line:16
+	{ // BaseA file:T08.constructor.hpp line:
 		pybind11::class_<BaseA, std::shared_ptr<BaseA>> cl(M(""), "BaseA", "");
 		cl.def( pybind11::init( [](){ return new BaseA(); } ) );
 	}
-	{ // DerivedA file:T08.constructor.hpp line:19
+	{ // DerivedA file:T08.constructor.hpp line:
 		pybind11::class_<DerivedA, std::shared_ptr<DerivedA>, BaseA> cl(M(""), "DerivedA", "");
 		cl.def( pybind11::init( [](){ return new DerivedA(); } ) );
 	}
-	{ // BaseB file:T08.constructor.hpp line:24
+	{ // BaseB file:T08.constructor.hpp line:
 		pybind11::class_<BaseB, std::shared_ptr<BaseB>> cl(M(""), "BaseB", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
-	{ // DerivedB file:T08.constructor.hpp line:29
+	{ // DerivedB file:T08.constructor.hpp line:
 		pybind11::class_<DerivedB, std::shared_ptr<DerivedB>, BaseB> cl(M(""), "DerivedB", "");
 	}
-	{ // BaseC file:T08.constructor.hpp line:34
+	{ // BaseC file:T08.constructor.hpp line:
 		pybind11::class_<BaseC, std::shared_ptr<BaseC>> cl(M(""), "BaseC", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
-	{ // DerivedC file:T08.constructor.hpp line:42
+	{ // DerivedC file:T08.constructor.hpp line:
 		pybind11::class_<DerivedC, std::shared_ptr<DerivedC>, BaseC> cl(M(""), "DerivedC", "");
 	}
-	{ // BaseD file:T08.constructor.hpp line:47
+	{ // BaseD file:T08.constructor.hpp line:
 		pybind11::class_<BaseD, std::shared_ptr<BaseD>> cl(M(""), "BaseD", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
-	{ // DerivedD file:T08.constructor.hpp line:53
+	{ // DerivedD file:T08.constructor.hpp line:
 		pybind11::class_<DerivedD, std::shared_ptr<DerivedD>, BaseD> cl(M(""), "DerivedD", "");
 	}
 }

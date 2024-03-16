@@ -18,7 +18,7 @@
 
 void bind_T01_enum(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// E1 file:T01.enum.hpp line:16
+	// E1 file:T01.enum.hpp line:
 	pybind11::enum_<E1>(M(""), "E1", pybind11::arithmetic(), "")
 		.value("E1_V0", E1_V0)
 		.value("E1_V1", E1_V1)
@@ -26,7 +26,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 
 ;
 
-	// E2_struct file:T01.enum.hpp line:18
+	// E2_struct file:T01.enum.hpp line:
 	pybind11::enum_<E2_struct>(M(""), "E2_struct", "")
 		.value("V0", E2_struct::V0)
 		.value("V1", E2_struct::V1)
@@ -34,14 +34,14 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 
 ;
 
-	// E3_class file:T01.enum.hpp line:19
+	// E3_class file:T01.enum.hpp line:
 	pybind11::enum_<E3_class>(M(""), "E3_class", "")
 		.value("V0", E3_class::V0)
 		.value("V1", E3_class::V1);
 
 ;
 
-	{ // A file:T01.enum.hpp line:22
+	{ // A file:T01.enum.hpp line:
 		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
@@ -82,7 +82,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 
 void bind_T01_enum_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// aaaa::E7_class file:T01.enum.hpp line:46
+	// aaaa::E7_class file:T01.enum.hpp line:
 	pybind11::enum_<aaaa::E7_class>(M("aaaa"), "E7_class", "")
 		.value("V0", aaaa::E7_class::V0)
 		.value("V1", aaaa::E7_class::V1);

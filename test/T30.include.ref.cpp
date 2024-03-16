@@ -15,7 +15,7 @@
 
 void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::A file:T30.include.incl.a.include line:7
+	{ // aaaa::A file:T30.include.incl.a.include line:
 		pybind11::class_<aaaa::A, std::shared_ptr<aaaa::A>> cl(M("aaaa"), "A", "");
 		cl.def( pybind11::init( [](){ return new aaaa::A(); } ) );
 	}
@@ -40,7 +40,7 @@ void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::stri
 
 void bind_T30_include_incl_b_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::B file:T30.include.incl.b.include line:8
+	{ // bbbb::B file:T30.include.incl.b.include line:
 		pybind11::class_<bbbb::B<aaaa::A>, std::shared_ptr<bbbb::B<aaaa::A>>> cl(M("bbbb"), "B_aaaa_A_t", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B<aaaa::A>(); } ) );
 	}
@@ -65,7 +65,7 @@ void bind_T30_include_incl_b_include(std::function< pybind11::module &(std::stri
 
 void bind_T30_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// foo(class bbbb::B<class aaaa::A>) file:T30.include.hpp line:19
+	// foo(class bbbb::B<class aaaa::A>) file:T30.include.hpp line:
 	M("").def("foo", (void (*)(class bbbb::B<class aaaa::A>)) &foo, "C++: foo(class bbbb::B<class aaaa::A>) --> void", pybind11::arg(""));
 
 }

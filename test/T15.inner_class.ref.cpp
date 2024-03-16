@@ -15,7 +15,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// Base file:T15.inner_class.hpp line:16
+// Base file:T15.inner_class.hpp line:
 struct PyCallBack_Base : public Base {
 	using Base::Base;
 
@@ -36,18 +36,18 @@ struct PyCallBack_Base : public Base {
 
 void bind_T15_inner_class(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // Base file:T15.inner_class.hpp line:16
+	{ // Base file:T15.inner_class.hpp line:
 		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
 		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
 		cl.def("assign", (struct Base & (Base::*)(const struct Base &)) &Base::operator=, "C++: Base::operator=(const struct Base &) --> struct Base &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 
-		{ // Base::(anonymous) file:T15.inner_class.hpp line:21
+		{ // Base::(anonymous) file:T15.inner_class.hpp line:
 			cl.def_readwrite("a", &Base::a);
 			cl.def_readwrite("b", &Base::b);
 		}
 
-		{ // Base::InnerBase file:T15.inner_class.hpp line:27
+		{ // Base::InnerBase file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
 			pybind11::class_<Base::InnerBase, std::shared_ptr<Base::InnerBase>> cl(enclosing_class, "InnerBase", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerBase(); } ) );
@@ -56,14 +56,14 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 			cl.def("foo_i", (void (Base::InnerBase::*)()) &Base::InnerBase::foo_i, "C++: Base::InnerBase::foo_i() --> void");
 		}
 
-		{ // Base::InnerTemplate file:T15.inner_class.hpp line:36
+		{ // Base::InnerTemplate file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
 			pybind11::class_<Base::InnerTemplate<int>, std::shared_ptr<Base::InnerTemplate<int>>> cl(enclosing_class, "InnerTemplate_int_t", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerTemplate<int>(); } ) );
 			cl.def_readwrite("value", &Base::InnerTemplate<int>::value);
 		}
 
-		{ // Base::InnerTemplate file:T15.inner_class.hpp line:36
+		{ // Base::InnerTemplate file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
 			pybind11::class_<Base::InnerTemplate<float>, std::shared_ptr<Base::InnerTemplate<float>>> cl(enclosing_class, "InnerTemplate_float_t", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerTemplate<float>(); } ) );
@@ -90,7 +90,7 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// n1::A file:T15.inner_class.hpp line:43
+// n1::A file:T15.inner_class.hpp line:
 struct PyCallBack_n1_A : public n1::A {
 	using n1::A::A;
 
@@ -111,7 +111,7 @@ struct PyCallBack_n1_A : public n1::A {
 
 void bind_T15_inner_class_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // n1::A file:T15.inner_class.hpp line:43
+	{ // n1::A file:T15.inner_class.hpp line:
 		pybind11::class_<n1::A, std::shared_ptr<n1::A>, PyCallBack_n1_A, Base> cl(M("n1"), "A", "");
 		cl.def( pybind11::init( [](){ return new n1::A(); }, [](){ return new PyCallBack_n1_A(); } ) );
 		cl.def("assign", (struct n1::A & (n1::A::*)(const struct n1::A &)) &n1::A::operator=, "C++: n1::A::operator=(const struct n1::A &) --> struct n1::A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -135,7 +135,7 @@ void bind_T15_inner_class_1(std::function< pybind11::module &(std::string const 
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// n1::n2::A file:T15.inner_class.hpp line:48
+// n1::n2::A file:T15.inner_class.hpp line:
 struct PyCallBack_n1_n2_A : public n1::n2::A {
 	using n1::n2::A::A;
 
@@ -156,7 +156,7 @@ struct PyCallBack_n1_n2_A : public n1::n2::A {
 
 void bind_T15_inner_class_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // n1::n2::A file:T15.inner_class.hpp line:48
+	{ // n1::n2::A file:T15.inner_class.hpp line:
 		pybind11::class_<n1::n2::A, std::shared_ptr<n1::n2::A>, PyCallBack_n1_n2_A, n1::A> cl(M("n1::n2"), "A", "");
 		cl.def( pybind11::init( [](){ return new n1::n2::A(); }, [](){ return new PyCallBack_n1_n2_A(); } ) );
 		cl.def("assign", (struct n1::n2::A & (n1::n2::A::*)(const struct n1::n2::A &)) &n1::n2::A::operator=, "C++: n1::n2::A::operator=(const struct n1::n2::A &) --> struct n1::n2::A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -181,7 +181,7 @@ void bind_T15_inner_class_2(std::function< pybind11::module &(std::string const 
 
 void bind_T15_inner_class_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	// instantiate_templates(struct Base::InnerTemplate<int>, struct Base::InnerTemplate<float>) file:T15.inner_class.hpp line:55
+	// instantiate_templates(struct Base::InnerTemplate<int>, struct Base::InnerTemplate<float>) file:T15.inner_class.hpp line:
 	M("").def("instantiate_templates", (void (*)(struct Base::InnerTemplate<int>, struct Base::InnerTemplate<float>)) &instantiate_templates, "C++: instantiate_templates(struct Base::InnerTemplate<int>, struct Base::InnerTemplate<float>) --> void", pybind11::arg(""), pybind11::arg(""));
 
 }

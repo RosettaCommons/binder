@@ -14,7 +14,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// aaa::A file:T80.custom_trampoline.hpp line:26
+// aaa::A file:T80.custom_trampoline.hpp line:
 struct PyCallBack_aaa_A_double_t : public aaa::A<double> {
 	using aaa::A<double>::A;
 
@@ -25,7 +25,7 @@ struct PyCallBack_aaa_A_double_t : public aaa::A<double> {
 
 void bind_T80_custom_trampoline(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T80.custom_trampoline.hpp line:26
+	{ // aaa::A file:T80.custom_trampoline.hpp line:
 		pybind11::class_<aaa::A<double>, std::shared_ptr<aaa::A<double>>, PyCallBack_aaa_A_double_t> cl(M("aaa"), "A_double_t", "");
 		cl.def( pybind11::init( [](){ return new aaa::A<double>(); }, [](){ return new PyCallBack_aaa_A_double_t(); } ) );
 		cl.def( pybind11::init( [](PyCallBack_aaa_A_double_t const &o){ return new PyCallBack_aaa_A_double_t(o); } ) );

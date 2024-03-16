@@ -21,7 +21,7 @@
 
 void bind_T31_include_for_class_incl_a_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaaa::A file:T31.include_for_class.incl.a.include line:6
+	{ // aaaa::A file:T31.include_for_class.incl.a.include line:
 		pybind11::class_<aaaa::A, std::shared_ptr<aaaa::A>> cl(M("aaaa"), "A", "");
 		cl.def( pybind11::init( [](){ return new aaaa::A(); } ) );
 
@@ -48,7 +48,7 @@ void bind_T31_include_for_class_incl_a_include(std::function< pybind11::module &
 
 void bind_T31_include_for_class_incl_b_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbbb::B file:T31.include_for_class.incl.b.include line:6
+	{ // bbbb::B file:T31.include_for_class.incl.b.include line:
 		pybind11::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B(); } ) );
 	}

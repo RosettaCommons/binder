@@ -18,6 +18,7 @@ enum E1 { E1_V0, E1_V1 };
 enum struct E2_struct { V0, V1 };
 enum class E3_class { V0, V1 };
 
+enum E4_not_binded { E4_V0, E4_V1 };
 
 class A
 {

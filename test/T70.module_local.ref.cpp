@@ -15,7 +15,7 @@
 
 void bind_T70_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // aaa::A file:T70.module_local.hpp line:16
+	{ // aaa::A file:T70.module_local.hpp line:
 		pybind11::class_<aaa::A, std::shared_ptr<aaa::A>> cl(M("aaa"), "A", "", pybind11::module_local());
 		cl.def( pybind11::init( [](){ return new aaa::A(); } ) );
 		cl.def("foo", (void (aaa::A::*)()) &aaa::A::foo, "C++: aaa::A::foo() --> void");
@@ -40,7 +40,7 @@ void bind_T70_module_local(std::function< pybind11::module &(std::string const &
 
 void bind_T70_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // bbb::B file:T70.module_local.hpp line:24
+	{ // bbb::B file:T70.module_local.hpp line:
 		pybind11::class_<bbb::B, std::shared_ptr<bbb::B>> cl(M("bbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbb::B(); } ) );
 		cl.def("foo", (void (bbb::B::*)()) &bbb::B::foo, "C++: bbb::B::foo() --> void");

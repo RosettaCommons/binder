@@ -16,7 +16,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// A2 file:T09.overload.hpp line:20
+// A2 file:T09.overload.hpp line:
 struct PyCallBack_A2 : public A2 {
 	using A2::A2;
 
@@ -35,7 +35,7 @@ struct PyCallBack_A2 : public A2 {
 	}
 };
 
-// A3 file:T09.overload.hpp line:27
+// A3 file:T09.overload.hpp line:
 struct PyCallBack_A3 : public A3 {
 	using A3::A3;
 
@@ -54,7 +54,7 @@ struct PyCallBack_A3 : public A3 {
 	}
 };
 
-// A4 file:T09.overload.hpp line:33
+// A4 file:T09.overload.hpp line:
 struct PyCallBack_A4 : public A4 {
 	using A4::A4;
 
@@ -75,13 +75,13 @@ struct PyCallBack_A4 : public A4 {
 
 void bind_T09_overload(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // A1 file:T09.overload.hpp line:15
+	{ // A1 file:T09.overload.hpp line:
 		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		cl.def( pybind11::init( [](){ return new A1(); } ), "doc" );
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
 	}
-	{ // A2 file:T09.overload.hpp line:20
+	{ // A2 file:T09.overload.hpp line:
 		pybind11::class_<A2, std::shared_ptr<A2>, PyCallBack_A2> cl(M(""), "A2", "");
 		cl.def( pybind11::init( [](){ return new A2(); }, [](){ return new PyCallBack_A2(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
@@ -89,7 +89,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		cl.def("f", (void (A2::*)()) &A2::f, "C++: A2::f() --> void");
 		cl.def("assign", (struct A2 & (A2::*)(const struct A2 &)) &A2::operator=, "C++: A2::operator=(const struct A2 &) --> struct A2 &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // A3 file:T09.overload.hpp line:27
+	{ // A3 file:T09.overload.hpp line:
 		pybind11::class_<A3, std::shared_ptr<A3>, PyCallBack_A3> cl(M(""), "A3", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_A3(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
@@ -97,7 +97,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		cl.def("f", (void (A3::*)()) &A3::f, "C++: A3::f() --> void");
 		cl.def("assign", (struct A3 & (A3::*)(const struct A3 &)) &A3::operator=, "C++: A3::operator=(const struct A3 &) --> struct A3 &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // A4 file:T09.overload.hpp line:33
+	{ // A4 file:T09.overload.hpp line:
 		pybind11::class_<A4, std::shared_ptr<A4>, PyCallBack_A4> cl(M(""), "A4", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_A4(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );

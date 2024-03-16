@@ -22,7 +22,7 @@
 
 void bind_T07_class(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // Integral file:T07.class.hpp line:16
+	{ // Integral file:T07.class.hpp line:
 		pybind11::class_<Integral, std::shared_ptr<Integral>> cl(M(""), "Integral", "");
 		cl.def( pybind11::init( [](Integral const &o){ return new Integral(o); } ) );
 		cl.def( pybind11::init( [](){ return new Integral(); } ) );
@@ -32,28 +32,28 @@ void bind_T07_class(std::function< pybind11::module &(std::string const &namespa
 		cl.def_readwrite("ul", &Integral::ul);
 		cl.def("assign", (struct Integral & (Integral::*)(const struct Integral &)) &Integral::operator=, "C++: Integral::operator=(const struct Integral &) --> struct Integral &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // Floating_point file:T07.class.hpp line:24
+	{ // Floating_point file:T07.class.hpp line:
 		pybind11::class_<Floating_point, std::shared_ptr<Floating_point>> cl(M(""), "Floating_point", "");
 		cl.def( pybind11::init( [](){ return new Floating_point(); } ) );
 		cl.def_readwrite("f", &Floating_point::f);
 		cl.def_readwrite("d", &Floating_point::d);
 		cl.def_readwrite("ld", &Floating_point::ld);
 	}
-	{ // Arrays file:T07.class.hpp line:31
+	{ // Arrays file:T07.class.hpp line:
 		pybind11::class_<Arrays, std::shared_ptr<Arrays>> cl(M(""), "Arrays", "");
 		cl.def( pybind11::init( [](){ return new Arrays(); } ) );
 	}
-	{ // Pointers_and_References file:T07.class.hpp line:39
+	{ // Pointers_and_References file:T07.class.hpp line:
 		pybind11::class_<Pointers_and_References, std::shared_ptr<Pointers_and_References>> cl(M(""), "Pointers_and_References", "");
 	}
-	{ // Consts file:T07.class.hpp line:50
+	{ // Consts file:T07.class.hpp line:
 		pybind11::class_<Consts, std::shared_ptr<Consts>> cl(M(""), "Consts", "");
 		cl.def( pybind11::init( [](){ return new Consts(); } ) );
 		cl.def( pybind11::init( [](Consts const &o){ return new Consts(o); } ) );
 		cl.def_readonly("public_Integral", &Consts::public_Integral);
 		cl.def_readonly("public_int", &Consts::public_int);
 	}
-	{ // Enums file:T07.class.hpp line:68
+	{ // Enums file:T07.class.hpp line:
 		pybind11::class_<Enums, std::shared_ptr<Enums>> cl(M(""), "Enums", "");
 		cl.def( pybind11::init( [](){ return new Enums(); } ) );
 
@@ -69,14 +69,14 @@ void bind_T07_class(std::function< pybind11::module &(std::string const &namespa
 		pybind11::enum_<Enums::E3>(cl, "E3", "");
 
 	}
-	{ // Access file:T07.class.hpp line:83
+	{ // Access file:T07.class.hpp line:
 		pybind11::class_<Access, std::shared_ptr<Access>> cl(M(""), "Access", "");
 		cl.def( pybind11::init( [](){ return new Access(); } ) );
 		cl.def_readwrite("i", &Access::i);
 		cl.def("foo_public", (void (Access::*)()) &Access::foo_public, "C++: Access::foo_public() --> void");
 		cl.def_static("foo", (float (*)(double)) &Access::foo, "C++: Access::foo(double) --> float", pybind11::arg(""));
 	}
-	{ // ConstOverload file:T07.class.hpp line:103
+	{ // ConstOverload file:T07.class.hpp line:
 		pybind11::class_<ConstOverload, std::shared_ptr<ConstOverload>> cl(M(""), "ConstOverload", "");
 		cl.def( pybind11::init( [](){ return new ConstOverload(); } ) );
 		cl.def("foo", (void (ConstOverload::*)(int)) &ConstOverload::foo, "C++: ConstOverload::foo(int) --> void", pybind11::arg(""));

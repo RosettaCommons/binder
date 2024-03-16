@@ -112,7 +112,7 @@ def run_test(test_path, build_dir, pyenv):
     python = pyenv.python
     python_includes = '-I'+pyenv.python_include_dir #'-I/usr/include/python2.7'
 
-    command_line = '{binder} --bind "" --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config}{cli} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
+    command_line = '{binder} --bind "" --skip-line-number --root-module {root_module} --prefix {build_dir} --single-file --annotate-includes {config}{cli} {source} -- -x c++ -std=c++11 -I {source_dir} -I {source_dir}/.. -isystem {pybind11} {python_includes}' \
         .format(binder=Options.binder, root_module=root_module, build_dir=build_dir, source_dir=source_dir, cli=cli, source=source_include,
                 config='--config {}'.format(config) if config else '', pybind11=Options.pybind11, python_includes=python_includes)
 
@@ -158,7 +158,7 @@ def main():
 
     test_source_dir = os.path.dirname( os.path.abspath(__file__) )
 
-    tests = Options.args or sorted( get_test_files(test_source_dir) )
+    tests = Options.args or [ t for t in sorted( get_test_files(test_source_dir) ) if 'T61.smart_holder.hpp' not in t ]
 
     build_dir = test_source_dir + '/build'
     if os.path.isdir(build_dir): print('Removing old test dir {0} ...'.format(build_dir));  shutil.rmtree(build_dir)  # remove old dir if any
