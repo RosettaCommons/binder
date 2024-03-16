@@ -1343,9 +1343,13 @@ void ClassBinder::bind(Context &context)
 	for( auto d = C->decls_begin(); d != C->decls_end(); ++d ) {
 		if( EnumDecl *e = dyn_cast<EnumDecl>(*d) ) {
 			if( e->getAccess() == AS_public and is_bindable(e) ) {
-				// outs() << "Enum: " << e->getQualifiedNameAsString() << "\n";
-				c += '\n';
-				c += bind_enum("cl", e);
+				if( is_skipping_requested(e, Config::get()) ) {
+					//outs() << "Skipping inner class Enum: " << e->getQualifiedNameAsString() << "\n";
+				}
+				else {
+					c += '\n';
+					c += bind_enum("cl", e);
+				}
 			}
 		}
 	}
