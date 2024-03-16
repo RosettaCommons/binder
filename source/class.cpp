@@ -523,10 +523,10 @@ bool ClassBinder::bindable() const
 
 
 /// check if user requested binding for the given declaration
-void ClassBinder::request_bindings_and_skipping(Config const &config)
+void ClassBinder::request_bindings_and_skipping(Config const & config, RequestFlags flags)
 {
-	if( is_skipping_requested(C, config) ) Binder::request_skipping();
-	else if( is_binding_requested(C, config) ) Binder::request_bindings();
+	if( (flags&RequestFlags::skipping) and is_skipping_requested(C, config) ) Binder::request_skipping();
+	else if( (flags&RequestFlags::binding) and is_binding_requested(C, config) ) Binder::request_bindings();
 }
 
 

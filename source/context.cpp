@@ -251,7 +251,10 @@ void Context::bind(Config const &config)
 {
 	for( auto &sp : binders ) {
 		Binder &b(*sp);
-		if( !b.is_in_system_header() and b.bindable() ) b.request_bindings_and_skipping(config);
+		if( b.bindable() ) {
+			if( b.is_in_system_header() ) b.request_bindings_and_skipping(config, RequestFlags::skipping);
+			else b.request_bindings_and_skipping(config);
+		}
 	}
 
 	bool flag = true;

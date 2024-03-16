@@ -57,7 +57,7 @@ public:
 	bool bindable() const override;
 
 	/// check if user requested binding for the given declaration
-	virtual void request_bindings_and_skipping(Config const &) override;
+	void request_bindings_and_skipping(Config const &, RequestFlags flags = RequestFlags::skipping | RequestFlags::binding) override;
 
 	/// extract include needed for this generator and add it to includes vector
 	void add_relevant_includes(IncludeSet &includes) const override;
