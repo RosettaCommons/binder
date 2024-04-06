@@ -616,7 +616,11 @@ bool is_callback_structure_needed(CXXRecordDecl const *C)
 	// check if all pure-virtual methods could be overridden in Python
 	if( C->isAbstract() ) {
 		for( auto m = C->method_begin(); m != C->method_end(); ++m ) {
+#if( LLVM_VERSION_MAJOR >= 18 )
+			if( m->isPureVirtual() and is_const_overload(*m) ) return false; // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+#else
 			if( m->isPure() and is_const_overload(*m) ) return false; // it is not clear how to deal with this case since we can't overrdie const versions in Python, - so disabling for now
+#endif
 		}
 	}
 
@@ -644,7 +648,11 @@ bool is_callback_structure_constructible(CXXRecordDecl const *C)
 {
 	if( C->isAbstract() ) {
 		for( auto m = C->method_begin(); m != C->method_end(); ++m ) {
+#if( LLVM_VERSION_MAJOR >= 18 )
+			if( m->isPureVirtual() and !isa<CXXConstructorDecl>(*m) and (m->getAccess() == AS_private or !is_bindable(*m) or is_skipping_requested(*m, Config::get())) ) return false;
+#else
 			if( m->isPure() and !isa<CXXConstructorDecl>(*m) and (m->getAccess() == AS_private or !is_bindable(*m) or is_skipping_requested(*m, Config::get())) ) return false;
+#endif
 		}
 
 		for( auto b = C->bases_begin(); b != C->bases_end(); ++b ) {
@@ -766,7 +774,11 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 				string custom_function_info = Config::get().is_custom_trampoline_function_requested(member_function_name);
 				if( custom_function_info == "" ) {
 					c += indent(fmt::format(call_back_function_body_template, class_name, /*class_qualified_name(C), */ python_name, std::get<1>(args), return_type), "\t\t");
+#if( LLVM_VERSION_MAJOR >= 18 )
+					if( m->isPureVirtual() ) c += "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
+#else
 					if( m->isPure() ) c += "\t\tpybind11::pybind11_fail(\"Tried to call pure virtual function \\\"{}::{}\\\"\");\n"_format(C->getNameAsString(), python_name);
+#endif
 					else c += "\t\treturn {}::{}({});\n"_format(C->getNameAsString(), m->getNameAsString(), std::get<1>(args));
 				}
 				else {
