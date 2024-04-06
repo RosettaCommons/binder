@@ -132,7 +132,7 @@ const char *module_header = R"_(
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
 	{2}
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	{3}
 #endif
 
@@ -437,7 +437,7 @@ void Context::generate(Config const &config)
 
 		string const holder_type = Config::get().holder_type();
 
-		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>)";
+		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>, false)";
 		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
 
 		string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
