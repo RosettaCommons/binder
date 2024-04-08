@@ -89,7 +89,7 @@ const char *main_module_header = R"_(#include <map>
 
 {0}
 
-typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+using ModuleGetter = std::function< pybind11::module & (std::string const &) >;
 
 {1}
 
