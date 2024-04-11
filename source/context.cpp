@@ -110,7 +110,7 @@ PYBIND11_MODULE({2}, root_module) {{
 	auto mangle_namespace_name(
 		[](std::string const &ns) -> std::string {{
 			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
-			else return ns+'_';
+			return ns+'_';
 		}}
 	);
 
