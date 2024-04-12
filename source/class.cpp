@@ -700,7 +700,7 @@ if (overload) {{
 		static pybind11::detail::override_caster_t<{3}> caster;
 		return pybind11::detail::cast_ref<{3}>(std::move(o), caster);
 	}}
-	else return pybind11::detail::cast_safe<{3}>(std::move(o));
+	return pybind11::detail::cast_safe<{3}>(std::move(o));
 }}
 )_";
 
