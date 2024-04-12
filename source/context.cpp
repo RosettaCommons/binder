@@ -89,7 +89,7 @@ const char *main_module_header = R"_(#include <map>
 
 {0}
 
-typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+using ModuleGetter = std::function< pybind11::module & (std::string const &) >;
 
 {1}
 
@@ -110,7 +110,7 @@ PYBIND11_MODULE({2}, root_module) {{
 	auto mangle_namespace_name(
 		[](std::string const &ns) -> std::string {{
 			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
-			else return ns+'_';
+			return ns+'_';
 		}}
 	);
 
@@ -132,7 +132,7 @@ const char *module_header = R"_(
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
 	{2}
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	{3}
 #endif
 
@@ -437,7 +437,7 @@ void Context::generate(Config const &config)
 
 		string const holder_type = Config::get().holder_type();
 
-		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>)";
+		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>, false)";
 		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
 
 		string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
