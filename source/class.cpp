@@ -752,7 +752,7 @@ string bind_member_functions_for_call_back(CXXRecordDecl const *C, string const 
 				if( return_type.find(',') != std::string::npos ) {
 					string return_type_alias = "_binder_ret_" + std::to_string(ret_id);
 					++ret_id;
-					if (return_type.rfind("class ", 0) == 0) return_type = return_type.substr(6);
+					if (begins_with(return_type,"class ")) return_type = return_type.substr(6);
 					c += "\tusing {} = {};\n"_format(return_type_alias, return_type);
 					return_type = std::move(return_type_alias);
 				}
