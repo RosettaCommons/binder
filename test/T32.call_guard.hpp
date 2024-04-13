@@ -13,7 +13,9 @@
 #ifndef _INCLUDED_T07_class_hpp_
 #define _INCLUDED_T07_class_hpp_
 
-void free(int)   {}
+void free(int)
+{
+}
 
 struct Methods
 {

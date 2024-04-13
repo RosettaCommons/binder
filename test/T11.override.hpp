@@ -26,7 +26,7 @@ public:
 	virtual void foo_void() {}
 	virtual void foo_void_pure() = 0;
 
-	virtual int         foo_int() { return 0; }
+	virtual int foo_int() { return 0; }
 	virtual std::string foo_sring() { return ""; }
 
 	virtual std::string &foo_sring_r() { return s_; }

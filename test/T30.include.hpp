@@ -16,6 +16,8 @@
 #include <T30.include.incl.a.include>
 #include <T30.include.incl.b.include>
 
-void foo(bbbb::B<aaaa::A>) {}
+void foo(bbbb::B<aaaa::A>)
+{
+}
 
 #endif // _INCLUDED_T30_include_hpp_

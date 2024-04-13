@@ -11,23 +11,40 @@
 /// @author Sergey Lyskov
 
 /// The multimap/multiset classes are tested in the binder/test/T43.stl.names.multi.hpp to avoid
-/// problems with different ordering of multiset/set and multimap/map bindings 
+/// problems with different ordering of multiset/set and multimap/map bindings
 /// in the generated files on different platforms.
 #ifndef _INCLUDED_T42_stl_names_hpp_
 #define _INCLUDED_T42_stl_names_hpp_
 
+#include <deque>
+#include <forward_list>
 #include <functional>
 #include <list>
-#include <deque>
 #include <vector>
-#include <forward_list>
 
+void foo(std::list<double>)
+{
+}
+void foo(std::forward_list<float>)
+{
+}
+void foo(std::vector<double>)
+{
+}
+void foo(std::deque<int>)
+{
+}
 
-void foo(std::list<double> ) {}
-void foo(std::forward_list<float> ) {}
-void foo(std::vector<double> ) {}
-void foo(std::deque<int> ) {}
+void foo(std::vector< std::vector<double> >)
+{
+}
+void foo(std::vector< std::vector< std::vector<double> > >)
+{
+}
 
+void foo(std::vector< std::list< std::forward_list< std::deque<double> > > >)
+{
+}
 
 
 #endif // _INCLUDED_T42_stl_names_hpp_

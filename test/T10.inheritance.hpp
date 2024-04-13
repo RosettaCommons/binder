@@ -34,8 +34,8 @@ public:
 class Derived : public Base
 {
 public:
-	using Base::foo_protected;
 	using Base::data;
+	using Base::foo_protected;
 };
 
 
@@ -48,7 +48,8 @@ public:
 };
 
 class A : public std::enable_shared_from_this<A>
-{};
+{
+};
 
 class B : public std::string
 {

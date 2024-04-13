@@ -13,8 +13,8 @@
 #ifndef _INCLUDED_type_hpp_
 #define _INCLUDED_type_hpp_
 
-#include <context.hpp>
 #include <config.hpp>
+#include <context.hpp>
 
 #include <clang/AST/Decl.h>
 
@@ -30,11 +30,15 @@ bool is_binding_requested(clang::QualType const &qt, Config const &config);
 bool is_skipping_requested(clang::QualType const &qt, Config const &config);
 
 
-// extract include path needed for declaration itself (without template dependency if any), return empty string if no include could be found
+// check if type some form of function-type (function type, function-pointer, function-reference, ...)
+bool is_function_type(clang::QualType const &qt);
+
+
+/// extract include path needed for declaration itself (without template dependency if any), return empty string if no include could be found
 std::string relevant_include(clang::NamedDecl const *decl);
 
 
-// extract include path needed for declaration itself (without template dependency if any), do nothing if include could not be found (ie for build-in's)
+/// extract include path needed for declaration itself (without template dependency if any), do nothing if include could not be found (ie for build-in's)
 void add_relevant_include_for_decl(clang::NamedDecl const *decl, IncludeSet &includes);
 
 
@@ -42,7 +46,7 @@ void add_relevant_include_for_decl(clang::NamedDecl const *decl, IncludeSet &inc
 void add_relevant_includes(clang::QualType const &qt, /*clang::ASTContext const &context,*/ IncludeSet &includes, int level);
 
 
-// check if given QualType is bindable
+/// check if given QualType is bindable
 bool is_bindable(clang::QualType const &qt);
 
 
@@ -50,11 +54,15 @@ bool is_bindable(clang::QualType const &qt);
 void request_bindings(clang::QualType const &qt, Context &context);
 
 
-// transform give type name to standard form
+/// return standard string representation of a given type
+std::string standard_name(clang::QualType const &qt);
+
+
+/// transform give type name to standard form
 std::string standard_name(std::string const &type);
 
 
-/// Attempt to simplify std:: name by removing unneded template arguments. Function assume that there is no 'std::' namespaces prefix at the beginning of the argument string
+/// Attempt to simplify std:: name by removing unneeded template arguments, assuming that there is no 'std::' namespaces prefix at the beginning of the argument string
 std::string simplify_std_class_name(std::string const &type);
 
 
@@ -62,13 +70,13 @@ std::string simplify_std_class_name(std::string const &type);
 bool is_python_builtin(clang::NamedDecl const *C);
 
 
-// check if class/struct/function/enum is in banned symbol lists
+/// check if class/struct/function/enum is in banned symbol lists
 bool is_banned_symbol(clang::NamedDecl const *D);
 
-// check if class/struct is in banned type lists
-//bool is_banned_type(clang::CXXRecordDecl const *C);
+/// check if class/struct is in banned type lists
+// bool is_banned_type(clang::CXXRecordDecl const *C);
 
 
 } // namespace binder
 
-#endif  // _INCLUDED_type_hpp_
+#endif // _INCLUDED_type_hpp_

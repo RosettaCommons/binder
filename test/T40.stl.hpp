@@ -15,7 +15,9 @@
 
 #include <vector>
 
-void foo(std::vector<int>) {}
+void foo(std::vector<int>)
+{
+}
 
 template class std::vector<float>;
 

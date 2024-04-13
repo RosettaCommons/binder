@@ -1,10 +1,8 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
 PROJECT(binder CXX C)
-SET(VERSION 1.0.0)
+SET(VERSION 1.4.1)
 option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
-#This actually will work even with C++11
-set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 #So far there are exceptions in config.cpp
 set(LLVM_REQUIRES_EH ON)
@@ -12,7 +10,14 @@ set(USE_EXTERNAL_LLVM ON)
 include("GNUInstallDirs")
 set(LLVM_DIR_ORIG ${LLVM_DIR})
 set(Clang_DIR_ORIG ${Clang_DIR})
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
+# cmake version >= 3.19 includes all our modules
+if(${CMAKE_VERSION} VERSION_LESS "3.19")
+  set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
+else()
+  # set CMP0054 to NEW
+  # https://cmake.org/cmake/help/latest/policy/CMP0054.html
+  cmake_policy(SET CMP0054 NEW)
+endif()
 SET(CMAKE_MODULE_PATH_ORIG "${CMAKE_MODULE_PATH}")
 set (CMAKE_MODULE_PATH "${LLVM_DIR};${Clang_DIR};${CMAKE_MODULE_PATH}")
 option(BINDER_ENABLE_TEST      "Enables building of tests" ON)
@@ -29,7 +34,7 @@ MESSAGE(STATUS  "binder: Using CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH} to search 
 find_package(Clang CONFIG QUIET PATHS /usr/lib64/cmake/clang /usr/lib/cmake/clang /usr/share/clang/cmake )
 find_package(LLVM  CONFIG QUIET PATHS /usr/lib64/cmake/clang  /usr/lib/cmake/llvm  /usr/share/llvm/cmake )
 if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
-  set(CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR};${CMAKE_MODULE_PATH}") 
+  set(CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR};${CMAKE_MODULE_PATH}")
   MESSAGE(STATUS  "binder: cmake configurations  llvm and clang were found.  LLVM_CMAKE_DIR=${LLVM_CMAKE_DIR}")
   include(AddLLVM)
   include(LLVMConfig)
@@ -41,6 +46,11 @@ if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
     ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION}/include
     ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION}/include
     ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION}/include
+    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}/include
+    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}/include
+    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}/include
+    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}/include
+    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}/include
     ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
     ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
     ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
@@ -113,6 +123,12 @@ MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIR, the location of headers is ${LibC
 MESSAGE(STATUS  "binder: LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_MINOR=${LLVM_VERSION_MINOR}")
 MESSAGE(STATUS  "binder: LLVM_VERSION_PATCH=${LLVM_VERSION_PATCH}")
+if( ${LLVM_VERSION_MAJOR} GREATER_EQUAL 16 )
+# LLVM 16 introduces the use of C++ features from C++17
+set(CMAKE_CXX_STANDARD 17)
+else()
+set(CMAKE_CXX_STANDARD 14)
+endif()
 macro(add_clang_executable name)
   add_executable( ${name} ${ARGN} )
 #  set_target_properties(${name} PROPERTIES FOLDER "Clang executables")
@@ -126,7 +142,7 @@ endmacro(add_clang_executable)
 include_directories(source)
 add_subdirectory(source)
 if (BINDER_ENABLE_TEST)
- if(${CMAKE_VERSION} VERSION_LESS "3.0.0") 
+ if(${CMAKE_VERSION} VERSION_LESS "3.0.0")
    message("You are running cmake version ${CMAKE_VERSION}.")
    message("The testing suite will be disabled as it requires cmake 3.0.0 or higher.")
  else()

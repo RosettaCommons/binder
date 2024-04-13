@@ -14,24 +14,24 @@
 
 struct A1
 {
-	A1(int a=1) {}
+	A1(int a = 1) {}
 };
 
 struct A2
 {
-	A2(int a=1) {}
+	A2(int a = 1) {}
 
 	virtual void f() {}
 };
 
 struct A3
 {
-	A3(int a=1) {}
+	A3(int a = 1) {}
 	virtual void f() = 0;
 };
 
 struct A4
 {
-	A4(int a=1) {}
+	A4(int a = 1) {}
 	virtual int operator=(int) = 0;
 };

@@ -7,17 +7,12 @@
 // MIT license that can be found in the LICENSE file.
 
 /// @file   binder/binder.cpp
-/// @brief  Main
+/// @brief  Classes IncludeSet and Binder
 /// @author Sergey Lyskov
 
 #include <binder.hpp>
 
-// Declares clang::SyntaxOnlyAction.
-#include "clang/AST/ASTConsumer.h"
-#include "clang/AST/ASTContext.h"
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
+#include <type.hpp> // is_python_builtin
 
 #include <clang/AST/RecursiveASTVisitor.h>
 #include <clang/Basic/SourceLocation.h>
@@ -56,59 +51,70 @@ using binder::Config;
 using namespace clang;
 
 using std::string;
+using std::vector;
 
+namespace binder {
 
-cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"), /*cl::init("example"),*/ cl::cat(BinderToolCategory));
+// const std::string _module_variable_name_{"M"};
 
-cl::opt<int> O_max_file_size("max-file-size", cl::desc("Specify maximum length of generated source files"), cl::init(1024*16), cl::cat(BinderToolCategory));
+// check if declaration is already in stack with level at least as 'level' or lower and add it if it is not - return true if declaration was added
 
-cl::opt<std::string> O_prefix("prefix", cl::desc("Output path for all generated files. Specified path must exists."), cl::init(""), cl::cat(BinderToolCategory));
-
-cl::list<std::string> O_bind("bind", cl::desc("Namespace to bind, could be specified more then once. Specify \"\" to bind all namespaces."), cl::cat(BinderToolCategory)); // , cl::OneOrMore
-cl::list<std::string> O_skip("skip", cl::desc("Namespace to skip, could be specified more then once"), cl::cat(BinderToolCategory)); // , cl::OneOrMore
-
-cl::opt<std::string> O_config("config", cl::desc("Specify config file from which bindings setting will be read"), cl::init(""), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_annotate_includes("annotate-includes", cl::desc("Annotate each includes in generated code with type name that trigger it inclusion"), cl::init(false), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_single_file("single-file", cl::desc("Concatenate all binder output into single file with name: root-module-name + '.cpp'. Use this for a small projects and for testing."), cl::init(false), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_trace("trace", cl::desc("Add tracer output for each binded object (i.e. for debugging)"), cl::init(false), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_verbose("v", cl::desc("Increase verbosity of output"), cl::init(false), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_suppress_errors("suppress-errors", cl::desc("Suppres all the compilers errors. This option could be useful when you want to tell Binder to ignore non-critical errors (for example due to missing includes) and generate binding for part of code that Binder was able to parse"), cl::init(false), cl::cat(BinderToolCategory));
-
-cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into single directory. Generated files will be named as <root-module>.cpp, <root-module>_1.cpp, <root-module>_2.cpp, ... etc."), cl::init(false), cl::cat(BinderToolCategory));
-
-class ClassVisitor : public RecursiveASTVisitor<ClassVisitor>
+bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 {
-public:
-    explicit ClassVisitor(DeclContext *dc) /*: decl_context(dc)*/ {}
-
-	virtual ~ClassVisitor() {}
-
-	virtual bool VisitEnumDecl(EnumDecl *record) {
-		errs() << "ClassVisitor EnumDecl: " << record->getQualifiedNameAsString() << "\n";
-		record->dump();
-        return true;
+	auto it_inserted = stack_.insert( {D, level} );
+	auto & it = it_inserted.first;
+	auto & inserted = it_inserted.second;
+	if(inserted) return true;
+	else {
+		if( it->second <= level ) return false;
+		else {
+			it->second = level;
+			//it.value() = level;
+			return true;
+		}
 	}
 
-private:
-    //DeclContext *decl_context;
-};
+	// {
+	// 	std::unordered_map<int, int> mp;
+	// 	//tsl::robin_map<int, int> mp;
+	// 	mp[0] = 0;
+	// 	mp.find(0)->second = 1;
+	// 	mp.insert({0, 1}).first->second = 2;
+	// }
 
-string wrap_CXXRecordDecl(CXXRecordDecl *R)
-{
-	ClassVisitor v{R};
-	v.TraverseDecl( R );
-	//R->dump();
-	return "";
+
+	// StackType::iterator it;
+	// bool inserted;
+	// std::tie(it, inserted) = stack_.insert( StackType::value_type(D, level) );
+
+
+	// auto it = stack_.find(D);
+	// if( it == stack_.end() ) {
+	// 	 stack_[D] = level;
+	// 	 return true;
+	// }
+	// else {
+	// 	if( it->second <= level ) return false;
+	// 	else {
+	// 		it->second = level;
+	// 		return true;
+	// 	}
+	// }
+
+	// auto &l = stack_[D];
+	// if( l.value and l.value <= level.value ) return false;
+	// l = level;
+	// return true;
+
+	// if( stack_.count(D) and stack_[D] <= level ) return false;
+	// stack_[D] = level;
+	// return true;
 }
 
-
-class BinderVisitor : public RecursiveASTVisitor<BinderVisitor>
+// remove all includes and clear up the stack
+void IncludeSet::clear()
 {
+<<<<<<< HEAD
 public:
     explicit BinderVisitor(CompilerInstance *ci) : ast_context( &( ci->getASTContext() ) )
 	{
@@ -265,4 +271,38 @@ int main(int argc, const char **argv)
 	//for(auto &s : O_bind) outs() << "Binding: '" << s << "'\n";
 
 	return tool.run(newFrontendActionFactory<BinderFrontendAction>().get());
+=======
+	includes_.clear();
+	stack_.clear();
+>>>>>>> origin/master
 }
+
+/// return true if object declared in system header
+bool Binder::is_in_system_header()
+{
+	using namespace clang;
+	NamedDecl const *decl(named_decl());
+	ASTContext &ast_context(decl->getASTContext());
+	SourceManager &sm(ast_context.getSourceManager());
+
+	return FullSourceLoc(decl->getLocation(), sm).isInSystemHeader();
+}
+
+// return true if code was already generate for this object
+bool Binder::is_binded() const
+{
+	return code().size() or is_python_builtin(named_decl());
+}
+
+llvm::raw_ostream &operator<<(llvm::raw_ostream &os, Binder const &b)
+{
+	clang::NamedDecl const *decl = b.named_decl();
+
+	string name = decl->getNameAsString();
+	string qualified_name = decl->getQualifiedNameAsString();
+	string path = decl->getQualifiedNameAsString().substr(0, qualified_name.size() - name.size());
+
+	return os << "B{name=" << name << ", path=" << path << "\n"; //<< ", include= " code=\n" << b("module") << "\n}
+}
+
+} // namespace binder

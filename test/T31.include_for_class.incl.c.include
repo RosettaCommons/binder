@@ -1,0 +1,13 @@
+#pragma once
+
+#include <T31.include_for_class.incl.a.include>
+#include <ostream>
+
+namespace aaaa
+{
+
+namespace cccc {
+std::ostream & operator<<(std::ostream & s, const A & a) { return s; }
+}
+
+}

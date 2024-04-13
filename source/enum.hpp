@@ -30,8 +30,16 @@ void add_relevant_includes(clang::EnumDecl const *E, IncludeSet &includes, int l
 bool is_bindable(clang::EnumDecl const *E);
 
 
+/// check if user requested binding for the given declaration
+bool is_binding_requested(clang::EnumDecl const *E, Config const &config);
+
+
+/// check if user requested skipping for the given declaration
+bool is_skipping_requested(clang::EnumDecl const *E, Config const &config);
+
+
 // Generate binding for given function: py::enum_<MyEnum>(module, "MyEnum")...
-std::string bind_enum(std::string const & module, clang::EnumDecl const *E);
+std::string bind_enum(std::string const &module, clang::EnumDecl const *E);
 
 
 class EnumBinder : public Binder
@@ -43,13 +51,13 @@ public:
 	string id() const override;
 
 	// return Clang AST NamedDecl pointer to original declaration used to create this Binder
-	clang::NamedDecl const * named_decl() const override { return E; };
+	clang::NamedDecl const *named_decl() const override { return E; };
 
 	/// check if generator can create binding
-    bool bindable() const override;
+	bool bindable() const override;
 
 	/// check if user requested binding for the given declaration
-	virtual void request_bindings_and_skipping(Config const &) override;
+	void request_bindings_and_skipping(Config const &, RequestFlags flags = RequestFlags::skipping | RequestFlags::binding) override;
 
 	/// extract include needed for this generator and add it to includes vector
 	void add_relevant_includes(IncludeSet &includes) const override;

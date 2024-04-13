@@ -13,47 +13,54 @@
 #ifndef _INCLUDED_T20_template_hpp_
 #define _INCLUDED_T20_template_hpp_
 
-template <typename T>
-void foo() {}
+template <typename T> void foo()
+{
+}
 
 template void foo<int>();
 template void foo<double>();
 
 
-template <typename T>
-class A
+template <typename T> class A
 {
 public:
 	T t_value;
 	T *t_pointer;
 
-	void foo(T&) {}
+	void foo(T &) {}
 };
 
-void fi_instantiated_by_use_in_function(A<int> ) {}
-void fi(A<int> &) {}
-void fi(A<int> *) {}
+void fi_instantiated_by_use_in_function(A<int>)
+{
+}
+void fi(A<int> &)
+{
+}
+void fi(A<int> *)
+{
+}
 
-void ff_instantiated_by_use_in_function_not_binded(A<float> &) {}  // accessing class by reference will not trigger class instantiation
-void fd_instantiated_by_use_in_function_not_binded(A<double> *) {} // accessing class by pointer will not trigger class instantiation
+void ff_instantiated_by_use_in_function_not_binded(A<float> &)
+{
+} // accessing class by reference will not trigger class instantiation
+void fd_instantiated_by_use_in_function_not_binded(A<double> *)
+{
+} // accessing class by pointer will not trigger class instantiation
 
 
 
 // variadic templates support
-template<typename T>
-T add(T v)
+template <typename T> T add(T v)
 {
-  return v;
+	return v;
 }
 
-template<typename T, typename... As>
-T add(T first, As... as)
+template <typename T, typename... As> T add(T first, As... as)
 {
-  return first + add(as...);
+	return first + add(as...);
 }
 
-template<typename... As>
-void foo(As... as)
+template <typename... As> void foo(As... as)
 {
 }
 
@@ -69,5 +76,11 @@ void instantiate()
 }
 
 
+template<typename T>
+class TemplateSpecialization {
+public:
+    T data;
+};
+template class TemplateSpecialization<float>;
 
 #endif // _INCLUDED_T20_template_hpp_

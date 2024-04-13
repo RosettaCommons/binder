@@ -14,13 +14,12 @@
 #ifndef _INCLUDED_std_binders_hpp_
 #define _INCLUDED_std_binders_hpp_
 
-#include <pybind11/stl_bind.h>
 #include <map>
+#include <pybind11/stl_bind.h>
 
 namespace binder {
 
-template <typename T, class Allocator>
-class vector_binder
+template <typename T, class Allocator> class vector_binder
 {
 	using Vector = std::vector<T, Allocator>;
 	using SizeType = typename Vector::size_type;
@@ -35,18 +34,18 @@ public:
 		using holder_type = std::shared_ptr<std::vector<T, Allocator>>;
 		using Class_ = pybind11::class_<Vector, holder_type>;
 
-		Class_ cl = pybind11::bind_vector<Vector, holder_type>(m, "vector_"+name);
+		Class_ cl = pybind11::bind_vector<Vector, holder_type>(m, "vector_" + name);
 
-		//cl.def(pybind11::init<size_type>());
-		//cl.def("resize", (void (Vector::*) (size_type count)) & Vector::resize, "changes the number of elements stored");
+		// cl.def(pybind11::init<size_type>());
+		// cl.def("resize", (void (Vector::*) (size_type count)) & Vector::resize, "changes the number of elements stored");
 
-		cl.def("empty",         &Vector::empty,         "checks whether the container is empty");
-		cl.def("max_size",      &Vector::max_size,      "returns the maximum possible number of elements");
-		cl.def("reserve",       &Vector::reserve,       "reserves storage");
-		cl.def("capacity",      &Vector::capacity,      "returns the number of elements that can be held in currently allocated storage");
+		cl.def("empty", &Vector::empty, "checks whether the container is empty");
+		cl.def("max_size", &Vector::max_size, "returns the maximum possible number of elements");
+		cl.def("reserve", &Vector::reserve, "reserves storage");
+		cl.def("capacity", &Vector::capacity, "returns the number of elements that can be held in currently allocated storage");
 		cl.def("shrink_to_fit", &Vector::shrink_to_fit, "reduces memory usage by freeing unused memory");
-		cl.def("clear",         &Vector::clear,         "clears the contents");
-		cl.def("swap",          (void (Vector::*)(Vector &)) &Vector::swap,          "swaps the contents");
+		cl.def("clear", &Vector::clear, "clears the contents");
+		cl.def("swap", (void(Vector::*)(Vector &)) & Vector::swap, "swaps the contents");
 
 
 
@@ -62,17 +61,20 @@ public:
 };
 
 
-template <typename Key, typename T, typename Compare, class Allocator>
-class map_binder
+template <typename Key, typename T, typename Compare, class Allocator> class map_binder
 {
 public:
-	map_binder(pybind11::module &m, std::string const &key_name, std::string const &value_name, std::string const & /*compare name*/, std::string const & /*allocator name*/)
+	map_binder(pybind11::module &m, std::string const &key_name, std::string const &value_name, std::string const & comparator_name, std::string const & allocator_name)
 	{
 		using Map = std::map<Key, T, Compare, Allocator>;
 		using holder_type = std::shared_ptr< std::map<Key, T, Compare, Allocator> >;
 		using Class_ = pybind11::class_<Map, holder_type>;
 
-		Class_ cl = pybind11::bind_map<Map, holder_type>(m, "map_"+key_name + '_' + value_name);
+		std::string maybe_extra =
+			( (comparator_name == "std_less_" + key_name + "_t") ? "" : ("_" + comparator_name) ) +
+			( (allocator_name == "std_allocator_std_pair_const_" + key_name + '_' + value_name + "_t") ? "" : ("_" + allocator_name) );
+
+		Class_ cl = pybind11::bind_map<Map, holder_type>(m, "map_" + key_name + '_' + value_name + maybe_extra);
 	}
 };
 

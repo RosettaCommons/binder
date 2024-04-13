@@ -19,7 +19,7 @@ struct POD1
 
 struct POD2
 {
-	POD2(POD2 const &) {};
+	POD2(POD2 const &){};
 };
 
 
@@ -51,6 +51,7 @@ class Data1
 {
 public:
 	Data1(Data1 const &) = default;
+
 private:
 	int a;
 };

@@ -7,30 +7,50 @@
 // MIT license that can be found in the LICENSE file.
 
 /// @file   binder/test/T12.operator.hpp
-/// @brief  Binder self-test file. Bindings of class operator member functions.
+/// @brief  Binder self-test file. Bindings for various operators.
 /// @author Sergey Lyskov
 
 #pragma once
 
 struct T
 {
-	T& operator+(int) { return *this; }
-	T& operator-(int) { return *this; }
-	T& operator*(int) { return *this; }
-	T& operator/(int) { return *this; }
+	T &operator~() { return *this; }
+
+	T &operator+() { return *this; }
+	T &operator-() { return *this; }
+	T &operator*() { return *this; }
+
+	T &operator+(int) { return *this; }
+	T &operator-(int) { return *this; }
+	T &operator*(int) { return *this; }
+	T &operator/(int) { return *this; }
+	T &operator%(int) { return *this; }
+	T &operator|(int) { return *this; }
+	T &operator&(int) { return *this; }
+	T &operator^(int) { return *this; }
+	T &operator<<(int) { return *this; }
+	T &operator>>(int) { return *this; }
 
 	void operator+=(int) {}
 	void operator-=(int) {}
 	void operator*=(int) {}
 	void operator/=(int) {}
+	void operator%=(int) {}
+	void operator|=(int) {}
+	void operator&=(int) {}
+	void operator^=(int) {}
+	void operator<<=(int) {}
+	void operator>>=(int) {}
 
-	void operator() (int)      {}
+	void operator()(int) {}
 
-	bool operator== (const T&) { return true;  }
-	bool operator!= (const T&) { return false; }
-	bool operator[] (int)      { return true;  }
+	bool operator==(const T &) { return true; }
+	bool operator!=(const T &) { return false; }
+	bool operator[](int) { return true; }
 
-	T&   operator=  (const T&) { return *this; }
-	T&   operator++ ()         { return *this; }
-	T&   operator-- ()         { return *this; }
+	T &operator=(const T &) { return *this; }
+	T &operator++() { return *this; }
+	T &operator--() { return *this; }
+	T &operator++(int) { return *this; }
+	T &operator--(int) { return *this; }
 };

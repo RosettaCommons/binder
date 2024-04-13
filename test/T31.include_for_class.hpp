@@ -10,3 +10,4 @@
 
 #include <T31.include_for_class.incl.a.include>
 #include <T31.include_for_class.incl.b.include>
+#include <T31.include_for_class.incl.c.include>

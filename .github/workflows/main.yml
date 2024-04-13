@@ -7,127 +7,55 @@ on:
     - cron:  "0 0 1/5 * *"
 
 jobs:
-
-  compilejobFedora26:
+  compilejobFedora:
+    strategy:
+      fail-fast: false    
+      matrix:
+        version: [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
     runs-on: ubuntu-latest
-    name: Binder_on_Fedora26
+    name: Binder_on_Fedora${{ matrix.version }}
+    container:
+      image: fedora:${{ matrix.version }}
     steps:
+    - name: Install 
+      run: |
+             set -x
+             uname -a 
+             cat /etc/issue
+             yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static \
+             libcxx-devel cmake make gcc gcc-c++  \
+             pybind11-devel python3 python3-devel python2 python2-devel  && yum -y clean all
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora26
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
+      run: |
+             cmake CMakeLists.txt
+             make
+             make install
+             ldd source/binder
+             ldd -u -r source/binder || echo "OK"
+             ctest . --output-on-failure 
 
-  compilejobFedora27:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora27
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora27
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-  compilejobFedora28:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora28
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora28
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-  compilejobFedora29:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora29
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora29
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-  compilejobFedora30:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora30
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora30
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-
-  compilejobFedora31:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora31
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora31
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-
-  compilejobFedora32:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora32
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora32
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-
-  compilejobFedora33:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora33
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora33
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-  compilejobFedora34:
-    runs-on: ubuntu-latest
-    name: Binder_on_Fedora34
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Compile
-      id: compileindocker
-      uses: ./.github/workflows/fedora34
-    - name: Get the output status
-      run: exit ${{ steps.compileindocker.outputs.out }}
-
-  
   compilejobOSX:
     runs-on: macos-latest
     name: Binder_on_OSX
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+    - name: Install 
+      run: |
+             set -x
+             brew install wget coreutils xz pybind11 git
+             wget --no-verbose https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
+             ls
+             tar -xJf clang+llvm-11.0.0-x86_64-apple-darwin.tar.xz
+             export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
     - name: Compile
-      id: compile
-      run: ./.github/workflows/osx/entrypoint.sh
-    - name: Get the output status
-      run: exit ${{ steps.compile.outputs.out }}
+      run: |
+             export PATH=$PATH:clang+llvm-11.0.0-x86_64-apple-darwin/bin
+             cmake CMakeLists.txt
+             make
+             make install
+             otool -L source/binder
+             ctest . --output-on-failure
+
