@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cppbinder"
+description = "Binder, tool for automatic generation of Python bindings"
+readme = "README.md"
+dynamic = ["version"]
+authors = [
+    {name = "Rosetta Commons"},
+]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/RosettaCommons/binder/"
+Documentation = "https://cppbinder.readthedocs.io/"
+"Bug Tracker" = "https://github.com/RosettaCommons/binder/issues/"
+
+[project.scripts]
+binder = "binder:binder"
+
+[tool.setuptools]
+include-package-data = true
+packages = ["binder"]
+
+[tool.setuptools.package-data]
+binder = ["bin/**"]
+
+[tool.setuptools_scm]
+root = "."
+version_scheme = "post-release"
+write_to = "binder/_version.py"
+fallback_version = "0.0.1"

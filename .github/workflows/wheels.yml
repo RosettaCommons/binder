@@ -1,0 +1,81 @@
+name: Wheels
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: wheels-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # macos-13 is an intel runner, macos-14 is apple silicon
+        os:
+          - windows-2022
+          - ubuntu-22.04
+          - macos-14
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Build the binder executable
+        shell: bash
+        run: |
+          cmake ${{ env.CMAKE_OPTIONS }} -S . -B build
+          cmake --build build --config Release --target binder
+        env:
+          CMAKE_OPTIONS: >-
+            -DCMAKE_BUILD_TYPE=Release
+            -DLLVM_ENABLE_EH=ON
+            -DLLVM_ENABLE_RTTI=ON
+            -DLLVM_ENABLE_PROJECTS=clang
+      - name: Move the installer to the binder/bin directory
+        if: matrix.os == 'windows-2019'
+        shell: bash
+        run: |
+          mv build/llvm-project/llvm/Release/bin/binder.exe binder/bin
+      - name: Build the wheel
+        run: |
+          pip wheel --wheel-dir dist .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cppbinder-${{ github.ref_name }}-${{ matrix.os }}
+          path: ./dist/*.whl
+
+      - name: Upload wheels to release
+        shell: bash
+        run: |
+          gh release upload ${{ github.ref_name }} ./dist/*.whl --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download wheels
+        run: |
+          gh release download ${{ github.ref_name }} --pattern *.whl --dir dist
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.8.14
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          packages-dir: dist
