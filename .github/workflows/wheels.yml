@@ -73,6 +73,8 @@ jobs:
       - name: Download wheels
         run: |
           gh release download ${{ github.ref_name }} --pattern *.whl --dir dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.14
         with:
