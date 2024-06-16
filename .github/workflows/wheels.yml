@@ -46,7 +46,7 @@ jobs:
             -DLLVM_ENABLE_RTTI=ON
             -DLLVM_ENABLE_PROJECTS=clang
       - name: Move the installer to the binder/bin directory
-        if: matrix.os == 'windows-2019'
+        if: matrix.os == 'windows-2022'
         shell: bash
         run: |
           mv build/llvm-project/llvm/Release/bin/binder.exe binder/bin
