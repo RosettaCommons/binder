@@ -28,7 +28,7 @@ may not be compatible with the header files on the system Binder where is run.
 
 Building
 ********
-The steps below are encoded in `binder/build.py` and `binder/build-and-run-tests.py`
+The steps below are encoded in `binder/build-binder.py` and `binder/build-and-run-tests.py`
 files so for default install you can just run `build-and-run-tests.py` script directly.
 This section describes how to build a dynamically-linked ``binder`` executable.
 To *statically* compile binder, see :ref:`building-static`.
