@@ -65,6 +65,12 @@ wheel.packages = ["binder"]
 wheel.py-api = "py2.py3"
 wheel.expand-macos-universal-tags = true
 
+[[tool.scikit-build.generate]]
+path = "binder/_version.py"
+template = '''
+version = "${version}"
+'''
+
 [tool.cibuildwheel]
 build = "cp312-*"
 musllinux-x86_64-image = "musllinux_1_1"
@@ -79,5 +85,4 @@ archs = ["universal2"]
 [tool.setuptools_scm]
 root = "."
 version_scheme = "post-release"
-write_to = "binder/_version.py"
 fallback_version = "0.0.1"
