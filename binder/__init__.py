@@ -39,4 +39,4 @@ def _get_version():
         return _default_version
 
 
-__version__: str = _get_version()
+__version__ = _get_version()
