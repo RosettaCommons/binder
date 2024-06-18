@@ -12,7 +12,17 @@ authors = [
 ]
 classifiers = [
     "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.7",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.0",
+    "Programming Language :: Python :: 3.1",
+    "Programming Language :: Python :: 3.2",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -21,7 +31,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-requires-python = ">=3.8"
+requires-python = ">=2.7"
 
 [project.urls]
 Homepage = "https://github.com/RosettaCommons/binder/"
@@ -52,7 +62,7 @@ cmake.define.LLVM_ENABLE_PROJECTS = "clang"
 
 # Wheel configuration
 wheel.packages = ["binder"]
-wheel.py-api = "py3"
+wheel.py-api = "py2.py3"
 wheel.expand-macos-universal-tags = true
 
 [tool.cibuildwheel]
