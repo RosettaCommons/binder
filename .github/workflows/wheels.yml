@@ -48,7 +48,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cppbinder-wheels
+          name: cppbinder-wheels-${{ matrix.os }}
           path: ./python/wheelhouse/*.whl
 
       - name: Upload wheels to release
