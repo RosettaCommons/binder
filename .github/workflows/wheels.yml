@@ -43,8 +43,7 @@ jobs:
           cibuildwheel --output-dir wheelhouse
         working-directory: python
         env:
-          CIBW_ARCHS: ${{ github.event_name == 'release' && 'auto' || 'auto64' }}
-          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx* cp312-win* cp312-manylinux*' }}
+          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx_universal2 cp312-win_amd64 cp312-manylinux_x86_64' }}
 
       - uses: actions/upload-artifact@v4
         if: always()
