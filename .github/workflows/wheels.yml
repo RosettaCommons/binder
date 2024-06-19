@@ -39,8 +39,9 @@ jobs:
           pipx install cibuildwheel
 
       - name: Build wheels
-        run:
-          cd python && cibuildwheel --output-dir wheelhouse
+        run: |
+          cibuildwheel --output-dir wheelhouse
+        working-directory: python
         env:
           CIBW_ARCHS: ${{ github.event_name == 'release' && 'auto' || 'auto64' }}
           CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx* cp312-win* cp312-manylinux*' }}
@@ -78,7 +79,8 @@ jobs:
 
       - name: Build source distribution
         run: |
-          cd python && python -m build --sdist --outdir dist
+          python -m build --sdist --outdir dist
+        working-directory: python
 
       - uses: actions/upload-artifact@v4
         if: always()
