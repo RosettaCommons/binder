@@ -41,6 +41,9 @@ jobs:
       - name: Build wheels
         run:
           cd python && cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_ARCHS: ${{ github.event_name == 'release' && 'auto' || 'auto64' }}
+          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx* cp312-win* cp312-manylinux*' }}
 
       - uses: actions/upload-artifact@v4
         if: always()
