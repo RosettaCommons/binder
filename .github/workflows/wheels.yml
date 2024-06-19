@@ -34,20 +34,25 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Setup cibuildwheel
+        run: |
+          pipx install cibuildwheel
+
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.1
+        run:
+          cd python && cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cppbinder-wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+          path: ./python/wheelhouse/*.whl
 
       - name: Upload wheels to release
         if: github.event_name == 'release'
         shell: bash
         run: |
-          gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
+          gh release upload ${{ github.ref_name }} ./python/wheelhouse/*.whl --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,18 +75,18 @@ jobs:
 
       - name: Build source distribution
         run: |
-          python -m build --sdist --outdir dist
+          cd python && python -m build --sdist --outdir dist
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cppbinder-sdist
-          path: ./dist/*.tar.gz
+          path: ./python/dist/*.tar.gz
 
       - name: Upload wheels to release
         if: github.event_name == 'release'
         run: |
-          gh release upload ${{ github.ref_name }} ./dist/*.tar.gz --clobber
+          gh release upload ${{ github.ref_name }} ./python/dist/*.tar.gz --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
