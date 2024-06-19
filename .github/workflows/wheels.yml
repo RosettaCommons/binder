@@ -40,8 +40,7 @@ jobs:
 
       - name: Build wheels
         run: |
-          cibuildwheel --output-dir wheelhouse
-        working-directory: python
+          cibuildwheel --output-dir wheelhouse python
         env:
           CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx_universal2 cp312-win_amd64 cp312-manylinux_x86_64' }}
 
@@ -49,13 +48,13 @@ jobs:
         if: always()
         with:
           name: cppbinder-wheels-${{ matrix.os }}
-          path: ./python/wheelhouse/*.whl
+          path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
         if: github.event_name == 'release'
         shell: bash
         run: |
-          gh release upload ${{ github.ref_name }} ./python/wheelhouse/*.whl --clobber
+          gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
