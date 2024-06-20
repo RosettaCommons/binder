@@ -1,10 +1,5 @@
-Installation
-============
-**Binder** is written in C++11 and must be built before use. This page describes the steps for the build process.
-Please note that installation require up to ~2.6+ Gb of free disk space.
-
-Install pre-built wheels from PyPI
-**********************************
+Installation with pre-built wheels
+==================================
 
 The easiest way to install Binder is to use pre-built wheels from PyPI. To install Binder, run:
 
@@ -15,6 +10,13 @@ The easiest way to install Binder is to use pre-built wheels from PyPI. To insta
 This will install the latest version of Binder and its dependencies.
 
 To build Binder from source, follow the instructions below.
+
+Installation from source
+========================
+**Binder** is written in C++11 and must be built before use. This page describes the steps for the build process.
+Please note that installation require up to ~2.6+ Gb of free disk space.
+
+
 
 Requirements
 ************
