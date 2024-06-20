@@ -22,7 +22,7 @@ def _get_version():
     # Only shell out to a git subprocess if really needed, and not on a
     # shallow clone, such as those used by CI, as the latter would trigger
     # a warning from setuptools_scm.
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     if os.path.exists(os.path.join(root, ".git")) and not os.path.exists(os.path.join(root, ".git/shallow")):
         try:
             import setuptools_scm
