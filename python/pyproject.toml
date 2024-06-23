@@ -73,6 +73,8 @@ version = "${version}"
 
 [tool.cibuildwheel]
 build = "cp312-*"
+test-requires = ["pytest", "packaging"]
+test-command = "pytest {package}/tests"
 musllinux-x86_64-image = "musllinux_1_1"
 musllinux-i686-image = "musllinux_1_1"
 musllinux-aarch64-image = "musllinux_1_1"
