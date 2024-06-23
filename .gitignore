@@ -3,3 +3,6 @@
 build
 documentation/.build/
 source/.gitignore
+.idea/
+cmake-*/
+dist/

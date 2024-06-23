@@ -1,0 +1,90 @@
+[build-system]
+requires = ["scikit-build-core", "setuptools", "setuptools-scm", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "cppbinder"
+description = "Binder, tool for automatic generation of Python bindings"
+readme = "README.md"
+dynamic = ["version"]
+authors = [
+    {name = "Rosetta Commons"},
+]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.0",
+    "Programming Language :: Python :: 3.1",
+    "Programming Language :: Python :: 3.2",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=2.7"
+
+[project.urls]
+Homepage = "https://github.com/RosettaCommons/binder/"
+Documentation = "https://cppbinder.readthedocs.io/"
+"Bug Tracker" = "https://github.com/RosettaCommons/binder/issues/"
+
+[project.scripts]
+binder = "binder:binder"
+
+[tool.scikit-build]
+minimum-version = "0.8"
+build-dir = "build/{wheel_tag}"
+
+# Dynamic versioning
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+
+# Source distribution
+sdist.include = ["binder/_version.py"]
+
+# Components to install and targets to build
+install.components = ["binder"]
+cmake.targets = ["binder"]
+
+# Cmake defines
+cmake.define.LLVM_ENABLE_EH = "ON"
+cmake.define.LLVM_ENABLE_RTTI = "ON"
+cmake.define.LLVM_ENABLE_PROJECTS = "clang"
+
+# Wheel configuration
+wheel.packages = ["binder"]
+wheel.py-api = "py2.py3"
+wheel.expand-macos-universal-tags = true
+
+[[tool.scikit-build.generate]]
+path = "binder/_version.py"
+template = '''
+version = "${version}"
+'''
+
+[tool.cibuildwheel]
+build = "cp312-*"
+test-requires = ["pytest"]
+test-command = "pytest {package}/tests"
+musllinux-x86_64-image = "musllinux_1_1"
+musllinux-i686-image = "musllinux_1_1"
+musllinux-aarch64-image = "musllinux_1_1"
+musllinux-ppc64le-image = "musllinux_1_1"
+musllinux-s390x-image = "musllinux_1_1"
+
+[tool.cibuildwheel.macos]
+archs = ["universal2"]
+
+[tool.setuptools_scm]
+root = ".."
+version_scheme = "no-guess-dev"
+fallback_version = "0.0.1"
