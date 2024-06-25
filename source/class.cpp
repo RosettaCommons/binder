@@ -340,7 +340,8 @@ bool is_binding_requested(clang::CXXRecordDecl const *C, Config const &config)
 	if( (not bind_class_template_specialization) and dyn_cast<ClassTemplateSpecializationDecl>(C) ) return false;
 
 	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(C));
-	for( auto &t : get_type_dependencies(C) ) bind &= !is_skipping_requested(t, config);
+	// Do not check type dependencies when checking if binding is requested
+	// for( auto &t : get_type_dependencies(C) ) bind &= !is_skipping_requested(t, config);
 	return bind;
 }
 
@@ -358,7 +359,8 @@ bool is_skipping_requested(clang::CXXRecordDecl const *C, Config const &config)
 
 	bool skip = config.is_namespace_skipping_requested(namespace_from_named_decl(C));
 
-	for( auto &t : get_type_dependencies(C) ) skip |= is_skipping_requested(t, config);
+	// Do not check type dependencies when checking if binding is requested
+	// for( auto &t : get_type_dependencies(C) ) skip |= is_skipping_requested(t, config);
 
 	return skip;
 }

@@ -318,7 +318,8 @@ bool is_binding_requested(FunctionDecl const *F, Config const &config)
 
 	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(F));
 
-	for( auto &t : get_type_dependencies(F) ) bind |= binder::is_binding_requested(t, config);
+	// Do not check type dependencies when checking if binding is requested
+	// for( auto &t : get_type_dependencies(F) ) bind |= binder::is_binding_requested(t, config);
 
 	return bind;
 }
@@ -353,7 +354,8 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 	}
 	// outs() << "OK\n";
 
-	for( auto &t : get_type_dependencies(F) ) skip |= is_skipping_requested(t, config);
+	// Do not check type dependencies when checking if binding is requested
+	// for( auto &t : get_type_dependencies(F) ) skip |= is_skipping_requested(t, config);
 
 	return skip;
 }
