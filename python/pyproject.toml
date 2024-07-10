@@ -62,6 +62,7 @@ cmake.define.LLVM_ENABLE_PROJECTS = "clang"
 
 # Wheel configuration
 wheel.packages = ["binder"]
+wheel.install-dir = "binder"
 wheel.py-api = "py2.py3"
 wheel.expand-macos-universal-tags = true
 
