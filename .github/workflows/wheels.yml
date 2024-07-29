@@ -35,6 +35,12 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Setup QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
       - name: Setup cibuildwheel and build wheels
         run: |
           pipx install cibuildwheel
