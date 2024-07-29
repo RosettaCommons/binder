@@ -86,7 +86,7 @@ musllinux-s390x-image = "musllinux_1_1"
 archs = ["AMD64", "x86"]
 
 [tool.cibuildwheel.macos]
-archs = ["x86_64", "arm64"]
+archs = ["universal2"]
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64", "i686", "aarch64", "ppc64le", "s390x"]
