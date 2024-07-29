@@ -56,7 +56,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
-        if: github.event_name == 'release'
+        if: always() && github.event_name == 'release'
         shell: bash
         run: |
           gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
