@@ -9,6 +9,7 @@ on:
       - "source/**"
   release:
     types: [published]
+  workflow_dispatch:
 
 concurrency:
   group: wheels-${{ github.workflow }}-${{ github.ref }}
