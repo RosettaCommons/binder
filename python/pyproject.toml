@@ -82,14 +82,8 @@ musllinux-aarch64-image = "musllinux_1_1"
 musllinux-ppc64le-image = "musllinux_1_1"
 musllinux-s390x-image = "musllinux_1_1"
 
-[tool.cibuildwheel.windows]
-archs = ["AMD64", "x86"]
-
 [tool.cibuildwheel.macos]
 archs = ["universal2"]
-
-[tool.cibuildwheel.linux]
-archs = ["x86_64", "i686"]
 
 [tool.setuptools_scm]
 root = ".."
