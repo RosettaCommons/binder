@@ -1282,7 +1282,7 @@ void ClassBinder::bind(Context &context)
 			if( t->getAccess() == AS_public and !t->isMoveConstructor() and is_bindable(*t) and !is_skipping_requested(*t, Config::get()) /*and  t->doesThisDeclarationHaveABody()*/ ) {
 				ConstructorBindingInfo CBI = {C, *t, trampoline, qualified_name, trampoline_name, context};
 
-				if( t->isCopyConstructor() /*and  not copy_constructor_processed*/ ) {
+				if( t->isCopyConstructor() /*and  not copy_constructor_processed*/ and !is_skipping_requested(*t, Config::get() ) {
 					// constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 					//(*t) -> dump();
 					constructors += bind_copy_constructor(CBI);
