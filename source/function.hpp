@@ -26,8 +26,10 @@ namespace binder {
 
 class Context;
 
+
 /// Generate function argument list separated by comma
 std::string function_arguments(clang::FunctionDecl const *record);
+
 
 /// Generate function argument list separated by comma
 /// name_arguments - if arguments should be named: a1, a2, ...
