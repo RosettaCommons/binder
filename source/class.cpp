@@ -1295,10 +1295,13 @@ void ClassBinder::bind(Context &context)
 			if( t->getAccess() == AS_public and !t->isMoveConstructor() and is_bindable(*t) and !is_skipping_requested(*t, Config::get()) /*and  t->doesThisDeclarationHaveABody()*/ ) {
 				ConstructorBindingInfo CBI = {C, *t, trampoline, qualified_name, trampoline_name, context};
 
-				if( t->isCopyConstructor() /*and  not copy_constructor_processed*/ ) {
+				if( t->isCopyConstructor() /*and  not copy_constructor_processed*/ and !is_skipping_requested(*t, Config::get() ) ) {
 					// constructors += "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 					//(*t) -> dump();
+					//constructors += "// CC " + standard_name(t->getQualifiedNameAsString()) + "\n";
+					//constructors += "// CC " + function_qualified_name(*t, true) + "\n";
 					constructors += bind_copy_constructor(CBI);
+					//constructors += "// CC \n";
 					// copy_constructor_processed = true;
 				}
 				else if( t->isDefaultConstructor() and t->getNumParams() == 0 ) constructors += bind_default_constructor(CBI); // workaround for Pybind11-2.2 issues
