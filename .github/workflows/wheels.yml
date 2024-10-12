@@ -47,7 +47,7 @@ jobs:
           pipx install cibuildwheel
           pipx run cibuildwheel python
         env:
-          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx_universal2 cp312-win_amd64 cp312-manylinux_x86_64' }}
+          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp313-*' || 'cp313-macosx_universal2 cp313-win_amd64 cp313-manylinux_x86_64' }}
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4

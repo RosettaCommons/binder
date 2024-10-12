@@ -13,21 +13,7 @@ authors = [
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 2",
-    "Programming Language :: Python :: 2.7",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.0",
-    "Programming Language :: Python :: 3.1",
-    "Programming Language :: Python :: 3.2",
-    "Programming Language :: Python :: 3.3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
@@ -73,7 +59,7 @@ version = "${version}"
 '''
 
 [tool.cibuildwheel]
-build = "cp312-*"
+build = "cp313-*"
 test-requires = ["pytest"]
 test-command = "pytest {package}/tests"
 musllinux-x86_64-image = "musllinux_1_1"
