@@ -65,6 +65,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-sdist:
+    if: github.event_name == 'release'
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -81,13 +82,11 @@ jobs:
 
       - name: Upload source distribution to artifacts
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: cppbinder-sdist-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./python/dist/*.tar.gz
 
       - name: Upload source distribution to release
-        if: github.event_name == 'release'
         run: |
           gh release upload ${{ github.ref_name }} ./python/dist/*.tar.gz --clobber
         env:
