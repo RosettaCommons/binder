@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core", "setuptools", "setuptools-scm", "pybind11"]
+requires = ["scikit-build-core>=0.10.0", "setuptools", "setuptools-scm", "pybind11"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -28,8 +28,12 @@ Documentation = "https://cppbinder.readthedocs.io/"
 binder = "binder:binder"
 
 [tool.scikit-build]
-minimum-version = "0.8"
+minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
+
+# Print verbose output
+build.verbose = true
+logging.level = "INFO"
 
 # Dynamic versioning
 metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
@@ -39,7 +43,7 @@ sdist.include = ["binder/_version.py"]
 
 # Components to install and targets to build
 install.components = ["binder"]
-cmake.targets = ["binder"]
+build.targets = ["binder"]
 
 # Cmake defines
 cmake.define.LLVM_ENABLE_EH = "ON"
@@ -60,6 +64,7 @@ version = "${version}"
 
 [tool.cibuildwheel]
 build = "cp313-*"
+build-verbosity = 1
 test-requires = ["pytest"]
 test-command = "pytest {package}/tests"
 musllinux-x86_64-image = "musllinux_1_1"
@@ -73,5 +78,4 @@ archs = ["universal2"]
 
 [tool.setuptools_scm]
 root = ".."
-version_scheme = "no-guess-dev"
-fallback_version = "0.0.1"
+git_describe_command = ["git", "describe", "--long", "--tags", "--match", "*[0-9]*"]

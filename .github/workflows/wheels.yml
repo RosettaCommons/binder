@@ -1,11 +1,19 @@
 name: Wheels
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/wheels.yml"
+      - "python/**"
+      - "source/**"
   pull_request:
     branches:
       - master
     paths:
       - ".github/workflows/wheels.yml"
+      - "python/**"
       - "source/**"
   release:
     types: [published]
@@ -25,9 +33,20 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-2022
           - ubuntu-22.04
-          - macos-14
+        archs:
+          - "x86_64"
+          - "i686"
+        impl:
+          - "manylinux"
+          - "musllinux"
+        include:
+          - os: windows-2022
+            archs: "AMD64"
+          - os: windows-2022
+            archs: "x86"
+          - os: macos-13
+            archs: "universal2"
       fail-fast: false
     steps:
       - name: Checkout repository
@@ -36,24 +55,31 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Setup QEMU
+      - name: Setup QEMU for Linux cross-compilation
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v3
         with:
           platforms: all
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
+          echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
+          cp -r source python/llvm-project/clang-tools-extra/binder
 
       - name: Setup cibuildwheel and build wheels
         run: |
           pipx install cibuildwheel
           pipx run cibuildwheel python
         env:
-          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp313-*' || 'cp313-macosx_universal2 cp313-win_amd64 cp313-manylinux_x86_64' }}
+          CIBW_BUILD: cp313-${{ matrix.impl }}*
+          CIBW_ARCHS: ${{ matrix.archs == '' && 'auto' || matrix.archs }}
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cppbinder-wheels-${{ matrix.os }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
+          name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
@@ -73,6 +99,12 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
+          echo 'add_subdirectory(binder)' > python/llvm-project/llvm/clang-tools-extra/CMakeLists.txt
+          cp -r source python/llvm-project/llvm/clang-tools-extra/binder
 
       - name: Setup build and build source distribution
         run: |
