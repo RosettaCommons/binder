@@ -73,7 +73,7 @@ jobs:
           pipx run cibuildwheel python
         env:
           CIBW_BUILD: cp313-${{ matrix.impl }}*
-          CIBW_ARCHS: ${{ matrix.archs == '' && 'auto' || matrix.archs }}
+          CIBW_ARCHS: ${{ matrix.archs }}
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4
