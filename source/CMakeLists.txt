@@ -122,10 +122,6 @@ else()
     clangAST
     clangFrontend
     )
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_COMPILE_FLAGS}")
-  list(REMOVE_ITEM CMAKE_CXX_FLAGS "-fno-exceptions")
-  string (REPLACE "-fno-exceptions" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-  message(STATUS "binder: CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 endif()
 install(TARGETS binder
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE
