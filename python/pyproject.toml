@@ -53,12 +53,6 @@ wheel.install-dir = "binder"
 wheel.py-api = "py2.py3"
 wheel.expand-macos-universal-tags = true
 
-[[tool.scikit-build.generate]]
-path = "binder/_version.py"
-template = '''
-version = "${version}"
-'''
-
 [tool.cibuildwheel]
 build = "cp313-*"
 build-verbosity = 1
