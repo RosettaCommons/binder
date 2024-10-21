@@ -77,13 +77,12 @@ jobs:
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
-        if: always() && github.event_name == 'release'
+        if: github.event_name == 'release'
         shell: bash
         run: |
           gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
