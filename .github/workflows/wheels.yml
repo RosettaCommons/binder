@@ -39,10 +39,13 @@ jobs:
         include:
           - os: windows-2022
             archs: "AMD64"
+            impl: win
           - os: windows-2022
             archs: "x86"
+            impl: win
           - os: macos-13
             archs: "universal2"
+            impl: macosx
       fail-fast: false
     steps:
       - name: Checkout repository
