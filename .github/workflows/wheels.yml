@@ -23,10 +23,6 @@ concurrency:
   group: wheels-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   build-wheels:
     runs-on: ${{ matrix.os }}
@@ -81,14 +77,6 @@ jobs:
           name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./wheelhouse/*.whl
 
-      - name: Upload wheels to release
-        if: github.event_name == 'release'
-        shell: bash
-        run: |
-          gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build-sdist:
     runs-on: ubuntu-22.04
     steps:
@@ -116,13 +104,6 @@ jobs:
           name: cppbinder-sdist-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./python/dist/*.tar.gz
 
-      - name: Upload source distribution to release
-        if: github.event_name == 'release'
-        run: |
-          gh release upload ${{ github.ref_name }} ./python/dist/*.tar.gz --clobber
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   publish:
     needs: [build-wheels, build-sdist]
     if: github.event_name == 'release'
@@ -132,10 +113,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download wheels and source distribution
-        run: |
-          gh release download ${{ github.ref_name }} --pattern *.whl --pattern *.tar.gz --dir dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cppbinder-*
+          path: dist
+          merge-multiple: true
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.14
