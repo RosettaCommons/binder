@@ -1019,8 +1019,16 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 	// string function_qualified_name { F->getQualifiedNameAsString() };
 
 	string c;
+
+	if( O_annotate_functions ) {
+		clang::FunctionDecl const *F = CBI.T;
+		string const include = relevant_include(F);
+		c += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+	}
+
+
 	if( args_to_bind == CBI.T->getNumParams() and not CBI.T->isVariadic() ) {
-		c = "\tcl.def( pybind11::init<{}>()"_format(function_arguments(CBI.T));
+		c += "\tcl.def( pybind11::init<{}>()"_format(function_arguments(CBI.T));
 
 		for( uint i = 0; i < CBI.T->getNumParams() and i < args_to_bind; ++i ) {
 			c += ", pybind11::arg(\"{}\")"_format(string(CBI.T->getParamDecl(i)->getName()));
@@ -1039,14 +1047,14 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 
 		for( uint i = 0; i < CBI.T->getNumParams() and i < args_to_bind; ++i ) { args_helper += ", pybind11::arg(\"{}\")"_format(string(CBI.T->getParamDecl(i)->getName())); }
 
-		// if( CBI.T->isVariadic() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
-		// else if( constructor_types.first.size()  and  constructor_types.second.size() ) c = fmt::format(constructor_lambda_template, params, args.second, constructor_types.first,
-		// constructor_types.second); else if( constructor_types.first.size() ) c = fmt::format(constructor_template, params, args.second, constructor_types.first); else c =
+		// if( CBI.T->isVariadic() ) c += fmt::format(constructor_lambda_template, params, args.second, constructor_types.first, constructor_types.second);
+		// else if( constructor_types.first.size()  and  constructor_types.second.size() ) c += fmt::format(constructor_lambda_template, params, args.second, constructor_types.first,
+		// constructor_types.second); else if( constructor_types.first.size() ) c += fmt::format(constructor_template, params, args.second, constructor_types.first); else c +=
 		// fmt::format(constructor_template, params, args.second, constructor_types.second);
 
-		if( CBI.C->isAbstract() ) c = fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
-		else if( CBI.trampoline ) c = fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
-		else c = fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, args_helper);
+		if( CBI.C->isAbstract() ) c += fmt::format(constructor_template, params, args.second, CBI.trampoline_qualified_name);
+		else if( CBI.trampoline ) c += fmt::format(constructor_with_trampoline_template, params, args.second, CBI.class_qualified_name, CBI.trampoline_qualified_name);
+		else c += fmt::format(constructor_template_with_py_arg, params, args.second, CBI.class_qualified_name, args_helper);
 	}
 
 	return c;

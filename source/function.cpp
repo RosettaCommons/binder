@@ -11,6 +11,7 @@
 /// @author Sergey Lyskov
 
 #include <function.hpp>
+#include <options.hpp>
 
 #include <class.hpp>
 #include <fmt/format.h>
@@ -450,6 +451,11 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 string bind_function(string const &module, FunctionDecl const *F, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
 {
 	string code;
+
+	if( O_annotate_functions ) {
+		string const include = relevant_include(F);
+		code += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+	}
 
 	int num_params = F->getNumParams();
 
