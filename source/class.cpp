@@ -1023,9 +1023,8 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 	if( O_annotate_functions ) {
 		clang::FunctionDecl const *F = CBI.T;
 		string const include = relevant_include(F);
-		c += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+		c += "\t// function-signature: " + function_qualified_name(F, true) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
 	}
-
 
 	if( args_to_bind == CBI.T->getNumParams() and not CBI.T->isVariadic() ) {
 		c += "\tcl.def( pybind11::init<{}>()"_format(function_arguments(CBI.T));
@@ -1064,20 +1063,40 @@ string bind_constructor(ConstructorBindingInfo const &CBI, uint args_to_bind, bo
 /// Generate code for binding default constructor
 string bind_default_constructor(ConstructorBindingInfo const &CBI) // CXXRecordDecl const *, string const & binding_qualified_name)
 {
+	string code;
+	if( O_annotate_functions ) {
+		clang::FunctionDecl const *F = CBI.T;
+		if(F) {
+			string const include = relevant_include(F);
+			code += "\t// function-signature: " + function_qualified_name(F, true) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+		}
+		else {
+			code += "\t// function-signature: " + CBI.class_qualified_name + "()\n";
+		}
+	}
+
 	// version before error: chosen constructor is explicit in copy-initialization
 	// return "\tcl.def(pybind11::init<>());__\n";
 
 	// return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(binding_qualified_name);
 
-	if( CBI.C->isAbstract() ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.trampoline_qualified_name);
-	else if( CBI.trampoline ) return "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
-	else return "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.class_qualified_name);
+	if( CBI.C->isAbstract() ) code += "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.trampoline_qualified_name);
+	else if( CBI.trampoline ) code += "\tcl.def( pybind11::init( [](){{ return new {0}(); }}, [](){{ return new {1}(); }} ) );\n"_format(CBI.class_qualified_name, CBI.trampoline_qualified_name);
+	else code += "\tcl.def( pybind11::init( [](){{ return new {0}(); }} ) );\n"_format(CBI.class_qualified_name);
+
+	return code;
 }
 
 /// Generate copy constructor in most cases this will be just: "\tcl.def(pybind11::init<{} const &>());\n"_format(binding_qualified_name);
 /// but for POD structs with zero data mambers this will be a lambda function. This is done as a workaround for Pybind11 2,2+ bug
 string bind_copy_constructor(ConstructorBindingInfo const &CBI) // CXXConstructorDecl const *T, string const & binding_qualified_name)
 {
+	string code;
+	if( O_annotate_functions ) {
+		clang::FunctionDecl const *F = CBI.T;
+		string const include = relevant_include(F);
+		code += "\t// function-signature: " + function_qualified_name(F, true) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+	}
 	// CXXRecordDecl const *C = T->getParent();
 
 	// C->dump();
@@ -1106,15 +1125,18 @@ string bind_copy_constructor(ConstructorBindingInfo const &CBI) // CXXConstructo
 	}
 
 	if( CBI.trampoline ) {
-		if( CBI.C->isAbstract() ) return "\tcl.def(pybind11::init<{}{} &>());\n"_format(CBI.trampoline_qualified_name, const_bit);
+		if( CBI.C->isAbstract() ) code += "\tcl.def(pybind11::init<{}{} &>());\n"_format(CBI.trampoline_qualified_name, const_bit);
 		else {
 			// not yet supported by Pybind11? return "\tcl.def( pybind11::init( []({0} const &o){{ return new {0}(o); }}, []({1} const &o){{ return new {1}(o); }} )
 			// );\n"_format(CBI.class_qualified_name, CBI.binding_qualified_name);
-			return "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.trampoline_qualified_name, const_bit) +
-				   (CBI.T->getAccess() == AS_public ? "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit) : "");
+			code += \
+				"\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.trampoline_qualified_name, const_bit) +
+				(CBI.T->getAccess() == AS_public ? "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit) : "");
 		}
 	}
-	else return "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit);
+	else code +=  "\tcl.def( pybind11::init( []({0}{1} &o){{ return new {0}(o); }} ) );\n"_format(CBI.class_qualified_name, const_bit);
+
+	return code;
 }
 
 // Generate binding for given constructor. If constructor have default arguments generate set of bindings by creating separate bindings for each argument with default.
