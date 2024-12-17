@@ -89,18 +89,47 @@ def get_cmake_compiler_options(compiler):
     return ''
 
 
-def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True):
+def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True, llvm_version=None):
     ''' Install and update (if needed) custom LLVM tool at given prefix (from config).
         Return absolute path to executable on success and terminate with error on failure
     '''
     if not os.path.isdir(prefix_root): os.makedirs(prefix_root)
 
-    # llvm_version='9.0.0'  # v8 and v9 can not be build with Clang-3.4, we if need upgrade to v > 7 then we should probably dynamicly change LLVM version based on complier versions
-    # llvm_version='7.1.0'  # compiling v7.* on clang-3.4 lead to lockup while compiling tools/clang/lib/Sema/SemaChecking.cpp
-    llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang') if Platform == 'macos' and platform.machine() == 'arm64' else ('6.0.1', 'tools/clang/lib/Headers/clang-headers')
-    #llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang') if Platform == 'macos' else ('6.0.1', 'tools/clang/lib/Headers/clang-headers')
-    #llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang')
-    #if Platform == 'macos': headers += ' clang'
+    if compiler in ('clang', 'gcc'):
+        # Both Clang and GCC have a -dumpversion flag
+        compiler_version = int(subprocess.check_output([compiler, "-dumpversion"]).decode('utf-8').split('.')[0])
+    else:
+        # cl doesn't.
+        compiler_version = None
+
+    if llvm_version is None:
+        # We need to select an LLVM version to build.
+
+        # compiling v7.* on clang-3.4 lead to lockup while compiling
+        # tools/clang/lib/Sema/SemaChecking.cpp v8 and v9 can not be built with
+        # Clang-3.4. So we need to dynamicly change LLVM version based on
+        # complier versions
+
+        if ((compiler == 'gcc' and compiler_version > 11) or
+            (Platform == 'macos' and platform.machine() == 'arm64')):
+            # GCC13's STL no longer works with LLVM 6, it has features that
+            # require e.g.
+            # <https://github.com/llvm/llvm-project/commit/add16a8da9ccd07eabda2dffd0d32188f07da09c>
+            # released in LLVM 9.
+            # ARM Mac also requires a newer LLVM version
+            llvm_version = '13.0.0'
+        else:
+            # We keep the default version back as far as we can for compatibility
+            # with old system compilers.
+            llvm_version = '6.0.1'
+
+    headers = {
+        '13.0.0': 'tools/clang/lib/Headers/clang-resource-headers',
+        '6.0.1': 'tools/clang/lib/Headers/clang-headers'
+    }[llvm_version]
+
+    if Platform == 'macos':
+        headers += ' clang'
 
     prefix = prefix_root + '/llvm-' + llvm_version
 
@@ -230,6 +259,7 @@ def main(args):
     parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
+    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
 
@@ -238,7 +268,7 @@ def main(args):
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None)
+    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None, llvm_version=Options.llvm_version)
 
     if not Options.pybind11: Options.pybind11 = install_pybind11(source_path + '/build')
 
