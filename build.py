@@ -110,12 +110,16 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         # Clang-3.4. So we need to dynamicly change LLVM version based on
         # complier versions
 
-        if ((compiler == 'gcc' and compiler_version > 11) or
-            (Platform == 'macos' and platform.machine() == 'arm64')):
+        if compiler == 'gcc' and compiler_version >= 13:
             # GCC13's STL no longer works with LLVM 6, it has features that
             # require e.g.
             # <https://github.com/llvm/llvm-project/commit/add16a8da9ccd07eabda2dffd0d32188f07da09c>
             # released in LLVM 9.
+            # Also, LLVM 13 has a bug with not actually including the headers it
+            # needs <https://github.com/llvm/llvm-project/issues/55711>, which
+            # wasn't fixed until 14.0.5.
+            llvm_version = '14.0.5'
+        elif Platform == 'macos' and platform.machine() == 'arm64':
             # ARM Mac also requires a newer LLVM version
             llvm_version = '13.0.0'
         else:
@@ -124,6 +128,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             llvm_version = '6.0.1'
 
     headers = {
+        '14.0.5': 'tools/clang/lib/Headers/clang-resource-headers',
         '13.0.0': 'tools/clang/lib/Headers/clang-resource-headers',
         '6.0.1': 'tools/clang/lib/Headers/clang-headers'
     }[llvm_version]
@@ -158,6 +163,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         llvm_url, clang_url = {
             '6.0.1'  : ('https://releases.llvm.org/6.0.1/llvm-6.0.1.src.tar.xz', 'https://releases.llvm.org/6.0.1/cfe-6.0.1.src.tar.xz'),
             '13.0.0' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz'),
+            '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz')
         }[llvm_version]
 
         if not os.path.isfile(prefix + '/CMakeLists.txt'):
