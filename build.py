@@ -168,13 +168,9 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
 
         # The LLVM tarballs may include a "cmake" directory that needs to be
         # sibling to the main source directories in order for the build to
-        # work.
-        
-        # TODO: That path can't depend on the LLVM version. If we really need
-        # to keep those files straight while switching between multiple LLVM
-        # versions, we need a separate root build directory per LLVM version,
-        # and we need to adjust the path at which we expect to find the build
-        # results!
+        # work. That path can't depend on the LLVM version, but it's also only
+        # needed at build time, and we only build when we've just extracted the
+        # tarball. 
 
         if not os.path.isfile(prefix + '/CMakeLists.txt'):
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
