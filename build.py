@@ -168,13 +168,16 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
 
         # The LLVM tarballs may include a "cmake" directory that needs to be
         # sibling to the main source directories in order for the build to
-        # work. That path can't depend on the LLVM version, but it's also only
-        # needed at build time, and we only build when we've just extracted the
-        # tarball. 
+        # work. That path can't depend on the LLVM version, so we track that ourselves.
+        cmake_path = os.path.join(prefix_root, "cmake")
+        cmake_version_path = os.path.join(cmake_path, "llvm_version.txt")
 
-        if not os.path.isfile(prefix + '/CMakeLists.txt'):
+        if not os.path.isfile(prefix + '/CMakeLists.txt') or not os.path.isfile(cmake_version_path) or open(cmake_version_path).read() != llvm_version:
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
+            if os.path.isdir(prefix): shutil.rmtree(prefix)
             execute('Download LLVM source...', 'cd {prefix_root} && curl -LJ {llvm_url} | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
+            os.makedirs(cmake_path, exist_ok=True)
+            open(cmake_version_path).write(llvm_version)
 
         if not os.path.isdir(clang_path):
             #execute('Download Clang source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxom && mv cfe-{llvm_version}.src {clang_path}'.format(**locals()) )
