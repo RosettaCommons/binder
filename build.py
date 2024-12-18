@@ -226,7 +226,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         if not os.path.isdir(build_dir): os.makedirs(build_dir)
         execute(
             'Building tool: {}...'.format(name), # -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
-            'cd {build_dir} && cmake -G Ninja {config} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
+            'cd {build_dir} && cmake -G Ninja {config} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
                 build_dir=build_dir, config=config,
                 jobs=f'-j{jobs}' if jobs else '',
                 gcc_install_prefix='-DGCC_INSTALL_PREFIX='+gcc_install_prefix if gcc_install_prefix else '',
