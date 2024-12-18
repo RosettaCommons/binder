@@ -276,7 +276,7 @@ def main(args):
     parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
-    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0'], help='Manually specify LLVM version to install')
+    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
 
