@@ -166,13 +166,16 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz')
         }[llvm_version]
 
+        # The LLVM tarballs may include a "cmake" directory that needs to be sibling to the main source directories in order for the build to work.
+
         if not os.path.isfile(prefix + '/CMakeLists.txt'):
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
-            execute('Download LLVM source...', 'cd {prefix_root} && mkdir llvm-{llvm_version}.src && curl -LJ {llvm_url} | tar --strip-components=1 -Jxom -C llvm-{llvm_version}.src && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
+            execute('Download LLVM source...', 'cd {prefix_root} && curl -LJ {llvm_url} | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
 
         if not os.path.isdir(clang_path):
             #execute('Download Clang source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxom && mv cfe-{llvm_version}.src {clang_path}'.format(**locals()) )
-            execute('Download Clang source...', 'cd {prefix_root} && mkdir clang-{llvm_version}.src && curl -LJ {clang_url} | tar --strip-components=1 -Jxom -C clang-{llvm_version}.src && mv clang-{llvm_version}.src {clang_path}'.format(**locals()) )
+            clang_name = 'cfe' if llvm_version == '6.0.1' else 'clang'
+            execute('Download Clang source...', 'cd {prefix_root} && curl -LJ {clang_url} | tar -Jxom && mv {clang_name}-{llvm_version}.src {clang_path}'.format(**locals()) )
 
         if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
