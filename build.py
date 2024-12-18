@@ -177,7 +177,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             if os.path.isdir(prefix): shutil.rmtree(prefix)
             execute('Download LLVM source...', 'cd {prefix_root} && curl -LJ {llvm_url} | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
             os.makedirs(cmake_path, exist_ok=True)
-            open(cmake_version_path).write(llvm_version)
+            open(cmake_version_path, 'w').write(llvm_version)
 
         if not os.path.isdir(clang_path):
             #execute('Download Clang source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxom && mv cfe-{llvm_version}.src {clang_path}'.format(**locals()) )
