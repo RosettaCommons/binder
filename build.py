@@ -89,18 +89,52 @@ def get_cmake_compiler_options(compiler):
     return ''
 
 
-def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True):
+def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True, llvm_version=None):
     ''' Install and update (if needed) custom LLVM tool at given prefix (from config).
         Return absolute path to executable on success and terminate with error on failure
     '''
     if not os.path.isdir(prefix_root): os.makedirs(prefix_root)
 
-    # llvm_version='9.0.0'  # v8 and v9 can not be build with Clang-3.4, we if need upgrade to v > 7 then we should probably dynamicly change LLVM version based on complier versions
-    # llvm_version='7.1.0'  # compiling v7.* on clang-3.4 lead to lockup while compiling tools/clang/lib/Sema/SemaChecking.cpp
-    llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang') if Platform == 'macos' and platform.machine() == 'arm64' else ('6.0.1', 'tools/clang/lib/Headers/clang-headers')
-    #llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang') if Platform == 'macos' else ('6.0.1', 'tools/clang/lib/Headers/clang-headers')
-    #llvm_version, headers = ('13.0.0', 'tools/clang/lib/Headers/clang-resource-headers clang')
-    #if Platform == 'macos': headers += ' clang'
+    if compiler in ('clang', 'gcc'):
+        # Both Clang and GCC have a -dumpversion flag
+        compiler_version = int(subprocess.check_output([compiler, "-dumpversion"]).decode('utf-8').split('.')[0])
+    else:
+        # cl doesn't.
+        compiler_version = None
+
+    if llvm_version is None:
+        # We need to select an LLVM version to build.
+
+        # compiling v7.* on clang-3.4 lead to lockup while compiling
+        # tools/clang/lib/Sema/SemaChecking.cpp v8 and v9 can not be built with
+        # Clang-3.4. So we need to dynamicly change LLVM version based on
+        # complier versions
+
+        if compiler == 'gcc' and compiler_version >= 13:
+            # GCC13's STL no longer works with LLVM 6, it has features that
+            # require e.g.
+            # <https://github.com/llvm/llvm-project/commit/add16a8da9ccd07eabda2dffd0d32188f07da09c>
+            # released in LLVM 9.
+            # Also, LLVM 13 has a bug with not actually including the headers it
+            # needs <https://github.com/llvm/llvm-project/issues/55711>, which
+            # wasn't fixed until 14.0.5.
+            llvm_version = '14.0.5'
+        elif Platform == 'macos' and platform.machine() == 'arm64':
+            # ARM Mac also requires a newer LLVM version
+            llvm_version = '13.0.0'
+        else:
+            # We keep the default version back as far as we can for compatibility
+            # with old system compilers.
+            llvm_version = '6.0.1'
+
+    headers = {
+        '14.0.5': 'tools/clang/lib/Headers/clang-resource-headers',
+        '13.0.0': 'tools/clang/lib/Headers/clang-resource-headers',
+        '6.0.1': 'tools/clang/lib/Headers/clang-headers'
+    }[llvm_version]
+
+    if Platform == 'macos':
+        headers += ' clang'
 
     prefix = prefix_root + '/llvm-' + llvm_version
 
@@ -129,15 +163,26 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         llvm_url, clang_url = {
             '6.0.1'  : ('https://releases.llvm.org/6.0.1/llvm-6.0.1.src.tar.xz', 'https://releases.llvm.org/6.0.1/cfe-6.0.1.src.tar.xz'),
             '13.0.0' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz'),
+            '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz')
         }[llvm_version]
 
-        if not os.path.isfile(prefix + '/CMakeLists.txt'):
+        # The LLVM tarballs may include a "cmake" directory that needs to be
+        # sibling to the main source directories in order for the build to
+        # work. That path can't depend on the LLVM version, so we track that ourselves.
+        cmake_path = os.path.join(prefix_root, "cmake")
+        cmake_version_path = os.path.join(cmake_path, "llvm_version.txt")
+
+        if not os.path.isfile(prefix + '/CMakeLists.txt') or not os.path.isfile(cmake_version_path) or open(cmake_version_path).read() != llvm_version:
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
-            execute('Download LLVM source...', 'cd {prefix_root} && mkdir llvm-{llvm_version}.src && curl -LJ {llvm_url} | tar --strip-components=1 -Jxom -C llvm-{llvm_version}.src && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
+            if os.path.isdir(prefix): shutil.rmtree(prefix)
+            execute('Download LLVM source...', 'cd {prefix_root} && curl -LJ {llvm_url} | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
+            os.makedirs(cmake_path, exist_ok=True)
+            open(cmake_version_path, 'w').write(llvm_version)
 
         if not os.path.isdir(clang_path):
             #execute('Download Clang source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/cfe-{llvm_version}.src.tar.xz | tar -Jxom && mv cfe-{llvm_version}.src {clang_path}'.format(**locals()) )
-            execute('Download Clang source...', 'cd {prefix_root} && mkdir clang-{llvm_version}.src && curl -LJ {clang_url} | tar --strip-components=1 -Jxom -C clang-{llvm_version}.src && mv clang-{llvm_version}.src {clang_path}'.format(**locals()) )
+            clang_name = 'cfe' if llvm_version == '6.0.1' else 'clang'
+            execute('Download Clang source...', 'cd {prefix_root} && curl -LJ {clang_url} | tar -Jxom && mv {clang_name}-{llvm_version}.src {clang_path}'.format(**locals()) )
 
         if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
@@ -180,7 +225,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         if not os.path.isdir(build_dir): os.makedirs(build_dir)
         execute(
             'Building tool: {}...'.format(name), # -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
-            'cd {build_dir} && cmake -G Ninja {config} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
+            'cd {build_dir} && cmake -G Ninja {config} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
                 build_dir=build_dir, config=config,
                 jobs=f'-j{jobs}' if jobs else '',
                 gcc_install_prefix='-DGCC_INSTALL_PREFIX='+gcc_install_prefix if gcc_install_prefix else '',
@@ -230,6 +275,7 @@ def main(args):
     parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
+    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
 
@@ -238,7 +284,7 @@ def main(args):
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None)
+    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None, llvm_version=Options.llvm_version)
 
     if not Options.pybind11: Options.pybind11 = install_pybind11(source_path + '/build')
 
