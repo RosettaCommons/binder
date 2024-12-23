@@ -14,7 +14,7 @@
 
 from __future__ import print_function
 
-import os, sys, argparse, platform, subprocess, imp, shutil, distutils.dir_util, json
+import os, sys, argparse, platform, subprocess, shutil, json
 
 from collections import OrderedDict
 
