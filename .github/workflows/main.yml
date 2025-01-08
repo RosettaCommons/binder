@@ -37,7 +37,7 @@ jobs:
              ctest . --output-on-failure
 
   compilejobOSX:
-    runs-on: macos-latest
+    runs-on: macos-13
     name: Binder_on_OSX
     steps:
     - name: Checkout
