@@ -3,24 +3,24 @@ on:
  push:
  pull_request:
  schedule:
-#Every 5 days at midnight 
+#Every 5 days at midnight
     - cron:  "0 0 1/5 * *"
 
 jobs:
   compilejobFedora:
     strategy:
-      fail-fast: false    
+      fail-fast: false
       matrix:
-        version: [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
+        version: [29, 30, 31, 32, 33, 34, 35, 36, 37]
     runs-on: ubuntu-latest
     name: Binder_on_Fedora${{ matrix.version }}
     container:
       image: fedora:${{ matrix.version }}
     steps:
-    - name: Install 
+    - name: Install
       run: |
              set -x
-             uname -a 
+             uname -a
              cat /etc/issue
              yum -y install  git  zlib zlib-devel ncurses-devel  clang clang-devel clang-libs  llvm llvm-devel llvm-static \
              libcxx-devel cmake make gcc gcc-c++  \
@@ -34,7 +34,7 @@ jobs:
              make install
              ldd source/binder
              ldd -u -r source/binder || echo "OK"
-             ctest . --output-on-failure 
+             ctest . --output-on-failure
 
   compilejobOSX:
     runs-on: macos-latest
@@ -42,7 +42,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Install 
+    - name: Install
       run: |
              set -x
              brew install wget coreutils xz pybind11 git
@@ -58,4 +58,3 @@ jobs:
              make install
              otool -L source/binder
              ctest . --output-on-failure
-
