@@ -48,11 +48,11 @@ jobs:
              brew install wget coreutils xz pybind11 git
              wget --no-verbose https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/clang+llvm-16.0.0-arm64-apple-darwin22.0.tar.xz
              ls
-             tar -xJf clang+llvm-16.0.0-x86_64-apple-darwin.tar.xz
-             export PATH=$PATH:clang+llvm-16.0.0-x86_64-apple-darwin/bin
+             tar -xJf clang+llvm-16.0.0-arm64-apple-darwin22.0.tar.xz
+             export PATH=$PATH:clang+llvm-16.0.0-arm64-apple-darwin22/bin
     - name: Compile
       run: |
-             export PATH=$PATH:clang+llvm-16.0.0-x86_64-apple-darwin/bin
+             export PATH=$PATH:clang+llvm-16.0.0-arm64-apple-darwin22/bin
              cmake CMakeLists.txt
              make
              make install
