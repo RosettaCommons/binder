@@ -36,7 +36,7 @@ jobs:
              ldd -u -r source/binder || echo "OK"
              ctest . --output-on-failure
 
-compilejobOSX:
+  compilejobOSX:
     runs-on: macos-latest
     name: Binder_on_OSX
     steps:
