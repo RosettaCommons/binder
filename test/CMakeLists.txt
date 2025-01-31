@@ -141,6 +141,7 @@ set( binder_tests
          T42.stl.names.multiset
          T43.stl.pybind11_include_stl
          T50.namespace_binder
+         T51.nested_namespace
          T60.custom_shared
          )
 if (pybind11_VERSION VERSION_LESS 2.5.99)
