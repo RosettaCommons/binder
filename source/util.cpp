@@ -36,24 +36,20 @@ namespace binder {
 
 
 /// Split string using given separator
-vector<string> split(string const &buffer, string const &separator)
-{
-	string line;
-	vector<string> lines;
+std::vector<std::string> split(const std::string &s, const std::string &delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    std::string token;
+    std::vector<std::string> res;
 
-	for( uint i = 0; i < buffer.size(); ++i ) {
-		if( buffer.compare(i, separator.size(), separator) ) line.push_back(buffer[i]);
-		else {
-			lines.push_back(line);
-			line.resize(0);
-		}
-	}
+    while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (token);
+    }
 
-	if( line.size() ) lines.push_back(line);
-
-	return lines;
+    res.push_back (s.substr (pos_start));
+    return res;
 }
-
 
 /// Replace all occurrences of string
 void replace_reverse(string &r, string const &from, string const &to)
