@@ -20,6 +20,8 @@ llvm::cl::OptionCategory BinderToolCategory("Binder options");
 
 cl::opt<bool> O_annotate_includes("annotate-includes", cl::desc("Annotate each includes in generated code with type name that trigger it inclusion"), cl::init(false), cl::cat(BinderToolCategory));
 
+cl::opt<bool> O_annotate_functions("annotate-functions", cl::desc("Annotate each function bindings with full function signature"), cl::init(false), cl::cat(BinderToolCategory));
+
 cl::opt<bool> O_single_file("single-file", cl::desc("Concatenate all binder output into single file with name: root-module-name + '.cpp'. Use this for a small projects and for testing."),
 							cl::init(false), cl::cat(BinderToolCategory));
 
