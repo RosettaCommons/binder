@@ -29,7 +29,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-22.04
+          - ubuntu-latest
         archs:
           - "x86_64"
           - "i686"
@@ -37,10 +37,10 @@ jobs:
           - "manylinux"
           - "musllinux"
         include:
-          - os: windows-2022
+          - os: windows-latest
             archs: "AMD64"
             impl: win
-          - os: windows-2022
+          - os: windows-latest
             archs: "x86"
             impl: win
           - os: macos-13
@@ -71,13 +71,13 @@ jobs:
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
 
-      - name: Setup cibuildwheel and build wheels
-        run: |
-          pipx install cibuildwheel
-          pipx run cibuildwheel python
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_BUILD: cp313-${{ matrix.impl }}*
           CIBW_ARCHS: ${{ matrix.archs }}
+        with:
+          package-dir: python
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4
