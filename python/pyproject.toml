@@ -42,10 +42,14 @@ metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
 install.components = ["binder"]
 build.targets = ["binder"]
 
+# Cmake version
+cmake.version = ">=3.15,<4"
+
 # Cmake defines
 cmake.define.LLVM_ENABLE_EH = "ON"
 cmake.define.LLVM_ENABLE_RTTI = "ON"
 cmake.define.LLVM_ENABLE_PROJECTS = "clang"
+cmake.define.CMAKE_POLICY_VERSION_MINIMUM = "3.15"
 
 # Wheel configuration
 wheel.packages = ["binder"]
