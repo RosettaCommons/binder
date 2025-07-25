@@ -29,8 +29,8 @@ _machine_name_ = os.uname()[1]
 
 _python_version_ = '{}.{}'.format(sys.version_info.major, sys.version_info.minor)  # should be formatted: 2.7, 3.5, 3.6, ...
 
-_pybind11_version_ = 'aa304c9c7d725ffb9d10af08a3b34cb372307020'
-
+#_pybind11_version_ = 'aa304c9c7d725ffb9d10af08a3b34cb372307020'
+_pybind11_version_ = 'a2e59f0e7065404b44dfe92a28aca47ba1378dc4'
 
 def execute(message, command_line, return_='status', until_successes=False, terminate_on_failure=True, silent=False, silence_output=False):
     if not silent: print(message);  print(command_line); sys.stdout.flush();
@@ -89,7 +89,7 @@ def get_cmake_compiler_options(compiler):
     return ''
 
 
-def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True, llvm_version=None):
+def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs, gcc_install_prefix, clean=True, llvm_version=None, update_binder=False):
     ''' Install and update (if needed) custom LLVM tool at given prefix (from config).
         Return absolute path to executable on success and terminate with error on failure
     '''
@@ -219,6 +219,13 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         if not os.path.isfile(cmake_lists):
             with open(cmake_lists, 'w') as f: f.write(tool_build_line + '\n')
 
+        # We are building from scratch, so we want to build Binder as well.
+        update_binder = True
+
+    # The above takes care of LLVM being built and ready. However, we might want to update just
+    # the build for Binder itself, without having to recompile all of LLVM, for instance during dev.
+    # Thus, here, we can re-run cmake to just build the binder binary again.
+    if update_binder:
         config = '-DCMAKE_BUILD_TYPE={build_type}'.format(build_type='Debug' if debug else 'Release')
         config += get_cmake_compiler_options(compiler)
 
@@ -278,13 +285,14 @@ def main(args):
     parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
+    parser.add_argument('--update-binder', action="store_true", help='Recompile the Binder binary; useful when working on the Binder code')
 
     global Options
     Options = parser.parse_args()
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None, llvm_version=Options.llvm_version)
+    if not Options.binder: Options.binder = install_llvm_tool('binder', source_path+'/source', source_path + '/build', debug=Options.binder_debug, compiler=Options.compiler, jobs=Options.jobs, gcc_install_prefix=None, llvm_version=Options.llvm_version, update_binder=Options.update_binder)
 
     if not Options.pybind11: Options.pybind11 = install_pybind11(source_path + '/build')
 
