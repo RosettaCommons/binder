@@ -154,7 +154,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
     if signature == disk_signature:
         print('LLVM:{} + Binder install is detected at {}, skipping LLVM installation and Binder building procedures...\n'.format(llvm_version, build_dir))
 
-    else:
+    elif not update_binder:
         print('LLVM build detected, but config/binder version has changed, perfoming a clean rebuild...')
         if os.path.isdir(build_dir): shutil.rmtree(build_dir)
 
@@ -285,7 +285,7 @@ def main(args):
     parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
-    parser.add_argument('--update-binder', action="store_true", help='Recompile the Binder binary; useful when working on the Binder code')
+    parser.add_argument('--update-binder', action="store_true", help='Recompile only the Binder binary; useful when working on the Binder code')
 
     global Options
     Options = parser.parse_args()
