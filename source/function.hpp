@@ -62,6 +62,14 @@ bool is_binding_requested(clang::FunctionDecl const *F, Config const &config);
 bool is_skipping_requested(clang::FunctionDecl const *F, Config const &config);
 
 
+/// Returns if F is an overloaded assignment operator (operator= or any of the compound assigns)
+bool is_valid_assignment_operator(const clang::FunctionDecl *F);
+
+
+/// get the return value policy string for a function
+std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config const &config);
+
+
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 // If function have default arguments generate set of bindings by creating separate bindings for each argument with default.
 // if parent is not nullptr then bind function as-if it a member of that CXXRecordDecl (for handling visibility changes with 'using' directive)

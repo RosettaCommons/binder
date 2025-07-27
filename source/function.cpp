@@ -20,6 +20,7 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/DeclCXX.h>
+#include <clang/AST/Type.h>
 
 #include <clang/AST/ExprCXX.h>
 
@@ -27,6 +28,8 @@
 
 #include <vector>
 
+using llvm::errs;
+using llvm::outs;
 
 using namespace llvm;
 using namespace clang;
@@ -361,6 +364,137 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 }
 
 
+/// Returns whether F is an overloaded assignment operator (operator= or any of the compound assigns)
+bool is_valid_assignment_operator(const clang::FunctionDecl *F)
+{
+	// For any of the assignment operators (operator= or any of the compound assigns), we declare it to be a valid (typical) assignment operator if it is declared as a non-static member, taking
+	// exactly one parameter, and returning an lvalue reference to the class type itself. In that case, we want to apply a specialized default return value policy to it.
+
+	// Must be a non‑static C++ member function
+	auto *m = dyn_cast<clang::CXXMethodDecl>(F);
+	if( !m || m->isStatic() ) return false;
+
+	// Must be an overloaded operator
+	if( !m->isOverloadedOperator() ) return false;
+
+	// Only accept assignment & compound‑assignment operators
+	using Op = clang::OverloadedOperatorKind;
+	switch( m->getOverloadedOperator() ) {
+	case Op::OO_Equal: // operator=
+	case Op::OO_PlusEqual: // operator+=
+	case Op::OO_MinusEqual: // operator-=
+	case Op::OO_StarEqual: // operator*=
+	case Op::OO_SlashEqual: // operator/=
+	case Op::OO_PercentEqual: // operator%=
+	case Op::OO_LessLessEqual: // operator<<=
+	case Op::OO_GreaterGreaterEqual: // operator>>=
+	case Op::OO_AmpEqual: // operator&=
+	case Op::OO_PipeEqual: // operator|=
+	case Op::OO_CaretEqual: // operator^=
+		break;
+	default:
+		return false;
+	}
+
+	// Must take exactly one argument
+	if( m->getNumParams() != 1 ) return false;
+
+	// Return type must be an lvalue reference
+	clang::QualType ret_ty = m->getReturnType();
+	if( !ret_ty->isLValueReferenceType() ) return false;
+
+	// The referenced type must be the class’s own type
+	clang::QualType pointeeTy = ret_ty->getPointeeType().getCanonicalType();
+	clang::ASTContext &Ctx = m->getASTContext();
+	clang::QualType classTy = Ctx.getRecordType(m->getParent()).getCanonicalType();
+	if( !Ctx.hasSameType(pointeeTy, classTy) ) return false;
+
+	return true;
+}
+
+
+/// get the return value policy string for a function
+std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config const &config)
+{
+	// Return value of this function, and a string noting which type of function we are dealing with.
+	// If left empty, this means that the function does not require a return value policy.
+	string rvp = "";
+	string rvp_default_name;
+
+	// Check if any default return value policy is applicable.
+	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
+	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) { rvp = ", " + config.default_member_assignment_operator_return_value_policy(); }
+	else if( m and !m->isStatic() ) {
+		// Member functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp = ", " + config.default_member_pointer_return_value_policy();
+			rvp_default_name = "default_member_pointer_return_value_policy";
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp = ", " + config.default_member_lvalue_reference_return_value_policy();
+			rvp_default_name = "default_member_lvalue_reference_return_value_policy";
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp = ", " + config.default_member_rvalue_reference_return_value_policy();
+			rvp_default_name = "default_member_rvalue_reference_return_value_policy";
+		}
+	}
+	else if( m and m->isStatic() ) {
+		// Static member functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp = ", " + config.default_static_pointer_return_value_policy();
+			rvp_default_name = "default_static_pointer_return_value_policy";
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp = ", " + config.default_static_lvalue_reference_return_value_policy();
+			rvp_default_name = "default_static_lvalue_reference_return_value_policy";
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp = ", " + config.default_static_rvalue_reference_return_value_policy();
+			rvp_default_name = "default_static_rvalue_reference_return_value_policy";
+		}
+	}
+	else {
+		// Free functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp = ", " + config.default_function_pointer_return_value_policy();
+			rvp_default_name = "default_function_pointer_return_value_policy";
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp = ", " + config.default_function_lvalue_reference_return_value_policy();
+			rvp_default_name = "default_function_lvalue_reference_return_value_policy";
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp = ", " + config.default_function_rvalue_reference_return_value_policy();
+			rvp_default_name = "default_function_rvalue_reference_return_value_policy";
+		}
+	}
+
+	// Check if there is a custom rv policy for this function (for its general and specialized names, such that fully specified names have precedence over qualified names).
+	string const qualified_name = standard_name(F->getQualifiedNameAsString());
+	string const specified_name = function_qualified_name(F, true);
+	string custom_rvp = config.get_return_value_policy(specified_name);
+	if( custom_rvp.empty() ) { custom_rvp = config.get_return_value_policy(qualified_name); }
+
+	// If any of the function names has a custom rv policy, we use it.
+	if( !custom_rvp.empty() ) {
+		// Warn if the function is not of a type that should have an rv policy.
+		if( rvp_default_name.empty() )
+			errs() << "Function " << specified_name << " has a custom return value policy specified in the config (" << custom_rvp
+				   << "), but based on its return value type is not a function that should have a policy specified";
+
+		// Here, the config has specified an rv policy for the function, so we overwrite the default.
+		rvp = ", " + custom_rvp;
+	}
+	else if( !rvp_default_name.empty() ) {
+		// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
+		if( O_verbose ) outs() << "Function " << specified_name << " uses " << rvp_default_name << "\n";
+	}
+
+	return rvp;
+}
+
+
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bindings_f, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
 {
@@ -416,17 +550,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		}
 	}
 
-	string maybe_return_policy = "";
-	if( m and !m->isStatic() ) {
-		if( F->getReturnType()->isPointerType() ) maybe_return_policy = ", " + Config::get().default_member_pointer_return_value_policy();
-		else if( F->getReturnType()->isLValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_lvalue_reference_return_value_policy();
-		else if( F->getReturnType()->isRValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_rvalue_reference_return_value_policy();
-	}
-	else {
-		if( F->getReturnType()->isPointerType() ) maybe_return_policy = ", " + Config::get().default_static_pointer_return_value_policy();
-		else if( F->getReturnType()->isLValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_static_lvalue_reference_return_value_policy();
-		else if( F->getReturnType()->isRValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_static_rvalue_reference_return_value_policy();
-	}
+	// Get the return value policy for the function, or empty if not needed.
+	string const maybe_return_policy = get_rv_policy_for_function(F, Config::get());
 
 	// string r = R"(.def{}("{}", ({}) &{}{}, "doc")"_format(maybe_static, function_name, function_pointer_type(F), function_qualified_name, template_specialization(F));
 	string r = R"(.def{}("{}", {}, "{}"{})"_format(maybe_static, function_name, function, documentation, maybe_return_policy);
