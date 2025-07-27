@@ -59,10 +59,10 @@ bool is_bindable(EnumDecl const *E)
 /// check if user requested binding for the given declaration
 bool is_binding_requested(clang::EnumDecl const *E, Config const &config)
 {
-	if( config.is_enum_binding_requested( E->getQualifiedNameAsString() ) ) return true;
+	if( config.is_enum_binding_requested(E->getQualifiedNameAsString()) ) return true;
 
 	bool bind = config.is_namespace_binding_requested(namespace_from_named_decl(E));
-	//for( auto &t : get_type_dependencies(E) ) bind &= !is_skipping_requested(t, config);
+	// for( auto &t : get_type_dependencies(E) ) bind &= !is_skipping_requested(t, config);
 	return bind;
 }
 
@@ -76,7 +76,7 @@ bool is_skipping_requested(clang::EnumDecl const *E, Config const &config)
 
 	bool skip = config.is_namespace_skipping_requested(namespace_from_named_decl(E));
 
-	//for( auto &t : get_type_dependencies(E) ) skip |= is_skipping_requested(t, config);
+	// for( auto &t : get_type_dependencies(E) ) skip |= is_skipping_requested(t, config);
 
 	return skip;
 }
@@ -123,8 +123,7 @@ std::string bind_enum(std::string const &module, EnumDecl const *E)
 
 	// Add module local if requested for the namespace
 	std::string module_local_annotation = "";
-	if (Config::get().is_module_local_requested(namespace_from_named_decl(E)))
-		module_local_annotation = ", pybind11::module_local()";
+	if( Config::get().is_module_local_requested(namespace_from_named_decl(E)) ) module_local_annotation = ", pybind11::module_local()";
 
 	string r = "\tpybind11::enum_<{}>({}, \"{}\"{}, \"{}\"{})\n"_format(qualified_name, module, name, maybe_arithmetic, generate_documentation_string_for_declaration(E), module_local_annotation);
 
@@ -160,8 +159,8 @@ bool EnumBinder::bindable() const
 /// check if user requested binding for the given declaration
 void EnumBinder::request_bindings_and_skipping(Config const &config, RequestFlags flags)
 {
-	if( (flags&RequestFlags::skipping) and is_skipping_requested(E, config) ) Binder::request_skipping();
-	else if( (flags&RequestFlags::binding) and is_binding_requested(E, config) ) Binder::request_bindings();
+	if( (flags & RequestFlags::skipping) and is_skipping_requested(E, config) ) Binder::request_skipping();
+	else if( (flags & RequestFlags::binding) and is_binding_requested(E, config) ) Binder::request_bindings();
 }
 
 
