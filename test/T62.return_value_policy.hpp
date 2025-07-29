@@ -67,6 +67,12 @@ struct B {
 		return a_member;
 	}
 
+	int get_custom( int x )
+	{
+		// An overload that does not return a reference, and hence should not get an rv policy set.
+		return x;
+	}
+
 	// Test assignment operators
 
 	B& operator=( B const& other ) = default;
@@ -118,6 +124,12 @@ inline A const& get_custom( int x, int y )
 	// Ignores x and y after the first call. Not recommended in practice - just for testing.
 	static A a{ x, y };
 	return a;
+}
+
+inline int get_custom( int x )
+{
+	// An overload that does not return a reference, and hence should not get an rv policy set.
+	return x;
 }
 
 // Static inits. This should of course be in a compilation unit instead of this header,

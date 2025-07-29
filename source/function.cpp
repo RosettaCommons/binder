@@ -416,57 +416,58 @@ bool is_valid_assignment_operator(const clang::FunctionDecl *F)
 /// get the return value policy string for a function
 std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config const &config)
 {
-	// Return value of this function, and a string noting which type of function we are dealing with.
-	// If left empty, this means that the function does not require a return value policy.
-	string rvp = "";
-	string rvp_default_name;
+	// Prepare the return value policy string, and a string noting which type of function we are dealing with (for user output).
+	string rvp_string = "";
+	string rvp_name;
 
 	// Check if any default return value policy is applicable.
 	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
-	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) { rvp = ", " + config.default_member_assignment_operator_return_value_policy(); }
+	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) {
+		rvp_string = ", " + config.default_member_assignment_operator_return_value_policy();
+	}
 	else if( m and !m->isStatic() ) {
 		// Member functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp = ", " + config.default_member_pointer_return_value_policy();
-			rvp_default_name = "default_member_pointer_return_value_policy";
+			rvp_string = ", " + config.default_member_pointer_return_value_policy();
+			rvp_name = "default_member_pointer_return_value_policy";
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp = ", " + config.default_member_lvalue_reference_return_value_policy();
-			rvp_default_name = "default_member_lvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_member_lvalue_reference_return_value_policy();
+			rvp_name = "default_member_lvalue_reference_return_value_policy";
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp = ", " + config.default_member_rvalue_reference_return_value_policy();
-			rvp_default_name = "default_member_rvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_member_rvalue_reference_return_value_policy();
+			rvp_name = "default_member_rvalue_reference_return_value_policy";
 		}
 	}
 	else if( m and m->isStatic() ) {
 		// Static member functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp = ", " + config.default_static_pointer_return_value_policy();
-			rvp_default_name = "default_static_pointer_return_value_policy";
+			rvp_string = ", " + config.default_static_pointer_return_value_policy();
+			rvp_name = "default_static_pointer_return_value_policy";
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp = ", " + config.default_static_lvalue_reference_return_value_policy();
-			rvp_default_name = "default_static_lvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_static_lvalue_reference_return_value_policy();
+			rvp_name = "default_static_lvalue_reference_return_value_policy";
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp = ", " + config.default_static_rvalue_reference_return_value_policy();
-			rvp_default_name = "default_static_rvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_static_rvalue_reference_return_value_policy();
+			rvp_name = "default_static_rvalue_reference_return_value_policy";
 		}
 	}
 	else {
 		// Free functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp = ", " + config.default_function_pointer_return_value_policy();
-			rvp_default_name = "default_function_pointer_return_value_policy";
+			rvp_string = ", " + config.default_function_pointer_return_value_policy();
+			rvp_name = "default_function_pointer_return_value_policy";
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp = ", " + config.default_function_lvalue_reference_return_value_policy();
-			rvp_default_name = "default_function_lvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_function_lvalue_reference_return_value_policy();
+			rvp_name = "default_function_lvalue_reference_return_value_policy";
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp = ", " + config.default_function_rvalue_reference_return_value_policy();
-			rvp_default_name = "default_function_rvalue_reference_return_value_policy";
+			rvp_string = ", " + config.default_function_rvalue_reference_return_value_policy();
+			rvp_name = "default_function_rvalue_reference_return_value_policy";
 		}
 	}
 
@@ -476,22 +477,20 @@ std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config cons
 	string custom_rvp = config.get_return_value_policy(specified_name);
 	if( custom_rvp.empty() ) { custom_rvp = config.get_return_value_policy(qualified_name); }
 
-	// If any of the function names has a custom rv policy, we use it.
-	if( !custom_rvp.empty() ) {
-		// Warn if the function is not of a type that should have an rv policy.
-		if( rvp_default_name.empty() )
-			errs() << "Function " << specified_name << " has a custom return value policy specified in the config (" << custom_rvp
-				   << "), but based on its return value type is not a function that should have a policy specified";
-
-		// Here, the config has specified an rv policy for the function, so we overwrite the default.
-		rvp = ", " + custom_rvp;
-	}
-	else if( !rvp_default_name.empty() ) {
-		// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
-		if( O_verbose ) outs() << "Function " << specified_name << " uses " << rvp_default_name << "\n";
+	// Check if the function requires an rv policy at all, which is the case if the rvp_string was set. If so, we either use the custom one if given, or the appropriate default.
+	// Cases where there is a custom rv policy given, but the function does not actually need an rv policy are silently ignored here. This can for instance happen if there is an overloaded function,
+	// one of which returns a reference, and the other not. In these cases, only the first needs to have the rv policy set, and the other not.
+	if( !rvp_string.empty() ) {
+		if( !custom_rvp.empty() ) { rvp_string = ", " + custom_rvp; }
+		else if( !rvp_name.empty() ) {
+			// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
+			// This is not printed for assignment operators (where rvp_name is left empty), as we assume this to be a special case where we are always okay using the default, as it has to be set
+			// explicitly in the config.
+			if( O_verbose ) outs() << "Function " << specified_name << " uses " << rvp_name << "\n";
+		}
 	}
 
-	return rvp;
+	return rvp_string;
 }
 
 

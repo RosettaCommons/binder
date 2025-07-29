@@ -37,6 +37,7 @@ void bind_T62_return_value_policy(std::function< pybind11::module &(std::string 
 		cl.def("get_member_lvalue_ref", (struct A & (B::*)()) &B::get_member_lvalue_ref, "C++: B::get_member_lvalue_ref() --> struct A &", pybind11::return_value_policy::reference_internal);
 		cl.def("get_custom", (const struct A & (B::*)()) &B::get_custom, "C++: B::get_custom() --> const struct A &", pybind11::return_value_policy::reference);
 		cl.def("get_custom", (const struct A & (B::*)(int, int)) &B::get_custom, "C++: B::get_custom(int, int) --> const struct A &", pybind11::return_value_policy::copy, pybind11::arg("x"), pybind11::arg("y"));
+		cl.def("get_custom", (int (B::*)(int)) &B::get_custom, "C++: B::get_custom(int) --> int", pybind11::arg("x"));
 		cl.def("assign", (struct B & (B::*)(const struct B &)) &B::operator=, "C++: B::operator=(const struct B &) --> struct B &", pybind11::return_value_policy::reference_internal, pybind11::arg("other"));
 		cl.def("__iadd__", (struct B & (B::*)(int)) &B::operator+=, "C++: B::operator+=(int) --> struct B &", pybind11::return_value_policy::reference_internal, pybind11::arg("i"));
 		cl.def("__isub__", (struct B & (B::*)(int)) &B::operator-=, "C++: B::operator-=(int) --> struct B &", pybind11::return_value_policy::automatic, pybind11::arg("i"));
@@ -52,6 +53,9 @@ void bind_T62_return_value_policy(std::function< pybind11::module &(std::string 
 
 	// get_custom(int, int) file:T62.return_value_policy.hpp line:
 	M("").def("get_custom", (const struct A & (*)(int, int)) &get_custom, "C++: get_custom(int, int) --> const struct A &", pybind11::return_value_policy::copy, pybind11::arg("x"), pybind11::arg("y"));
+
+	// get_custom(int) file:T62.return_value_policy.hpp line:
+	M("").def("get_custom", (int (*)(int)) &get_custom, "C++: get_custom(int) --> int", pybind11::arg("x"));
 
 }
 
