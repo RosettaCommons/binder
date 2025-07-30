@@ -1407,8 +1407,12 @@ void ClassBinder::bind(Context &context)
 
 	c += bind_repr(context, Config::get());
 
-	std::map<string, string> const &external_add_on_binders = Config::get().add_on_binders();
-	if( external_add_on_binders.count(qualified_name_without_template) ) c += "\n\t{}(cl);\n"_format(external_add_on_binders.at(qualified_name_without_template));
+	std::map<string, std::vector<string>> const &external_add_on_binders = Config::get().add_on_binders();
+	if( external_add_on_binders.count(qualified_name_without_template) ) {
+		for( auto const& add_on : external_add_on_binders.at(qualified_name_without_template) ) {
+			c += "\n\t{}(cl);\n"_format(add_on);
+		}
+	}
 
 	c += bind_nested_classes(context);
 
