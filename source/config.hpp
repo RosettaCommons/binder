@@ -54,7 +54,7 @@ private:
 	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
 
 	string default_member_assignment_operator_return_value_policy_ = "";
-	std::map<string, string> return_value_policy_;
+	std::map<string, string> return_value_policy_, return_value_policy_for_class_;
 
 	string default_function_pointer_return_value_policy_ = "pybind11::return_value_policy::automatic";
 	string default_function_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
@@ -137,6 +137,7 @@ public:
 	bool is_include_skipping_requested(string const &include) const;
 
 	string get_return_value_policy(string const &function) const;
+	string get_return_value_policy_for_class(string const &name) const;
 
 	string is_custom_trampoline_function_requested(string const &function__) const;
 

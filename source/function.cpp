@@ -417,80 +417,99 @@ bool is_valid_assignment_operator(const clang::FunctionDecl *F)
 std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config const &config)
 {
 	// Prepare the return value policy string, and a string noting which type of function we are dealing with (for user output).
-	string rvp_string = "";
-	string rvp_name;
+	string rvp_result = "";
 
-	// Check if any default return value policy is applicable.
+	// We generally go from most generic to most specific way of specifying custom rv policies here.
+	// First, check if any default return value policy is applicable. This also tells us if the function needs an rv policy to begin with.
 	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
 	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) {
-		rvp_string = ", " + config.default_member_assignment_operator_return_value_policy();
+		rvp_result = ", " + config.default_member_assignment_operator_return_value_policy();
 	}
 	else if( m and !m->isStatic() ) {
 		// Member functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp_string = ", " + config.default_member_pointer_return_value_policy();
-			rvp_name = "default_member_pointer_return_value_policy";
+			rvp_result = ", " + config.default_member_pointer_return_value_policy();
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp_string = ", " + config.default_member_lvalue_reference_return_value_policy();
-			rvp_name = "default_member_lvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_member_lvalue_reference_return_value_policy();
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp_string = ", " + config.default_member_rvalue_reference_return_value_policy();
-			rvp_name = "default_member_rvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_member_rvalue_reference_return_value_policy();
 		}
 	}
 	else if( m and m->isStatic() ) {
 		// Static member functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp_string = ", " + config.default_static_pointer_return_value_policy();
-			rvp_name = "default_static_pointer_return_value_policy";
+			rvp_result = ", " + config.default_static_pointer_return_value_policy();
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp_string = ", " + config.default_static_lvalue_reference_return_value_policy();
-			rvp_name = "default_static_lvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_static_lvalue_reference_return_value_policy();
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp_string = ", " + config.default_static_rvalue_reference_return_value_policy();
-			rvp_name = "default_static_rvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_static_rvalue_reference_return_value_policy();
 		}
 	}
 	else {
 		// Free functions
 		if( F->getReturnType()->isPointerType() ) {
-			rvp_string = ", " + config.default_function_pointer_return_value_policy();
-			rvp_name = "default_function_pointer_return_value_policy";
+			rvp_result = ", " + config.default_function_pointer_return_value_policy();
 		}
 		else if( F->getReturnType()->isLValueReferenceType() ) {
-			rvp_string = ", " + config.default_function_lvalue_reference_return_value_policy();
-			rvp_name = "default_function_lvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_function_lvalue_reference_return_value_policy();
 		}
 		else if( F->getReturnType()->isRValueReferenceType() ) {
-			rvp_string = ", " + config.default_function_rvalue_reference_return_value_policy();
-			rvp_name = "default_function_rvalue_reference_return_value_policy";
+			rvp_result = ", " + config.default_function_rvalue_reference_return_value_policy();
 		}
 	}
 
+	// If no rv policy was set, then the function does not need one, so we skip all custom ones.
+	if( rvp_result.empty() ) {
+		return rvp_result;
+	}
+	string custom_rvp;
+	bool uses_custom_rvp = false;
+
+	// Now check if there is a policy set for the whole class (if the function belongs to one).
+	// We first check if there is a custom rv policy for the specific class instantiation, and if not, also check if there is one for the class name without template arguments.
+	if( m ) {
+		auto C = m->getParent(); // the CXXRecordDecl that the function belongs to
+		string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
+		custom_rvp = config.get_return_value_policy_for_class( qualified_name_without_template );
+		if( !custom_rvp.empty() ) {
+			rvp_result = ", " + custom_rvp;
+			uses_custom_rvp = true;
+		}
+		string const qualified_name = class_qualified_name(C);
+		custom_rvp = config.get_return_value_policy_for_class( qualified_name );
+		if( !custom_rvp.empty() ) {
+			rvp_result = ", " + custom_rvp;
+			uses_custom_rvp = true;
+		}
+	}
+
+	// Now we get more specific and look for the particular function, overriding any previous results if we find something.
 	// Check if there is a custom rv policy for this function (for its general and specialized names, such that fully specified names have precedence over qualified names).
 	string const qualified_name = standard_name(F->getQualifiedNameAsString());
-	string const specified_name = function_qualified_name(F, true);
-	string custom_rvp = config.get_return_value_policy(specified_name);
-	if( custom_rvp.empty() ) { custom_rvp = config.get_return_value_policy(qualified_name); }
-
-	// Check if the function requires an rv policy at all, which is the case if the rvp_string was set. If so, we either use the custom one if given, or the appropriate default.
-	// Cases where there is a custom rv policy given, but the function does not actually need an rv policy are silently ignored here. This can for instance happen if there is an overloaded function,
-	// one of which returns a reference, and the other not. In these cases, only the first needs to have the rv policy set, and the other not.
-	if( !rvp_string.empty() ) {
-		if( !custom_rvp.empty() ) { rvp_string = ", " + custom_rvp; }
-		else if( !rvp_name.empty() ) {
-			// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
-			// This is not printed for assignment operators (where rvp_name is left empty), as we assume this to be a special case where we are always okay using the default, as it has to be set
-			// explicitly in the config.
-			if( O_verbose ) outs() << "Function " << specified_name << " uses " << rvp_name << "\n";
-		}
+	custom_rvp = config.get_return_value_policy(qualified_name);
+	if( !custom_rvp.empty() ) {
+		rvp_result = ", " + custom_rvp;
+		uses_custom_rvp = true;
+	}
+	string const qualified_name_with_args_info_and_template_specialization = function_qualified_name(F, true);
+	custom_rvp = config.get_return_value_policy(qualified_name_with_args_info_and_template_specialization);
+	if( !custom_rvp.empty() ) {
+		rvp_result = ", " + custom_rvp;
+		uses_custom_rvp = true;
 	}
 
-	return rvp_string;
+	// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
+	// This is not printed for assignment operators (where rvp_name is left empty), as we assume this to be a special case where we are always okay using the default, as it has to be set
+	// explicitly in the config.
+	if( !uses_custom_rvp ) {
+		if( O_verbose ) outs() << "Function " << qualified_name_with_args_info_and_template_specialization << " uses default return value policy\n";
+	}
+
+	return rvp_result;
 }
 
 

@@ -101,6 +101,7 @@ void Config::read(string const &file_name)
 	string const _default_function_rvalue_reference_return_value_policy_{"default_function_rvalue_reference_return_value_policy"};
 
 	string const _return_value_policy_{"return_value_policy"};
+	string const _return_value_policy_for_class_{"return_value_policy_for_class"};
 
 	string const _trampoline_member_function_binder_{"trampoline_member_function_binder"};
 
@@ -298,6 +299,16 @@ void Config::read(string const &file_name)
 			}
 			else {
 				throw std::runtime_error("return_value_policy must be '+' configuration.");
+			}
+		}
+
+		else if( token == _return_value_policy_for_class_ ) {
+			if( bind ) {
+				auto binder_function = split_in_two(name, "Invalid line for return_value_policy_for_class specification! Must be: name_of_class + <space or tab> + name_of_return_value_policy. Got: " + line);
+				return_value_policy_for_class_[binder_function.first] = binder_function.second;
+			}
+			else {
+				throw std::runtime_error("return_value_policy_for_class must be '+' configuration.");
 			}
 		}
 
@@ -555,9 +566,16 @@ bool Config::is_include_skipping_requested(string const &include) const
 
 string Config::get_return_value_policy(string const &function) const
 {
-	string const func = trim(function);
-	auto rvp_it = return_value_policy_.find(func);
+	auto rvp_it = return_value_policy_.find( trim( function ));
 	if( rvp_it == return_value_policy_.end() ) return "";
+	return rvp_it->second;
+}
+
+
+string Config::get_return_value_policy_for_class(string const &name) const
+{
+	auto rvp_it = return_value_policy_for_class_.find( trim( name ));
+	if( rvp_it == return_value_policy_for_class_.end() ) return "";
 	return rvp_it->second;
 }
 

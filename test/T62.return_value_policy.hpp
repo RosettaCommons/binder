@@ -8,7 +8,12 @@
 
 #pragma once
 
+#include <string>
 #include <utility>
+
+// -------------------------------------------------------------------------------------------------
+//   Basics
+// -------------------------------------------------------------------------------------------------
 
 struct A {
 	int x;
@@ -137,3 +142,103 @@ inline int get_custom( int x )
 // to be included once in the compilation unit of the test, and not linked elsewhere.
 // Do not try this at home!
 A B::a_static = A{};
+
+// -------------------------------------------------------------------------------------------------
+//   Function templates
+// -------------------------------------------------------------------------------------------------
+
+// Function that gets a policy for all intatiations.
+template<typename T>
+T& my_func_a( T& in )
+{
+	return in;
+}
+template int&         my_func_a<int>(int&);
+template std::string& my_func_a<std::string>(std::string&);
+
+// Function that gets a policy only for int.
+template<typename T>
+T& my_func_b( T& in )
+{
+	return in;
+}
+template int&         my_func_b<int>(int&);
+template std::string& my_func_b<std::string>(std::string&);
+
+// -------------------------------------------------------------------------------------------------
+//   Class templates
+// -------------------------------------------------------------------------------------------------
+
+// Class that gets a custom policy as a whole.
+struct C
+{
+	int x;
+
+	int& get_x()
+	{
+		return x;
+	}
+
+	int const& get_x( int y ) const
+	{
+		(void) y;
+		return x;
+	}
+};
+
+// Class where one getter gets a custom policy overwriting the custom policy for the class.
+struct D
+{
+	int x;
+
+	int& get_x()
+	{
+		return x;
+	}
+
+	int const& get_x( int y ) const
+	{
+		(void) y;
+		return x;
+	}
+};
+
+// Class template where all template instantiations get a custom policy for the class.
+template<typename T>
+struct E{
+	int x;
+
+	int& get_x()
+	{
+		return x;
+	}
+
+	int const& get_x( int y ) const
+	{
+		(void) y;
+		return x;
+	}
+};
+
+template struct E<int>;
+template struct E<std::string>;
+
+// Class template where only the int instantiation gets a custom policy, while the std::string instantiation remains at defaults.
+template<typename T>
+struct F{
+	int x;
+
+	int& get_x()
+	{
+		return x;
+	}
+
+	int const& get_x( int y ) const
+	{
+		(void) y;
+		return x;
+	}
+};
+
+template struct F<int>;
+template struct F<std::string>;

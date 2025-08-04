@@ -1,10 +1,20 @@
 // File: T62_return_value_policy.cpp
 #include <T62.return_value_policy.hpp> // A
 #include <T62.return_value_policy.hpp> // B
+#include <T62.return_value_policy.hpp> // C
+#include <T62.return_value_policy.hpp> // D
+#include <T62.return_value_policy.hpp> // E
+#include <T62.return_value_policy.hpp> // F
 #include <T62.return_value_policy.hpp> // get_custom
 #include <T62.return_value_policy.hpp> // get_lvalue_ref
 #include <T62.return_value_policy.hpp> // get_pointer
+#include <T62.return_value_policy.hpp> // my_func_a
+#include <T62.return_value_policy.hpp> // my_func_b
+#include <iterator> // __gnu_cxx::__normal_iterator
+#include <memory> // std::allocator
 #include <sstream> // __str__
+#include <string> // std::basic_string
+#include <string> // std::char_traits
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -57,6 +67,60 @@ void bind_T62_return_value_policy(std::function< pybind11::module &(std::string 
 	// get_custom(int) file:T62.return_value_policy.hpp line:
 	M("").def("get_custom", (int (*)(int)) &get_custom, "C++: get_custom(int) --> int", pybind11::arg("x"));
 
+	// my_func_a(int &) file:T62.return_value_policy.hpp line:
+	M("").def("my_func_a", (int & (*)(int &)) &my_func_a<int>, "C++: my_func_a(int &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("in"));
+
+	// my_func_a(std::string &) file:T62.return_value_policy.hpp line:
+	M("").def("my_func_a", (std::string & (*)(std::string &)) &my_func_a<std::string>, "C++: my_func_a(std::string &) --> std::string &", pybind11::return_value_policy::automatic, pybind11::arg("in"));
+
+	// my_func_b(int &) file:T62.return_value_policy.hpp line:
+	M("").def("my_func_b", (int & (*)(int &)) &my_func_b<int>, "C++: my_func_b(int &) --> int &", pybind11::return_value_policy::automatic, pybind11::arg("in"));
+
+	// my_func_b(std::string &) file:T62.return_value_policy.hpp line:
+	M("").def("my_func_b", (std::string & (*)(std::string &)) &my_func_b<std::string>, "C++: my_func_b(std::string &) --> std::string &", pybind11::return_value_policy::copy, pybind11::arg("in"));
+
+	{ // C file:T62.return_value_policy.hpp line:
+		pybind11::class_<C, std::shared_ptr<C>> cl(M(""), "C", "");
+		cl.def( pybind11::init( [](){ return new C(); } ) );
+		cl.def_readwrite("x", &C::x);
+		cl.def("get_x", (int & (C::*)()) &C::get_x, "C++: C::get_x() --> int &", pybind11::return_value_policy::copy);
+		cl.def("get_x", (const int & (C::*)(int) const) &C::get_x, "C++: C::get_x(int) const --> const int &", pybind11::return_value_policy::copy, pybind11::arg("y"));
+	}
+	{ // D file:T62.return_value_policy.hpp line:
+		pybind11::class_<D, std::shared_ptr<D>> cl(M(""), "D", "");
+		cl.def( pybind11::init( [](){ return new D(); } ) );
+		cl.def_readwrite("x", &D::x);
+		cl.def("get_x", (int & (D::*)()) &D::get_x, "C++: D::get_x() --> int &", pybind11::return_value_policy::move);
+		cl.def("get_x", (const int & (D::*)(int) const) &D::get_x, "C++: D::get_x(int) const --> const int &", pybind11::return_value_policy::copy, pybind11::arg("y"));
+	}
+	{ // E file:T62.return_value_policy.hpp line:
+		pybind11::class_<E<int>, std::shared_ptr<E<int>>> cl(M(""), "E_int_t", "");
+		cl.def( pybind11::init( [](){ return new E<int>(); } ) );
+		cl.def_readwrite("x", &E<int>::x);
+		cl.def("get_x", (int & (E<int>::*)()) &E<int>::get_x, "C++: E<int>::get_x() --> int &", pybind11::return_value_policy::copy);
+		cl.def("get_x", (const int & (E<int>::*)(int) const) &E<int>::get_x, "C++: E<int>::get_x(int) const --> const int &", pybind11::return_value_policy::copy, pybind11::arg("y"));
+	}
+	{ // E file:T62.return_value_policy.hpp line:
+		pybind11::class_<E<std::string>, std::shared_ptr<E<std::string>>> cl(M(""), "E_std_string_t", "");
+		cl.def( pybind11::init( [](){ return new E<std::string>(); } ) );
+		cl.def_readwrite("x", &E<std::string>::x);
+		cl.def("get_x", (int & (E<std::string>::*)()) &E<std::string>::get_x, "C++: E<std::string>::get_x() --> int &", pybind11::return_value_policy::copy);
+		cl.def("get_x", (const int & (E<std::string>::*)(int) const) &E<std::string>::get_x, "C++: E<std::string>::get_x(int) const --> const int &", pybind11::return_value_policy::copy, pybind11::arg("y"));
+	}
+	{ // F file:T62.return_value_policy.hpp line:
+		pybind11::class_<F<int>, std::shared_ptr<F<int>>> cl(M(""), "F_int_t", "");
+		cl.def( pybind11::init( [](){ return new F<int>(); } ) );
+		cl.def_readwrite("x", &F<int>::x);
+		cl.def("get_x", (int & (F<int>::*)()) &F<int>::get_x, "C++: F<int>::get_x() --> int &", pybind11::return_value_policy::copy);
+		cl.def("get_x", (const int & (F<int>::*)(int) const) &F<int>::get_x, "C++: F<int>::get_x(int) const --> const int &", pybind11::return_value_policy::copy, pybind11::arg("y"));
+	}
+	{ // F file:T62.return_value_policy.hpp line:
+		pybind11::class_<F<std::string>, std::shared_ptr<F<std::string>>> cl(M(""), "F_std_string_t", "");
+		cl.def( pybind11::init( [](){ return new F<std::string>(); } ) );
+		cl.def_readwrite("x", &F<std::string>::x);
+		cl.def("get_x", (int & (F<std::string>::*)()) &F<std::string>::get_x, "C++: F<std::string>::get_x() --> int &", pybind11::return_value_policy::reference_internal);
+		cl.def("get_x", (const int & (F<std::string>::*)(int) const) &F<std::string>::get_x, "C++: F<std::string>::get_x(int) const --> const int &", pybind11::return_value_policy::reference_internal, pybind11::arg("y"));
+	}
 }
 
 
