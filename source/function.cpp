@@ -20,13 +20,16 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/DeclCXX.h>
+#include <clang/AST/Type.h>
 
 #include <clang/AST/ExprCXX.h>
 
-//#include <tsl/robin_map.h>
+// #include <tsl/robin_map.h>
 
 #include <vector>
 
+using llvm::errs;
+using llvm::outs;
 
 using namespace llvm;
 using namespace clang;
@@ -44,8 +47,9 @@ namespace binder {
 // Return the python operator that maps to the C++ operator; returns "" if no mapping exists
 // This correctly handles operators that have multiple meanings depending on their argument count
 // For example, operator_(this, other) maps to __sub__ while operator-(this) maps to __neg__
-string cpp_python_operator(const FunctionDecl & F) {
-	static std::map<string, vector<string>> const m {
+string cpp_python_operator(const FunctionDecl &F)
+{
+	static std::map<string, vector<string>> const m{
 		{"operator+", {"__pos__", "__add__"}}, //
 		{"operator-", {"__neg__", "__sub__"}}, //
 		{"operator*", {"dereference", "__mul__"}}, //
@@ -78,10 +82,10 @@ string cpp_python_operator(const FunctionDecl & F) {
 		{"operator--", {"pre_decrement", "post_decrement"}}, //
 
 		{"operator->", {"arrow"}} //
-  };
-	const auto & found = m.find(F.getNameAsString());
-	if (found != m.end()) {
-		const auto & vec = found->second;
+	};
+	const auto &found = m.find(F.getNameAsString());
+	if( found != m.end() ) {
+		const auto &vec = found->second;
 		const auto n = F.getNumParams();
 		return n < vec.size() ? vec[n] : vec.back();
 	}
@@ -95,7 +99,7 @@ string function_arguments(clang::FunctionDecl const *record)
 	string r;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		//r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		// r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
 		r += standard_name(record->getParamDecl(i)->getOriginalType());
 		if( i + 1 != record->getNumParams() ) r += ", ";
 	}
@@ -226,9 +230,7 @@ string template_specialization(FunctionDecl const *F)
 // generate string represetiong class name that could be used in python
 string python_function_name(FunctionDecl const *F)
 {
-	if( F->isOverloadedOperator() ) {
-		return cpp_python_operator(*F);
-	}
+	if( F->isOverloadedOperator() ) { return cpp_python_operator(*F); }
 	else {
 		// if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
 		// }
@@ -246,7 +248,7 @@ string python_function_name(FunctionDecl const *F)
 // Generate function pointer type string for given function: void (*)(int, doule)_ or  void (ClassName::*)(int, doule)_ for memeber function
 string function_pointer_type(FunctionDecl const *F)
 {
-	//F->dump();
+	// F->dump();
 	string r;
 	string prefix, maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
@@ -254,7 +256,7 @@ string function_pointer_type(FunctionDecl const *F)
 		maybe_const = m->isConst() ? " const" : "";
 	}
 
-	//r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	// r += standard_name(F->getReturnType().getCanonicalType().getAsString());
 	r += standard_name(F->getReturnType());
 
 	r += " ({}*)("_format(prefix);
@@ -275,8 +277,8 @@ string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 	string maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
-	string r = (omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
-			   function_arguments(F) + ")" + maybe_const;
+	string r =
+		(omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" + function_arguments(F) + ")" + maybe_const;
 
 	fix_boolean_types(r);
 	return r;
@@ -331,8 +333,10 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 	string qualified_name = standard_name(F->getQualifiedNameAsString());
 	string qualified_name_with_args_info_and_template_specialization = function_qualified_name(F, true);
 
-	if( config.is_function_skipping_requested(qualified_name_with_args_info_and_template_specialization) ) return true; // qualified function name + parameter and template info was requested for skipping
-	if( config.is_function_binding_requested(qualified_name_with_args_info_and_template_specialization) ) return false; // qualified function name + parameter and template info was requested for binding
+	if( config.is_function_skipping_requested(qualified_name_with_args_info_and_template_specialization) )
+		return true; // qualified function name + parameter and template info was requested for skipping
+	if( config.is_function_binding_requested(qualified_name_with_args_info_and_template_specialization) )
+		return false; // qualified function name + parameter and template info was requested for binding
 
 	if( config.is_function_skipping_requested(qualified_name) ) return true; // qualified function name was requested for skipping
 	if( config.is_function_binding_requested(qualified_name) ) return false; // qualified function name was requested for binding
@@ -360,6 +364,158 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 }
 
 
+/// Returns whether F is an overloaded assignment operator (operator= or any of the compound assigns)
+bool is_valid_assignment_operator(const clang::FunctionDecl *F)
+{
+	// For any of the assignment operators (operator= or any of the compound assigns), we declare it to be a valid (typical) assignment operator if it is declared as a non-static member, taking
+	// exactly one parameter, and returning an lvalue reference to the class type itself. In that case, we want to apply a specialized default return value policy to it.
+
+	// Must be a non‑static C++ member function
+	auto *m = dyn_cast<clang::CXXMethodDecl>(F);
+	if( !m || m->isStatic() ) return false;
+
+	// Must be an overloaded operator
+	if( !m->isOverloadedOperator() ) return false;
+
+	// Only accept assignment & compound‑assignment operators
+	using Op = clang::OverloadedOperatorKind;
+	switch( m->getOverloadedOperator() ) {
+	case Op::OO_Equal: // operator=
+	case Op::OO_PlusEqual: // operator+=
+	case Op::OO_MinusEqual: // operator-=
+	case Op::OO_StarEqual: // operator*=
+	case Op::OO_SlashEqual: // operator/=
+	case Op::OO_PercentEqual: // operator%=
+	case Op::OO_LessLessEqual: // operator<<=
+	case Op::OO_GreaterGreaterEqual: // operator>>=
+	case Op::OO_AmpEqual: // operator&=
+	case Op::OO_PipeEqual: // operator|=
+	case Op::OO_CaretEqual: // operator^=
+		break;
+	default:
+		return false;
+	}
+
+	// Must take exactly one argument
+	if( m->getNumParams() != 1 ) return false;
+
+	// Return type must be an lvalue reference
+	clang::QualType ret_ty = m->getReturnType();
+	if( !ret_ty->isLValueReferenceType() ) return false;
+
+	// The referenced type must be the class’s own type
+	clang::QualType pointeeTy = ret_ty->getPointeeType().getCanonicalType();
+	clang::ASTContext &Ctx = m->getASTContext();
+	clang::QualType classTy = Ctx.getRecordType(m->getParent()).getCanonicalType();
+	if( !Ctx.hasSameType(pointeeTy, classTy) ) return false;
+
+	return true;
+}
+
+
+/// get the return value policy string for a function
+std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config const &config)
+{
+	// Prepare the return value policy string, and a string noting which type of function we are dealing with (for user output).
+	string rvp_result = "";
+	bool is_assignment_operator = false;
+
+	// We generally go from most generic to most specific way of specifying custom rv policies here.
+	// First, check if any default return value policy is applicable. This also tells us if the function needs an rv policy to begin with.
+	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
+	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) {
+		rvp_result = ", " + config.default_member_assignment_operator_return_value_policy();
+		is_assignment_operator = true;
+	}
+	else if( m and !m->isStatic() ) {
+		// Member functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp_result = ", " + config.default_member_pointer_return_value_policy();
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp_result = ", " + config.default_member_lvalue_reference_return_value_policy();
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp_result = ", " + config.default_member_rvalue_reference_return_value_policy();
+		}
+	}
+	else if( m and m->isStatic() ) {
+		// Static member functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp_result = ", " + config.default_static_pointer_return_value_policy();
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp_result = ", " + config.default_static_lvalue_reference_return_value_policy();
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp_result = ", " + config.default_static_rvalue_reference_return_value_policy();
+		}
+	}
+	else {
+		// Free functions
+		if( F->getReturnType()->isPointerType() ) {
+			rvp_result = ", " + config.default_function_pointer_return_value_policy();
+		}
+		else if( F->getReturnType()->isLValueReferenceType() ) {
+			rvp_result = ", " + config.default_function_lvalue_reference_return_value_policy();
+		}
+		else if( F->getReturnType()->isRValueReferenceType() ) {
+			rvp_result = ", " + config.default_function_rvalue_reference_return_value_policy();
+		}
+	}
+
+	// If no rv policy was set, then the function does not need one, so we skip all custom ones.
+	if( rvp_result.empty() ) {
+		return rvp_result;
+	}
+	string custom_rvp;
+	bool uses_custom_rvp = false;
+
+	// Now check if there is a policy set for the whole class (if the function belongs to one).
+	// We first check if there is a custom rv policy for the specific class instantiation, and if not, also check if there is one for the class name without template arguments.
+	// This is skipped for assignment opererators, as they are treated specially. They can be overwritten by a specification for the exact function below though.
+	if( m && !is_assignment_operator ) {
+		auto C = m->getParent(); // the CXXRecordDecl that the function belongs to
+		string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
+		custom_rvp = config.get_return_value_policy_for_class( qualified_name_without_template );
+		if( !custom_rvp.empty() ) {
+			rvp_result = ", " + custom_rvp;
+			uses_custom_rvp = true;
+		}
+		string const qualified_name = class_qualified_name(C);
+		custom_rvp = config.get_return_value_policy_for_class( qualified_name );
+		if( !custom_rvp.empty() ) {
+			rvp_result = ", " + custom_rvp;
+			uses_custom_rvp = true;
+		}
+	}
+
+	// Now we get more specific and look for the particular function, overriding any previous results if we find something.
+	// Check if there is a custom rv policy for this function (for its general and specialized names, such that fully specified names have precedence over qualified names).
+	string const qualified_name = standard_name(F->getQualifiedNameAsString());
+	custom_rvp = config.get_return_value_policy(qualified_name);
+	if( !custom_rvp.empty() ) {
+		rvp_result = ", " + custom_rvp;
+		uses_custom_rvp = true;
+	}
+	string const qualified_name_with_args_info_and_template_specialization = function_qualified_name(F, true);
+	custom_rvp = config.get_return_value_policy(qualified_name_with_args_info_and_template_specialization);
+	if( !custom_rvp.empty() ) {
+		rvp_result = ", " + custom_rvp;
+		uses_custom_rvp = true;
+	}
+
+	// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
+	// This is not printed for assignment operators (where rvp_name is left empty), as we assume this to be a special case where we are always okay using the default, as it has to be set
+	// explicitly in the config.
+	if( !uses_custom_rvp && O_verbose ) {
+		outs() << "Function " << qualified_name_with_args_info_and_template_specialization << " uses default return value policy\n";
+	}
+
+	return rvp_result;
+}
+
+
 // Generate binding for given function: .def("foo", (std::string (aaaa::A::*)(int) ) &aaaa::A::foo, "doc")
 string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bindings_f, Context &context, CXXRecordDecl const *parent, bool always_use_lambda)
 {
@@ -373,7 +529,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	if( m and m->isStatic() ) {
 		maybe_static = "_static";
 		function_name = Config::get().prefix_for_static_member_functions() + function_name;
-		//outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
+		// outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
 	}
 
 	string function, documentation;
@@ -382,8 +538,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 		documentation = generate_documentation_string_for_declaration(F);
 		if( documentation.size() ) documentation += "\\n\\n";
-		documentation += "C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " +
-												 standard_name(F->getReturnType() ) );
+		documentation +=
+			"C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " + standard_name(F->getReturnType()));
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);
@@ -415,17 +571,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 		}
 	}
 
-	string maybe_return_policy = "";
-	if( m and !m->isStatic() ) {
-		if( F->getReturnType()->isPointerType() ) maybe_return_policy = ", " + Config::get().default_member_pointer_return_value_policy();
-		else if( F->getReturnType()->isLValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_lvalue_reference_return_value_policy();
-		else if( F->getReturnType()->isRValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_member_rvalue_reference_return_value_policy();
-	}
-	else {
-		if( F->getReturnType()->isPointerType() ) maybe_return_policy = ", " + Config::get().default_static_pointer_return_value_policy();
-		else if( F->getReturnType()->isLValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_static_lvalue_reference_return_value_policy();
-		else if( F->getReturnType()->isRValueReferenceType() ) maybe_return_policy = ", " + Config::get().default_static_rvalue_reference_return_value_policy();
-	}
+	// Get the return value policy for the function, or empty if not needed.
+	string const maybe_return_policy = get_rv_policy_for_function(F, Config::get());
 
 	// string r = R"(.def{}("{}", ({}) &{}{}, "doc")"_format(maybe_static, function_name, function_pointer_type(F), function_qualified_name, template_specialization(F));
 	string r = R"(.def{}("{}", {}, "{}"{})"_format(maybe_static, function_name, function, documentation, maybe_return_policy);
@@ -454,7 +601,8 @@ string bind_function(string const &module, FunctionDecl const *F, Context &conte
 
 	if( O_annotate_functions ) {
 		string const include = relevant_include(F);
-		code += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+		code += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") +
+				" line:" + line_number(F) + "\n";
 	}
 
 	int num_params = F->getNumParams();
@@ -544,7 +692,7 @@ bool is_bindable(FunctionDecl const *F)
 	if( it != cache.end() ) return it->second;
 	else {
 		bool r = is_bindable_raw(F);
-		cache.insert( {F, r} );
+		cache.insert({F, r});
 		return r;
 	}
 
@@ -601,8 +749,8 @@ bool FunctionBinder::bindable() const
 /// check if user requested binding for the given declaration
 void FunctionBinder::request_bindings_and_skipping(Config const &config, RequestFlags flags)
 {
-	if( (flags&RequestFlags::skipping) and is_skipping_requested(F, config) ) Binder::request_skipping();
-	else if( (flags&RequestFlags::binding) and is_binding_requested(F, config) ) Binder::request_bindings();
+	if( (flags & RequestFlags::skipping) and is_skipping_requested(F, config) ) Binder::request_skipping();
+	else if( (flags & RequestFlags::binding) and is_binding_requested(F, config) ) Binder::request_bindings();
 }
 
 

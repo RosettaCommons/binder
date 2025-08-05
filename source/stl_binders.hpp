@@ -64,15 +64,14 @@ public:
 template <typename Key, typename T, typename Compare, class Allocator> class map_binder
 {
 public:
-	map_binder(pybind11::module &m, std::string const &key_name, std::string const &value_name, std::string const & comparator_name, std::string const & allocator_name)
+	map_binder(pybind11::module &m, std::string const &key_name, std::string const &value_name, std::string const &comparator_name, std::string const &allocator_name)
 	{
 		using Map = std::map<Key, T, Compare, Allocator>;
 		using holder_type = std::shared_ptr< std::map<Key, T, Compare, Allocator> >;
 		using Class_ = pybind11::class_<Map, holder_type>;
 
-		std::string maybe_extra =
-			( (comparator_name == "std_less_" + key_name + "_t") ? "" : ("_" + comparator_name) ) +
-			( (allocator_name == "std_allocator_std_pair_const_" + key_name + '_' + value_name + "_t") ? "" : ("_" + allocator_name) );
+		std::string maybe_extra = ((comparator_name == "std_less_" + key_name + "_t") ? "" : ("_" + comparator_name)) +
+								  ((allocator_name == "std_allocator_std_pair_const_" + key_name + '_' + value_name + "_t") ? "" : ("_" + allocator_name));
 
 		Class_ cl = pybind11::bind_map<Map, holder_type>(m, "map_" + key_name + '_' + value_name + maybe_extra);
 	}

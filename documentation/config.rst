@@ -1,15 +1,14 @@
 Configuration
 #############
 
-Binder provides two ways to supply configuration options: command-line and config file.
+Binder provides two ways to supply configuration options: command-line options for overall options and a config file for specific details.
 
 
 
 Command line options
 ====================
 
-``--root-module`` specify name of generated Python root module. This name is also used as prefix for various Binder output
-files. Typically the following files will be generated: ``<root-module>.cpp``, ``<root-module>.sources``,
+``--root-module`` specify name of generated Python root module. This name is also used as prefix for various Binder output files. Typically the following files will be generated: ``<root-module>.cpp``, ``<root-module>.sources``,
 ``<root-module>.modules``.
 
 
@@ -53,14 +52,15 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 Config file options
 ===================
 
-Config file is text file containing either comment-line (starts with #) or directive line started with either ``+`` or ``-`` signs
-followed by a directive's name and optional parameters. Some directives will accept only the ``+`` while others could be used with
+The config file is a text file containing either a comment-line (starts with ``#``) or a directive line started with either ``+`` or ``-`` signs followed by a directive's name and optional parameters. Some directives will accept only the ``+`` while others can be used with
 both prefixes.
 
-Config file directives:
------------------------
+Selective bindings
+------------------
 
-* ``namespace``, specify if functions/classes/enums from particular namespace should be bound. Could be used with both ``+`` and ``-``
+These directives select which bindings shall be generated or skipped.
+
+* ``namespace``, specify if functions/classes/enums from particular namespace should be bound. Can be used with both ``+`` and ``-``
   prefixes. This directive works recursively so for example if you specify ``+namespace root`` and later ``-namespace root::a`` then
   all objects in ``root`` will be bound with exception of ``root::a`` and its descendants.
 
@@ -88,16 +88,25 @@ Config file directives:
   -class utility::pointer::ReferenceCount
   -class std::__weak_ptr
 
-* ``field``, specify if a particular field should be bound.
+* ``field``, specify if a particular field should be skipped (only with ``-``).
 
 .. code-block:: bash
 
   -field MyClass::some_field
 
 
+* ``function``, specify if particular function should be bound (``+``) or skipped (``-``). This can be used for both template and normal function. Functions can be specified by just their name, or for more specific control, via their full argument list. To get the exact rendering of the argument list correct, it is recommended to run Binder first to see its output, and then use the generated function name here.
+
+.. code-block:: bash
+
+  -function ObjexxFCL::FArray<std::string>::operator-=
+  -function core::id::swap
+  -function aaa::foo(const std::string &)
+
+
 * ``python_builtin``, specify if particular class/struct should be considered a python builtin and assume existing bindings for it already exist.
   The purpose of this directive is to allow developer to allow developers to toggle if bindings for types like ``std::optional`` or ``pybind11::dict`` should be
-  generated, or if binder should assume such bindings already exist somewhere else. Alternatively, a developer could declare a type as not-builtin if they
+  generated, or if binder should assume such bindings already exist somewhere else. Alternatively, a developer can declare a type as not-builtin if they
   would prefer to force binder to generate bindings for it. Note that removing a builtin (``-python_builtin abc``) always overrides everything else (such as adding a builtin via ``+python_builtin abc``).
 
 .. code-block:: bash
@@ -106,18 +115,13 @@ Config file directives:
   +python_builtin std::vector
 
 
+Header includes
+---------------
 
-* ``function``, specify if particular function should be bound. This could be used for both template and normal function.
-
-.. code-block:: bash
-
-  -function ObjexxFCL::FArray<std::string>::operator-=
-  -function core::id::swap
-
-
+These directives allow to include additional headers in the generated code.
 
 * ``include``, directive to control C++ include directives. Force Binder to either skip adding particular include into generated
-  source files (``-`` prefix) or force Binder to always add some include files into each generated file. Normally Binder could
+  source files (``-`` prefix) or force Binder to always add some include files into each generated file. Normally Binder can
   automatically determine which C++ header files is needed in order to specify type/functions but in some cases it might be
   useful to be able to control this process. For example forcing some includes is particularly useful when you want to provide
   custom-binder-functions with either ``+binder`` or ``+add_on_binder`` directives.
@@ -148,6 +152,11 @@ Config file directives:
   +include_for_namespace aaaa::bbbb <aaaa/bbbb/namespace_binding.hpp>
 
 
+Additional bindings
+-------------------
+
+These directives allow to specify add-ons and other custom binding code to augment or replace the generated code.
+
 
 * ``binder``, specify custom binding function for particular concrete or template class. In the example below all
   specializations of template std::vector will be handled by ``binder::vector_binder`` function. For template classes binder
@@ -175,7 +184,7 @@ Config file directives:
 
 
 * ``+binder_for_namespace``, similar to ``binder``: specify custom binding function for namespace. Call to specified function will be generated
-  _instead_ of generating bindings for namaspace. Where expected type signature of specified function should be `void f(pybind11::module &)`
+  `instead` of generating bindings for namaspace. Where expected type signature of specified function should be `void f(pybind11::module &)`
 
 .. code-block:: bash
 
@@ -191,37 +200,96 @@ Config file directives:
   +add_on_binder_for_namespace aaaa::bbbb binder_for_namespace_aaaa_bbbb
 
 
+Return Value Policy
+-------------------
 
-* ``default_static_pointer_return_value_policy``, specify return value policy for static functions returning pointer to objects. Default is
+By default, Binder will add a return value policy statement whereever needed, but keep it at the defaults. These directives allow to overwrite this behavior for particular types of functions.
+
+
+For class member functions:
+
+
+* ``default_static_pointer_return_value_policy``, specify the default return value policy for static member functions returning a pointer to an object. Default is
   `pybind11::return_value_policy::automatic`.
 
 
-* ``default_static_lvalue_reference_return_value_policy``, specify return value policy for static functions returning l-value reference. Default
+* ``default_static_lvalue_reference_return_value_policy``, specify the default return value policy for static member functions returning an l-value reference. Default
   is `pybind11::return_value_policy::automatic`.
 
 
-* ``default_static_rvalue_reference_return_value_policy``, specify return value policy for static functions returning r-value reference. Default
+* ``default_static_rvalue_reference_return_value_policy``, specify the default return value policy for static member functions returning an r-value reference. Default
   is `pybind11::return_value_policy::automatic`.
 
 
-* ``default_member_pointer_return_value_policy``, specify return value policy for member functions returning pointer to objects. Default is
+* ``default_member_pointer_return_value_policy``, specify the default return value policy for member functions returning a pointer to an object. Default is
   `pybind11::return_value_policy::automatic`.
 
 
-* ``default_member_lvalue_reference_return_value_policy``, specify return value policy for member functions returning l-value reference. Default
+* ``default_member_lvalue_reference_return_value_policy``, specify the default return value policy for member functions returning an l-value reference. Default
   is `pybind11::return_value_policy::automatic`.
 
 
-* ``default_member_rvalue_reference_return_value_policy``, specify return value policy for member functions returning r-value reference. Default
+* ``default_member_rvalue_reference_return_value_policy``, specify the default return value policy for member functions returning an r-value reference. Default
   is `pybind11::return_value_policy::automatic`.
 
-* ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <https://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
+
+* ``default_member_assignment_operator_return_value_policy``, specify the default return value policy for assignment operators (`operator=`, `operator+=`, `operator-=`, `operator*=`, `operator/=`, `operator%=`, `operator<<=`, `operator>>=`, `operator&=`, `operator|=`, `operator^=`). This is used only if all the following conditions are met: A non-static member function, taking exactly one parameter, and returning an lvalue reference to the class type itself. In particular, the `default` copy and move assignment operators fulfill these requirements. Typically, other such assignemnt operators also end in ``return *this;``, returning a reference to the assigned-to instance. This is thus a special case where the above return value policy defaults might not be the correct choice. Default is empty, in which case this is not used, in order to maintain backwards compatibility with previous Binder verions. It is recommended to set this to `pybind11::return_value_policy::reference_internal`.
 
 .. code-block:: bash
 
   +default_member_pointer_return_value_policy           pybind11::return_value_policy::reference
   +default_member_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference_internal
   +default_member_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
+
+
+For free functions, Binder offers separate defaults. This is for instance useful for functions that create objects and return a pointer to them. Returning references from free functions is likely not common, but offered for completeness as well.
+
+
+* ``default_function_pointer_return_value_policy``, specify the default return value policy for free functions returning a pointer to an object. Default is
+  `pybind11::return_value_policy::automatic`.
+
+
+* ``default_function_lvalue_reference_return_value_policy``, specify the default return value policy for free functions returning an l-value reference. Default
+  is `pybind11::return_value_policy::automatic`.
+
+
+* ``default_function_rvalue_reference_return_value_policy``, specify the default return value policy for free functions returning an r-value reference. Default
+  is `pybind11::return_value_policy::automatic`.
+
+.. code-block:: bash
+
+  +default_function_pointer_return_value_policy           pybind11::return_value_policy::move
+  +default_function_lvalue_reference_return_value_policy  pybind11::return_value_policy::reference
+  +default_function_rvalue_reference_return_value_policy  pybind11::return_value_policy::move
+
+
+In verbose mode, Binder prints functions that use any of those default return value policies. This is meant as a check for developers to see if any of them need custom policies instead.
+
+* ``return_value_policy_for_class``, specify a custom return value policy for all functions in a class that require one (i.e., that return a reference or pointer type). For class templates, it is also possible to specify a policy for all instantiations (by leaving out the template arguments), and then refine this by overwriting the policy for specific instantiations again. Note that this class-wide declaration does not overwrite the special case for assignment operators (`default_member_assignment_operator_return_value_policy`); if you need to change the policy for the assignment operators in a class, either change the default, or specify them individual as explained next.
+
+.. code-block:: bash
+
+  +return_value_policy_for_class aaa::A      pybind11::return_value_policy::move
+  +return_value_policy_for_class aaa::A<int> pybind11::return_value_policy::copy
+
+
+* ``return_value_policy``, specify a custom return value policy for a member function or free function. This overwrites the default or class-specific policies above. This can be specified for all overloads of a function at once, and again separately refined per overload by providing the fully specified name with arguments (and potentially template specializations).
+
+.. code-block:: bash
+
+  +return_value_policy aaa::foo                      pybind11::return_value_policy::move
+  +return_value_policy aaa::foo(const std::string &) pybind11::return_value_policy::copy
+  +return_value_policy aaa::A::bar                   pybind11::return_value_policy::reference
+  +return_value_policy aaa::A::baz(int, int)         pybind11::return_value_policy::reference_internal
+
+
+Miscellaneous
+-------------
+
+* ``default_call_guard``, optionally specify a call guard applied to all function definitions. See `pybind11 documentation <https://pybind11.readthedocs.io/en/stable/advanced/functions.html#call-guard>`_. Default None.
+
+.. code-block:: bash
+
   +default_call_guard pybind11::gil_scoped_release
 
 * ``+custom_shared``: specify a custom shared pointer class that Binder should use instead of ``std::shared_ptr``.
