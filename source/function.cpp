@@ -418,12 +418,14 @@ std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config cons
 {
 	// Prepare the return value policy string, and a string noting which type of function we are dealing with (for user output).
 	string rvp_result = "";
+	bool is_assignment_operator = false;
 
 	// We generally go from most generic to most specific way of specifying custom rv policies here.
 	// First, check if any default return value policy is applicable. This also tells us if the function needs an rv policy to begin with.
 	CXXMethodDecl const *m = dyn_cast<CXXMethodDecl>(F);
 	if( is_valid_assignment_operator(F) && !config.default_member_assignment_operator_return_value_policy().empty() ) {
 		rvp_result = ", " + config.default_member_assignment_operator_return_value_policy();
+		is_assignment_operator = true;
 	}
 	else if( m and !m->isStatic() ) {
 		// Member functions
@@ -471,7 +473,8 @@ std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config cons
 
 	// Now check if there is a policy set for the whole class (if the function belongs to one).
 	// We first check if there is a custom rv policy for the specific class instantiation, and if not, also check if there is one for the class name without template arguments.
-	if( m ) {
+	// This is skipped for assignment opererators, as they are treated specially. They can be overwritten by a specification for the exact function below though.
+	if( m && !is_assignment_operator ) {
 		auto C = m->getParent(); // the CXXRecordDecl that the function belongs to
 		string const qualified_name_without_template = standard_name(C->getQualifiedNameAsString());
 		custom_rvp = config.get_return_value_policy_for_class( qualified_name_without_template );
@@ -505,8 +508,8 @@ std::string get_rv_policy_for_function(clang::FunctionDecl const *F, Config cons
 	// In verbose mode, we print functions that use the default rv policy, to allow devs to quickly identify them and check if they need customization in the config.
 	// This is not printed for assignment operators (where rvp_name is left empty), as we assume this to be a special case where we are always okay using the default, as it has to be set
 	// explicitly in the config.
-	if( !uses_custom_rvp ) {
-		if( O_verbose ) outs() << "Function " << qualified_name_with_args_info_and_template_specialization << " uses default return value policy\n";
+	if( !uses_custom_rvp && O_verbose ) {
+		outs() << "Function " << qualified_name_with_args_info_and_template_specialization << " uses default return value policy\n";
 	}
 
 	return rvp_result;

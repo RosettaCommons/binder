@@ -265,7 +265,7 @@ For free functions, Binder offers separate defaults. This is for instance useful
 
 In verbose mode, Binder prints functions that use any of those default return value policies. This is meant as a check for developers to see if any of them need custom policies instead.
 
-* ``return_value_policy_for_class``, specify a custom return value policy for all functions in a class that require one (i.e., that return a reference or pointer type). For class templates, it is also possible to specify a policy for all instantiations (by leaving out the template arguments), and then refine this by overwriting the policy for specific instantiations again.
+* ``return_value_policy_for_class``, specify a custom return value policy for all functions in a class that require one (i.e., that return a reference or pointer type). For class templates, it is also possible to specify a policy for all instantiations (by leaving out the template arguments), and then refine this by overwriting the policy for specific instantiations again. Note that this class-wide declaration does not overwrite the special case for assignment operators (`default_member_assignment_operator_return_value_policy`); if you need to change the policy for the assignment operators in a class, either change the default, or specify them individual as explained next.
 
 .. code-block:: bash
 
