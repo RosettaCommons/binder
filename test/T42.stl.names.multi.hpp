@@ -27,6 +27,7 @@
 #include <forward_list>
 #include <list>
 #include <vector>
+#include <string>
 
 void foo(std::multimap<float, int>)
 {

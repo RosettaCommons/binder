@@ -48,4 +48,11 @@ enum class E7_class { V0, V1 };
 enum class E8_class_not_binded { V0, V1 };
 }
 
+extern "C" {
+typedef enum E9_extern_C {
+  E5_V0 = 0,
+} E9_extern_C;
+}
+
+
 #endif // _INCLUDED_T01_enum_hpp_
