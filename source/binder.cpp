@@ -27,15 +27,15 @@ namespace binder {
 
 bool IncludeSet::add_decl(clang::NamedDecl const *D, int level)
 {
-	auto it_inserted = stack_.insert( {D, level} );
-	auto & it = it_inserted.first;
-	auto & inserted = it_inserted.second;
-	if(inserted) return true;
+	auto it_inserted = stack_.insert({D, level});
+	auto &it = it_inserted.first;
+	auto &inserted = it_inserted.second;
+	if( inserted ) return true;
 	else {
 		if( it->second <= level ) return false;
 		else {
 			it->second = level;
-			//it.value() = level;
+			// it.value() = level;
 			return true;
 		}
 	}
