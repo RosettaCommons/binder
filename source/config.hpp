@@ -14,8 +14,8 @@
 #ifndef _INCLUDED_config_hpp_
 #define _INCLUDED_config_hpp_
 
-#include <set>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 

@@ -16,9 +16,9 @@
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
 
-#include <llvm/Support/raw_ostream.h>
 #include <llvm/ADT/DenseMap.h>
-//#include <tsl/robin_map.h>
+#include <llvm/Support/raw_ostream.h>
+// #include <tsl/robin_map.h>
 
 #include <string>
 #include <unordered_map>
@@ -48,9 +48,9 @@ public:
 private:
 	std::vector<std::string> includes_;
 
-	//using StackType = std::unordered_map<clang::NamedDecl const *, int>;
+	// using StackType = std::unordered_map<clang::NamedDecl const *, int>;
 	using StackType = llvm::DenseMap<clang::NamedDecl const *, int>;
-	//using StackType = tsl::robin_map<clang::NamedDecl const *, int>;
+	// using StackType = tsl::robin_map<clang::NamedDecl const *, int>;
 
 	StackType stack_;
 

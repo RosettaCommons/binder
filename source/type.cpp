@@ -20,12 +20,12 @@
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ExprCXX.h>
 #include <clang/Basic/SourceManager.h>
-#include <llvm/Support/Regex.h>
 #include <llvm/ADT/StringMap.h>
+#include <llvm/Support/Regex.h>
 
-//#include <tsl/robin_map.h>
+// #include <tsl/robin_map.h>
 
-//#include <experimental/filesystem>
+// #include <experimental/filesystem>
 #include <cstdlib>
 #include <fstream>
 
@@ -458,7 +458,7 @@ void request_bindings(clang::QualType const &qt, Context &context)
 /// return standard string representation of a given type
 std::string standard_name(clang::QualType const &qt)
 {
-	//qt.dump();
+	// qt.dump();
 	string r = qt.getAsString();
 
 	// if( r == "std::array::size_type" ) {
@@ -468,7 +468,7 @@ std::string standard_name(clang::QualType const &qt)
 	// }
 
 	// if( begins_with(r, "std::") ) return r; //standard_name(r);
-	static std::set<string> standard_names {"std::size_t"};
+	static std::set<string> standard_names{"std::size_t"};
 
 	if( standard_names.count(r) ) return r;
 	else return standard_name(qt.getCanonicalType().getAsString());
@@ -675,18 +675,30 @@ bool is_python_builtin(NamedDecl const *C)
 
 	static std::set<string> const known_builtin = {
 		//"std::nullptr_t", "nullptr_t",
-		"std::basic_string", "std::initializer_list", "std::__1::basic_string",
+		"std::basic_string",
+		"std::initializer_list",
+		"std::__1::basic_string",
 
-		"std::allocator", "std::__allocator_destructor",
+		"std::allocator",
+		"std::__allocator_destructor",
 
-		Config::get().holder_type(), "std::shared_ptr", "std::enable_shared_from_this", "std::__shared_ptr", // "std::weak_ptr",  "std::__weak_ptr"
+		Config::get().holder_type(),
+		"std::shared_ptr",
+		"std::enable_shared_from_this",
+		"std::__shared_ptr", // "std::weak_ptr",  "std::__weak_ptr"
 		"std::unique_ptr",
 		//"std::__1::shared_ptr", "std::__1::weak_ptr", "std::__1::allocator",
 
-		"std::pair", "std::tuple",
+		"std::pair",
+		"std::tuple",
 		//"std::__1::pair", "std::__1::tuple",
 
-		"std::_Rb_tree_iterator", "std::_Rb_tree_const_iterator", "__gnu_cxx::__normal_iterator", "std::_List_iterator", "std::_List_const_iterator", "std::__list_node",
+		"std::_Rb_tree_iterator",
+		"std::_Rb_tree_const_iterator",
+		"__gnu_cxx::__normal_iterator",
+		"std::_List_iterator",
+		"std::_List_const_iterator",
+		"std::__list_node",
 
 		"std::__wrap_iter",
 		//"std::__1::__wrap_iter",
@@ -698,11 +710,16 @@ bool is_python_builtin(NamedDecl const *C)
 
 		"std::__value_type",
 
-		"std::__detail::_Hash_node_base", "std::__detail::_Hash_node", "std::__detail::_Node_iterator", "std::__detail::_Node_iterator_base", "std::__detail::_Node_const_iterator",
+		"std::__detail::_Hash_node_base",
+		"std::__detail::_Hash_node",
+		"std::__detail::_Node_iterator",
+		"std::__detail::_Node_iterator_base",
+		"std::__detail::_Node_const_iterator",
 
 		"std::__hash_value_type",
 
-		"std::function", "std::complex",
+		"std::function",
+		"std::complex",
 
 		// pybind11 types
 		// https://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
@@ -760,14 +777,11 @@ bool is_python_builtin(NamedDecl const *C)
 	};
 
 	// Not builtin's
-	if (Config::get().not_python_builtins.count(name))
-		return false;
+	if( Config::get().not_python_builtins.count(name) ) return false;
 	// Builtins
-	if (Config::get().python_builtins.count(name) || known_builtin.count(name))
-		return true;
+	if( Config::get().python_builtins.count(name) || known_builtin.count(name) ) return true;
 	// STL
-	if (O_include_pybind11_stl && stl_builtin.count(name))
-		return true;
+	if( O_include_pybind11_stl && stl_builtin.count(name) ) return true;
 
 	return false;
 }

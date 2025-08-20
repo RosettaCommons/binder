@@ -434,11 +434,12 @@ void Context::generate(Config const &config)
 
 		string const holder_type = Config::get().holder_type();
 
-		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>)";
-		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
+		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, " + holder_type + "<T>)";
+		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE(" + holder_type + "<void>)";
 
 		string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
-		code = generate_include_directives(includes) + fmt::format(module_header, pybind11_include, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
+		code = generate_include_directives(includes) + fmt::format(module_header, pybind11_include, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " +
+			   function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
 		else update_source_file(config.prefix, file_name, code);
