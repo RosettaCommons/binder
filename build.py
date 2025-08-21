@@ -165,6 +165,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             '13.0.0' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz', None),
             '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz', None),
             '18.1.8' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/llvm-18.1.8.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang-18.1.8.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/cmake-18.1.8.src.tar.xz'),
+            '19.1.7' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/llvm-19.1.7.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/clang-19.1.7.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/cmake-19.1.7.src.tar.xz'),
         }[llvm_version]
 
         # The LLVM tarballs may include a "cmake" directory that needs to be
@@ -172,6 +173,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         # work. That path can't depend on the LLVM version, so we track that ourselves.
         cmake_path = os.path.join(prefix_root, "cmake")
         cmake_version_path = os.path.join(cmake_path, "llvm_version.txt")
+        hird_party_unittest = os.path.join(prefix_root, 'third-party/unittest')
 
         if not os.path.isfile(prefix + '/CMakeLists.txt') or not os.path.isfile(cmake_version_path) or open(cmake_version_path).read() != llvm_version:
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
@@ -190,9 +192,11 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
 
         if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
-        if not os.path.isdir(prefix+'/third-party/unittest'):
-            os.makedirs(prefix_root+'/third-party/unittest')
-            with open(prefix_root+'/third-party/unittest/CMakeLists.txt', 'w') as f: f.write('')
+
+        # possible alternative would be to use use '-DBINDER_ENABLE_TEST=OFF', see https://github.com/RosettaCommons/binder/issues/315#issuecomment-2963651447
+        if not os.path.isdir(hird_party_unittest):
+            os.makedirs(hird_party_unittest)
+            with open(hird_party_unittest + '/CMakeLists.txt', 'w') as f: f.write('')
 
 
 
@@ -234,7 +238,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         if not os.path.isdir(build_dir): os.makedirs(build_dir)
         execute(
             'Building tool: {}...'.format(name), # -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
-            'cd {build_dir} && cmake -G Ninja {config} -DBUILD_TESTING=OFF -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
+            'cd {build_dir} && cmake -G Ninja {config} -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF {gcc_install_prefix} .. && ninja binder {headers} {jobs}'.format( # was 'binder clang', we need to build Clang so lib/clang/<version>/include is also built
                 build_dir=build_dir, config=config,
                 jobs=f'-j{jobs}' if jobs else '',
                 gcc_install_prefix='-DGCC_INSTALL_PREFIX='+gcc_install_prefix if gcc_install_prefix else '',
@@ -284,7 +288,7 @@ def main(args):
     parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
-    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5', '18.1.8'], help='Manually specify LLVM version to install')
+    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5', '18.1.8', '19.1.7'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
 

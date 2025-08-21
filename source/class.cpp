@@ -124,6 +124,19 @@ bool is_inherited_from_enable_shared_from_this(CXXRecordDecl const *C)
 
 bool is_field_assignable(FieldDecl const *f)
 {
+#if( LLVM_VERSION_MAJOR >= 18 )
+
+	if( CXXRecordDecl *C = f->getType()->getAsCXXRecordDecl() ) { // checking if this type has deleted operator=
+		for( auto m = C->method_begin(); m != C->method_end(); ++m ) {
+			// if( m->getAccess() == AS_public  and  m->isCopyAssignmentOperator()  /*and  !m->doesThisDeclarationHaveABody()*/ and  m->isDeleted() ) return false;
+			if( m->isCopyAssignmentOperator() and (m->getAccess() != AS_public or m->isDeleted()) ) return false;
+		}
+	}
+
+	return true;
+
+#else
+
 	if( RecordType const *r = dyn_cast<RecordType>(f->getType()) ) {
 		if( CXXRecordDecl *C = cast<CXXRecordDecl>(r->getDecl()) ) { // checking if this type has deleted operator=
 			for( auto m = C->method_begin(); m != C->method_end(); ++m ) {
@@ -134,6 +147,7 @@ bool is_field_assignable(FieldDecl const *f)
 	}
 
 	return true;
+#endif
 }
 
 /// check if generator can create binding
