@@ -14,7 +14,41 @@
 
 #include <type.hpp> // is_python_builtin
 
-#include <clang/AST/ASTContext.h>
+#include <clang/AST/RecursiveASTVisitor.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Frontend/CompilerInstance.h>
+#include <clang/AST/Comment.h>
+#include <clang/Basic/Diagnostic.h>
+
+#include <llvm/Support/CommandLine.h> // Declares llvm::cl::extrahelp
+
+#include <context.hpp>
+#include <enum.hpp>
+#include <const.hpp>
+#include <function.hpp>
+#include <class.hpp>
+#include <util.hpp>
+
+using namespace clang::tooling;
+using namespace llvm;
+
+
+// Apply a custom category to all command-line options so that they are the
+// only ones displayed.
+static llvm::cl::OptionCategory BinderToolCategory("Binder options");
+
+// CommonOptionsParser declares HelpMessage with a description of the common
+// command-line options related to the compilation database and input files.
+// It's nice to have this help message in all tools.
+static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
+
+// A help message for this specific tool can be added afterwards.
+static cl::extrahelp MoreHelp("\nMore help text...\n");
+
+
+using binder::Config;
+
+using namespace clang;
 
 using std::string;
 using std::vector;
