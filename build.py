@@ -173,7 +173,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         # work. That path can't depend on the LLVM version, so we track that ourselves.
         cmake_path = os.path.join(prefix_root, "cmake")
         cmake_version_path = os.path.join(cmake_path, "llvm_version.txt")
-        hird_party_unittest = os.path.join(prefix_root, 'third-party/unittest')
+        third_party_unittest = os.path.join(prefix_root, 'third-party/unittest')
 
         if not os.path.isfile(prefix + '/CMakeLists.txt') or not os.path.isfile(cmake_version_path) or open(cmake_version_path).read() != llvm_version:
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
@@ -193,10 +193,9 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
 
 
-        # possible alternative would be to use use '-DBINDER_ENABLE_TEST=OFF', see https://github.com/RosettaCommons/binder/issues/315#issuecomment-2963651447
-        if not os.path.isdir(hird_party_unittest):
-            os.makedirs(hird_party_unittest)
-            with open(hird_party_unittest + '/CMakeLists.txt', 'w') as f: f.write('')
+        if not os.path.isdir(third_party_unittest):
+            os.makedirs(third_party_unittest)
+            with open(third_party_unittest + '/CMakeLists.txt', 'w') as f: f.write('')
 
 
 
