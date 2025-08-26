@@ -131,14 +131,17 @@ def run_test(test_path, build_dir, pyenv):
     command_line = 'diff {ref} {new}'.format(**vars())
 
     remover_absolute_paths(new)
-    r = execute('Comparing results for test {}...'.format(test), command_line, terminate_on_failure=not Options.accept);
+    r = execute('Comparing results for test {}...'.format(test), command_line, terminate_on_failure=not (Options.accept or Options.accept_all ));
 
     not_binded = [l for l in open(new).read().split('\n') if 'not_binded' in l]
     if not_binded: print('{}\n"not_binded" string found in results for test {}!!!\n'.format('\n'.join(not_binded), test)); sys.exit(1)
 
-    if r  and  Options.accept:
-        a = input( 'Accept new results from test {test} as reference? [Y/n] '.format(test=test) )
-        if a in ['', 'y', 'yes']: shutil.copyfile(new, ref)
+    if r:
+        if Options.accept and not Options.accept_all:
+            a = input( 'Accept new results from test {test} as reference? [Y/n] '.format(test=test) )
+            if a in ['', 'y', 'yes']: shutil.copyfile(new, ref)
+        if Options.accept_all:
+            shutil.copyfile(new, ref)
 
 
 
@@ -151,7 +154,8 @@ def main():
 
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
 
-    parser.add_argument("--accept", action="store_true", help="Run tests and accept new tests results as reference")
+    parser.add_argument("--accept", action="store_true", help="Run tests and ask to accept new tests results as reference")
+    parser.add_argument("--accept-all", action="store_true", help="Run tests and automatically accept all new tests results as reference")
     parser.add_argument("--annotate", action="store_true", help="Run Binder with extra annotation options")
 
     parser.add_argument('args', nargs=argparse.REMAINDER, help='Optional: list of tests to run')
@@ -162,6 +166,7 @@ def main():
     test_source_dir = os.path.dirname( os.path.abspath(__file__) )
 
     tests = Options.args or [ t for t in sorted( get_test_files(test_source_dir) ) if 'T61.smart_holder.hpp' not in t ]
+    print('Found {ntests} test cases'.format( ntests=len(tests) ))
 
     build_dir = test_source_dir + '/build'
     if os.path.isdir(build_dir): print('Removing old test dir {0} ...'.format(build_dir));  shutil.rmtree(build_dir)  # remove old dir if any
