@@ -35,7 +35,8 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 
 ``--skip-line-number`` if specified prevents Binder from writing the line numbers in the comments to the generated code.
 
-``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default
+``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default. 
+Default: ``true``. Behavior: if ``true``: try to generate bindings for discovered template specializations (may fail if LLVM hasn’t instantiated them). If ``false``: bind only explicitly instantiated classes; no automatic specialization binding.
 
 ``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
