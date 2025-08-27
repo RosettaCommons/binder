@@ -40,8 +40,10 @@ class Config
 	}
 
 private:
-	std::map<string, string> binders_, add_on_binders_;
-	std::map<string, string> binder_for_namespaces_, add_on_binder_for_namespaces_, custom_trampoline_functions_;
+
+	std::map<string, string> binders_, binder_for_namespaces_;
+	std::map<string, std::vector<string>> add_on_binders_, add_on_binder_for_namespaces_;
+	std::map<string, string> custom_trampoline_functions_;
 
 	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 
@@ -71,10 +73,10 @@ public:
 	std::vector<string> buffer_protocols, module_local_namespaces_to_add, module_local_namespaces_to_skip, smart_held_classes;
 
 	std::map<string, string> const &binders() const { return binders_; }
-	std::map<string, string> const &add_on_binders() const { return add_on_binders_; }
+	std::map<string, std::vector<string>> const &add_on_binders() const { return add_on_binders_; }
 
 	std::map<string, string> const &binder_for_namespaces() const { return binder_for_namespaces_; }
-	std::map<string, string> const &add_on_binder_for_namespaces() const { return add_on_binder_for_namespaces_; }
+	std::map<string, std::vector<string>> const &add_on_binder_for_namespaces() const { return add_on_binder_for_namespaces_; }
 
 	std::set<string> python_builtins, not_python_builtins;
 

@@ -387,9 +387,11 @@ void Context::generate(Config const &config)
 			skip = true;
 		}
 
-		std::map<string, string> const &add_on_binder_for_namespaces = Config::get().add_on_binder_for_namespaces();
-		if( add_on_binder_for_namespaces.count(namespace_) and code.empty() ) {
-			if( namespace_entrance[namespace_] == 0 ) code += "\n\t{}(M(\"{}\"));\n"_format(add_on_binder_for_namespaces.at(namespace_), namespace_);
+		std::map<string, std::vector<string>> const &add_on_binder_for_namespaces = Config::get().add_on_binder_for_namespaces();
+		if( add_on_binder_for_namespaces.count(namespace_) and code.empty() and namespace_entrance[namespace_] == 0 ) {
+			for( auto const& add_on : add_on_binder_for_namespaces.at(namespace_) ) {
+				code += "\n\t{}(M(\"{}\"));\n"_format(add_on, namespace_);
+			}
 		}
 
 		for( ; code.size() < config.maximum_file_length and i < binders.size() and namespace_ == namespace_from_named_decl(binders[i]->named_decl()); ++i ) {
