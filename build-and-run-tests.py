@@ -37,13 +37,14 @@ def main(args):
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
     parser.add_argument('--gcc-install-prefix', default=None, help='Path to GCC install prefix which will be used to determent location of libstdc++ for Binder build. Default is: auto-detected. Use this option if you would like to build Binder with compiler that was side-installed and which LLVM build system failed to identify. To see what path Binder uses for libstdc++ run `binder -- -xc++ -E -v`.')
+    parser.add_argument('--update-binder', action="store_true", help='Recompile the Binder binary; useful when working on the Binder code')
 
     global Options
     Options = parser.parse_args()
 
     source_path = os.path.abspath('.')
 
-    if not Options.binder: Options.binder = build.install_llvm_tool('binder', source_path+'/source', source_path + '/build', Options.binder_debug, jobs=Options.jobs, gcc_install_prefix=Options.gcc_install_prefix, compiler=Options.compiler, llvm_version=Options.llvm_version)
+    if not Options.binder: Options.binder = build.install_llvm_tool('binder', source_path+'/source', source_path + '/build', Options.binder_debug, jobs=Options.jobs, gcc_install_prefix=Options.gcc_install_prefix, compiler=Options.compiler, llvm_version=Options.llvm_version, update_binder=Options.update_binder)
 
     if not Options.pybind11: Options.pybind11 = build.install_pybind11(source_path + '/build')
 
