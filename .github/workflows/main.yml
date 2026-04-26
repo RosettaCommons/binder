@@ -37,7 +37,7 @@ jobs:
              ctest . --output-on-failure
 
   compilejobOSX:
-    runs-on: macos-15-intel
+    runs-on: macos-26-intel
     name: Binder_on_OSX
     steps:
     - name: Checkout
