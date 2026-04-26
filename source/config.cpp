@@ -18,8 +18,8 @@
 
 #include <llvm/Support/raw_ostream.h>
 
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 
 using namespace llvm;
@@ -102,7 +102,7 @@ void Config::read(string const &file_name)
 	string line;
 
 	while( std::getline(f, line) ) {
-			if( line.empty() or line[0] == '#' ) continue;
+		if( line.empty() or line[0] == '#' ) continue;
 
 		if( line.back() == '\r' ) {
 			line.pop_back();
@@ -139,7 +139,7 @@ void Config::read(string const &file_name)
 		}
 		else if( token == _python_builtin_ ) {
 
-			if (bind) python_builtins.insert(name_without_spaces);
+			if( bind ) python_builtins.insert(name_without_spaces);
 			else not_python_builtins.insert(name_without_spaces);
 		}
 		else if( token == _function_ ) {
@@ -173,14 +173,10 @@ void Config::read(string const &file_name)
 			}
 		}
 		else if( token == _buffer_protocol_ ) {
-			if(bind) {
-				buffer_protocols.push_back(name_without_spaces);
-			}
+			if( bind ) { buffer_protocols.push_back(name_without_spaces); }
 		}
-		else if( token == _module_local_namespace_) {
-			if(bind) {
-				module_local_namespaces_to_add.push_back(name_without_spaces);
-			}
+		else if( token == _module_local_namespace_ ) {
+			if( bind ) { module_local_namespaces_to_add.push_back(name_without_spaces); }
 			else {
 				module_local_namespaces_to_skip.push_back(name_without_spaces);
 			}
@@ -212,18 +208,15 @@ void Config::read(string const &file_name)
 				auto binder_function = split_in_two(name, "Invalid line for add_on_binder_for_namespace specification! Must be: name_of_type + <space or tab> + name_of_binder. Got: " + line);
 				add_on_binder_for_namespaces_[binder_function.first] = trim(binder_function.second);
 			}
-		} else if ( token == _field_ ) {
+		}
+		else if( token == _field_ ) {
 
-			if (!bind) {
-				fields_to_skip.push_back(name_without_spaces);
-			}
+			if( !bind ) { fields_to_skip.push_back(name_without_spaces); }
 		}
 		else if( token == _custom_shared_ ) holder_type_ = name_without_spaces;
 
 		else if( token == _smart_holder_ ) {
-			if(bind) {
-				smart_held_classes.push_back(name_without_spaces);
-			}
+			if( bind ) { smart_held_classes.push_back(name_without_spaces); }
 		}
 
 		else if( token == _pybind11_include_file_ ) {
@@ -243,7 +236,8 @@ void Config::read(string const &file_name)
 
 		else if( token == _trampoline_member_function_binder_ ) {
 			if( bind ) {
-				auto member_function_name_and_function_name = split_in_two(name, "Invalid line for trampoline_member_function_binder specification! Must be: qualified_class_name::member_funtion_name + <space or tab> + name_of_function. Got: " + line);
+				auto member_function_name_and_function_name = split_in_two(
+					name, "Invalid line for trampoline_member_function_binder specification! Must be: qualified_class_name::member_funtion_name + <space or tab> + name_of_function. Got: " + line);
 				custom_trampoline_functions_[member_function_name_and_function_name.first] = member_function_name_and_function_name.second;
 			}
 		}
@@ -440,17 +434,16 @@ bool Config::is_module_local_requested(string const &namespace_) const
 	auto module_local_all = std::find(module_local_namespaces_to_add.begin(), module_local_namespaces_to_add.end(), namespace_all);
 	if( module_local_all != module_local_namespaces_to_add.end() ) {
 		auto module_local_to_skip = std::find(module_local_namespaces_to_skip.begin(), module_local_namespaces_to_skip.end(), namespace_);
-		if( module_local_to_skip != module_local_namespaces_to_skip.end()) {
-			return false;
-		}
+		if( module_local_to_skip != module_local_namespaces_to_skip.end() ) { return false; }
 		return true;
 	}
 
 	auto module_local_to_add = std::find(module_local_namespaces_to_add.begin(), module_local_namespaces_to_add.end(), namespace_);
-	if( module_local_to_add != module_local_namespaces_to_add.end()) {
+	if( module_local_to_add != module_local_namespaces_to_add.end() ) {
 		auto module_local_to_skip = std::find(module_local_namespaces_to_skip.begin(), module_local_namespaces_to_skip.end(), namespace_);
-		if( module_local_to_skip != module_local_namespaces_to_skip.end()) {
-			throw std::runtime_error("Could not determent if namespace '" + namespace_ + "' should use module_local or not... please resolve the conlficting options +module_local_namespace and -module_local_namespace!!!");
+		if( module_local_to_skip != module_local_namespaces_to_skip.end() ) {
+			throw std::runtime_error("Could not determent if namespace '" + namespace_ +
+									 "' should use module_local or not... please resolve the conlficting options +module_local_namespace and -module_local_namespace!!!");
 		}
 		return true;
 	}
@@ -486,8 +479,8 @@ string Config::includes_code() const
 {
 	std::ostringstream s;
 	for( auto &i : includes_to_add ) s << "#include " << i << "\n";
-	if (O_include_pybind11_stl) s << "#include <pybind11/stl.h>\n";
-	if (s.tellp() != std::streampos(0)) s << '\n';
+	if( O_include_pybind11_stl ) s << "#include <pybind11/stl.h>\n";
+	if( s.tellp() != std::streampos(0) ) s << '\n';
 	return s.str();
 }
 

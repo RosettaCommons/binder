@@ -1,7 +1,7 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5...4.0)
 PROJECT(binder CXX C)
-SET(VERSION 1.4.1)
+SET(VERSION 1.4.3)
 option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 #So far there are exceptions in config.cpp

@@ -33,7 +33,7 @@ cl::opt<bool> O_flat("flat", cl::desc("When specified generated files into singl
 					 cl::init(false), cl::cat(BinderToolCategory));
 
 cl::opt<bool> O_include_pybind11_stl("include-pybind11-stl", cl::desc("When specified bindings for STL classes in <pybind11/stl.h> will be used instead of generating custom STL bindings."),
-					 cl::init(false), cl::cat(BinderToolCategory));
+									 cl::init(false), cl::cat(BinderToolCategory));
 
 
 cl::opt<std::string> O_root_module("root-module", cl::desc("Name of root module"), /*cl::init("example"),*/ cl::cat(BinderToolCategory));

@@ -9,8 +9,8 @@
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>, false)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
@@ -20,13 +20,12 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 		pybind11::class_<std::binary_function<float,float,bool>, std::shared_ptr<std::binary_function<float,float,bool>>> cl(M("std"), "binary_function_float_float_bool_t", "");
 		cl.def( pybind11::init( [](std::binary_function<float,float,bool> const &o){ return new std::binary_function<float,float,bool>(o); } ) );
 		cl.def( pybind11::init( [](){ return new std::binary_function<float,float,bool>(); } ) );
-		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::equal_to file:bits/stl_function.h line:
 		pybind11::class_<std::equal_to<float>, std::shared_ptr<std::equal_to<float>>, std::binary_function<float,float,bool>> cl(M("std"), "equal_to_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::equal_to<float>(); } ) );
+		cl.def( pybind11::init( [](std::equal_to<float> const &o){ return new std::equal_to<float>(o); } ) );
 		cl.def("__call__", (bool (std::equal_to<float>::*)(const float &, const float &) const) &std::equal_to<float>::operator(), "C++: std::equal_to<float>::operator()(const float &, const float &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
-		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 }
 
@@ -50,8 +49,8 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>, false)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
@@ -62,7 +61,6 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def( pybind11::init( [](std::hash<float> const &o){ return new std::hash<float>(o); } ) );
 		cl.def("__call__", (std::size_t (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> std::size_t", pybind11::arg("__val"));
-		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::multiset file:bits/stl_multiset.h line:
 		pybind11::class_<std::multiset<float>, std::shared_ptr<std::multiset<float>>> cl(M("std"), "multiset_float_t", "");
@@ -71,7 +69,11 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def( pybind11::init<const struct std::less<float> &, const class std::allocator<float> &>(), pybind11::arg("__comp"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](std::multiset<float> const &o){ return new std::multiset<float>(o); } ) );
-		cl.def("assign", (class std::multiset<float, struct std::less<float>, class std::allocator<float> > & (std::multiset<float>::*)(const class std::multiset<float, struct std::less<float>, class std::allocator<float> > &)) &std::multiset<float>::operator=, "C++: std::multiset<float>::operator=(const class std::multiset<float, struct std::less<float>, class std::allocator<float> > &) --> class std::multiset<float, struct std::less<float>, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg("__x"));
+		cl.def( pybind11::init<const class std::allocator<float> &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<const class std::multiset<float, struct std::less<float>, class std::allocator<float> > &, const class std::allocator<float> &>(), pybind11::arg("__m"), pybind11::arg("__a") );
+
+		cl.def("assign", (class std::multiset<float, struct std::less<float>, class std::allocator<float> > & (std::multiset<float>::*)(const class std::multiset<float, struct std::less<float>, class std::allocator<float> > &)) &std::multiset<float>::operator=, "C++: std::multiset<float>::operator=(const class std::multiset<float, struct std::less<float>, class std::allocator<float> > &) --> class std::multiset<float, struct std::less<float>, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("key_comp", (struct std::less<float> (std::multiset<float>::*)() const) &std::multiset<float>::key_comp, "C++: std::multiset<float>::key_comp() const --> struct std::less<float>");
 		cl.def("value_comp", (struct std::less<float> (std::multiset<float>::*)() const) &std::multiset<float>::value_comp, "C++: std::multiset<float>::value_comp() const --> struct std::less<float>");
 		cl.def("get_allocator", (class std::allocator<float> (std::multiset<float>::*)() const) &std::multiset<float>::get_allocator, "C++: std::multiset<float>::get_allocator() const --> class std::allocator<float>");
@@ -86,13 +88,21 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 	}
 	{ // std::unordered_multiset file:bits/unordered_set.h line:
 		pybind11::class_<std::unordered_multiset<float>, std::shared_ptr<std::unordered_multiset<float>>> cl(M("std"), "unordered_multiset_float_t", "");
-		cl.def( pybind11::init( [](){ return new std::unordered_multiset<float>(); } ), "doc" );
+		cl.def( pybind11::init( [](){ return new std::unordered_multiset<float>(); } ) );
 		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_multiset<float>(a0); } ), "doc" , pybind11::arg("__n"));
 		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<float> & a1){ return new std::unordered_multiset<float>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"));
 		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<float> & a1, const struct std::equal_to<float> & a2){ return new std::unordered_multiset<float>(a0, a1, a2); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__eql"));
 		cl.def( pybind11::init<unsigned long, const struct std::hash<float> &, const struct std::equal_to<float> &, const class std::allocator<float> &>(), pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__eql"), pybind11::arg("__a") );
 
 		cl.def( pybind11::init( [](std::unordered_multiset<float> const &o){ return new std::unordered_multiset<float>(o); } ) );
+		cl.def( pybind11::init<const class std::allocator<float> &>(), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<const class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> > &, const class std::allocator<float> &>(), pybind11::arg("__umset"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<unsigned long, const class std::allocator<float> &>(), pybind11::arg("__n"), pybind11::arg("__a") );
+
+		cl.def( pybind11::init<unsigned long, const struct std::hash<float> &, const class std::allocator<float> &>(), pybind11::arg("__n"), pybind11::arg("__hf"), pybind11::arg("__a") );
+
 		cl.def("assign", (class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> > & (std::unordered_multiset<float>::*)(const class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> > &)) &std::unordered_multiset<float>::operator=, "C++: std::unordered_multiset<float>::operator=(const class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> > &) --> class std::unordered_multiset<float, struct std::hash<float>, struct std::equal_to<float>, class std::allocator<float> > &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		cl.def("get_allocator", (class std::allocator<float> (std::unordered_multiset<float>::*)() const) &std::unordered_multiset<float>::get_allocator, "C++: std::unordered_multiset<float>::get_allocator() const --> class std::allocator<float>");
 		cl.def("empty", (bool (std::unordered_multiset<float>::*)() const) &std::unordered_multiset<float>::empty, "C++: std::unordered_multiset<float>::empty() const --> bool");
@@ -137,8 +147,8 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>, false)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
@@ -162,7 +172,7 @@ void bind_T42_stl_names_multiset(std::function< pybind11::module &(std::string c
 
 #include <pybind11/pybind11.h>
 
-typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+using ModuleGetter = std::function< pybind11::module & (std::string const &) >;
 
 void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M);
@@ -186,14 +196,14 @@ PYBIND11_MODULE(T42_stl_names_multiset, root_module) {
 	auto mangle_namespace_name(
 		[](std::string const &ns) -> std::string {
 			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
-			else return ns+'_';
+			return ns+'_';
 		}
 	);
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 		{"", "std"},
 	};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+	for(auto &p : sub_modules ) modules[ p.first.empty() ? p.second :  p.first+"::"+p.second ] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 

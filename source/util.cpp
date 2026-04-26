@@ -22,7 +22,7 @@
 #include <clang/AST/ExprCXX.h>
 #include <clang/Basic/SourceManager.h>
 
-//#include <experimental/filesystem>
+// #include <experimental/filesystem>
 #include <cctype>
 #include <cstdlib>
 #include <fstream>
@@ -69,7 +69,7 @@ void replace_reverse(string &r, string const &from, string const &to)
 void replace(string &r, string const &from, string const &to)
 {
 	std::string::size_type i = 0;
-	while( ( i = r.find(from, i) ) != std::string::npos ) {
+	while( (i = r.find(from, i)) != std::string::npos ) {
 		r.replace(i, from.size(), to);
 		i += to.size();
 	}
@@ -115,12 +115,12 @@ std::string trim(std::string const &s)
 {
 	static std::string const whitespaces = " \t";
 
-    auto begin = s.find_first_not_of(whitespaces);
-    if(begin == std::string::npos) return "";
+	auto begin = s.find_first_not_of(whitespaces);
+	if( begin == std::string::npos ) return "";
 
 	auto end = s.find_last_not_of(whitespaces);
 
-    return s.substr(begin, end - begin + 1);
+	return s.substr(begin, end - begin + 1);
 }
 
 
@@ -135,7 +135,7 @@ void update_source_file(std::string const &prefix, std::string const &file_name,
 
 	// std::experimental::filesystem::create_directories(path);
 	string command_line = "mkdir -p " + path;
-	if (system(command_line.c_str()) != 0) throw std::runtime_error("ERROR: Command \"" + command_line + "\" failed");
+	if( system(command_line.c_str()) != 0 ) throw std::runtime_error("ERROR: Command \"" + command_line + "\" failed");
 
 	string full_file_name = prefix + '/' + file_name;
 	std::ifstream f(full_file_name);
@@ -240,7 +240,7 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 	t.print(Policy, s, true);
 #endif
 
-    string r = s.str();
+	string r = s.str();
 
 	// // simplify result if argument is a small number, taking care of cases like 1L or 1UL
 	// if( r.size() < 5 and std::isdigit(r[0]) ) {
@@ -256,7 +256,7 @@ string template_argument_to_string(clang::TemplateArgument const &t)
 string line_number(NamedDecl const *decl)
 {
 	bool l_skip_line_number = Config::get().skip_line_number;
-	if (l_skip_line_number) return std::string("");
+	if( l_skip_line_number ) return std::string("");
 	ASTContext &ast_context(decl->getASTContext());
 	SourceManager &sm(ast_context.getSourceManager());
 

@@ -23,7 +23,7 @@
 
 #include <clang/AST/ExprCXX.h>
 
-//#include <tsl/robin_map.h>
+// #include <tsl/robin_map.h>
 
 #include <vector>
 
@@ -44,8 +44,9 @@ namespace binder {
 // Return the python operator that maps to the C++ operator; returns "" if no mapping exists
 // This correctly handles operators that have multiple meanings depending on their argument count
 // For example, operator_(this, other) maps to __sub__ while operator-(this) maps to __neg__
-string cpp_python_operator(const FunctionDecl & F) {
-	static std::map<string, vector<string>> const m {
+string cpp_python_operator(const FunctionDecl &F)
+{
+	static std::map<string, vector<string>> const m{
 		{"operator+", {"__pos__", "__add__"}}, //
 		{"operator-", {"__neg__", "__sub__"}}, //
 		{"operator*", {"dereference", "__mul__"}}, //
@@ -78,10 +79,10 @@ string cpp_python_operator(const FunctionDecl & F) {
 		{"operator--", {"pre_decrement", "post_decrement"}}, //
 
 		{"operator->", {"arrow"}} //
-  };
-	const auto & found = m.find(F.getNameAsString());
-	if (found != m.end()) {
-		const auto & vec = found->second;
+	};
+	const auto &found = m.find(F.getNameAsString());
+	if( found != m.end() ) {
+		const auto &vec = found->second;
 		const auto n = F.getNumParams();
 		return n < vec.size() ? vec[n] : vec.back();
 	}
@@ -95,7 +96,7 @@ string function_arguments(clang::FunctionDecl const *record)
 	string r;
 
 	for( uint i = 0; i < record->getNumParams(); ++i ) {
-		//r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
+		// r += standard_name(record->getParamDecl(i)->getOriginalType().getCanonicalType().getAsString());
 		r += standard_name(record->getParamDecl(i)->getOriginalType());
 		if( i + 1 != record->getNumParams() ) r += ", ";
 	}
@@ -226,9 +227,7 @@ string template_specialization(FunctionDecl const *F)
 // generate string represetiong class name that could be used in python
 string python_function_name(FunctionDecl const *F)
 {
-	if( F->isOverloadedOperator() ) {
-		return cpp_python_operator(*F);
-	}
+	if( F->isOverloadedOperator() ) { return cpp_python_operator(*F); }
 	else {
 		// if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
 		// }
@@ -246,7 +245,7 @@ string python_function_name(FunctionDecl const *F)
 // Generate function pointer type string for given function: void (*)(int, doule)_ or  void (ClassName::*)(int, doule)_ for memeber function
 string function_pointer_type(FunctionDecl const *F)
 {
-	//F->dump();
+	// F->dump();
 	string r;
 	string prefix, maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) {
@@ -254,7 +253,7 @@ string function_pointer_type(FunctionDecl const *F)
 		maybe_const = m->isConst() ? " const" : "";
 	}
 
-	//r += standard_name(F->getReturnType().getCanonicalType().getAsString());
+	// r += standard_name(F->getReturnType().getCanonicalType().getAsString());
 	r += standard_name(F->getReturnType());
 
 	r += " ({}*)("_format(prefix);
@@ -275,8 +274,8 @@ string function_qualified_name(FunctionDecl const *F, bool omit_return_type)
 	string maybe_const;
 	if( auto m = dyn_cast<CXXMethodDecl>(F) ) maybe_const = m->isConst() ? " const" : "";
 
-	string r = (omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" +
-			   function_arguments(F) + ")" + maybe_const;
+	string r =
+		(omit_return_type ? "" : standard_name(F->getReturnType()) + " ") + standard_name(F->getQualifiedNameAsString() + template_specialization(F)) + "(" + function_arguments(F) + ")" + maybe_const;
 
 	fix_boolean_types(r);
 	return r;
@@ -331,8 +330,10 @@ bool is_skipping_requested(FunctionDecl const *F, Config const &config)
 	string qualified_name = standard_name(F->getQualifiedNameAsString());
 	string qualified_name_with_args_info_and_template_specialization = function_qualified_name(F, true);
 
-	if( config.is_function_skipping_requested(qualified_name_with_args_info_and_template_specialization) ) return true; // qualified function name + parameter and template info was requested for skipping
-	if( config.is_function_binding_requested(qualified_name_with_args_info_and_template_specialization) ) return false; // qualified function name + parameter and template info was requested for binding
+	if( config.is_function_skipping_requested(qualified_name_with_args_info_and_template_specialization) )
+		return true; // qualified function name + parameter and template info was requested for skipping
+	if( config.is_function_binding_requested(qualified_name_with_args_info_and_template_specialization) )
+		return false; // qualified function name + parameter and template info was requested for binding
 
 	if( config.is_function_skipping_requested(qualified_name) ) return true; // qualified function name was requested for skipping
 	if( config.is_function_binding_requested(qualified_name) ) return false; // qualified function name was requested for binding
@@ -373,7 +374,7 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 	if( m and m->isStatic() ) {
 		maybe_static = "_static";
 		function_name = Config::get().prefix_for_static_member_functions() + function_name;
-		//outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
+		// outs() << "STATIC: " << function_qualified_name << " → " << function_name << "\n";
 	}
 
 	string function, documentation;
@@ -382,8 +383,8 @@ string bind_function(FunctionDecl const *F, uint args_to_bind, bool request_bind
 
 		documentation = generate_documentation_string_for_declaration(F);
 		if( documentation.size() ) documentation += "\\n\\n";
-		documentation += "C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " +
-												 standard_name(F->getReturnType() ) );
+		documentation +=
+			"C++: " + standard_name(F->getQualifiedNameAsString() + "(" + function_arguments(F) + ')' + (m and m->isConst() ? " const" : "") + " --> " + standard_name(F->getReturnType()));
 	}
 	else {
 		pair<string, string> args = function_arguments_for_lambda(F, args_to_bind);
@@ -454,7 +455,8 @@ string bind_function(string const &module, FunctionDecl const *F, Context &conte
 
 	if( O_annotate_functions ) {
 		string const include = relevant_include(F);
-		code += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") + " line:" + line_number(F) + "\n";
+		code += "\t// function-signature: " + function_qualified_name(F) + "(" + function_arguments(F) + ") file:" + (include.size() ? include.substr(1, include.size() - 2) : "") +
+				" line:" + line_number(F) + "\n";
 	}
 
 	int num_params = F->getNumParams();
@@ -544,7 +546,7 @@ bool is_bindable(FunctionDecl const *F)
 	if( it != cache.end() ) return it->second;
 	else {
 		bool r = is_bindable_raw(F);
-		cache.insert( {F, r} );
+		cache.insert({F, r});
 		return r;
 	}
 
@@ -601,8 +603,8 @@ bool FunctionBinder::bindable() const
 /// check if user requested binding for the given declaration
 void FunctionBinder::request_bindings_and_skipping(Config const &config, RequestFlags flags)
 {
-	if( (flags&RequestFlags::skipping) and is_skipping_requested(F, config) ) Binder::request_skipping();
-	else if( (flags&RequestFlags::binding) and is_binding_requested(F, config) ) Binder::request_bindings();
+	if( (flags & RequestFlags::skipping) and is_skipping_requested(F, config) ) Binder::request_skipping();
+	else if( (flags & RequestFlags::binding) and is_binding_requested(F, config) ) Binder::request_bindings();
 }
 
 

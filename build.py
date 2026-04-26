@@ -131,7 +131,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         '14.0.5': 'tools/clang/lib/Headers/clang-resource-headers',
         '13.0.0': 'tools/clang/lib/Headers/clang-resource-headers',
         '6.0.1': 'tools/clang/lib/Headers/clang-headers'
-    }[llvm_version]
+    }.get(llvm_version, 'tools/clang/lib/Headers/clang-resource-headers')
 
     if Platform == 'macos':
         headers += ' clang'
@@ -160,10 +160,12 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
 
         clang_path = "{prefix}/tools/clang".format(**locals())
 
-        llvm_url, clang_url = {
-            '6.0.1'  : ('https://releases.llvm.org/6.0.1/llvm-6.0.1.src.tar.xz', 'https://releases.llvm.org/6.0.1/cfe-6.0.1.src.tar.xz'),
-            '13.0.0' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz'),
-            '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz')
+        llvm_url, clang_url, cmake_url = {
+            '6.0.1'  : ('https://releases.llvm.org/6.0.1/llvm-6.0.1.src.tar.xz', 'https://releases.llvm.org/6.0.1/cfe-6.0.1.src.tar.xz', None),
+            '13.0.0' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz', None),
+            '14.0.5' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/llvm-14.0.5.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/clang-14.0.5.src.tar.xz', None),
+            '18.1.8' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/llvm-18.1.8.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang-18.1.8.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/cmake-18.1.8.src.tar.xz'),
+            '19.1.7' : ('https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/llvm-19.1.7.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/clang-19.1.7.src.tar.xz', 'https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/cmake-19.1.7.src.tar.xz'),
         }[llvm_version]
 
         # The LLVM tarballs may include a "cmake" directory that needs to be
@@ -171,6 +173,7 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
         # work. That path can't depend on the LLVM version, so we track that ourselves.
         cmake_path = os.path.join(prefix_root, "cmake")
         cmake_version_path = os.path.join(cmake_path, "llvm_version.txt")
+        hird_party_unittest = os.path.join(prefix_root, 'third-party/unittest')
 
         if not os.path.isfile(prefix + '/CMakeLists.txt') or not os.path.isfile(cmake_version_path) or open(cmake_version_path).read() != llvm_version:
             #execute('Download LLVM source...', 'cd {prefix_root} && curl https://releases.llvm.org/{llvm_version}/llvm-{llvm_version}.src.tar.xz | tar -Jxom && mv llvm-{llvm_version}.src {prefix}'.format(**locals()) )
@@ -184,7 +187,17 @@ def install_llvm_tool(name, source_location, prefix_root, debug, compiler, jobs,
             clang_name = 'cfe' if llvm_version == '6.0.1' else 'clang'
             execute('Download Clang source...', 'cd {prefix_root} && curl -LJ {clang_url} | tar -Jxom && mv {clang_name}-{llvm_version}.src {clang_path}'.format(**locals()) )
 
+        if cmake_url:
+            execute('Download CMake source...', 'cd {prefix_root} && curl -LJ {cmake_url} | tar -Jxom && mv cmake-{llvm_version}.src/* {cmake_path}'.format(**locals()) )
+
         if not os.path.isdir(prefix+'/tools/clang/tools/extra'): os.makedirs(prefix+'/tools/clang/tools/extra')
+
+
+        # possible alternative would be to use use '-DBINDER_ENABLE_TEST=OFF', see https://github.com/RosettaCommons/binder/issues/315#issuecomment-2963651447
+        if not os.path.isdir(hird_party_unittest):
+            os.makedirs(hird_party_unittest)
+            with open(hird_party_unittest + '/CMakeLists.txt', 'w') as f: f.write('')
+
 
 
         # if signature['config'] != disk_signature['config']:
@@ -275,7 +288,7 @@ def main(args):
     parser.add_argument('--binder', default='', help='Path to Binder tool. If none is given then download, build and install binder into build/ directory. Use "--binder-debug" to control which mode of binder (debug/release) is used.')
     parser.add_argument("--binder-debug", action="store_true", help="Run binder tool in debug mode (only relevant if no '--binder' option was specified)")
     parser.add_argument('--pybind11', default='', help='Path to pybind11 source tree')
-    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5'], help='Manually specify LLVM version to install')
+    parser.add_argument('--llvm-version', default=None, choices=['6.0.1', '13.0.0', '14.0.5', '18.1.8', '19.1.7'], help='Manually specify LLVM version to install')
     parser.add_argument('--annotate-includes', action="store_true", help='Annotate includes in generated source files')
     parser.add_argument('--trace', action="store_true", help='Binder will add trace output to to generated source files')
 

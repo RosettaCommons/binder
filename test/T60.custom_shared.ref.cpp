@@ -11,8 +11,8 @@
 
 #ifndef BINDER_PYBIND11_TYPE_CASTER
 	#define BINDER_PYBIND11_TYPE_CASTER
-	PYBIND11_DECLARE_HOLDER_TYPE(T, my_shared_ptr<T>)
-	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, my_shared_ptr<T>, false)
+	PYBIND11_DECLARE_HOLDER_TYPE(T, T*, false)
 	PYBIND11_MAKE_OPAQUE(my_shared_ptr<void>)
 #endif
 
@@ -74,7 +74,7 @@ void bind_T60_custom_shared(std::function< pybind11::module &(std::string const 
 
 #include <pybind11/pybind11.h>
 
-typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
+using ModuleGetter = std::function< pybind11::module & (std::string const &) >;
 
 void bind_T60_custom_shared(std::function< pybind11::module &(std::string const &namespace_) > &M);
 
@@ -96,13 +96,13 @@ PYBIND11_MODULE(T60_custom_shared, root_module) {
 	auto mangle_namespace_name(
 		[](std::string const &ns) -> std::string {
 			if ( std::find(reserved_python_words.begin(), reserved_python_words.end(), ns) == reserved_python_words.end() ) return ns;
-			else return ns+'_';
+			return ns+'_';
 		}
 	);
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
 	};
-	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
+	for(auto &p : sub_modules ) modules[ p.first.empty() ? p.second :  p.first+"::"+p.second ] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
