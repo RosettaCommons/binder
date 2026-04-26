@@ -19,10 +19,6 @@ on:
     types: [published]
   workflow_dispatch:
 
-concurrency:
-  group: wheels-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-wheels:
     runs-on: ${{ matrix.os }}
