@@ -49,7 +49,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -80,7 +80,7 @@ jobs:
           package-dir: python
 
       - name: Upload wheels to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./wheelhouse/*.whl
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -112,7 +112,7 @@ jobs:
         working-directory: python
 
       - name: Upload source distribution to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cppbinder-sdist-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./python/dist/*.tar.gz
@@ -123,10 +123,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download wheels and source distribution
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: cppbinder-*
           path: dist
