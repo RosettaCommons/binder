@@ -209,7 +209,9 @@ void add_relevant_include_for_decl(NamedDecl const *decl, IncludeSet &includes /
 		make_pair("<bits/atomic_base.h>", "<atomic>"),
 		make_pair("<bits/ios_base.h>", "<ios>"),
 		make_pair("<bits/istream.tcc>", "<istream>"),
-		make_pair("<bits/ostream.tcc>", "<ostream>"),
+		make_pair("<bits/istream.h>", "<istream>"),
+        make_pair("<bits/ostream.tcc>", "<ostream>"),
+        make_pair("<bits/ostream.h>", "<ostream>"),
 		make_pair("<bits/postypes.h>", "<ios>"),
 
 		make_pair("<bits/stl_function.h>", "<functional>"),
